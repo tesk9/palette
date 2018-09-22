@@ -1,4 +1,4 @@
-module Color exposing (Color, fromRGB, toRGB)
+module Color exposing (Color, fromRGB, luminance, toRGB)
 
 
 type
@@ -21,3 +21,21 @@ toRGB color =
     case color of
         RGB r g b ->
             ( r, g, b )
+
+
+{-| Luminance calculation adopted from <https://www.w3.org/TR/WCAG20-TECHS/G17.html>
+-}
+luminance : Color -> Float
+luminance color =
+    let
+        ( rRaw, gRaw, bRaw ) =
+            toRGB color
+
+        fromRGBValue raw =
+            if (raw / 255) <= 0.03928 then
+                (raw / 255) / 12.92
+
+            else
+                (((raw / 255) + 0.055) / 1.055) ^ 2.4
+    in
+    0.2126 * fromRGBValue rRaw + 0.7152 * fromRGBValue gRaw + 0.0722 * fromRGBValue bRaw

@@ -56,31 +56,13 @@ contrast : Color -> Color -> Float
 contrast color1 color2 =
     let
         luminance1 =
-            luminance color1
+            Color.luminance color1
 
         luminance2 =
-            luminance color2
+            Color.luminance color2
     in
     if luminance1 > luminance2 then
         (luminance1 + 0.05) / (luminance2 + 0.05)
 
     else
         (luminance2 + 0.05) / (luminance1 + 0.05)
-
-
-{-| Luminance calculation adopted from <https://www.w3.org/TR/WCAG20-TECHS/G17.html>
--}
-luminance : Color -> Float
-luminance color =
-    let
-        ( rRaw, gRaw, bRaw ) =
-            Color.toRGB color
-
-        fromRGBValue raw =
-            if (raw / 255) <= 0.03928 then
-                (raw / 255) / 12.92
-
-            else
-                (((raw / 255) + 0.055) / 1.055) ^ 2.4
-    in
-    0.2126 * fromRGBValue rRaw + 0.7152 * fromRGBValue gRaw + 0.0722 * fromRGBValue bRaw
