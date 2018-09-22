@@ -1,25 +1,10 @@
 module ContrastSpec exposing (contrastSuite, sufficientContrastSuite)
 
-import Color exposing (Color)
 import Contrast
 import Expect exposing (Expectation)
+import Fixtures exposing (black, grey, white)
 import Fuzz exposing (Fuzzer, int, list, string)
 import Test exposing (..)
-
-
-white : Color
-white =
-    Color.fromRGB ( 255, 255, 255 )
-
-
-grey : Color
-grey =
-    Color.fromRGB ( 46, 46, 46 )
-
-
-black : Color
-black =
-    Color.fromRGB ( 0, 0, 0 )
 
 
 contrastSuite : Test
