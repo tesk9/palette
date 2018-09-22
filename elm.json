@@ -4,7 +4,7 @@
         "src"
     ],
     "elm-version": "0.19.0",
-    "exposed-modules": ["Color", "Contrast"],
+    "exposed-modules": ["Color", "Color.Contrast"],
     "dependencies": {
         "direct": {
             "elm/core": "1.0.0",

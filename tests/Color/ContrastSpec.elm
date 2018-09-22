@@ -1,6 +1,6 @@
-module ContrastSpec exposing (contrastSuite, sufficientContrastSuite)
+module Color.ContrastSpec exposing (contrastSuite, sufficientContrastSuite)
 
-import Contrast
+import Color.Contrast as Contrast
 import Expect exposing (Expectation)
 import Fixtures exposing (black, grey, white)
 import Fuzz exposing (Fuzzer, int, list, string)

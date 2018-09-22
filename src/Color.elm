@@ -1,4 +1,17 @@
-module Color exposing (Color, fromRGB, luminance, toRGB)
+module Color exposing
+    ( Color
+    , fromRGB, toRGB
+    , luminance
+    )
+
+{-|
+
+@docs Color
+
+@docs fromRGB, toRGB
+@docs luminance
+
+-}
 
 
 type

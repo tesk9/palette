@@ -1,4 +1,4 @@
-module Contrast exposing (WCAGLevel(..), sufficientContrast, contrast)
+module Color.Contrast exposing (WCAGLevel(..), sufficientContrast, contrast)
 
 {-| Use this module to determine whether colors may be used together.
 
