@@ -10,7 +10,7 @@ white =
 
 grey : Color
 grey =
-    Color.fromRGB ( 46, 46, 46 )
+    Color.fromRGB ( 118, 118, 118 )
 
 
 black : Color

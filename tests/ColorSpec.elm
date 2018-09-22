@@ -26,6 +26,11 @@ luminanceSuite =
                 white
                     |> Color.luminance
                     |> floatEqual 1
+        , test "grey is middlingly bright" <|
+            \_ ->
+                grey
+                    |> Color.luminance
+                    |> floatEqual 0.46
         , test "black is not very bright" <|
             \_ ->
                 black
