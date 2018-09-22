@@ -1,0 +1,22 @@
+{
+  "name": "palette",
+  "version": "1.0.0",
+  "description": "Exploratory package (read: API very subject to change & breakage) for playing with different approaches to modeling and working with Color.",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "elm-test"
+  },
+  "keywords": [
+    "colors",
+    "palette"
+  ],
+  "author": "tesk9",
+  "license": "BSD-3-Clause",
+  "devDependencies": {
+    "elm-test": "0.18.13-beta",
+    "elm-format": "0.8.0"
+  }
+}
