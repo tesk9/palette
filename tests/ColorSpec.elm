@@ -30,7 +30,7 @@ luminanceSuite =
             \_ ->
                 grey
                     |> Color.luminance
-                    |> floatEqual 0.46
+                    |> floatEqual 0.18
         , test "black is not very bright" <|
             \_ ->
                 black
@@ -41,4 +41,4 @@ luminanceSuite =
 
 floatEqual : Float -> Float -> Expectation
 floatEqual =
-    Expect.within (Expect.Absolute 0.000000001)
+    Expect.within (Expect.Absolute 0.01)

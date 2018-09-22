@@ -31,11 +31,29 @@ luminance color =
         ( rRaw, gRaw, bRaw ) =
             toRGB color
 
-        fromRGBValue raw =
-            if (raw / 255) <= 0.03928 then
-                (raw / 255) / 12.92
+        red =
+            rRaw
+                |> toSRBG
+                |> fromSRGB
+
+        green =
+            gRaw
+                |> toSRBG
+                |> fromSRGB
+
+        blue =
+            bRaw
+                |> toSRBG
+                |> fromSRGB
+
+        toSRBG rgb8bit =
+            rgb8bit / 255
+
+        fromSRGB srgb =
+            if srgb <= 0.03928 then
+                srgb / 12.92
 
             else
-                (((raw / 255) + 0.055) / 1.055) ^ 2.4
+                ((srgb + 0.055) / 1.055) ^ 2.4
     in
-    0.2126 * fromRGBValue rRaw + 0.7152 * fromRGBValue gRaw + 0.0722 * fromRGBValue bRaw
+    (0.2126 * red) + (0.7152 * green) + (0.0722 * blue)

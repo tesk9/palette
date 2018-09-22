@@ -116,4 +116,4 @@ sufficientContrastSuite =
 
 floatEqual : Float -> Float -> Expectation
 floatEqual =
-    Expect.within (Expect.Absolute 0.000000001)
+    Expect.within (Expect.Absolute 0.1)
