@@ -14,6 +14,11 @@ white =
     Palette.RGB 255 255 255
 
 
+grey : Palette.RGB
+grey =
+    Palette.RGB 76 76 76
+
+
 black : Palette.RGB
 black =
     Palette.RGB 0 0 0
@@ -54,6 +59,49 @@ contrastSuite =
                 \_ ->
                     Palette.contrast black black
                         |> floatEqual 1
+            ]
+        ]
+
+
+sufficientContrastSuite : Test
+sufficientContrastSuite =
+    describe "sufficientContrast"
+        [ describe "Regular sized text" <|
+            let
+                fontSize =
+                    12
+
+                fontWeight =
+                    300
+            in
+            [ describe "WCAG AA" <|
+                let
+                    subject =
+                        Palette.sufficientContrast Palette.AA fontSize fontWeight
+                in
+                [ test "black and white has sufficient contrast" <|
+                    \_ ->
+                        subject white black
+                            |> Expect.true "Expected black and white to have sufficient contrast."
+                , test "grey and white do not have sufficient contrast" <|
+                    \_ ->
+                        subject white grey
+                            |> Expect.false "Expected grey and white not to have sufficient contrast."
+                ]
+            , describe "WCAG AAA" <|
+                let
+                    subject =
+                        Palette.sufficientContrast Palette.AAA fontSize fontWeight
+                in
+                [ test "black and white has sufficient contrast" <|
+                    \_ ->
+                        subject white black
+                            |> Expect.true "Expected black and white to have sufficient contrast."
+                , test "grey and white do not have sufficient contrast" <|
+                    \_ ->
+                        subject white grey
+                            |> Expect.false "Expected grey and white not to have sufficient contrast."
+                ]
             ]
         ]
 
