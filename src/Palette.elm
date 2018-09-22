@@ -40,25 +40,25 @@ type WCAGLevel
     | AAA
 
 
-sufficientContrast : WCAGLevel -> Float -> Int -> Float -> Float -> Bool
-sufficientContrast wcagLevel fontSize fontWeight luminance1 luminance2 =
+sufficientContrast : WCAGLevel -> Float -> Int -> RGB -> RGB -> Bool
+sufficientContrast wcagLevel fontSize fontWeight color1 color2 =
     case wcagLevel of
         AA ->
             if fontSize > 18 && fontWeight < 700 then
-                contrast luminance1 luminance2
+                contrast color1 color2
                     |> meetsOrExceedsRatio 3 1
 
             else
-                contrast luminance1 luminance2
+                contrast color1 color2
                     |> meetsOrExceedsRatio 4.5 1
 
         AAA ->
             if fontSize > 18 && fontWeight < 700 then
-                contrast luminance1 luminance2
+                contrast color1 color2
                     |> meetsOrExceedsRatio 4.5 1
 
             else
-                contrast luminance1 luminance2
+                contrast color1 color2
                     |> meetsOrExceedsRatio 7 1
 
 
@@ -69,8 +69,8 @@ meetsOrExceedsRatio contrastValue int base =
 
 {-| Luminance calculation adopted from <https://www.w3.org/TR/WCAG20-TECHS/G17.html>
 -}
-luminance : Float -> Float -> Float -> Float
-luminance rRaw gRaw bRaw =
+luminance : RGB -> Float
+luminance (RGB rRaw gRaw bRaw) =
     let
         fromRGBValue raw =
             if (raw / 255) <= 0.03928 then
@@ -85,6 +85,28 @@ luminance rRaw gRaw bRaw =
 {-| luminance1 is the relative luminance of the lighter of the foreground or background colors,
 and luminance2 is the relative luminance of the darker of the foreground or background colors.
 -}
-contrast : Float -> Float -> Float
-contrast luminance1 luminance2 =
-    (luminance1 + 0.05) / (luminance2 + 0.05)
+contrast : RGB -> RGB -> Float
+contrast color1 color2 =
+    let
+        luminance1 =
+            luminance color1
+
+        luminance2 =
+            luminance color2
+    in
+    if estimateBrightness color1 > estimateBrightness color2 then
+        (luminance1 + 0.05) / (luminance2 + 0.05)
+
+    else
+        (luminance2 + 0.05) / (luminance1 + 0.05)
+
+
+{-| Estimate the brightness for an rgb color.
+-}
+estimateBrightness : RGB -> Float
+estimateBrightness (RGB r g b) =
+    sqrt (0.299 * (r * r) + 0.587 * (g * g) + 0.114 * (b * b))
+
+
+type RGB
+    = RGB Float Float Float
