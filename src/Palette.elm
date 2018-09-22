@@ -1,4 +1,12 @@
-module Palette exposing (Palette)
+module Palette exposing
+    ( Palette(..)
+    , RGB(..)
+    , WCAGLevel(..)
+    , contrast
+    , luminance
+    , meetsOrExceedsRatio
+    , sufficientContrast
+    )
 
 {-| Notes on color modeling:
 
@@ -94,18 +102,11 @@ contrast color1 color2 =
         luminance2 =
             luminance color2
     in
-    if estimateBrightness color1 > estimateBrightness color2 then
+    if luminance1 > luminance2 then
         (luminance1 + 0.05) / (luminance2 + 0.05)
 
     else
         (luminance2 + 0.05) / (luminance1 + 0.05)
-
-
-{-| Estimate the brightness for an rgb color.
--}
-estimateBrightness : RGB -> Float
-estimateBrightness (RGB r g b) =
-    sqrt (0.299 * (r * r) + 0.587 * (g * g) + 0.114 * (b * b))
 
 
 type RGB
