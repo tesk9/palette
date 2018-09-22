@@ -25,29 +25,24 @@ To meet AAA level sufficiently, [follow these standards](https://www.w3.org/WAI/
 -}
 sufficientContrast : WCAGLevel -> Float -> Int -> Color -> Color -> Bool
 sufficientContrast wcagLevel fontSize fontWeight color1 color2 =
+    let
+        colorContrast =
+            contrast color1 color2
+    in
     case wcagLevel of
         AA ->
-            if fontSize > 18 && fontWeight < 700 then
-                contrast color1 color2
-                    |> meetsOrExceedsRatio 3 1
+            if (fontSize > 14 && fontWeight >= 700) || fontSize > 18 then
+                colorContrast >= 3
 
             else
-                contrast color1 color2
-                    |> meetsOrExceedsRatio 4.5 1
+                colorContrast >= 4.5
 
         AAA ->
-            if fontSize > 18 && fontWeight < 700 then
-                contrast color1 color2
-                    |> meetsOrExceedsRatio 4.5 1
+            if (fontSize > 14 && fontWeight >= 700) || fontSize > 18 then
+                colorContrast >= 4.5
 
             else
-                contrast color1 color2
-                    |> meetsOrExceedsRatio 7 1
-
-
-meetsOrExceedsRatio : Float -> Float -> Float -> Bool
-meetsOrExceedsRatio contrastValue int base =
-    contrastValue >= (int / base)
+                colorContrast >= 7
 
 
 {-| Calculate the contrast between two colors.

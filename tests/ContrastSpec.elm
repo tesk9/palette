@@ -57,7 +57,7 @@ sufficientContrastSuite =
                 , test "grey and white do not have sufficient contrast" <|
                     \_ ->
                         subject white grey
-                            |> Expect.false "Expected grey and white not to have sufficient contrast."
+                            |> Expect.true "Expected grey and white to have sufficient contrast."
                 ]
             , describe "WCAG AAA" <|
                 let
@@ -91,7 +91,7 @@ sufficientContrastSuite =
                     \_ ->
                         subject white black
                             |> Expect.true "Expected black and white to have sufficient contrast."
-                , test "grey and white do has sufficient contrast" <|
+                , test "grey and white has sufficient contrast" <|
                     \_ ->
                         subject white grey
                             |> Expect.true "Expected grey and white to have sufficient contrast."
@@ -105,10 +105,10 @@ sufficientContrastSuite =
                     \_ ->
                         subject white black
                             |> Expect.true "Expected black and white to have sufficient contrast."
-                , test "grey and white do not have sufficient contrast" <|
+                , test "grey and white to have sufficient contrast" <|
                     \_ ->
                         subject white grey
-                            |> Expect.true "Expected grey and white not to have sufficient contrast."
+                            |> Expect.true "Expected grey and white to have sufficient contrast."
                 ]
             ]
         ]
