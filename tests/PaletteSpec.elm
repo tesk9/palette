@@ -103,6 +103,43 @@ sufficientContrastSuite =
                             |> Expect.false "Expected grey and white not to have sufficient contrast."
                 ]
             ]
+        , describe "Large text" <|
+            let
+                fontSize =
+                    19
+
+                fontWeight =
+                    300
+            in
+            [ describe "WCAG AA" <|
+                let
+                    subject =
+                        Palette.sufficientContrast Palette.AA fontSize fontWeight
+                in
+                [ test "black and white has sufficient contrast" <|
+                    \_ ->
+                        subject white black
+                            |> Expect.true "Expected black and white to have sufficient contrast."
+                , test "grey and white do has sufficient contrast" <|
+                    \_ ->
+                        subject white grey
+                            |> Expect.true "Expected grey and white to have sufficient contrast."
+                ]
+            , describe "WCAG AAA" <|
+                let
+                    subject =
+                        Palette.sufficientContrast Palette.AAA fontSize fontWeight
+                in
+                [ test "black and white has sufficient contrast" <|
+                    \_ ->
+                        subject white black
+                            |> Expect.true "Expected black and white to have sufficient contrast."
+                , test "grey and white do not have sufficient contrast" <|
+                    \_ ->
+                        subject white grey
+                            |> Expect.false "Expected grey and white not to have sufficient contrast."
+                ]
+            ]
         ]
 
 
