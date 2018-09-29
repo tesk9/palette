@@ -33,8 +33,9 @@ view _ =
             [ ( red, yellow ) ]
             viewContrast
         , exampleSet "Color Schemes"
-            rainbow
-            viewGrayscale
+            [ ( "Grayscale", rainbow, viewGrayscale )
+            ]
+            subExampleSet
         ]
 
 
@@ -42,15 +43,28 @@ exampleSet : String -> List a -> (a -> Html msg) -> Html msg
 exampleSet heading examples viewExample =
     Html.section []
         [ Html.h2 [] [ Html.text heading ]
-        , Html.ul
-            [ style "list-style" "none"
-            , style "display" "flex"
-            ]
-            (List.map
-                (\example -> Html.li [] [ viewExample example ])
-                examples
-            )
+        , exampleList examples viewExample
         ]
+
+
+subExampleSet : ( String, List a, a -> Html msg ) -> Html msg
+subExampleSet ( heading, examples, viewExample ) =
+    Html.div []
+        [ Html.h3 [] [ Html.text heading ]
+        , exampleList examples viewExample
+        ]
+
+
+exampleList : List a -> (a -> Html msg) -> Html msg
+exampleList examples viewExample =
+    Html.ul
+        [ style "list-style" "none"
+        , style "display" "flex"
+        ]
+        (List.map
+            (\example -> Html.li [] [ viewExample example ])
+            examples
+        )
 
 
 viewContrast : ( Color, Color ) -> Html msg
