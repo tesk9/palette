@@ -232,8 +232,19 @@ convertRGBToHSL r255 g255 b255 =
 
         lightness =
             (minimum + maximum) / 2
+
+        saturation =
+            if lightness == 1 || lightness == 0 then
+                0
+
+            else
+                chroma / (1 - abs (2 * lightness - 1))
     in
-    fromHSL ( hue, chroma * 100, lightness * 100 )
+    fromHSL
+        ( hue
+        , saturation * 100
+        , lightness * 100
+        )
 
 
 {-| TODO: this is not typesafe. Make typesafe!

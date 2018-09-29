@@ -57,21 +57,31 @@ colorSpec =
                         |> Expect.equal ( 255, 255, 255 )
             , test "from rgb red to hsl red" <|
                 \_ ->
-                    red
+                    Color.fromRGB ( 255, 0, 0 )
                         |> Color.toHSL
                         |> Expect.equal ( 0, 100, 50 )
             , test "from hsl red to rgb red" <|
                 \_ ->
-                    redHSL
+                    Color.fromHSL ( 0, 100, 50 )
                         |> Color.toRGB
                         |> Expect.equal ( 255, 0, 0 )
+            , test "from rgb green to hsl green" <|
+                \_ ->
+                    Color.fromRGB ( 0, 128, 0 )
+                        |> Color.toHSL
+                        |> Expect.equal ( 120, 100, 25 )
+            , test "from hsl green to rgb green" <|
+                \_ ->
+                    Color.fromHSL ( 120, 100, 25 )
+                        |> Color.toRGB
+                        |> Expect.equal ( 0, 128, 0 )
             , test "from RGB to HSL and back to RGB again" <|
                 \_ ->
-                    Color.fromRGB ( 3, 4, 5 )
+                    Color.fromRGB ( 255, 0, 0 )
                         |> Color.toHSL
                         |> Color.fromHSL
                         |> Color.toRGB
-                        |> Expect.equal ( 3, 4, 5 )
+                        |> Expect.equal ( 255, 0, 0 )
             , test "from HSL to RGB and back to HSL again" <|
                 \_ ->
                     Color.fromHSL ( 3, 4, 5 )

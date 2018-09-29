@@ -3,8 +3,6 @@ module Fixtures exposing
     , blackHSL
     , grey
     , greyHSL
-    , red
-    , redHSL
     , white
     , whiteHSL
     )
@@ -40,13 +38,3 @@ blackHSL =
 black : Color
 black =
     Color.fromRGB ( 0, 0, 0 )
-
-
-red : Color
-red =
-    Color.fromRGB ( 255, 0, 0 )
-
-
-redHSL : Color
-redHSL =
-    Color.fromHSL ( 0, 100, 50 )
