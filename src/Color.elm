@@ -8,7 +8,17 @@ module Color exposing
 
 @docs Color
 
+
+## Working with `Color`s
+
+
+### RGB values
+
+RGB is short for red-green-blue. This representation of color specifies how much
+red, green, and blue are in the color.
+
 @docs fromRGB, toRGB, toRGBString
+
 @docs luminance
 
 -}
@@ -20,7 +30,24 @@ type
     = RGB Float Float Float
 
 
-{-| Build a new color based on RGB values. Clamps arguments between 0 and 255, inclusive.
+{-| Build a new color based on RGB values.
+
+    import Color exposing (Color)
+
+    red : Color
+    red =
+        Color.fromRGB ( 255, 0, 0 )
+
+    green : Color
+    green =
+        Color.fromRGB ( 0, 255, 0 )
+
+    blue : Color
+    blue =
+        Color.fromRGB ( 0, 0, 255 )
+
+This function clamps each rgb value between 0 and 255 (inclusive).
+
 -}
 fromRGB : ( Float, Float, Float ) -> Color
 fromRGB ( r, g, b ) =
