@@ -104,7 +104,7 @@ toHSLString color =
         ( h, s, l ) =
             toHSL color
     in
-    "hsl(" ++ String.fromInt h ++ "," ++ String.fromFloat s ++ "," ++ String.fromFloat l ++ ")"
+    "hsl(" ++ String.fromInt h ++ "," ++ String.fromFloat s ++ "%," ++ String.fromFloat l ++ "%)"
 
 
 {-| Build a new color based on RGB values.

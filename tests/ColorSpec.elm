@@ -30,7 +30,7 @@ colorSpec =
                 \_ ->
                     Color.fromHSL ( 15, -13, 300 )
                         |> Color.toHSLString
-                        |> Expect.equal "hsl(15,0,100)"
+                        |> Expect.equal "hsl(15,0%,100%)"
             ]
         , describe "between color models"
             [ test "from rgb black to hsl black" <|

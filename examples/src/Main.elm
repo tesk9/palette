@@ -95,6 +95,7 @@ cell color =
         , style "justify-content" "center"
         , style "align-items" "flex-start"
         , style "background-color" rgbColor
+        , style "background-color" (Color.toHSLString color)
         ]
         [ Html.span
             [ style "margin" "8px 20px 20px"
@@ -105,6 +106,7 @@ cell color =
             , style "width" "240px"
             ]
             [ Html.div [] [ Html.text rgbColor ]
+            , Html.div [] [ Html.text (Color.toHSLString color) ]
             , Html.div [] [ Html.text ("Luminance: " ++ String.fromFloat (Color.luminance color)) ]
             ]
         ]
