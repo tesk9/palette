@@ -26,32 +26,34 @@ view : Model -> Html msg
 view _ =
     Html.main_ []
         [ Html.h1 [] [ Html.text "Examples" ]
-        , exampleSet "Colors"
-            rainbow
-            cell
-        , exampleSet "Contrast checks"
-            [ ( red, yellow ) ]
-            viewContrast
-        , exampleSet "Color Schemes"
-            [ ( "Grayscale", rainbow, viewGrayscale )
-            ]
-            subExampleSet
+        , exampleSection "Colors"
+            (exampleList rainbow cell)
+        , exampleSection "Contrast checks"
+            (exampleList [ ( red, yellow ) ] viewContrast)
+        , exampleSection "Color Schemes"
+            (Html.div []
+                [ exampleSubsection "Complementary"
+                    (exampleList rainbow viewComplementary)
+                , exampleSubsection "Grayscale"
+                    (exampleList rainbow viewGrayscale)
+                ]
+            )
         ]
 
 
-exampleSet : String -> List a -> (a -> Html msg) -> Html msg
-exampleSet heading examples viewExample =
+exampleSection : String -> Html msg -> Html msg
+exampleSection heading examples =
     Html.section []
         [ Html.h2 [] [ Html.text heading ]
-        , exampleList examples viewExample
+        , examples
         ]
 
 
-subExampleSet : ( String, List a, a -> Html msg ) -> Html msg
-subExampleSet ( heading, examples, viewExample ) =
+exampleSubsection : String -> Html msg -> Html msg
+exampleSubsection heading examples =
     Html.div []
         [ Html.h3 [] [ Html.text heading ]
-        , exampleList examples viewExample
+        , examples
         ]
 
 
@@ -75,6 +77,11 @@ viewContrast ( a, b ) =
 viewGrayscale : Color -> Html msg
 viewGrayscale color =
     Html.div [] [ cell color, cell (Color.Generator.grayscale color) ]
+
+
+viewComplementary : Color -> Html msg
+viewComplementary color =
+    Html.div [] [ cell color, cell (Color.Generator.complementary color) ]
 
 
 cell : Color -> Html msg
