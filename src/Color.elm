@@ -1,6 +1,6 @@
 module Color exposing
     ( Color
-    , fromRGB, toRGB
+    , fromRGB, toRGB, toRGBString
     , luminance
     )
 
@@ -8,7 +8,7 @@ module Color exposing
 
 @docs Color
 
-@docs fromRGB, toRGB
+@docs fromRGB, toRGB, toRGBString
 @docs luminance
 
 -}
@@ -34,6 +34,17 @@ toRGB color =
     case color of
         RGB r g b ->
             ( r, g, b )
+
+
+{-| Get the RGB representation of a color as a `String`.
+-}
+toRGBString : Color -> String
+toRGBString color =
+    let
+        ( r, g, b ) =
+            toRGB color
+    in
+    "rgb(" ++ String.fromFloat r ++ "," ++ String.fromFloat g ++ "," ++ String.fromFloat b ++ ")"
 
 
 {-| Luminance calculation adopted from <https://www.w3.org/TR/WCAG20-TECHS/G17.html>

@@ -15,6 +15,11 @@ colorSpec =
                 Color.fromRGB ( -10, 123, 300 )
                     |> Color.toRGB
                     |> Expect.equal ( 0, 123, 255 )
+        , test "to a String" <|
+            \_ ->
+                Color.fromRGB ( -10, 123, 300 )
+                    |> Color.toRGBString
+                    |> Expect.equal "rgb(0,123,255)"
         ]
 
 
