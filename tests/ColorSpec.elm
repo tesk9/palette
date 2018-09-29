@@ -2,7 +2,7 @@ module ColorSpec exposing (colorSpec, luminanceSuite)
 
 import Color exposing (Color)
 import Expect exposing (Expectation)
-import Fixtures exposing (black, grey, white)
+import Fixtures exposing (black, blackHSL, grey, greyHSL, white, whiteHSL)
 import Fuzz exposing (Fuzzer, int, list, string)
 import Test exposing (..)
 
@@ -10,16 +10,30 @@ import Test exposing (..)
 colorSpec : Test
 colorSpec =
     describe "Color"
-        [ test "to and from a Color" <|
-            \_ ->
-                Color.fromRGB ( -10, 123, 300 )
-                    |> Color.toRGB
-                    |> Expect.equal ( 0, 123, 255 )
-        , test "to a String" <|
-            \_ ->
-                Color.fromRGB ( -10, 123, 300 )
-                    |> Color.toRGBString
-                    |> Expect.equal "rgb(0,123,255)"
+        [ describe "to and from a Color"
+            [ test "from RGB to RGB" <|
+                \_ ->
+                    Color.fromRGB ( -10, 123, 300 )
+                        |> Color.toRGB
+                        |> Expect.equal ( 0, 123, 255 )
+            , test "from HSL to HSL" <|
+                \_ ->
+                    Color.fromHSL ( -10, 123, -10 )
+                        |> Color.toHSL
+                        |> Expect.equal ( 10, 100, 0 )
+            ]
+        , describe "to a String"
+            [ test "toRGBString" <|
+                \_ ->
+                    Color.fromRGB ( -10, 123, 300 )
+                        |> Color.toRGBString
+                        |> Expect.equal "rgb(0,123,255)"
+            , test "toHSLString" <|
+                \_ ->
+                    Color.fromHSL ( 15, -13, 300 )
+                        |> Color.toHSLString
+                        |> Expect.equal "hsl(15,0,100)"
+            ]
         ]
 
 

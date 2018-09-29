@@ -55,7 +55,7 @@ red, green, and blue are in the color.
 type
     Color
     -- TODO: other models! conversions! as necessary.
-    = HSL Float Float Float
+    = HSL Int Float Float
     | RGB Float Float Float
 
 
@@ -74,15 +74,14 @@ Saturation is a percentage value. It's clamped between 0 and 100 (inclusive).
 Lightness is a percentage value. It's clamped between 0 and 100 (inclusive).
 
 -}
-fromHSL : ( Float, Float, Float ) -> Color
+fromHSL : ( Int, Float, Float ) -> Color
 fromHSL ( hue, s, l ) =
-    --TODO: fix the modular arithmetic here
-    HSL hue (clamp 0 100 s) (clamp 0 100 l)
+    HSL (abs (remainderBy 360 hue)) (clamp 0 100 s) (clamp 0 100 l)
 
 
 {-| Extract the hue, saturation, and lightness values from an existing Color.
 -}
-toHSL : Color -> ( Float, Float, Float )
+toHSL : Color -> ( Int, Float, Float )
 toHSL color =
     case color of
         RGB r g b ->
@@ -101,7 +100,7 @@ toHSLString color =
         ( h, s, l ) =
             toHSL color
     in
-    "hsl(" ++ String.fromFloat h ++ "," ++ String.fromFloat s ++ "," ++ String.fromFloat l ++ ")"
+    "hsl(" ++ String.fromInt h ++ "," ++ String.fromFloat s ++ "," ++ String.fromFloat l ++ ")"
 
 
 {-| Build a new color based on RGB values.

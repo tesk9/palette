@@ -1,4 +1,11 @@
-module Fixtures exposing (black, grey, white)
+module Fixtures exposing
+    ( black
+    , blackHSL
+    , grey
+    , greyHSL
+    , white
+    , whiteHSL
+    )
 
 import Color exposing (Color)
 
@@ -8,9 +15,24 @@ white =
     Color.fromRGB ( 255, 255, 255 )
 
 
+whiteHSL : Color
+whiteHSL =
+    Color.fromHSL ( 0, 0, 100 )
+
+
 grey : Color
 grey =
     Color.fromRGB ( 118, 118, 118 )
+
+
+greyHSL : Color
+greyHSL =
+    Color.fromHSL ( 0, 0, 46 )
+
+
+blackHSL : Color
+blackHSL =
+    Color.fromHSL ( 0, 0, 0 )
 
 
 black : Color
