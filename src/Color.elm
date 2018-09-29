@@ -52,6 +52,7 @@ red, green, and blue are in the color.
 -}
 
 
+{-| -}
 type
     Color
     -- TODO: other models! conversions! as necessary.
@@ -84,12 +85,46 @@ fromHSL ( hue, s, l ) =
 toHSL : Color -> ( Int, Float, Float )
 toHSL color =
     case color of
-        RGB r g b ->
-            --TODO: implementation!
-            ( 0, 0, 0 )
-
         HSL h s l ->
             ( h, s, l )
+
+        RGB r255 g255 b255 ->
+            let
+                ( r, g, b ) =
+                    ( r255 / 255, g255 / 255, b255 / 255 )
+
+                maximum =
+                    max (max r g) b
+
+                minimum =
+                    min (min r g) b
+
+                chroma =
+                    maximum - minimum
+
+                hue =
+                    if chroma == 0 then
+                        --Actually undefined, but this is a typical representation
+                        0
+
+                    else if maximum == r then
+                        --Is this mod in the right order?
+                        60 * modBy (round ((g - b) / chroma)) 6
+
+                    else if maximum == g then
+                        60
+                            * ((b - r) / chroma + 2)
+                            |> round
+
+                    else
+                        60
+                            * ((r - g) / chroma + 4)
+                            |> round
+
+                intensity =
+                    (r + g + b) / 3
+            in
+            ( hue, chroma, intensity )
 
 
 {-| Get the HSL representation of a color as a `String`.
