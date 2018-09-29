@@ -63,10 +63,10 @@ colorSpec =
                         |> expectRGBValues ( 0, 128, 0 )
             , test "from RGB to HSL and back to RGB again" <|
                 \_ ->
-                    Color.fromRGB ( 255, 0, 0 )
+                    Color.fromRGB ( 0, 89, 255 )
                         |> Color.toHSL
                         |> Color.fromHSL
-                        |> expectRGBValues ( 255, 0, 0 )
+                        |> expectRGBValues ( 0, 89, 255 )
             , test "from HSL to RGB and back to HSL again" <|
                 \_ ->
                     Color.fromHSL ( 3, 4, 5 )

@@ -218,17 +218,13 @@ convertRGBToHSL r255 g255 b255 =
                 0
 
             else if maximum == r then
-                60 * modBy 6 (round ((g - b) / chroma))
+                60 * (g - b) / chroma
 
             else if maximum == g then
-                60
-                    * ((b - r) / chroma + 2)
-                    |> round
+                60 * ((b - r) / chroma + 2)
 
             else
-                60
-                    * ((r - g) / chroma + 4)
-                    |> round
+                60 * ((r - g) / chroma + 4)
 
         lightness =
             (minimum + maximum) / 2
@@ -241,7 +237,7 @@ convertRGBToHSL r255 g255 b255 =
                 chroma / (1 - abs (2 * lightness - 1))
     in
     fromHSL
-        ( hue
+        ( round hue
         , saturation * 100
         , lightness * 100
         )
@@ -261,36 +257,34 @@ convertHSLToRGB hue360 saturationPercent lightnessPercent =
         chroma =
             (1 - abs (2 * lightness - 1)) * saturation
 
-        hue =
-            toFloat hue360 / 60
-
-        x =
-            toFloat (1 - abs (modBy 2 (round hue) - 1)) * chroma
-
         hueIsBetween lowerBound upperBound =
-            lowerBound <= hue && hue <= upperBound
+            lowerBound <= hue360 && hue360 <= upperBound
 
-        ( r, g, b ) =
-            if hueIsBetween 0 1 then
-                ( chroma, x, 0 )
-
-            else if hueIsBetween 1 2 then
-                ( x, chroma, 0 )
-
-            else if hueIsBetween 2 3 then
-                ( 0, chroma, x )
-
-            else if hueIsBetween 3 4 then
-                ( 0, x, chroma )
-
-            else if hueIsBetween 4 5 then
-                ( x, 0, chroma )
-
-            else if hueIsBetween 5 6 then
-                ( chroma, 0, x )
+        zigzag xIntercept =
+            if modBy 2 (round (toFloat hue360 / 60)) == 1 then
+                chroma * toFloat (hue360 - xIntercept) / 60
 
             else
-                ( 0, 0, 0 )
+                -chroma * toFloat (hue360 - xIntercept) / 60
+
+        ( r, g, b ) =
+            if hueIsBetween 0 60 then
+                ( chroma, zigzag 0, 0 )
+
+            else if hueIsBetween 60 120 then
+                ( zigzag 120, chroma, 0 )
+
+            else if hueIsBetween 120 180 then
+                ( 0, chroma, zigzag 120 )
+
+            else if hueIsBetween 180 240 then
+                ( 0, zigzag 240, chroma )
+
+            else if hueIsBetween 240 300 then
+                ( zigzag 240, 0, chroma )
+
+            else
+                ( chroma, 0, zigzag 360 )
 
         lightnessModifier =
             lightness - chroma / 2
