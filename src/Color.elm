@@ -137,8 +137,8 @@ toRGB color =
             ( r, g, b )
 
         HSL h s l ->
-            --TODO: implementation
-            ( 0, 0, 0 )
+            convertHSLToRGB h s l
+                |> toRGB
 
 
 {-| Get the RGB representation of a color as a `String`.
@@ -215,8 +215,7 @@ convertRGBToHSL r255 g255 b255 =
                 0
 
             else if maximum == r then
-                --Is this mod in the right order?
-                60 * modBy (round ((g - b) / chroma)) 6
+                60 * modBy 6 (round ((g - b) / chroma))
 
             else if maximum == g then
                 60
@@ -231,4 +230,59 @@ convertRGBToHSL r255 g255 b255 =
         intensity =
             (r + g + b) / 3
     in
-    fromHSL ( hue, chroma, intensity )
+    fromHSL ( hue, chroma * 100, intensity * 100 )
+
+
+{-| TODO: this is not typesafe. Make typesafe!
+-}
+convertHSLToRGB : Int -> Float -> Float -> Color
+convertHSLToRGB hue360 saturationPercent lightnessPercent =
+    let
+        saturation =
+            saturationPercent / 100
+
+        lightness =
+            lightnessPercent / 100
+
+        chroma =
+            (1 - abs (2 * lightness - 1)) * saturation
+
+        hue =
+            toFloat hue360 / 60
+
+        x =
+            toFloat (1 - abs (modBy 2 (round hue) - 1)) * chroma
+
+        hueIsBetween lowerBound upperBound =
+            lowerBound <= hue && hue <= upperBound
+
+        ( r, g, b ) =
+            if hueIsBetween 0 1 then
+                ( chroma, x, 0 )
+
+            else if hueIsBetween 1 2 then
+                ( x, chroma, 0 )
+
+            else if hueIsBetween 2 3 then
+                ( 0, chroma, x )
+
+            else if hueIsBetween 3 4 then
+                ( 0, x, chroma )
+
+            else if hueIsBetween 4 5 then
+                ( x, 0, chroma )
+
+            else if hueIsBetween 5 6 then
+                ( chroma, 0, x )
+
+            else
+                ( 0, 0, 0 )
+
+        lightnessModifier =
+            lightness - chroma / 2
+    in
+    fromRGB
+        ( (r + lightnessModifier) * 255
+        , (g + lightnessModifier) * 255
+        , (b + lightnessModifier) * 255
+        )
