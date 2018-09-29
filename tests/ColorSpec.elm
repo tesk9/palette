@@ -14,13 +14,11 @@ colorSpec =
             [ test "from RGB to RGB" <|
                 \_ ->
                     Color.fromRGB ( -10, 123, 300 )
-                        |> Color.toRGB
-                        |> Expect.equal ( 0, 123, 255 )
+                        |> expectRGBValues ( 0, 123, 255 )
             , test "from HSL to HSL" <|
                 \_ ->
                     Color.fromHSL ( -10, 123, -10 )
-                        |> Color.toHSL
-                        |> Expect.equal ( 10, 100, 0 )
+                        |> expectHSLValues ( 10, 100, 0 )
             ]
         , describe "to a String"
             [ test "toRGBString" <|
@@ -37,58 +35,44 @@ colorSpec =
         , describe "between color models"
             [ test "from rgb black to hsl black" <|
                 \_ ->
-                    black
-                        |> Color.toHSL
-                        |> Expect.equal ( 0, 0, 0 )
+                    expectHSLValues ( 0, 0, 0 ) black
             , test "from hsl black to rgb black" <|
                 \_ ->
-                    blackHSL
-                        |> Color.toRGB
-                        |> Expect.equal ( 0, 0, 0 )
+                    expectRGBValues ( 0, 0, 0 ) blackHSL
             , test "from rgb white to hsl white" <|
                 \_ ->
-                    white
-                        |> Color.toHSL
-                        |> Expect.equal ( 0, 0, 100 )
+                    expectHSLValues ( 0, 0, 100 ) white
             , test "from hsl white to rgb white" <|
                 \_ ->
-                    whiteHSL
-                        |> Color.toRGB
-                        |> Expect.equal ( 255, 255, 255 )
+                    expectRGBValues ( 255, 255, 255 ) whiteHSL
             , test "from rgb red to hsl red" <|
                 \_ ->
                     Color.fromRGB ( 255, 0, 0 )
-                        |> Color.toHSL
-                        |> Expect.equal ( 0, 100, 50 )
+                        |> expectHSLValues ( 0, 100, 50 )
             , test "from hsl red to rgb red" <|
                 \_ ->
                     Color.fromHSL ( 0, 100, 50 )
-                        |> Color.toRGB
-                        |> Expect.equal ( 255, 0, 0 )
+                        |> expectRGBValues ( 255, 0, 0 )
             , test "from rgb green to hsl green" <|
                 \_ ->
                     Color.fromRGB ( 0, 128, 0 )
-                        |> Color.toHSL
-                        |> Expect.equal ( 120, 100, 25 )
+                        |> expectHSLValues ( 120, 100, 25 )
             , test "from hsl green to rgb green" <|
                 \_ ->
                     Color.fromHSL ( 120, 100, 25 )
-                        |> Color.toRGB
-                        |> Expect.equal ( 0, 128, 0 )
+                        |> expectRGBValues ( 0, 128, 0 )
             , test "from RGB to HSL and back to RGB again" <|
                 \_ ->
                     Color.fromRGB ( 255, 0, 0 )
                         |> Color.toHSL
                         |> Color.fromHSL
-                        |> Color.toRGB
-                        |> Expect.equal ( 255, 0, 0 )
+                        |> expectRGBValues ( 255, 0, 0 )
             , test "from HSL to RGB and back to HSL again" <|
                 \_ ->
                     Color.fromHSL ( 3, 4, 5 )
                         |> Color.toRGB
                         |> Color.fromRGB
-                        |> Color.toHSL
-                        |> Expect.equal ( 3, 4, 5 )
+                        |> expectHSLValues ( 3, 4, 5 )
             ]
         ]
 
@@ -117,3 +101,25 @@ luminanceSuite =
 floatEqual : Float -> Float -> Expectation
 floatEqual =
     Expect.within (Expect.Absolute 0.01)
+
+
+{-| This exists mostly to make float equality checks nicer.
+-}
+expectRGBValues : ( Int, Int, Int ) -> Color -> Expectation
+expectRGBValues expected color =
+    let
+        ( r, g, b ) =
+            Color.toRGB color
+    in
+    Expect.equal ( round r, round g, round b ) expected
+
+
+{-| This exists mostly to make float equality checks nicer.
+-}
+expectHSLValues : ( Int, Int, Int ) -> Color -> Expectation
+expectHSLValues expected color =
+    let
+        ( r, g, b ) =
+            Color.toHSL color
+    in
+    Expect.equal ( r, round g, round b ) expected
