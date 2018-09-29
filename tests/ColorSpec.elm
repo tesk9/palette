@@ -34,6 +34,22 @@ colorSpec =
                         |> Color.toHSLString
                         |> Expect.equal "hsl(15,0,100)"
             ]
+        , describe "between color models"
+            [ test "from RGB to HSL and back to RGB again" <|
+                \_ ->
+                    Color.fromRGB ( 3, 4, 5 )
+                        |> Color.toHSL
+                        |> Color.fromHSL
+                        |> Color.toRGB
+                        |> Expect.equal ( 3, 4, 5 )
+            , test "from HSL to RGB and back to HSL again" <|
+                \_ ->
+                    Color.fromHSL ( 3, 4, 5 )
+                        |> Color.toRGB
+                        |> Color.fromRGB
+                        |> Color.toHSL
+                        |> Expect.equal ( 3, 4, 5 )
+            ]
         ]
 
 
