@@ -2,7 +2,7 @@ module ColorSpec exposing (colorSpec, luminanceSuite)
 
 import Color exposing (Color)
 import Expect exposing (Expectation)
-import Fixtures exposing (black, blackHSL, grey, greyHSL, white, whiteHSL)
+import Fixtures exposing (..)
 import Fuzz exposing (Fuzzer, int, list, string)
 import Test exposing (..)
 
@@ -35,7 +35,37 @@ colorSpec =
                         |> Expect.equal "hsl(15,0,100)"
             ]
         , describe "between color models"
-            [ test "from RGB to HSL and back to RGB again" <|
+            [ test "from rgb black to hsl black" <|
+                \_ ->
+                    black
+                        |> Color.toHSL
+                        |> Expect.equal ( 0, 0, 0 )
+            , test "from hsl black to rgb black" <|
+                \_ ->
+                    blackHSL
+                        |> Color.toRGB
+                        |> Expect.equal ( 0, 0, 0 )
+            , test "from rgb white to hsl white" <|
+                \_ ->
+                    white
+                        |> Color.toHSL
+                        |> Expect.equal ( 0, 0, 100 )
+            , test "from hsl white to rgb white" <|
+                \_ ->
+                    whiteHSL
+                        |> Color.toRGB
+                        |> Expect.equal ( 255, 255, 255 )
+            , test "from rgb red to hsl red" <|
+                \_ ->
+                    red
+                        |> Color.toHSL
+                        |> Expect.equal ( 0, 100, 50 )
+            , test "from hsl red to rgb red" <|
+                \_ ->
+                    redHSL
+                        |> Color.toRGB
+                        |> Expect.equal ( 255, 0, 0 )
+            , test "from RGB to HSL and back to RGB again" <|
                 \_ ->
                     Color.fromRGB ( 3, 4, 5 )
                         |> Color.toHSL
