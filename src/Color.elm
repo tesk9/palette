@@ -88,43 +88,9 @@ toHSL color =
         HSL h s l ->
             ( h, s, l )
 
-        RGB r255 g255 b255 ->
-            let
-                ( r, g, b ) =
-                    ( r255 / 255, g255 / 255, b255 / 255 )
-
-                maximum =
-                    max (max r g) b
-
-                minimum =
-                    min (min r g) b
-
-                chroma =
-                    maximum - minimum
-
-                hue =
-                    if chroma == 0 then
-                        --Actually undefined, but this is a typical representation
-                        0
-
-                    else if maximum == r then
-                        --Is this mod in the right order?
-                        60 * modBy (round ((g - b) / chroma)) 6
-
-                    else if maximum == g then
-                        60
-                            * ((b - r) / chroma + 2)
-                            |> round
-
-                    else
-                        60
-                            * ((r - g) / chroma + 4)
-                            |> round
-
-                intensity =
-                    (r + g + b) / 3
-            in
-            ( hue, chroma, intensity )
+        RGB r g b ->
+            convertRGBToHSL r g b
+                |> toHSL
 
 
 {-| Get the HSL representation of a color as a `String`.
@@ -220,3 +186,49 @@ luminance color =
                 ((srgb + 0.055) / 1.055) ^ 2.4
     in
     (0.2126 * red) + (0.7152 * green) + (0.0722 * blue)
+
+
+
+-- CONVERSIONS
+
+
+{-| TODO: this is not typesafe. Make typesafe!
+-}
+convertRGBToHSL : Float -> Float -> Float -> Color
+convertRGBToHSL r255 g255 b255 =
+    let
+        ( r, g, b ) =
+            ( r255 / 255, g255 / 255, b255 / 255 )
+
+        maximum =
+            max (max r g) b
+
+        minimum =
+            min (min r g) b
+
+        chroma =
+            maximum - minimum
+
+        hue =
+            if chroma == 0 then
+                --Actually undefined, but this is a typical representation
+                0
+
+            else if maximum == r then
+                --Is this mod in the right order?
+                60 * modBy (round ((g - b) / chroma)) 6
+
+            else if maximum == g then
+                60
+                    * ((b - r) / chroma + 2)
+                    |> round
+
+            else
+                60
+                    * ((r - g) / chroma + 4)
+                    |> round
+
+        intensity =
+            (r + g + b) / 3
+    in
+    fromHSL ( hue, chroma, intensity )
