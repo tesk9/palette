@@ -33,8 +33,8 @@ view _ =
             [ ( red, yellow ) ]
             viewContrast
         , exampleSet "Color Schemes"
-            []
-            identity
+            rainbow
+            viewGrayscale
         ]
 
 
@@ -53,6 +53,16 @@ exampleSet heading examples viewExample =
         ]
 
 
+viewContrast : ( Color, Color ) -> Html msg
+viewContrast ( a, b ) =
+    Html.div [] [ cell a, cell b ]
+
+
+viewGrayscale : Color -> Html msg
+viewGrayscale color =
+    Html.div [] [ cell color, cell (Color.Generator.grayscale color) ]
+
+
 cell : Color -> Html msg
 cell color =
     let
@@ -60,25 +70,23 @@ cell color =
             Color.toRGBString color
     in
     Html.div
-        [ style "width" "120px"
-        , style "height" "50px"
-        , style "display" "flex"
+        [ style "display" "flex"
         , style "justify-content" "center"
         , style "align-items" "flex-start"
         , style "background-color" rgbColor
         ]
         [ Html.span
-            [ style "margin" "6px"
-            , style "padding" "2px"
+            [ style "margin" "8px 20px 20px"
+            , style "padding" "4px"
             , style "background-color" "white"
+            , style "overflow" "scroll"
+            , style "text-align" "center"
+            , style "width" "240px"
             ]
-            [ Html.text rgbColor ]
+            [ Html.div [] [ Html.text rgbColor ]
+            , Html.div [] [ Html.text ("Luminance: " ++ String.fromFloat (Color.luminance color)) ]
+            ]
         ]
-
-
-viewContrast : ( Color, Color ) -> Html msg
-viewContrast ( a, b ) =
-    Html.div [] [ cell a, cell b ]
 
 
 type alias Msg =
