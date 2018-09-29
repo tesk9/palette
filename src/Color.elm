@@ -230,10 +230,10 @@ convertRGBToHSL r255 g255 b255 =
                     * ((r - g) / chroma + 4)
                     |> round
 
-        intensity =
-            (r + g + b) / 3
+        lightness =
+            (minimum + maximum) / 2
     in
-    fromHSL ( hue, chroma * 100, intensity * 100 )
+    fromHSL ( hue, chroma * 100, lightness * 100 )
 
 
 {-| TODO: this is not typesafe. Make typesafe!
