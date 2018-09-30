@@ -7,6 +7,21 @@ import Color.Contrast
 import Color.Generator
 import Html exposing (Html)
 import Html.Attributes exposing (style)
+import Palette.X11
+    exposing
+        ( aliceBlue
+        , black
+        , blue
+        , coral
+        , green
+        , hotPink
+        , lavender
+        , lightSeaGreen
+        , orange
+        , purple
+        , red
+        , yellow
+        )
 import Platform
 
 
@@ -327,69 +342,4 @@ type alias Msg =
 
 rainbow : List Color
 rainbow =
-    [ red, orange, yellow, green, blue, purple, lightSeaGreen, coral, fuschia, lavender, aliceBlue ]
-
-
-red : Color
-red =
-    Color.fromRGB ( 255, 0, 0 )
-
-
-orange : Color
-orange =
-    Color.fromRGB ( 255, 165, 0 )
-
-
-yellow : Color
-yellow =
-    Color.fromRGB ( 255, 255, 0 )
-
-
-green : Color
-green =
-    Color.fromRGB ( 0, 255, 0 )
-
-
-blue : Color
-blue =
-    Color.fromRGB ( 0, 0, 255 )
-
-
-purple : Color
-purple =
-    Color.fromRGB ( 128, 0, 128 )
-
-
-lavender : Color
-lavender =
-    Color.fromRGB ( 230, 230, 250 )
-
-
-aliceBlue : Color
-aliceBlue =
-    Color.fromRGB ( 240, 248, 255 )
-
-
-lightSeaGreen : Color
-lightSeaGreen =
-    Color.fromRGB ( 32, 178, 170 )
-
-
-coral : Color
-coral =
-    Color.fromRGB ( 255, 127, 80 )
-
-
-fuschia : Color
-fuschia =
-    Color.fromRGB ( 233, 30, 99 )
-
-
-black : Color
-black =
-    Color.fromRGB ( 0, 0, 0 )
-
-
-white : Color
-white =
-    Color.fromRGB ( 255, 255, 255 )
+    [ red, orange, yellow, green, blue, purple, lightSeaGreen, coral, hotPink, lavender, aliceBlue ]
