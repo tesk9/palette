@@ -1,6 +1,7 @@
 module Color.Generator exposing
     ( complementary, grayscale
     , rotate
+    , triadic
     )
 
 {-|
@@ -31,6 +32,20 @@ E.g., if you pass in a reddish color, you should expect to get back a tealish co
 complementary : Color -> Color
 complementary color =
     rotate 180 color
+
+
+{-| Find the other two colors in the triadic scheme defined by the color passed in.
+
+Triadic color schemes are evenly-spaced, so each of the three colors is 120 degrees
+from the others.
+
+The internet says this scheme will be vibrant, and that you should
+mostly use one of the three colors and only use the other two for accents.
+
+-}
+triadic : Color -> ( Color, Color )
+triadic color =
+    ( rotate 120 color, rotate 240 color )
 
 
 {-| Convert the color you pass in to a grayscale version. Essentially this uses the

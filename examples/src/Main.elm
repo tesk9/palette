@@ -34,6 +34,8 @@ view _ =
             (Html.div []
                 [ exampleSubsection "Complementary"
                     (exampleList rainbow viewComplementary)
+                , exampleSubsection "Triadic"
+                    (exampleList rainbow viewTriadic)
                 , exampleSubsection "Grayscale"
                     (exampleList rainbow viewGrayscale)
                 ]
@@ -84,6 +86,11 @@ viewComplementary color =
     Html.div [] [ cell color, cell (Color.Generator.complementary color) ]
 
 
+viewTriadic : Color -> Html msg
+viewTriadic color =
+    Html.div [] [ cell color, doubleCell (Color.Generator.triadic color) ]
+
+
 cell : Color -> Html msg
 cell color =
     let
@@ -95,7 +102,6 @@ cell color =
         , style "justify-content" "center"
         , style "align-items" "flex-start"
         , style "background-color" rgbColor
-        , style "background-color" (Color.toHSLString color)
         ]
         [ Html.span
             [ style "margin" "8px 20px 20px"
@@ -109,6 +115,27 @@ cell color =
             , Html.div [] [ Html.text (Color.toHSLString color) ]
             , Html.div [] [ Html.text ("Luminance: " ++ String.fromFloat (Color.luminance color)) ]
             ]
+        ]
+
+
+doubleCell : ( Color, Color ) -> Html msg
+doubleCell ( one, two ) =
+    let
+        miniCell color =
+            Html.span
+                [ style "width" "100%"
+                , style "height" "20px"
+                , style "background-color" color
+                ]
+                []
+    in
+    Html.div
+        [ style "display" "flex"
+        , style "justify-content" "center"
+        , style "align-items" "flex-start"
+        ]
+        [ miniCell (Color.toRGBString one)
+        , miniCell (Color.toRGBString two)
         ]
 
 
