@@ -64,7 +64,13 @@ view _ =
                     )
                 , exampleSubsection "Blending"
                     (Html.div []
-                        [ Html.h4 [] [ Html.text "Multiply" ]
+                        [ Html.h4 [] [ Html.text "Add" ]
+                        , exampleList (List.map (\color -> ( color, lightSeaGreen )) rainbow)
+                            (overlappingSquares Color.Generator.add)
+                        , Html.h4 [] [ Html.text "Subtract" ]
+                        , exampleList (List.map (\color -> ( color, lightSeaGreen )) rainbow)
+                            (overlappingSquares Color.Generator.subtract)
+                        , Html.h4 [] [ Html.text "Multiply" ]
                         , exampleList (List.map (\color -> ( color, lightSeaGreen )) rainbow)
                             (overlappingSquares Color.Generator.multiply)
                         ]
@@ -276,7 +282,7 @@ overlappingSquares blend ( a, b ) =
             [ Html.div
                 [ style "width" "60px"
                 , style "height" "60px"
-                , style "background-color" (Color.toRGBString (Color.Generator.multiply a b))
+                , style "background-color" (Color.toRGBString (blend a b))
                 , style "position" "relative"
                 , style "top" "0"
                 , style "left" "0"
