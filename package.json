@@ -4,7 +4,7 @@
   "description": "Exploratory package (read: API very subject to change & breakage) for playing with different approaches to modeling and working with Color.",
   "main": "index.js",
   "directories": {
-    "test": "tests"
+    "test": "."
   },
   "scripts": {
     "test": "elm-test"
