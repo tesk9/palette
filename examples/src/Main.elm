@@ -45,7 +45,13 @@ view _ =
                 , exampleSubsection "Grayscale"
                     (exampleList rainbow viewGrayscale)
                 , exampleSubsection "Monochromatic"
-                    (exampleList rainbow viewMonochromatic)
+                    (Html.div []
+                        [ Html.h4 [] [ Html.text "Shades" ]
+                        , exampleList rainbow viewMonochromaticShades
+                        , Html.h4 [] [ Html.text "Tints" ]
+                        , exampleList rainbow viewMonochromaticTints
+                        ]
+                    )
                 ]
             )
         ]
@@ -137,8 +143,8 @@ viewRectangle ( degree, color ) =
         [ plainCell color, multiCells [ one, two, three ] ]
 
 
-viewMonochromatic : Color -> Html msg
-viewMonochromatic color =
+viewMonochromaticShades : Color -> Html msg
+viewMonochromaticShades color =
     cellsContainer
         [ plainCell color
         , multiCells
@@ -146,6 +152,19 @@ viewMonochromatic color =
             , Color.Generator.shade 20 color
             , Color.Generator.shade 30 color
             , Color.Generator.shade 40 color
+            ]
+        ]
+
+
+viewMonochromaticTints : Color -> Html msg
+viewMonochromaticTints color =
+    cellsContainer
+        [ plainCell color
+        , multiCells
+            [ Color.Generator.tint 10 color
+            , Color.Generator.tint 20 color
+            , Color.Generator.tint 30 color
+            , Color.Generator.tint 40 color
             ]
         ]
 

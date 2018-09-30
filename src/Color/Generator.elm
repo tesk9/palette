@@ -157,19 +157,25 @@ multiply a c =
 {-| Use this function to produce a new shade of the Color.
 Note: shades will be darker than the starting color. If you want a lighter color,
 please see `tint`.
+
+Pass in the percentage value by which you want to darken the color.
+
 -}
 shade : Float -> Color -> Color
 shade percentage color =
-    adjustLightness (0 - percentage) color
+    adjustLightness (0 - abs percentage) color
 
 
 {-| Use this function to produce a new tint of the Color.
 Note: tints will be lighter than the starting color. If you want a darker color,
 please see `shade`.
+
+Pass in the percentage value by which you want to lighten the color.
+
 -}
-tint : Color -> Color
-tint color =
-    color
+tint : Float -> Color -> Color
+tint percentage color =
+    adjustLightness (abs percentage) color
 
 
 {-| -}
