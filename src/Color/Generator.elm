@@ -1,15 +1,25 @@
 module Color.Generator exposing
     ( complementary, triadic, splitComplementary, square, tetratic
+    , shade, tint, tone
     , grayscale
-    , rotate
+    , rotate, multiply, adjustLightness
     )
 
 {-|
 
+
+## Palette
+
+Generate a palette based on a starting color.
+
 @docs complementary, triadic, splitComplementary, square, tetratic
 
+
+## Modify a Color
+
+@docs shade, tint, tone
 @docs grayscale
-@docs rotate
+@docs rotate, multiply, adjustLightness
 
 -}
 
@@ -115,3 +125,54 @@ grayscale color =
     in
     ( fromLuminance, fromLuminance, fromLuminance )
         |> Color.fromRGB
+
+
+{-| Modify the lightness of a color (see notes on HSL color space).
+-}
+adjustLightness : Float -> Color -> Color
+adjustLightness percentage color =
+    Color.toHSL color
+        |> (\( h, s, l ) -> ( h, s, l - percentage ))
+        |> Color.fromHSL
+
+
+{-| Blend two colors together.
+-}
+multiply : Color -> Color -> Color
+multiply a c =
+    let
+        ( r1, g1, b1 ) =
+            Color.toRGB a
+
+        ( r2, g2, b2 ) =
+            Color.toRGB c
+    in
+    Color.fromRGB
+        ( r1 * r2 / 255
+        , g1 * g2 / 255
+        , b1 * b2 / 255
+        )
+
+
+{-| Use this function to produce a new shade of the Color.
+Note: shades will be darker than the starting color. If you want a lighter color,
+please see `tint`.
+-}
+shade : Color -> Color
+shade color =
+    color
+
+
+{-| Use this function to produce a new tint of the Color.
+Note: tints will be lighter than the starting color. If you want a darker color,
+please see `shade`.
+-}
+tint : Color -> Color
+tint color =
+    color
+
+
+{-| -}
+tone : Color -> Color
+tone color =
+    color
