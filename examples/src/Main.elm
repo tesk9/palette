@@ -272,17 +272,14 @@ cell color =
         , style "background-color" rgbColor
         ]
         [ Html.span
-            [ style "margin" "8px 20px 30px"
+            [ style "margin" "8px 40px"
             , style "padding" "4px"
             , style "background-color" "white"
             , style "overflow" "scroll"
             , style "text-align" "center"
-            , style "width" "240px"
+            , style "width" "130px"
             ]
-            [ Html.div [] [ Html.text rgbColor ]
-            , Html.div [] [ Html.text (Color.toHSLString color) ]
-            , Html.div [] [ Html.text ("Luminance: " ++ String.fromFloat (Color.luminance color)) ]
-            ]
+            [ Html.div [] [ Html.text rgbColor ] ]
         ]
 
 
