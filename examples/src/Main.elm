@@ -87,27 +87,189 @@ view _ =
                 [ exampleSubsection "X11"
                     (Html.div []
                         [ Html.h4 [] [ Html.text "Pinks" ]
-                        , exampleList [ pink, lightPink, hotPink, deepPink, paleVioletRed, mediumVioletRed ] cell
+                        , exampleList
+                            [ ( pink, "pink" )
+                            , ( lightPink, "lightPink" )
+                            , ( hotPink, "hotPink" )
+                            , ( deepPink, "deepPink" )
+                            , ( paleVioletRed, "paleVioletRed" )
+                            , ( mediumVioletRed, "mediumVioletRed" )
+                            ]
+                            cell
                         , Html.h4 [] [ Html.text "Reds" ]
-                        , exampleList [ lightSalmon, salmon, darkSalmon, lightCoral, indianRed, crimson, firebrick, darkRed, red ] cell
+                        , exampleList
+                            [ ( lightSalmon, "lightSalmon" )
+                            , ( salmon, "salmon" )
+                            , ( darkSalmon, "darkSalmon" )
+                            , ( lightCoral, "lightCoral" )
+                            , ( indianRed, "indianRed" )
+                            , ( crimson, "crimson" )
+                            , ( firebrick, "firebrick" )
+                            , ( darkRed, "darkRed" )
+                            , ( red, "red" )
+                            ]
+                            cell
                         , Html.h4 [] [ Html.text "Orange-Reds" ]
-                        , exampleList [ orangeRed, tomato, coral, darkOrange, orange ] cell
+                        , exampleList
+                            [ ( orangeRed, "orangeRed" )
+                            , ( tomato, "tomato" )
+                            , ( coral, "coral" )
+                            , ( darkOrange, "coral" )
+                            , ( orange, "coral" )
+                            ]
+                            cell
                         , Html.h4 [] [ Html.text "Yellows" ]
-                        , exampleList [ yellow, lightYellow, lemonChiffon, lightGoldenrodYellow, papayaWhip, moccasin, peachPuff, paleGoldenrod, khaki, darkKhaki, gold ] cell
+                        , exampleList
+                            [ ( yellow, "yellow" )
+                            , ( lightYellow, "lightYellow" )
+                            , ( lemonChiffon, "lemonChiffon" )
+                            , ( lightGoldenrodYellow, "lightGoldenrodYellow" )
+                            , ( papayaWhip, "papayaWhip" )
+                            , ( moccasin, "moccasin" )
+                            , ( peachPuff, "peachPuff" )
+                            , ( paleGoldenrod, "paleGoldenrod" )
+                            , ( khaki, "khaki" )
+                            , ( darkKhaki, "darkKhaki" )
+                            , ( gold, "gold" )
+                            ]
+                            cell
                         , Html.h4 [] [ Html.text "Browns" ]
-                        , exampleList [ cornsilk, blanchedAlmond, bisque, navajoWhite, wheat, burlywood, Palette.X11.tan, rosyBrown, sandyBrown, goldenrod, darkGoldenrod, peru, chocolate, saddleBrown, sienna, brown, maroon ] cell
+                        , exampleList
+                            [ ( cornsilk, "cornsilk" )
+                            , ( blanchedAlmond, "blanchedAlmond" )
+                            , ( bisque, "bisque" )
+                            , ( navajoWhite, "navajoWhite" )
+                            , ( wheat, "wheat" )
+                            , ( burlywood, "burlywood" )
+                            , ( Palette.X11.tan, "tan" )
+                            , ( rosyBrown, "rosyBrown" )
+                            , ( sandyBrown, "sandyBrown" )
+                            , ( goldenrod, "goldenrod" )
+                            , ( darkGoldenrod, "darkGoldenrod" )
+                            , ( peru, "peru" )
+                            , ( chocolate, "chocolate" )
+                            , ( saddleBrown, "saddleBrown" )
+                            , ( sienna, "sienna" )
+                            , ( brown, "brown" )
+                            , ( maroon, "maroon" )
+                            ]
+                            cell
                         , Html.h4 [] [ Html.text "Greens" ]
-                        , exampleList [ darkOliveGreen, olive, oliveDrab, yellowGreen, limeGreen, lime, lawnGreen, chartreuse, greenYellow, springGreen, mediumSpringGreen, lightGreen, paleGreen, darkSeaGreen, mediumAquamarine, mediumSeaGreen, seaGreen, forestGreen, green, darkGreen ] cell
+                        , exampleList
+                            [ ( darkOliveGreen, "darkOliveGreen" )
+                            , ( olive, "olive" )
+                            , ( oliveDrab, "oliveDrab" )
+                            , ( yellowGreen, "yellowGreen" )
+                            , ( limeGreen, "limeGreen" )
+                            , ( lime, "lime" )
+                            , ( lawnGreen, "lawnGreen" )
+                            , ( chartreuse, "chartreuse" )
+                            , ( greenYellow, "greenYellow" )
+                            , ( springGreen, "springGreen" )
+                            , ( mediumSpringGreen, "mediumSpringGreen" )
+                            , ( lightGreen, "lightGreen" )
+                            , ( paleGreen, "paleGreen" )
+                            , ( darkSeaGreen, "darkSeaGreen" )
+                            , ( mediumAquamarine, "mediumAquamarine" )
+                            , ( mediumSeaGreen, "mediumSeaGreen" )
+                            , ( seaGreen, "seaGreen" )
+                            , ( forestGreen, "forestGreen" )
+                            , ( green, "green" )
+                            , ( darkGreen, "darkGreen" )
+                            ]
+                            cell
                         , Html.h4 [] [ Html.text "Cyans" ]
-                        , exampleList [ aqua, cyan, lightCyan, paleTurquoise, aquamarine, turquoise, mediumTurquoise, darkTurquoise, lightSeaGreen, cadetBlue, darkCyan, teal ] cell
+                        , exampleList
+                            [ ( aqua, "aqua" )
+                            , ( cyan, "cyan" )
+                            , ( lightCyan, "lightCyan" )
+                            , ( paleTurquoise, "paleTurquoise" )
+                            , ( aquamarine, "aquamarine" )
+                            , ( turquoise, "turquoise" )
+                            , ( mediumTurquoise, "mediumTurquoise" )
+                            , ( darkTurquoise, "darkTurquoise" )
+                            , ( lightSeaGreen, "lightSeaGreen" )
+                            , ( cadetBlue, "cadetBlue" )
+                            , ( darkCyan, "darkCyan" )
+                            , ( teal, "teal" )
+                            ]
+                            cell
                         , Html.h4 [] [ Html.text "Blues" ]
-                        , exampleList [ lightSteelBlue, powderBlue, lightBlue, skyBlue, lightSkyBlue, deepSkyBlue, dodgerBlue, cornflowerBlue, steelBlue, royalBlue, blue, mediumBlue, darkBlue, navy, midnightBlue ] cell
+                        , exampleList
+                            [ ( lightSteelBlue, "lightSteelBlue" )
+                            , ( powderBlue, "powderBlue" )
+                            , ( lightBlue, "lightBlue" )
+                            , ( skyBlue, "skyBlue" )
+                            , ( lightSkyBlue, "lightSkyBlue" )
+                            , ( deepSkyBlue, "deepSkyBlue" )
+                            , ( dodgerBlue, "dodgerBlue" )
+                            , ( cornflowerBlue, "cornflowerBlue" )
+                            , ( steelBlue, "steelBlue" )
+                            , ( royalBlue, "royalBlue" )
+                            , ( blue, "blue" )
+                            , ( mediumBlue, "mediumBlue" )
+                            , ( darkBlue, "darkBlue" )
+                            , ( navy, "navy" )
+                            , ( midnightBlue, "midnightBlue" )
+                            ]
+                            cell
                         , Html.h4 [] [ Html.text "Purples" ]
-                        , exampleList [ lavender, thistle, plum, violet, orchid, fuchsia, magenta, mediumOrchid, mediumPurple, blueViolet, darkViolet, darkOrchid, darkMagenta, purple, indigo, darkSlateBlue, slateBlue, mediumSlateBlue ] cell
+                        , exampleList
+                            [ ( lavender, "lavender" )
+                            , ( thistle, "thistle" )
+                            , ( plum, "plum" )
+                            , ( violet, "violet" )
+                            , ( orchid, "orchid" )
+                            , ( fuchsia, "fuchsia" )
+                            , ( magenta, "magenta" )
+                            , ( mediumOrchid, "mediumOrchid" )
+                            , ( mediumPurple, "mediumPurple" )
+                            , ( blueViolet, "blueViolet" )
+                            , ( darkViolet, "darkViolet" )
+                            , ( darkOrchid, "darkOrchid" )
+                            , ( darkMagenta, "darkMagenta" )
+                            , ( purple, "purple" )
+                            , ( indigo, "indigo" )
+                            , ( darkSlateBlue, "darkSlateBlue" )
+                            , ( slateBlue, "slateBlue" )
+                            , ( mediumSlateBlue, "mediumSlateBlue" )
+                            ]
+                            cell
                         , Html.h4 [] [ Html.text "Whites" ]
-                        , exampleList [ white, snow, honeydew, mintCream, azure, aliceBlue, ghostWhite, whiteSmoke, seashell, beige, oldLace, floralWhite, ivory, antiqueWhite, linen, lavenderBlush, mistyRose ] cell
+                        , exampleList
+                            [ ( white, "white" )
+                            , ( snow, "snow" )
+                            , ( honeydew, "honeydew" )
+                            , ( mintCream, "mintCream" )
+                            , ( azure, "azure" )
+                            , ( aliceBlue, "aliceBlue" )
+                            , ( ghostWhite, "ghostWhite" )
+                            , ( whiteSmoke, "whiteSmoke" )
+                            , ( seashell, "seashell" )
+                            , ( beige, "beige" )
+                            , ( oldLace, "oldLace" )
+                            , ( floralWhite, "floralWhite" )
+                            , ( ivory, "ivory" )
+                            , ( antiqueWhite, "antiqueWhite" )
+                            , ( linen, "linen" )
+                            , ( lavenderBlush, "lavenderBlush" )
+                            , ( mistyRose, "mistyRose" )
+                            ]
+                            cell
                         , Html.h4 [] [ Html.text "Blacks and Grays" ]
-                        , exampleList [ gainsboro, lightGray, silver, darkGray, gray, dimGray, lightSlateGray, slateGray, darkSlateGray, black ] cell
+                        , exampleList
+                            [ ( gainsboro, "gainsboro" )
+                            , ( lightGray, "lightGray" )
+                            , ( silver, "silver" )
+                            , ( darkGray, "darkGray" )
+                            , ( gray, "gray" )
+                            , ( dimGray, "dimGray" )
+                            , ( lightSlateGray, "lightSlateGray" )
+                            , ( slateGray, "slateGray" )
+                            , ( darkSlateGray, "darkSlateGray" )
+                            , ( black, "black" )
+                            ]
+                            cell
                         ]
                     )
                 ]
@@ -259,8 +421,8 @@ cellsContainer =
     Html.div [ style "margin" "8px" ]
 
 
-cell : Color -> Html msg
-cell color =
+cell : ( Color, String ) -> Html msg
+cell ( color, name ) =
     let
         rgbColor =
             Color.toRGBString color
@@ -270,16 +432,16 @@ cell color =
         , style "justify-content" "center"
         , style "align-items" "flex-start"
         , style "background-color" rgbColor
+        , style "width" "200px"
         ]
         [ Html.span
-            [ style "margin" "8px 40px"
+            [ style "margin" "8px"
             , style "padding" "4px"
             , style "background-color" "white"
             , style "overflow" "scroll"
             , style "text-align" "center"
-            , style "width" "130px"
             ]
-            [ Html.div [] [ Html.text rgbColor ] ]
+            [ Html.div [] [ Html.text name ] ]
         ]
 
 
