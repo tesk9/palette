@@ -57,6 +57,8 @@ in both directions.
     triadic color =
         splitComplementary 120 color
 
+Initial rotation is clamped between 0 and 180.
+
 -}
 splitComplementary : Float -> Color -> ( Color, Color )
 splitComplementary r color =
@@ -86,6 +88,8 @@ we are selecting colors on the color wheel with a rectangle. We can actually def
 We'll rotate the number of degrees passed in along the color wheel to find our first
 color. Then we'll rotate the "length" of the rectangle -- as much as we need to in order
 to make it all the way around.
+
+Initial rotation is clamped between 0 and 180.
 
 -}
 tetratic : Float -> Color -> ( Color, Color, Color )
