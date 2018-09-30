@@ -59,8 +59,14 @@ red, green, and blue are in the color.
 type
     Color
     -- TODO: other models! conversions! as necessary.
-    = HSL Float Float Float
+    = HSL HSLValue
     | RGB Float Float Float
+
+
+{-| Internal representation of HSL used to enforce type safety.
+-}
+type HSLValue
+    = HSLValue Float Float Float
 
 
 {-| Build a new color based on HSL values.
@@ -90,7 +96,7 @@ fromHSL ( hue, s, l ) =
         hue360 =
             toFloat (modBy 360 hueInt)
     in
-    HSL (hue360 + floatingHueValues) (clamp 0 100 s) (clamp 0 100 l)
+    HSL (HSLValue (hue360 + floatingHueValues) (clamp 0 100 s) (clamp 0 100 l))
 
 
 {-| Extract the hue, saturation, and lightness values from an existing Color.
@@ -98,7 +104,7 @@ fromHSL ( hue, s, l ) =
 toHSL : Color -> ( Float, Float, Float )
 toHSL color =
     case color of
-        HSL h s l ->
+        HSL (HSLValue h s l) ->
             ( h, s, l )
 
         RGB r g b ->
@@ -149,8 +155,8 @@ toRGB color =
         RGB r g b ->
             ( r, g, b )
 
-        HSL h s l ->
-            convertHSLToRGB h s l
+        HSL hslValues ->
+            convertHSLToRGB hslValues
                 |> toRGB
 
 
@@ -255,8 +261,8 @@ convertRGBToHSL r255 g255 b255 =
 
 {-| TODO: this is not typesafe. Make typesafe!
 -}
-convertHSLToRGB : Float -> Float -> Float -> Color
-convertHSLToRGB hue360 saturationPercent lightnessPercent =
+convertHSLToRGB : HSLValue -> Color
+convertHSLToRGB (HSLValue hue360 saturationPercent lightnessPercent) =
     let
         saturation =
             saturationPercent / 100
