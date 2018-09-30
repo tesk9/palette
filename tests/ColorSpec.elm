@@ -18,7 +18,7 @@ colorSpec =
             , test "from HSL to HSL" <|
                 \_ ->
                     Color.fromHSL ( -10, 123, -10 )
-                        |> expectHSLValues ( 10, 100, 0 )
+                        |> expectHSLValues ( 350, 100, 0 )
             ]
         , describe "to a String"
             [ test "toRGBString" <|
@@ -61,20 +61,51 @@ colorSpec =
                 \_ ->
                     Color.fromHSL ( 120, 100, 25 )
                         |> expectRGBValues ( 0, 128, 0 )
-            , test "from RGB to HSL and back to RGB again" <|
-                \_ ->
-                    Color.fromRGB ( 0, 89, 255 )
-                        |> Color.toHSL
-                        |> Color.fromHSL
-                        |> expectRGBValues ( 0, 89, 255 )
-            , test "from HSL to RGB and back to HSL again" <|
-                \_ ->
-                    Color.fromHSL ( 3, 4, 5 )
-                        |> Color.toRGB
-                        |> Color.fromRGB
-                        |> expectHSLValues ( 3, 4, 5 )
+            , describe "from RGB to HSL and back to RGB again"
+                (List.indexedMap rgbToHSLToRGB
+                    [ ( 255, 0, 0 )
+                    , ( 255, 165, 0 )
+                    , ( 255, 255, 0 )
+                    , ( 0, 255, 0 )
+                    , ( 0, 0, 255 )
+                    , ( 128, 0, 128 )
+                    ]
+                )
+            , describe "from HSL to RGB and back to HSL again"
+                (List.indexedMap hslToRGBtoHSL
+                    [ ( 0, 100, 50 )
+                    , ( 39, 100, 50 )
+                    , ( 50, 100, 50 )
+                    , ( 110, 100, 50 )
+                    , ( 170, 100, 50 )
+                    , ( 230, 100, 50 )
+                    , ( 260, 100, 50 )
+                    , ( 280, 100, 50 )
+                    ]
+                )
             ]
         ]
+
+
+rgbToHSLToRGB : Int -> ( Float, Float, Float ) -> Test
+rgbToHSLToRGB index (( r, g, b ) as color) =
+    test (String.fromInt index ++ ": " ++ Color.toRGBString (Color.fromRGB color)) <|
+        \_ ->
+            Color.fromRGB color
+                |> Color.toHSL
+                |> Debug.log "should be (39, 100, 50)"
+                |> Color.fromHSL
+                |> expectRGBValues ( round r, round g, round b )
+
+
+hslToRGBtoHSL : Int -> ( Int, Float, Float ) -> Test
+hslToRGBtoHSL index (( h, s, l ) as color) =
+    test (String.fromInt index ++ ": " ++ Color.toHSLString (Color.fromHSL color)) <|
+        \_ ->
+            Color.fromHSL color
+                |> Color.toRGB
+                |> Color.fromRGB
+                |> expectHSLValues ( h, round s, round l )
 
 
 luminanceSuite : Test

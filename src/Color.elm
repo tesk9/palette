@@ -80,7 +80,7 @@ Lightness is a percentage value. It's clamped between 0 and 100 (inclusive).
 -}
 fromHSL : ( Int, Float, Float ) -> Color
 fromHSL ( hue, s, l ) =
-    HSL (abs (remainderBy 360 hue)) (clamp 0 100 s) (clamp 0 100 l)
+    HSL (abs (modBy 360 hue)) (clamp 0 100 s) (clamp 0 100 l)
 
 
 {-| Extract the hue, saturation, and lightness values from an existing Color.
@@ -260,31 +260,30 @@ convertHSLToRGB hue360 saturationPercent lightnessPercent =
         hueIsBetween lowerBound upperBound =
             lowerBound <= hue360 && hue360 <= upperBound
 
-        zigzag xIntercept =
-            if modBy 2 (round (toFloat hue360 / 60)) == 1 then
-                chroma * toFloat (hue360 - xIntercept) / 60
+        zigUp xIntercept =
+            chroma * toFloat (hue360 - xIntercept) / 60
 
-            else
-                -chroma * toFloat (hue360 - xIntercept) / 60
+        zigDown xIntercept =
+            -1 * zigUp xIntercept
 
         ( r, g, b ) =
             if hueIsBetween 0 60 then
-                ( chroma, zigzag 0, 0 )
+                ( chroma, zigUp 0, 0 )
 
             else if hueIsBetween 60 120 then
-                ( zigzag 120, chroma, 0 )
+                ( zigDown 120, chroma, 0 )
 
             else if hueIsBetween 120 180 then
-                ( 0, chroma, zigzag 120 )
+                ( 0, chroma, zigUp 120 )
 
             else if hueIsBetween 180 240 then
-                ( 0, zigzag 240, chroma )
+                ( 0, zigDown 240, chroma )
 
             else if hueIsBetween 240 300 then
-                ( zigzag 240, 0, chroma )
+                ( zigUp 240, 0, chroma )
 
             else
-                ( chroma, 0, zigzag 360 )
+                ( chroma, 0, zigDown 360 )
 
         lightnessModifier =
             lightness - chroma / 2
