@@ -73,6 +73,9 @@ view _ =
                         , Html.h4 [] [ Html.text "Multiply" ]
                         , exampleList (List.map (\color -> ( color, lightSeaGreen )) rainbow)
                             (overlappingSquares Color.Generator.multiply)
+                        , Html.h4 [] [ Html.text "Divide" ]
+                        , exampleList (List.map (\color -> ( color, lightSeaGreen )) rainbow)
+                            (overlappingSquares Color.Generator.divide)
                         ]
                     )
                 ]

@@ -3,7 +3,7 @@ module Color.Generator exposing
     , shade, tint, tone
     , grayscale
     , rotate, adjustLightness
-    , add, subtract, multiply
+    , add, subtract, multiply, divide
     )
 
 {-|
@@ -25,7 +25,7 @@ Generate a palette based on a starting color.
 
 ### Blend
 
-@docs add, subtract, multiply
+@docs add, subtract, multiply, divide
 
 -}
 
@@ -240,6 +240,34 @@ multiply a c =
         ( r1 * r2 / 255
         , g1 * g2 / 255
         , b1 * b2 / 255
+        )
+
+
+{-| Blend two colors together.
+
+Use this function to strip out tones & change them to white.
+
+-}
+divide : Color -> Color -> Color
+divide a c =
+    let
+        ( r1, g1, b1 ) =
+            Color.toRGB a
+
+        ( r2, g2, b2 ) =
+            Color.toRGB c
+
+        safeDivide num denom =
+            if denom == 0 then
+                255
+
+            else
+                255 * (num / denom)
+    in
+    Color.fromRGB
+        ( safeDivide r1 r2
+        , safeDivide g1 g2
+        , safeDivide b1 b2
         )
 
 
