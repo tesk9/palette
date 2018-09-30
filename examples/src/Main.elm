@@ -37,11 +37,11 @@ view _ =
                 , exampleSubsection "Triadic"
                     (exampleList rainbow viewTriadic)
                 , exampleSubsection "Split Complementary"
-                    (exampleList [ 20, 40, 60, 80, 100, 120 ] viewSplitComplementary)
+                    (exampleList colorsWithDegrees viewSplitComplementary)
                 , exampleSubsection "Square"
                     (exampleList rainbow viewSquare)
                 , exampleSubsection "Tetratic"
-                    (exampleList [ 20, 40, 60, 80, 100, 120 ] viewRectangle)
+                    (exampleList colorsWithDegrees viewRectangle)
                 , exampleSubsection "Grayscale"
                     (exampleList rainbow viewGrayscale)
                 ]
@@ -105,14 +105,14 @@ viewTriadic color =
         [ plainCell color, multiCells [ one, two ] ]
 
 
-viewSplitComplementary : Float -> Html msg
-viewSplitComplementary degree =
+viewSplitComplementary : ( Float, Color ) -> Html msg
+viewSplitComplementary ( degree, color ) =
     let
         ( one, two ) =
-            Color.Generator.splitComplementary degree red
+            Color.Generator.splitComplementary degree color
     in
     cellsContainer
-        [ plainCell red, multiCells [ one, two ] ]
+        [ plainCell color, multiCells [ one, two ] ]
 
 
 viewSquare : Color -> Html msg
@@ -125,14 +125,14 @@ viewSquare color =
         [ plainCell color, multiCells [ one, two, three ] ]
 
 
-viewRectangle : Float -> Html msg
-viewRectangle degree =
+viewRectangle : ( Float, Color ) -> Html msg
+viewRectangle ( degree, color ) =
     let
         ( one, two, three ) =
-            Color.Generator.tetratic degree red
+            Color.Generator.tetratic degree color
     in
     cellsContainer
-        [ plainCell red, multiCells [ one, two, three ] ]
+        [ plainCell color, multiCells [ one, two, three ] ]
 
 
 cellsContainer : List (Html msg) -> Html msg
@@ -204,9 +204,14 @@ type alias Msg =
 -- SUPER CONVENIENT COLORS
 
 
+colorsWithDegrees : List ( Float, Color )
+colorsWithDegrees =
+    List.map (\color -> ( 30, color )) rainbow
+
+
 rainbow : List Color
 rainbow =
-    [ red, orange, yellow, green, blue, purple, lavender, aliceBlue, lightSeaGreen, coral, fuschia ]
+    [ red, orange, yellow, green, blue, purple, lightSeaGreen, coral, fuschia, lavender, aliceBlue ]
 
 
 red : Color
