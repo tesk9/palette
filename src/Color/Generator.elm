@@ -3,6 +3,7 @@ module Color.Generator exposing
     , shade, tint, tone
     , grayscale
     , rotate, adjustLightness
+    , adjustSaturation
     )
 
 {-|
@@ -162,15 +163,6 @@ grayscale color =
         |> Color.fromRGB
 
 
-{-| Modify the lightness of a color (see notes on HSL color space).
--}
-adjustLightness : Float -> Color -> Color
-adjustLightness percentage color =
-    Color.toHSL color
-        |> (\( h, s, l ) -> ( h, s, l + percentage ))
-        |> Color.fromHSL
-
-
 {-| Use this function to produce a new shade of the Color.
 Note: shades will be darker than the starting color. If you want a lighter color,
 please see `tint`.
@@ -195,8 +187,31 @@ tint percentage color =
     adjustLightness (abs percentage) color
 
 
-{-| TODO! Tones!
+{-| Use this function to produce a new tone of the Color.
+
+Essentially this means adding grays to the color you pass in. It's implemented,
+though, by adjusting the saturation of the color. You can pass in a positive or
+negative percentage value.
+
 -}
-tone : Color -> Color
-tone color =
-    color
+tone : Float -> Color -> Color
+tone percentage color =
+    adjustSaturation percentage color
+
+
+{-| Modify the saturation of a color (see notes on HSL color space).
+-}
+adjustSaturation : Float -> Color -> Color
+adjustSaturation percentage color =
+    Color.toHSL color
+        |> (\( h, s, l ) -> ( h, s + percentage, l ))
+        |> Color.fromHSL
+
+
+{-| Modify the lightness of a color (see notes on HSL color space).
+-}
+adjustLightness : Float -> Color -> Color
+adjustLightness percentage color =
+    Color.toHSL color
+        |> (\( h, s, l ) -> ( h, s, l + percentage ))
+        |> Color.fromHSL

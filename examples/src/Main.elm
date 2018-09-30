@@ -61,6 +61,8 @@ view _ =
                         , exampleList rainbow viewMonochromaticShades
                         , Html.h4 [] [ Html.text "Tints" ]
                         , exampleList rainbow viewMonochromaticTints
+                        , Html.h4 [] [ Html.text "Tones" ]
+                        , exampleList rainbow viewMonochromaticTones
                         ]
                     )
                 , exampleSubsection "Blending"
@@ -175,7 +177,8 @@ viewMonochromaticShades color =
     cellsContainer
         [ plainCell color
         , multiCells
-            [ Color.Generator.shade 10 color
+            [ color
+            , Color.Generator.shade 10 color
             , Color.Generator.shade 20 color
             , Color.Generator.shade 30 color
             , Color.Generator.shade 40 color
@@ -188,10 +191,28 @@ viewMonochromaticTints color =
     cellsContainer
         [ plainCell color
         , multiCells
-            [ Color.Generator.tint 10 color
+            [ color
+            , Color.Generator.tint 10 color
             , Color.Generator.tint 20 color
             , Color.Generator.tint 30 color
             , Color.Generator.tint 40 color
+            ]
+        ]
+
+
+viewMonochromaticTones : Color -> Html msg
+viewMonochromaticTones color =
+    cellsContainer
+        [ plainCell color
+        , multiCells
+            [ Color.Generator.tone -100 color
+            , Color.Generator.tone -80 color
+            , Color.Generator.tone -60 color
+            , Color.Generator.tone -40 color
+            , Color.Generator.tone -20 color
+            , color
+            , Color.Generator.tone 20 color
+            , Color.Generator.tone 40 color
             ]
         ]
 
