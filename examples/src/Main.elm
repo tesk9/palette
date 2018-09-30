@@ -44,6 +44,8 @@ view _ =
                     (exampleList colorsWithDegrees viewRectangle)
                 , exampleSubsection "Grayscale"
                     (exampleList rainbow viewGrayscale)
+                , exampleSubsection "Monochromatic"
+                    (exampleList rainbow viewMonochromatic)
                 ]
             )
         ]
@@ -133,6 +135,19 @@ viewRectangle ( degree, color ) =
     in
     cellsContainer
         [ plainCell color, multiCells [ one, two, three ] ]
+
+
+viewMonochromatic : Color -> Html msg
+viewMonochromatic color =
+    cellsContainer
+        [ plainCell color
+        , multiCells
+            [ Color.Generator.shade 10 color
+            , Color.Generator.shade 20 color
+            , Color.Generator.shade 30 color
+            , Color.Generator.shade 40 color
+            ]
+        ]
 
 
 cellsContainer : List (Html msg) -> Html msg

@@ -132,7 +132,7 @@ grayscale color =
 adjustLightness : Float -> Color -> Color
 adjustLightness percentage color =
     Color.toHSL color
-        |> (\( h, s, l ) -> ( h, s, l - percentage ))
+        |> (\( h, s, l ) -> ( h, s, l + percentage ))
         |> Color.fromHSL
 
 
@@ -158,9 +158,9 @@ multiply a c =
 Note: shades will be darker than the starting color. If you want a lighter color,
 please see `tint`.
 -}
-shade : Color -> Color
-shade color =
-    color
+shade : Float -> Color -> Color
+shade percentage color =
+    adjustLightness (0 - percentage) color
 
 
 {-| Use this function to produce a new tint of the Color.
