@@ -7,6 +7,5 @@ I'm interested in exploring generative accessible palettes, in addition to playi
 
 ### Maybe TODOs
 
-- Add X11 colors https://en.wikipedia.org/wiki/Web_colors#X11_color_names
 - What other common web palettes would be helpful to have available? are there others?
 - Transparency -- rgba and hsla. worth adding?
