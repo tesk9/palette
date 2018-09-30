@@ -60,13 +60,19 @@ type
     Color
     -- TODO: other models! conversions! as necessary.
     = HSL HSLValue
-    | RGB Float Float Float
+    | RGB RGBValue
 
 
 {-| Internal representation of HSL used to enforce type safety.
 -}
 type HSLValue
     = HSLValue Float Float Float
+
+
+{-| Internal representation of RGB used to enforce type safety.
+-}
+type RGBValue
+    = RGBValue Float Float Float
 
 
 {-| Build a new color based on HSL values.
@@ -107,8 +113,8 @@ toHSL color =
         HSL (HSLValue h s l) ->
             ( h, s, l )
 
-        RGB r g b ->
-            convertRGBToHSL r g b
+        RGB rgbValues ->
+            convertRGBToHSL rgbValues
                 |> toHSL
 
 
@@ -144,7 +150,7 @@ This function clamps each rgb value between 0 and 255 (inclusive).
 -}
 fromRGB : ( Float, Float, Float ) -> Color
 fromRGB ( r, g, b ) =
-    RGB (clamp 0 255 r) (clamp 0 255 g) (clamp 0 255 b)
+    RGB (RGBValue (clamp 0 255 r) (clamp 0 255 g) (clamp 0 255 b))
 
 
 {-| Extract the red, green, blue values from an existing Color.
@@ -152,7 +158,7 @@ fromRGB ( r, g, b ) =
 toRGB : Color -> ( Float, Float, Float )
 toRGB color =
     case color of
-        RGB r g b ->
+        RGB (RGBValue r g b) ->
             ( r, g, b )
 
         HSL hslValues ->
@@ -211,10 +217,9 @@ luminance color =
 -- CONVERSIONS
 
 
-{-| TODO: this is not typesafe. Make typesafe!
--}
-convertRGBToHSL : Float -> Float -> Float -> Color
-convertRGBToHSL r255 g255 b255 =
+{-| -}
+convertRGBToHSL : RGBValue -> Color
+convertRGBToHSL (RGBValue r255 g255 b255) =
     let
         ( r, g, b ) =
             ( r255 / 255, g255 / 255, b255 / 255 )
