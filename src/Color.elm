@@ -59,7 +59,7 @@ red, green, and blue are in the color.
 type
     Color
     -- TODO: other models! conversions! as necessary.
-    = HSL Int Float Float
+    = HSL Float Float Float
     | RGB Float Float Float
 
 
@@ -78,14 +78,24 @@ Saturation is a percentage value. It's clamped between 0 and 100 (inclusive).
 Lightness is a percentage value. It's clamped between 0 and 100 (inclusive).
 
 -}
-fromHSL : ( Int, Float, Float ) -> Color
+fromHSL : ( Float, Float, Float ) -> Color
 fromHSL ( hue, s, l ) =
-    HSL (abs (modBy 360 hue)) (clamp 0 100 s) (clamp 0 100 l)
+    let
+        hueInt =
+            floor hue
+
+        floatingHueValues =
+            hue - toFloat hueInt
+
+        hue360 =
+            toFloat (modBy 360 hueInt)
+    in
+    HSL (hue360 + floatingHueValues) (clamp 0 100 s) (clamp 0 100 l)
 
 
 {-| Extract the hue, saturation, and lightness values from an existing Color.
 -}
-toHSL : Color -> ( Int, Float, Float )
+toHSL : Color -> ( Float, Float, Float )
 toHSL color =
     case color of
         HSL h s l ->
@@ -104,7 +114,7 @@ toHSLString color =
         ( h, s, l ) =
             toHSL color
     in
-    "hsl(" ++ String.fromInt h ++ "," ++ String.fromFloat s ++ "%," ++ String.fromFloat l ++ "%)"
+    "hsl(" ++ String.fromFloat h ++ "," ++ String.fromFloat s ++ "%," ++ String.fromFloat l ++ "%)"
 
 
 {-| Build a new color based on RGB values.
@@ -237,7 +247,7 @@ convertRGBToHSL r255 g255 b255 =
                 chroma / (1 - abs (2 * lightness - 1))
     in
     fromHSL
-        ( round hue
+        ( hue
         , saturation * 100
         , lightness * 100
         )
@@ -245,7 +255,7 @@ convertRGBToHSL r255 g255 b255 =
 
 {-| TODO: this is not typesafe. Make typesafe!
 -}
-convertHSLToRGB : Int -> Float -> Float -> Color
+convertHSLToRGB : Float -> Float -> Float -> Color
 convertHSLToRGB hue360 saturationPercent lightnessPercent =
     let
         saturation =
@@ -261,7 +271,7 @@ convertHSLToRGB hue360 saturationPercent lightnessPercent =
             lowerBound <= hue360 && hue360 <= upperBound
 
         zigUp xIntercept =
-            chroma * toFloat (hue360 - xIntercept) / 60
+            chroma * (hue360 - xIntercept) / 60
 
         zigDown xIntercept =
             -1 * zigUp xIntercept

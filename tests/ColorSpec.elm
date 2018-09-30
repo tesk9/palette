@@ -93,19 +93,18 @@ rgbToHSLToRGB index (( r, g, b ) as color) =
         \_ ->
             Color.fromRGB color
                 |> Color.toHSL
-                |> Debug.log "should be (39, 100, 50)"
                 |> Color.fromHSL
                 |> expectRGBValues ( round r, round g, round b )
 
 
-hslToRGBtoHSL : Int -> ( Int, Float, Float ) -> Test
+hslToRGBtoHSL : Int -> ( Float, Float, Float ) -> Test
 hslToRGBtoHSL index (( h, s, l ) as color) =
     test (String.fromInt index ++ ": " ++ Color.toHSLString (Color.fromHSL color)) <|
         \_ ->
             Color.fromHSL color
                 |> Color.toRGB
                 |> Color.fromRGB
-                |> expectHSLValues ( h, round s, round l )
+                |> expectHSLValues ( round h, round s, round l )
 
 
 luminanceSuite : Test
@@ -153,4 +152,4 @@ expectHSLValues expected color =
         ( r, g, b ) =
             Color.toHSL color
     in
-    Expect.equal ( r, round g, round b ) expected
+    Expect.equal ( round r, round g, round b ) expected
