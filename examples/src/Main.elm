@@ -37,16 +37,26 @@ view _ =
                 , exampleSubsection "Triadic"
                     (exampleList rainbow viewTriadic)
                 , exampleSubsection "Split Complementary"
-                    (exampleList colorsWithDegrees viewSplitComplementary)
+                    (exampleList (List.map (\color -> ( 30, color )) rainbow)
+                        viewSplitComplementary
+                    )
                 , exampleSubsection "Square"
                     (exampleList rainbow viewSquare)
                 , exampleSubsection "Tetratic"
-                    (exampleList colorsWithDegrees viewRectangle)
+                    (exampleList (List.map (\color -> ( 30, color )) rainbow)
+                        viewRectangle
+                    )
                 , exampleSubsection "Grayscale"
                     (exampleList rainbow viewGrayscale)
                 , exampleSubsection "Monochromatic"
                     (Html.div []
-                        [ Html.h4 [] [ Html.text "Shades" ]
+                        [ Html.h4 [] [ Html.text "Monochromatic Palette" ]
+                        , exampleList (List.map (\color -> ( 10, color )) rainbow)
+                            viewMonochromaticGenerator
+                        , exampleList
+                            (List.map (\stepSize -> ( toFloat stepSize * 5, black )) (List.range 1 11))
+                            viewMonochromaticGenerator
+                        , Html.h4 [] [ Html.text "Shades" ]
                         , exampleList rainbow viewMonochromaticShades
                         , Html.h4 [] [ Html.text "Tints" ]
                         , exampleList rainbow viewMonochromaticTints
@@ -169,6 +179,14 @@ viewMonochromaticTints color =
         ]
 
 
+viewMonochromaticGenerator : ( Float, Color ) -> Html msg
+viewMonochromaticGenerator ( stepSize, color ) =
+    cellsContainer
+        [ plainCell color
+        , multiCells (Color.Generator.monochromatic stepSize color)
+        ]
+
+
 cellsContainer : List (Html msg) -> Html msg
 cellsContainer =
     Html.div [ style "margin" "8px" ]
@@ -238,11 +256,6 @@ type alias Msg =
 -- SUPER CONVENIENT COLORS
 
 
-colorsWithDegrees : List ( Float, Color )
-colorsWithDegrees =
-    List.map (\color -> ( 30, color )) rainbow
-
-
 rainbow : List Color
 rainbow =
     [ red, orange, yellow, green, blue, purple, lightSeaGreen, coral, fuschia, lavender, aliceBlue ]
@@ -301,3 +314,8 @@ coral =
 fuschia : Color
 fuschia =
     Color.fromRGB ( 233, 30, 99 )
+
+
+black : Color
+black =
+    Color.fromRGB ( 0, 0, 0 )

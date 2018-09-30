@@ -1,5 +1,5 @@
 module Color.Generator exposing
-    ( complementary, triadic, splitComplementary, square, tetratic
+    ( complementary, triadic, splitComplementary, square, tetratic, monochromatic
     , shade, tint, tone
     , grayscale
     , rotate, multiply, adjustLightness
@@ -12,7 +12,7 @@ module Color.Generator exposing
 
 Generate a palette based on a starting color.
 
-@docs complementary, triadic, splitComplementary, square, tetratic
+@docs complementary, triadic, splitComplementary, square, tetratic, monochromatic
 
 
 ## Modify a Color
@@ -112,6 +112,41 @@ tetratic w color =
             (360 - 2 * width) / 2
     in
     ( rotate width color, rotate (width + length) color, rotate (2 * width + length) color )
+
+
+{-| Create a monochromatic palette. The `Float` argument is size of the Lightness
+steps that you'd like in the palette.
+
+If you wanted a grayscale palette, and you wanted it to have five colors, you could do
+something like this:
+
+    grayscalePalette =
+        monochromatic 20 black
+
+Colors will be arranged from darkest to lightest.
+
+-}
+monochromatic : Float -> Color -> List Color
+monochromatic stepSize color =
+    let
+        getNextStep adjustment lastColor colors =
+            let
+                nextLightness =
+                    Color.toHSL lastColor
+                        |> (\( _, _, lightness ) -> lightness + adjustment)
+            in
+            if nextLightness <= 0 || nextLightness >= 100 then
+                lastColor :: colors
+
+            else
+                getNextStep adjustment (adjustLightness adjustment lastColor) (lastColor :: colors)
+    in
+    case List.reverse (getNextStep stepSize color []) of
+        startingColor :: tints ->
+            getNextStep (0 - stepSize) color [] ++ tints
+
+        [] ->
+            []
 
 
 {-| Convert the color you pass in to a grayscale version. Essentially this uses the
