@@ -3,7 +3,6 @@ module Color.Generator exposing
     , shade, tint, tone
     , grayscale
     , rotate, adjustLightness
-    , add, subtract, multiply, divide
     )
 
 {-|
@@ -21,11 +20,6 @@ Generate a palette based on a starting color.
 @docs shade, tint, tone
 @docs grayscale
 @docs rotate, adjustLightness
-
-
-### Blend
-
-@docs add, subtract, multiply, divide
 
 -}
 
@@ -175,100 +169,6 @@ adjustLightness percentage color =
     Color.toHSL color
         |> (\( h, s, l ) -> ( h, s, l + percentage ))
         |> Color.fromHSL
-
-
-{-| Blends two colors together by adding the values in each channel.
-
-That is, rgb(10, 20, 30) + rgb(10, 10, 10) = rgb(20, 30, 40).
-
--}
-add : Color -> Color -> Color
-add a c =
-    let
-        ( r1, g1, b1 ) =
-            Color.toRGB a
-
-        ( r2, g2, b2 ) =
-            Color.toRGB c
-    in
-    Color.fromRGB
-        ( r1 + r2
-        , g1 + g2
-        , b1 + b2
-        )
-
-
-{-| Blends two colors together by subtracting the second color's channel values from
-the first color's channel values.
-
-That is, rgb(10, 20, 30) - rgb(10, 10, 10) = rgb(0, 10, 20).
-
--}
-subtract : Color -> Color -> Color
-subtract a c =
-    let
-        ( r1, g1, b1 ) =
-            Color.toRGB a
-
-        ( r2, g2, b2 ) =
-            Color.toRGB c
-    in
-    Color.fromRGB
-        ( r1 - r2
-        , g1 - g2
-        , b1 - b2
-        )
-
-
-{-| Blend two colors together.
-
-Any color multiplied by black will result in black.
-Any color multiplied by white will result in the color.
-rgb(255, 0, 0) will keep reds and remove any greens and blues.
-
--}
-multiply : Color -> Color -> Color
-multiply a c =
-    let
-        ( r1, g1, b1 ) =
-            Color.toRGB a
-
-        ( r2, g2, b2 ) =
-            Color.toRGB c
-    in
-    Color.fromRGB
-        ( r1 * r2 / 255
-        , g1 * g2 / 255
-        , b1 * b2 / 255
-        )
-
-
-{-| Blend two colors together.
-
-Use this function to strip out tones & change them to white.
-
--}
-divide : Color -> Color -> Color
-divide a c =
-    let
-        ( r1, g1, b1 ) =
-            Color.toRGB a
-
-        ( r2, g2, b2 ) =
-            Color.toRGB c
-
-        safeDivide num denom =
-            if denom == 0 then
-                255
-
-            else
-                255 * (num / denom)
-    in
-    Color.fromRGB
-        ( safeDivide r1 r2
-        , safeDivide g1 g2
-        , safeDivide b1 b2
-        )
 
 
 {-| Use this function to produce a new shade of the Color.

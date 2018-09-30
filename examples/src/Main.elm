@@ -2,6 +2,7 @@ module Main exposing (main)
 
 import Browser
 import Color exposing (Color)
+import Color.Blend
 import Color.Contrast
 import Color.Generator
 import Html exposing (Html)
@@ -66,16 +67,16 @@ view _ =
                     (Html.div []
                         [ Html.h4 [] [ Html.text "Add" ]
                         , exampleList (List.map (\color -> ( color, lightSeaGreen )) rainbow)
-                            (overlappingSquares Color.Generator.add)
+                            (overlappingSquares Color.Blend.add)
                         , Html.h4 [] [ Html.text "Subtract" ]
                         , exampleList (List.map (\color -> ( color, lightSeaGreen )) rainbow)
-                            (overlappingSquares Color.Generator.subtract)
+                            (overlappingSquares Color.Blend.subtract)
                         , Html.h4 [] [ Html.text "Multiply" ]
                         , exampleList (List.map (\color -> ( color, lightSeaGreen )) rainbow)
-                            (overlappingSquares Color.Generator.multiply)
+                            (overlappingSquares Color.Blend.multiply)
                         , Html.h4 [] [ Html.text "Divide" ]
                         , exampleList (List.map (\color -> ( color, lightSeaGreen )) rainbow)
-                            (overlappingSquares Color.Generator.divide)
+                            (overlappingSquares Color.Blend.divide)
                         ]
                     )
                 ]
