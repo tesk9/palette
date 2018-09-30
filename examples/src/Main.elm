@@ -65,7 +65,7 @@ view _ =
                 , exampleSubsection "Blending"
                     (Html.div []
                         [ Html.h4 [] [ Html.text "Multiply" ]
-                        , exampleList [ ( red, green ), ( black, blue ) ]
+                        , exampleList (List.map (\color -> ( color, lightSeaGreen )) rainbow)
                             (overlappingSquares Color.Generator.multiply)
                         ]
                     )
@@ -357,3 +357,8 @@ fuschia =
 black : Color
 black =
     Color.fromRGB ( 0, 0, 0 )
+
+
+white : Color
+white =
+    Color.fromRGB ( 255, 255, 255 )
