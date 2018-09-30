@@ -426,6 +426,12 @@ cell ( color, name ) =
     let
         rgbColor =
             Color.toRGBString color
+
+        highContrastColor =
+            Color.Generator.complementary color
+                |> Color.Generator.adjustSaturation 100
+                |> Color.Generator.invertLightnessFrom color
+                |> Color.toRGBString
     in
     Html.div
         [ style "display" "flex"
@@ -437,9 +443,9 @@ cell ( color, name ) =
         [ Html.span
             [ style "margin" "8px"
             , style "padding" "4px"
-            , style "background-color" "white"
             , style "overflow" "scroll"
             , style "text-align" "center"
+            , style "color" highContrastColor
             ]
             [ Html.div [] [ Html.text name ] ]
         ]

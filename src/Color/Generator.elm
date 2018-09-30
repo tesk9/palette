@@ -2,8 +2,8 @@ module Color.Generator exposing
     ( complementary, triadic, splitComplementary, square, tetratic, monochromatic
     , shade, tint, tone
     , grayscale
-    , rotate, adjustLightness
-    , adjustSaturation
+    , rotate, adjustSaturation
+    , invertLightnessFrom, adjustLightness
     )
 
 {-|
@@ -20,7 +20,8 @@ Generate a palette based on a starting color.
 
 @docs shade, tint, tone
 @docs grayscale
-@docs rotate, adjustLightness
+@docs rotate, adjustSaturation
+@docs invertLightnessFrom, adjustLightness
 
 -}
 
@@ -214,4 +215,17 @@ adjustLightness : Float -> Color -> Color
 adjustLightness percentage color =
     Color.toHSL color
         |> (\( h, s, l ) -> ( h, s, l + percentage ))
+        |> Color.fromHSL
+
+
+{-| Modify the lightness of a color (see notes on HSL color space).
+-}
+invertLightnessFrom : Color -> Color -> Color
+invertLightnessFrom base color =
+    let
+        ( _, _, baseLightness ) =
+            Color.toHSL base
+    in
+    Color.toHSL color
+        |> (\( h, s, l ) -> ( h, s, 100 - baseLightness ))
         |> Color.fromHSL
