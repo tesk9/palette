@@ -213,7 +213,8 @@ tint percentage color =
     adjustLightness (abs percentage) color
 
 
-{-| -}
+{-| TODO! Tones!
+-}
 tone : Color -> Color
 tone color =
     color

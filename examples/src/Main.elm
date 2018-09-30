@@ -62,6 +62,13 @@ view _ =
                         , exampleList rainbow viewMonochromaticTints
                         ]
                     )
+                , exampleSubsection "Blending"
+                    (Html.div []
+                        [ Html.h4 [] [ Html.text "Multiply" ]
+                        , exampleList [ ( red, green ), ( black, blue ) ]
+                            (overlappingSquares Color.Generator.multiply)
+                        ]
+                    )
                 ]
             )
         ]
@@ -246,6 +253,37 @@ multiCells colors =
         , style "align-items" "flex-start"
         ]
         (List.map (\color -> miniCell (Color.toRGBString color)) colors)
+
+
+overlappingSquares : (Color -> Color -> Color) -> ( Color, Color ) -> Html msg
+overlappingSquares blend ( a, b ) =
+    Html.div
+        [ style "width" "100px"
+        , style "height" "100px"
+        , style "background-color" (Color.toRGBString a)
+        , style "position" "relative"
+        , style "margin-right" "70px"
+        , style "margin-bottom" "70px"
+        ]
+        [ Html.div
+            [ style "width" "100px"
+            , style "height" "100px"
+            , style "background-color" (Color.toRGBString b)
+            , style "position" "relative"
+            , style "top" "40%"
+            , style "left" "40%"
+            ]
+            [ Html.div
+                [ style "width" "60px"
+                , style "height" "60px"
+                , style "background-color" (Color.toRGBString (Color.Generator.multiply a b))
+                , style "position" "relative"
+                , style "top" "0"
+                , style "left" "0"
+                ]
+                []
+            ]
+        ]
 
 
 type alias Msg =
