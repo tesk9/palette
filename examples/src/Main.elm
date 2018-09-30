@@ -36,6 +36,10 @@ view _ =
                     (exampleList rainbow viewComplementary)
                 , exampleSubsection "Triadic"
                     (exampleList rainbow viewTriadic)
+                , exampleSubsection "Square"
+                    (exampleList rainbow viewSquare)
+                , exampleSubsection "Tetratic"
+                    (exampleList [ 20, 40, 60, 80, 100, 120 ] viewRectangle)
                 , exampleSubsection "Grayscale"
                     (exampleList rainbow viewGrayscale)
                 ]
@@ -73,22 +77,54 @@ exampleList examples viewExample =
 
 viewContrast : ( Color, Color ) -> Html msg
 viewContrast ( a, b ) =
-    Html.div [] [ cell a, cell b ]
+    cellsContainer [ plainCell a, plainCell b ]
 
 
 viewGrayscale : Color -> Html msg
 viewGrayscale color =
-    Html.div [] [ cell color, cell (Color.Generator.grayscale color) ]
+    cellsContainer
+        [ plainCell color, plainCell (Color.Generator.grayscale color) ]
 
 
 viewComplementary : Color -> Html msg
 viewComplementary color =
-    Html.div [] [ cell color, cell (Color.Generator.complementary color) ]
+    cellsContainer
+        [ plainCell color, plainCell (Color.Generator.complementary color) ]
 
 
 viewTriadic : Color -> Html msg
 viewTriadic color =
-    Html.div [] [ cell color, doubleCell (Color.Generator.triadic color) ]
+    let
+        ( one, two ) =
+            Color.Generator.triadic color
+    in
+    cellsContainer
+        [ plainCell color, multiCells [ one, two ] ]
+
+
+viewSquare : Color -> Html msg
+viewSquare color =
+    let
+        ( one, two, three ) =
+            Color.Generator.square color
+    in
+    cellsContainer
+        [ plainCell color, multiCells [ one, two, three ] ]
+
+
+viewRectangle : Float -> Html msg
+viewRectangle degree =
+    let
+        ( one, two, three ) =
+            Color.Generator.tetratic degree red
+    in
+    cellsContainer
+        [ plainCell red, multiCells [ one, two, three ] ]
+
+
+cellsContainer : List (Html msg) -> Html msg
+cellsContainer =
+    Html.div [ style "margin" "8px" ]
 
 
 cell : Color -> Html msg
@@ -104,7 +140,7 @@ cell color =
         , style "background-color" rgbColor
         ]
         [ Html.span
-            [ style "margin" "8px 20px 20px"
+            [ style "margin" "8px 20px 30px"
             , style "padding" "4px"
             , style "background-color" "white"
             , style "overflow" "scroll"
@@ -118,8 +154,18 @@ cell color =
         ]
 
 
-doubleCell : ( Color, Color ) -> Html msg
-doubleCell ( one, two ) =
+plainCell : Color -> Html msg
+plainCell color =
+    Html.div
+        [ style "background-color" (Color.toRGBString color)
+        , style "height" "50px"
+        , style "width" "100px"
+        ]
+        []
+
+
+multiCells : List Color -> Html msg
+multiCells colors =
     let
         miniCell color =
             Html.span
@@ -134,9 +180,7 @@ doubleCell ( one, two ) =
         , style "justify-content" "center"
         , style "align-items" "flex-start"
         ]
-        [ miniCell (Color.toRGBString one)
-        , miniCell (Color.toRGBString two)
-        ]
+        (List.map (\color -> miniCell (Color.toRGBString color)) colors)
 
 
 type alias Msg =

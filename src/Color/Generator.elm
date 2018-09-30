@@ -1,13 +1,14 @@
 module Color.Generator exposing
-    ( complementary, grayscale
+    ( complementary, triadic, square, tetratic
+    , grayscale
     , rotate
-    , triadic
     )
 
 {-|
 
-@docs complementary, grayscale
+@docs complementary, triadic, square, tetratic
 
+@docs grayscale
 @docs rotate
 
 -}
@@ -46,6 +47,39 @@ mostly use one of the three colors and only use the other two for accents.
 triadic : Color -> ( Color, Color )
 triadic color =
     ( rotate 120 color, rotate 240 color )
+
+
+{-| Find four equally-spaced colors along the color wheel starting from the passed-in color.
+-}
+square : Color -> ( Color, Color, Color )
+square color =
+    tetratic 60 color
+
+
+{-| Find four colors along the color wheel starting from the passed-in color.
+
+This differs from the `square` helper in that our values aren't equally spaced --
+we are selecting colors on the color wheel with a rectangle. We can actually define
+`square` in terms of this function as follows:
+
+    square color =
+        tetratic 60 color
+
+We'll rotate the number of degrees passed in along the color wheel to find our first
+color. Then we'll rotate the "length" of the rectangle -- as much as we need to in order
+to make it all the way around.
+
+-}
+tetratic : Float -> Color -> ( Color, Color, Color )
+tetratic w color =
+    let
+        width =
+            clamp 0 180 w
+
+        length =
+            (360 - 2 * width) / 2
+    in
+    ( rotate width color, rotate (width + length) color, rotate (2 * width + length) color )
 
 
 {-| Convert the color you pass in to a grayscale version. Essentially this uses the
