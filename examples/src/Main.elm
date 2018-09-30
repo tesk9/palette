@@ -7,21 +7,7 @@ import Color.Contrast
 import Color.Generator
 import Html exposing (Html)
 import Html.Attributes exposing (style)
-import Palette.X11
-    exposing
-        ( aliceBlue
-        , black
-        , blue
-        , coral
-        , green
-        , hotPink
-        , lavender
-        , lightSeaGreen
-        , orange
-        , purple
-        , red
-        , yellow
-        )
+import Palette.X11 exposing (..)
 import Platform
 
 
@@ -42,8 +28,6 @@ view : Model -> Html msg
 view _ =
     Html.main_ []
         [ Html.h1 [] [ Html.text "Examples" ]
-        , exampleSection "Colors"
-            (exampleList rainbow cell)
         , exampleSection "Contrast checks"
             (exampleList [ ( red, yellow ) ] viewContrast)
         , exampleSection "Color Schemes"
@@ -94,6 +78,36 @@ view _ =
                         , Html.h4 [] [ Html.text "Divide" ]
                         , exampleList (List.map (\color -> ( color, lightSeaGreen )) rainbow)
                             (overlappingSquares Color.Blend.divide)
+                        ]
+                    )
+                ]
+            )
+        , exampleSection "Palette"
+            (Html.div []
+                [ exampleSubsection "X11"
+                    (Html.div []
+                        [ Html.h4 [] [ Html.text "Pinks" ]
+                        , exampleList [ pink, lightPink, hotPink, deepPink, paleVioletRed, mediumVioletRed ] cell
+                        , Html.h4 [] [ Html.text "Reds" ]
+                        , exampleList [ lightSalmon, salmon, darkSalmon, lightCoral, indianRed, crimson, firebrick, darkRed, red ] cell
+                        , Html.h4 [] [ Html.text "Orange-Reds" ]
+                        , exampleList [ orangeRed, tomato, coral, darkOrange, orange ] cell
+                        , Html.h4 [] [ Html.text "Yellows" ]
+                        , exampleList [ yellow, lightYellow, lemonChiffon, lightGoldenrodYellow, papayaWhip, moccasin, peachPuff, paleGoldenrod, khaki, darkKhaki, gold ] cell
+                        , Html.h4 [] [ Html.text "Browns" ]
+                        , exampleList [ cornsilk, blanchedAlmond, bisque, navajoWhite, wheat, burlywood, Palette.X11.tan, rosyBrown, sandyBrown, goldenrod, darkGoldenrod, peru, chocolate, saddleBrown, sienna, brown, maroon ] cell
+                        , Html.h4 [] [ Html.text "Greens" ]
+                        , exampleList [ darkOliveGreen, olive, oliveDrab, yellowGreen, limeGreen, lime, lawnGreen, chartreuse, greenYellow, springGreen, mediumSpringGreen, lightGreen, paleGreen, darkSeaGreen, mediumAquamarine, mediumSeaGreen, seaGreen, forestGreen, green, darkGreen ] cell
+                        , Html.h4 [] [ Html.text "Cyans" ]
+                        , exampleList [ aqua, cyan, lightCyan, paleTurquoise, aquamarine, turquoise, mediumTurquoise, darkTurquoise, lightSeaGreen, cadetBlue, darkCyan, teal ] cell
+                        , Html.h4 [] [ Html.text "Blues" ]
+                        , exampleList [ lightSteelBlue, powderBlue, lightBlue, skyBlue, lightSkyBlue, deepSkyBlue, dodgerBlue, cornflowerBlue, steelBlue, royalBlue, blue, mediumBlue, darkBlue, navy, midnightBlue ] cell
+                        , Html.h4 [] [ Html.text "Purples" ]
+                        , exampleList [ lavender, thistle, plum, violet, orchid, fuchsia, magenta, mediumOrchid, mediumPurple, blueViolet, darkViolet, darkOrchid, darkMagenta, purple, indigo, darkSlateBlue, slateBlue, mediumSlateBlue ] cell
+                        , Html.h4 [] [ Html.text "Whites" ]
+                        , exampleList [ white, snow, honeydew, mintCream, azure, aliceBlue, ghostWhite, whiteSmoke, seashell, beige, oldLace, floralWhite, ivory, antiqueWhite, linen, lavenderBlush, mistyRose ] cell
+                        , Html.h4 [] [ Html.text "Blacks and Grays" ]
+                        , exampleList [ gainsboro, lightGray, silver, darkGray, gray, dimGray, lightSlateGray, slateGray, darkSlateGray, black ] cell
                         ]
                     )
                 ]
