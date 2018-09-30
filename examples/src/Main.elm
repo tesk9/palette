@@ -70,6 +70,7 @@ exampleList examples viewExample =
     Html.ul
         [ style "list-style" "none"
         , style "display" "flex"
+        , style "flex-wrap" "wrap"
         ]
         (List.map
             (\example -> Html.li [] [ viewExample example ])
@@ -205,7 +206,7 @@ type alias Msg =
 
 rainbow : List Color
 rainbow =
-    [ red, orange, yellow, green, blue, purple ]
+    [ red, orange, yellow, green, blue, purple, lavender, aliceBlue, lightSeaGreen, coral, fuschia ]
 
 
 red : Color
@@ -236,3 +237,28 @@ blue =
 purple : Color
 purple =
     Color.fromRGB ( 128, 0, 128 )
+
+
+lavender : Color
+lavender =
+    Color.fromRGB ( 230, 230, 250 )
+
+
+aliceBlue : Color
+aliceBlue =
+    Color.fromRGB ( 240, 248, 255 )
+
+
+lightSeaGreen : Color
+lightSeaGreen =
+    Color.fromRGB ( 32, 178, 170 )
+
+
+coral : Color
+coral =
+    Color.fromRGB ( 255, 127, 80 )
+
+
+fuschia : Color
+fuschia =
+    Color.fromRGB ( 233, 30, 99 )
