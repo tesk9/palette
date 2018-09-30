@@ -1,12 +1,12 @@
 module Color.Generator exposing
-    ( complementary, triadic, square, tetratic
+    ( complementary, triadic, splitComplementary, square, tetratic
     , grayscale
     , rotate
     )
 
 {-|
 
-@docs complementary, triadic, square, tetratic
+@docs complementary, triadic, splitComplementary, square, tetratic
 
 @docs grayscale
 @docs rotate
@@ -46,7 +46,25 @@ mostly use one of the three colors and only use the other two for accents.
 -}
 triadic : Color -> ( Color, Color )
 triadic color =
-    ( rotate 120 color, rotate 240 color )
+    splitComplementary 120 color
+
+
+{-| Build a three-color scheme by rotating the same amount from the initial color
+in both directions.
+
+`triadic`, the evenly-spaced 3-color scheme, can be defined in terms of this function:
+
+    triadic color =
+        splitComplementary 120 color
+
+-}
+splitComplementary : Float -> Color -> ( Color, Color )
+splitComplementary r color =
+    let
+        rotation =
+            clamp 0 180 r
+    in
+    ( rotate rotation color, rotate (0 - rotation) color )
 
 
 {-| Find four equally-spaced colors along the color wheel starting from the passed-in color.

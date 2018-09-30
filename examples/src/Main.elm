@@ -36,6 +36,8 @@ view _ =
                     (exampleList rainbow viewComplementary)
                 , exampleSubsection "Triadic"
                     (exampleList rainbow viewTriadic)
+                , exampleSubsection "Split Complementary"
+                    (exampleList [ 20, 40, 60, 80, 100, 120 ] viewSplitComplementary)
                 , exampleSubsection "Square"
                     (exampleList rainbow viewSquare)
                 , exampleSubsection "Tetratic"
@@ -100,6 +102,16 @@ viewTriadic color =
     in
     cellsContainer
         [ plainCell color, multiCells [ one, two ] ]
+
+
+viewSplitComplementary : Float -> Html msg
+viewSplitComplementary degree =
+    let
+        ( one, two ) =
+            Color.Generator.splitComplementary degree red
+    in
+    cellsContainer
+        [ plainCell red, multiCells [ one, two ] ]
 
 
 viewSquare : Color -> Html msg
