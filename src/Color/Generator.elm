@@ -170,8 +170,9 @@ grayscale color =
 -}
 highestContrast : Color -> Color
 highestContrast color =
-    -- TODO
-    color
+    complementary color
+        |> adjustSaturation 100
+        |> invertLightnessFrom color
 
 
 {-| Use this function to produce a new shade of the Color.
