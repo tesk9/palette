@@ -1,5 +1,6 @@
 module Color.Generator exposing
     ( complementary, triadic, splitComplementary, square, tetratic, monochromatic
+    , highestContrast
     , shade, tint, tone
     , grayscale
     , rotate, adjustSaturation
@@ -14,6 +15,7 @@ module Color.Generator exposing
 Generate a palette based on a starting color.
 
 @docs complementary, triadic, splitComplementary, square, tetratic, monochromatic
+@docs highestContrast
 
 
 ## Modify a Color
@@ -162,6 +164,14 @@ grayscale color =
     in
     ( fromLuminance, fromLuminance, fromLuminance )
         |> Color.fromRGB
+
+
+{-| Find the highest contrast color to use in concert with the passed-in color.
+-}
+highestContrast : Color -> Color
+highestContrast color =
+    -- TODO
+    color
 
 
 {-| Use this function to produce a new shade of the Color.
