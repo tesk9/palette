@@ -1,10 +1,10 @@
 module Color.Generator exposing
     ( complementary, triadic, splitComplementary, square, tetratic, monochromatic
-    , highestContrast
+    , highContrast
     , shade, tint, tone
     , grayscale
     , rotate, adjustSaturation
-    , invertLightnessFrom, adjustLightness
+    , adjustLightness
     )
 
 {-|
@@ -15,7 +15,7 @@ module Color.Generator exposing
 Generate a palette based on a starting color.
 
 @docs complementary, triadic, splitComplementary, square, tetratic, monochromatic
-@docs highestContrast
+@docs highContrast
 
 
 ## Modify a Color
@@ -23,7 +23,7 @@ Generate a palette based on a starting color.
 @docs shade, tint, tone
 @docs grayscale
 @docs rotate, adjustSaturation
-@docs invertLightnessFrom, adjustLightness
+@docs adjustLightness
 
 -}
 
@@ -167,12 +167,17 @@ grayscale color =
 
 
 {-| Find the highest contrast color to use in concert with the passed-in color.
+
+<http://www.worqx.com/color/itten.htm>
+
 -}
-highestContrast : Color -> Color
-highestContrast color =
-    complementary color
-        |> adjustSaturation 100
-        |> invertLightnessFrom color
+highContrast : Color -> Color
+highContrast starting =
+    if Color.luminance starting < 0.5 then
+        adjustLightness 100 starting
+
+    else
+        adjustLightness (0 - 100) starting
 
 
 {-| Use this function to produce a new shade of the Color.
@@ -226,17 +231,4 @@ adjustLightness : Float -> Color -> Color
 adjustLightness percentage color =
     Color.toHSL color
         |> (\( h, s, l ) -> ( h, s, l + percentage ))
-        |> Color.fromHSL
-
-
-{-| Modify the lightness of a color (see notes on HSL color space).
--}
-invertLightnessFrom : Color -> Color -> Color
-invertLightnessFrom base color =
-    let
-        ( _, _, baseLightness ) =
-            Color.toHSL base
-    in
-    Color.toHSL color
-        |> (\( h, s, l ) -> ( h, s, 100 - baseLightness ))
         |> Color.fromHSL

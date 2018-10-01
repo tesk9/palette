@@ -428,7 +428,7 @@ cell ( color, name ) =
             Color.toRGBString color
 
         highContrastColor =
-            Color.Generator.highestContrast color
+            Color.Generator.highContrast color
                 |> Color.toRGBString
     in
     Html.div

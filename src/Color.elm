@@ -264,8 +264,6 @@ convertRGBToHSL (RGBValue r255 g255 b255) =
         )
 
 
-{-| TODO: this is not typesafe. Make typesafe!
--}
 convertHSLToRGB : HSLValue -> Color
 convertHSLToRGB (HSLValue hue360 saturationPercent lightnessPercent) =
     let

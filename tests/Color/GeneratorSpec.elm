@@ -1,4 +1,4 @@
-module Color.GeneratorSpec exposing (highestContrastSuite)
+module Color.GeneratorSpec exposing (highContrastSuite)
 
 import Color exposing (Color)
 import Color.Generator as Generator
@@ -8,16 +8,16 @@ import Palette.X11 exposing (..)
 import Test exposing (..)
 
 
-highestContrastSuite : Test
-highestContrastSuite =
-    describe "highestContrast"
+highContrastSuite : Test
+highContrastSuite =
+    describe "highContrast"
         [ describe "black and white"
-            [ test "highestContrast black == white" <|
+            [ test "highContrast black == white" <|
                 \_ ->
-                    expectColorsEqual (Generator.highestContrast black) white
-            , test "highestContrast white == black" <|
+                    expectColorsEqual (Generator.highContrast black) white
+            , test "highContrast white == black" <|
                 \_ ->
-                    expectColorsEqual (Generator.highestContrast white) black
+                    expectColorsEqual (Generator.highContrast white) black
             ]
         ]
 
