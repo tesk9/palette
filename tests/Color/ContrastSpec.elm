@@ -1,9 +1,10 @@
 module Color.ContrastSpec exposing (contrastSuite, sufficientContrastSuite)
 
+import Color exposing (Color)
 import Color.Contrast as Contrast
 import Expect exposing (Expectation)
-import Fixtures exposing (black, grey, white)
 import Fuzz exposing (Fuzzer, int, list, string)
+import Palette.X11 exposing (..)
 import Test exposing (..)
 
 
@@ -18,9 +19,9 @@ contrastSuite =
                 \_ ->
                     Contrast.contrast black white
                         |> floatEqual 21
-            , test "contrast white grey" <|
+            , test "contrast white gray" <|
                 \_ ->
-                    Contrast.contrast white grey
+                    Contrast.contrast white gray
                         |> floatEqual (4.5 / 1)
             , test "contrast white white" <|
                 \_ ->
@@ -54,10 +55,10 @@ sufficientContrastSuite =
                     \_ ->
                         subject white black
                             |> Expect.true "Expected black and white to have sufficient contrast."
-                , test "grey and white do not have sufficient contrast" <|
+                , test "gray and white do not have sufficient contrast" <|
                     \_ ->
-                        subject white grey
-                            |> Expect.true "Expected grey and white to have sufficient contrast."
+                        subject white gray
+                            |> Expect.true "Expected gray and white to have sufficient contrast."
                 ]
             , describe "WCAG AAA" <|
                 let
@@ -68,10 +69,10 @@ sufficientContrastSuite =
                     \_ ->
                         subject white black
                             |> Expect.true "Expected black and white to have sufficient contrast."
-                , test "grey and white do not have sufficient contrast" <|
+                , test "gray and white do not have sufficient contrast" <|
                     \_ ->
-                        subject white grey
-                            |> Expect.false "Expected grey and white not to have sufficient contrast."
+                        subject white gray
+                            |> Expect.false "Expected gray and white not to have sufficient contrast."
                 ]
             ]
         , describe "Large text" <|
@@ -91,10 +92,10 @@ sufficientContrastSuite =
                     \_ ->
                         subject white black
                             |> Expect.true "Expected black and white to have sufficient contrast."
-                , test "grey and white has sufficient contrast" <|
+                , test "gray and white has sufficient contrast" <|
                     \_ ->
-                        subject white grey
-                            |> Expect.true "Expected grey and white to have sufficient contrast."
+                        subject white gray
+                            |> Expect.true "Expected gray and white to have sufficient contrast."
                 ]
             , describe "WCAG AAA" <|
                 let
@@ -105,10 +106,10 @@ sufficientContrastSuite =
                     \_ ->
                         subject white black
                             |> Expect.true "Expected black and white to have sufficient contrast."
-                , test "grey and white to have sufficient contrast" <|
+                , test "gray and white to have sufficient contrast" <|
                     \_ ->
-                        subject white grey
-                            |> Expect.true "Expected grey and white to have sufficient contrast."
+                        subject white gray
+                            |> Expect.true "Expected gray and white to have sufficient contrast."
                 ]
             ]
         ]
@@ -117,3 +118,8 @@ sufficientContrastSuite =
 floatEqual : Float -> Float -> Expectation
 floatEqual =
     Expect.within (Expect.Absolute 0.1)
+
+
+gray : Color
+gray =
+    Color.fromRGB ( 118, 118, 118 )

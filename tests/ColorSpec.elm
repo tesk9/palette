@@ -2,8 +2,8 @@ module ColorSpec exposing (colorSpec, luminanceSuite)
 
 import Color exposing (Color)
 import Expect exposing (Expectation)
-import Fixtures exposing (..)
 import Fuzz exposing (Fuzzer, int, list, string)
+import Palette.X11 exposing (..)
 import Test exposing (..)
 
 
@@ -115,11 +115,11 @@ luminanceSuite =
                 white
                     |> Color.luminance
                     |> floatEqual 1
-        , test "grey is middlingly bright" <|
+        , test "gray is middlingly bright" <|
             \_ ->
-                grey
+                gray
                     |> Color.luminance
-                    |> floatEqual 0.18
+                    |> floatEqual 0.215
         , test "black is not very bright" <|
             \_ ->
                 black
@@ -153,3 +153,13 @@ expectHSLValues expected color =
             Color.toHSL color
     in
     Expect.equal ( round r, round g, round b ) expected
+
+
+whiteHSL : Color
+whiteHSL =
+    Color.fromHSL ( 0, 0, 100 )
+
+
+blackHSL : Color
+blackHSL =
+    Color.fromHSL ( 0, 0, 0 )
