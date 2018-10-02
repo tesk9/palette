@@ -22,9 +22,14 @@ with each other to be used together (e.g., as a background and text color combin
 To meet AA level sufficiently, [follow these standards](https://www.w3.org/WAI/WCAG21/quickref/?versions=2.0&showtechniques=143%2C146#contrast-minimum).
 To meet AAA level sufficiently, [follow these standards](https://www.w3.org/WAI/WCAG21/quickref/?versions=2.0&showtechniques=143%2C146#contrast-enhanced).
 
+TODO:
+
+  - Use named fontweights rather than numbers
+  - Cassowary constraint solving..?
+
 -}
-sufficientContrast : WCAGLevel -> Float -> Int -> Color -> Color -> Bool
-sufficientContrast wcagLevel fontSize fontWeight color1 color2 =
+sufficientContrast : WCAGLevel -> { fontSize : Float, fontWeight : Int } -> Color -> Color -> Bool
+sufficientContrast wcagLevel { fontSize, fontWeight } color1 color2 =
     let
         colorContrast =
             contrast color1 color2

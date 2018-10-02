@@ -40,16 +40,13 @@ sufficientContrastSuite =
     describe "sufficientContrast"
         [ describe "Regular sized text" <|
             let
-                fontSize =
-                    12
-
-                fontWeight =
-                    300
+                font =
+                    { fontSize = 12, fontWeight = 300 }
             in
             [ describe "WCAG AA" <|
                 let
                     subject =
-                        Contrast.sufficientContrast Contrast.AA fontSize fontWeight
+                        Contrast.sufficientContrast Contrast.AA font
                 in
                 [ test "black and white has sufficient contrast" <|
                     \_ ->
@@ -63,7 +60,7 @@ sufficientContrastSuite =
             , describe "WCAG AAA" <|
                 let
                     subject =
-                        Contrast.sufficientContrast Contrast.AAA fontSize fontWeight
+                        Contrast.sufficientContrast Contrast.AAA font
                 in
                 [ test "black and white has sufficient contrast" <|
                     \_ ->
@@ -77,16 +74,13 @@ sufficientContrastSuite =
             ]
         , describe "Large text" <|
             let
-                fontSize =
-                    19
-
-                fontWeight =
-                    300
+                font =
+                    { fontSize = 19, fontWeight = 300 }
             in
             [ describe "WCAG AA" <|
                 let
                     subject =
-                        Contrast.sufficientContrast Contrast.AA fontSize fontWeight
+                        Contrast.sufficientContrast Contrast.AA font
                 in
                 [ test "black and white has sufficient contrast" <|
                     \_ ->
@@ -100,7 +94,7 @@ sufficientContrastSuite =
             , describe "WCAG AAA" <|
                 let
                     subject =
-                        Contrast.sufficientContrast Contrast.AAA fontSize fontWeight
+                        Contrast.sufficientContrast Contrast.AAA font
                 in
                 [ test "black and white has sufficient contrast" <|
                     \_ ->
