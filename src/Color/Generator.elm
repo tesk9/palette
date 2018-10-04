@@ -184,7 +184,7 @@ grayscale color =
 -}
 highContrast : Color -> Color
 highContrast starting =
-    if Color.luminance starting < 0.5 then
+    if Color.luminance starting < 0.1791 then
         adjustLightness 100 starting
 
     else
