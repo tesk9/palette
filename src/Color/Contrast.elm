@@ -22,9 +22,10 @@ with each other to be used together (e.g., as a background and text color combin
 To meet AA level sufficiently, [follow these standards](https://www.w3.org/WAI/WCAG21/quickref/?versions=2.0&showtechniques=143%2C146#contrast-minimum).
 To meet AAA level sufficiently, [follow these standards](https://www.w3.org/WAI/WCAG21/quickref/?versions=2.0&showtechniques=143%2C146#contrast-enhanced).
 
-TODO:
+TODO (consider this a headsup on likely API changes!):
 
   - Use named fontweights rather than numbers
+  - Wrap fontsize with some constructors
   - Cassowary constraint solving..?
 
 -}
