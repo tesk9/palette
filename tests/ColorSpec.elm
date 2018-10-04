@@ -11,10 +11,11 @@ colorSpec : Test
 colorSpec =
     describe "Color"
         [ describe "to and from a Color"
-            [ test "from RGB to RGB" <|
-                \_ ->
-                    Color.fromRGB ( -10, 123, 300 )
-                        |> expectRGBValues ( 0, 123, 255 )
+            [ only <|
+                test "from RGB to RGB" <|
+                    \_ ->
+                        Color.fromRGB ( -10, 123, 300 )
+                            |> expectRGBValues ( 0, 123, 255 )
             , test "from HSL to HSL" <|
                 \_ ->
                     Color.fromHSL ( -10, 123, -10 )
