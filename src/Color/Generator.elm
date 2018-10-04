@@ -2,7 +2,7 @@ module Color.Generator exposing
     ( complementary, triadic, splitComplementary, square, tetratic, monochromatic
     , highContrast
     , shade, tint, tone
-    , grayscale
+    , grayscale, invert
     , rotate, adjustSaturation
     , adjustLightness
     )
@@ -21,7 +21,7 @@ Generate a palette based on a starting color.
 ## Modify a Color
 
 @docs shade, tint, tone
-@docs grayscale
+@docs grayscale, invert
 @docs rotate, adjustSaturation
 @docs adjustLightness
 
@@ -151,6 +151,17 @@ monochromatic stepSize color =
 
         [] ->
             []
+
+
+{-| Use this function to invert a color. E.g., black inverted is white, white inverted is black....
+-}
+invert : Color -> Color
+invert color =
+    let
+        ( r, g, b ) =
+            Color.toRGB color
+    in
+    Color.fromRGB ( 255 - r, 255 - g, 255 - b )
 
 
 {-| Convert the color you pass in to a grayscale version. Essentially this uses the

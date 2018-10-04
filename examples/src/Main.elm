@@ -48,6 +48,8 @@ view _ =
                     )
                 , exampleSubsection "Grayscale"
                     (exampleList rainbow viewGrayscale)
+                , exampleSubsection "Invert"
+                    (exampleList rainbow viewInverse)
                 , exampleSubsection "Monochromatic"
                     (Html.div []
                         [ Html.h4 [] [ Html.text "Monochromatic Palette" ]
@@ -315,6 +317,12 @@ viewGrayscale : Color -> Html msg
 viewGrayscale color =
     cellsContainer
         [ plainCell color, plainCell (Color.Generator.grayscale color) ]
+
+
+viewInverse : Color -> Html msg
+viewInverse color =
+    cellsContainer
+        [ plainCell color, plainCell (Color.Generator.invert color) ]
 
 
 viewComplementary : Color -> Html msg

@@ -1,4 +1,4 @@
-module Color.GeneratorSpec exposing (highContrastSuite)
+module Color.GeneratorSpec exposing (highContrastSuite, invertSuite)
 
 import Color exposing (Color)
 import Color.Generator as Generator
@@ -18,6 +18,20 @@ highContrastSuite =
             , test "highContrast white == black" <|
                 \_ ->
                     expectColorsEqual (Generator.highContrast white) black
+            ]
+        ]
+
+
+invertSuite : Test
+invertSuite =
+    describe "invert"
+        [ describe "black and white"
+            [ test "invert black == white" <|
+                \_ ->
+                    expectColorsEqual (Generator.invert black) white
+            , test "invert white == black" <|
+                \_ ->
+                    expectColorsEqual (Generator.invert white) black
             ]
         ]
 
