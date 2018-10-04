@@ -1,6 +1,7 @@
 module Color.GeneratorSpec exposing (highContrastSuite, invertSuite)
 
 import Color exposing (Color)
+import Color.Contrast as Contrast
 import Color.Generator as Generator
 import Expect exposing (Expectation)
 import Fuzz exposing (Fuzzer, int, list, string)
@@ -18,8 +19,35 @@ highContrastSuite =
             , test "highContrast white == black" <|
                 \_ ->
                     expectColorsEqual (Generator.highContrast white) black
+            , describe "highContrast grays"
+                (List.map
+                    (\( color, name ) ->
+                        test name <|
+                            \_ ->
+                                color
+                                    |> Generator.highContrast
+                                    |> Contrast.contrast color
+                                    |> Expect.greaterThan 4.5
+                    )
+                    grays
+                )
             ]
         ]
+
+
+grays : List ( Color, String )
+grays =
+    [ ( gainsboro, "gainsboro" )
+    , ( lightGray, "lightGray" )
+    , ( silver, "silver" )
+    , ( darkGray, "darkGray" )
+    , ( gray, "gray" )
+    , ( dimGray, "dimGray" )
+    , ( lightSlateGray, "lightSlateGray" )
+    , ( slateGray, "slateGray" )
+    , ( darkSlateGray, "darkSlateGray" )
+    , ( black, "black" )
+    ]
 
 
 invertSuite : Test
