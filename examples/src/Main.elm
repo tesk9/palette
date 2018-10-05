@@ -492,24 +492,24 @@ multiCells colors =
 overlappingSquares : (Color -> Color -> Color) -> ( Color, Color ) -> Html msg
 overlappingSquares blend ( a, b ) =
     Html.div
-        [ style "width" "100px"
-        , style "height" "100px"
+        [ style "width" "70px"
+        , style "height" "70px"
         , style "background-color" (Color.toRGBString a)
         , style "position" "relative"
         , style "margin-right" "70px"
         , style "margin-bottom" "70px"
         ]
         [ Html.div
-            [ style "width" "100px"
-            , style "height" "100px"
+            [ style "width" "70px"
+            , style "height" "70px"
             , style "background-color" (Color.toRGBString b)
             , style "position" "relative"
-            , style "top" "40%"
-            , style "left" "40%"
+            , style "top" "20px"
+            , style "left" "20px"
             ]
             [ Html.div
-                [ style "width" "60px"
-                , style "height" "60px"
+                [ style "width" "50px"
+                , style "height" "50px"
                 , style "background-color" (Color.toRGBString (blend a b))
                 , style "position" "relative"
                 , style "top" "0"
