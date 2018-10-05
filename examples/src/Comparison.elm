@@ -96,30 +96,40 @@ viewPalette baseColor otherColors =
 
 viewOverlapping : (Color -> Color -> Color) -> ( Color, Color ) -> Html msg
 viewOverlapping blend ( a, b ) =
-    Html.div
-        [ style "width" "100px"
-        , style "height" "70px"
-        , style "background-color" (Color.toRGBString a)
-        , style "position" "relative"
-        , style "margin-right" "70px"
-        , style "margin-bottom" "70px"
-        ]
-        [ Html.div
-            [ style "width" "100px"
-            , style "height" "70px"
-            , style "background-color" (Color.toRGBString b)
-            , style "position" "relative"
-            , style "top" "20px"
-            , style "left" "20px"
-            ]
-            [ Html.div
-                [ style "width" "80px"
-                , style "height" "50px"
-                , style "background-color" (Color.toRGBString (blend a b))
-                , style "position" "relative"
-                , style "top" "0"
-                , style "left" "0"
+    let
+        rectangleSize =
+            ( 140, 80 )
+
+        rectangle ( width, height ) ( x, y ) color =
+            Html.div
+                [ style "position" "absolute"
+                , style "width" (px width)
+                , style "height" (px height)
+                , style "top" (px y)
+                , style "left" (px x)
+                , style "background-color" (Color.toRGBString color)
                 ]
                 []
-            ]
+
+        overlapPoint =
+            ( 40, 30 )
+    in
+    Html.div
+        [ style "position" "relative"
+        , style "width" (px (Tuple.first rectangleSize * 1.5 |> round))
+        , style "height" (px (Tuple.second rectangleSize * 1.5 |> round))
         ]
+        [ rectangle rectangleSize ( 0, 0 ) a
+        , rectangle rectangleSize overlapPoint b
+        , rectangle
+            ( Tuple.first rectangleSize - Tuple.first overlapPoint
+            , Tuple.second rectangleSize - Tuple.second overlapPoint
+            )
+            overlapPoint
+            (blend a b)
+        ]
+
+
+px : Int -> String
+px num =
+    String.fromInt num ++ "px"
