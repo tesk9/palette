@@ -71,7 +71,7 @@ viewPalette baseColor otherColors =
                 |> String.fromFloat
     in
     Html.div
-        [ style "margin" "8px"
+        [ style "margin-right" "16px"
         , style "height" (String.fromInt baseColorHeight ++ "px")
         , style "width" (String.fromInt baseColorWidth ++ "px")
         , style "position" "relative"

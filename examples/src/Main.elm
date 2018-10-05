@@ -305,6 +305,8 @@ exampleList examples viewExample =
         [ style "list-style" "none"
         , style "display" "flex"
         , style "flex-wrap" "wrap"
+        , style "margin" "0"
+        , style "padding" "0"
         ]
         (List.map
             (\example -> Html.li [] [ viewExample example ])
