@@ -97,7 +97,7 @@ viewPalette baseColor otherColors =
 viewOverlapping : (Color -> Color -> Color) -> ( Color, Color ) -> Html msg
 viewOverlapping blend ( a, b ) =
     Html.div
-        [ style "width" "70px"
+        [ style "width" "100px"
         , style "height" "70px"
         , style "background-color" (Color.toRGBString a)
         , style "position" "relative"
@@ -105,7 +105,7 @@ viewOverlapping blend ( a, b ) =
         , style "margin-bottom" "70px"
         ]
         [ Html.div
-            [ style "width" "70px"
+            [ style "width" "100px"
             , style "height" "70px"
             , style "background-color" (Color.toRGBString b)
             , style "position" "relative"
@@ -113,7 +113,7 @@ viewOverlapping blend ( a, b ) =
             , style "left" "20px"
             ]
             [ Html.div
-                [ style "width" "50px"
+                [ style "width" "80px"
                 , style "height" "50px"
                 , style "background-color" (Color.toRGBString (blend a b))
                 , style "position" "relative"
