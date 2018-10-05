@@ -21,13 +21,6 @@ init =
     Standard
 
 
-type ColorPreference
-    = Standard
-    | InvertStandard
-    | HighContrast
-    | InvertHighContrast
-
-
 type alias Palette =
     { primary : Color
     , secondary : Color
@@ -59,6 +52,13 @@ highContrastPalette =
     }
 
 
+type ColorPreference
+    = Standard
+    | InvertStandard
+    | HighContrast
+    | InvertHighContrast
+
+
 colorPreferenceToString : ColorPreference -> String
 colorPreferenceToString colorPreference =
     case colorPreference of
@@ -75,6 +75,22 @@ colorPreferenceToString colorPreference =
             "invert high contrast"
 
 
+colorPreferenceToPalette : ColorPreference -> Palette
+colorPreferenceToPalette colorPreference =
+    case colorPreference of
+        Standard ->
+            standardPalette
+
+        InvertStandard ->
+            mapPalette Color.Generator.invert standardPalette
+
+        HighContrast ->
+            highContrastPalette
+
+        InvertHighContrast ->
+            mapPalette Color.Generator.invert highContrastPalette
+
+
 type Msg
     = ChangePreference ColorPreference
 
@@ -89,38 +105,19 @@ update msg m =
 view : Model -> Html Msg
 view colorPreference =
     let
-        currentMode mode =
-            Html.div [] [ Html.text ("Currently in " ++ colorPreferenceToString mode ++ " mode") ]
-
-        modeOption mode =
-            Html.button [ Html.Events.onClick (ChangePreference mode) ] [ Html.text ("Change to " ++ colorPreferenceToString mode) ]
+        palette =
+            colorPreferenceToPalette colorPreference
     in
-    case colorPreference of
-        Standard ->
-            viewContent standardPalette
-                [ currentMode Standard
-                , modeOption InvertStandard
-                , modeOption HighContrast
-                ]
+    [ Standard, InvertStandard, HighContrast, InvertHighContrast ]
+        |> List.map
+            (\mode ->
+                if mode == colorPreference then
+                    Html.div [] [ Html.text ("Currently in " ++ colorPreferenceToString mode ++ " mode") ]
 
-        InvertStandard ->
-            viewContent (mapPalette Color.Generator.invert standardPalette)
-                [ modeOption Standard
-                , currentMode InvertStandard
-                ]
-
-        HighContrast ->
-            viewContent highContrastPalette
-                [ modeOption Standard
-                , currentMode HighContrast
-                , modeOption InvertHighContrast
-                ]
-
-        InvertHighContrast ->
-            viewContent (mapPalette Color.Generator.invert highContrastPalette)
-                [ modeOption HighContrast
-                , currentMode InvertHighContrast
-                ]
+                else
+                    button palette (ChangePreference mode) ("Change to " ++ colorPreferenceToString mode)
+            )
+        |> viewContent palette
 
 
 viewContent : Palette -> List (Html msg) -> Html msg
@@ -146,3 +143,14 @@ viewContent palette content =
             ]
             content
         ]
+
+
+button : Palette -> msg -> String -> Html msg
+button palette msg text =
+    Html.button
+        [ Html.Events.onClick msg
+        , style "background-color" (Color.toRGBString (Tuple.second palette.backgroundColors))
+        , style "border-color" (Color.toRGBString palette.secondary)
+        , style "color" (Color.toRGBString palette.primary)
+        ]
+        [ Html.text text ]
