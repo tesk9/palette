@@ -36,22 +36,6 @@ mapPalette map palette =
     }
 
 
-standardPalette : Palette
-standardPalette =
-    { primary = dimGray
-    , secondary = lightSalmon
-    , backgroundColors = ( lavenderBlush, Color.Generator.complementary lavenderBlush )
-    }
-
-
-highContrastPalette : Palette
-highContrastPalette =
-    { primary = black
-    , secondary = red
-    , backgroundColors = ( white, white )
-    }
-
-
 type ColorPreference
     = Standard
     | InvertStandard
@@ -63,20 +47,33 @@ colorPreferenceToString : ColorPreference -> String
 colorPreferenceToString colorPreference =
     case colorPreference of
         Standard ->
-            "standard"
+            "Standard"
 
         InvertStandard ->
-            "invert standard"
+            "Invert Standard"
 
         HighContrast ->
-            "high contrast"
+            "High Contrast"
 
         InvertHighContrast ->
-            "invert high contrast"
+            "Invert High Contrast"
 
 
 colorPreferenceToPalette : ColorPreference -> Palette
 colorPreferenceToPalette colorPreference =
+    let
+        standardPalette =
+            { primary = dimGray
+            , secondary = lightSalmon
+            , backgroundColors = ( lavenderBlush, Color.Generator.complementary lavenderBlush )
+            }
+
+        highContrastPalette =
+            { primary = black
+            , secondary = red
+            , backgroundColors = ( white, white )
+            }
+    in
     case colorPreference of
         Standard ->
             standardPalette
@@ -108,16 +105,27 @@ view colorPreference =
         palette =
             colorPreferenceToPalette colorPreference
     in
-    [ Standard, InvertStandard, HighContrast, InvertHighContrast ]
-        |> List.map
-            (\mode ->
-                if mode == colorPreference then
-                    Html.div [] [ Html.text ("Currently in " ++ colorPreferenceToString mode ++ " mode") ]
+    Html.div []
+        [ [ Standard, InvertStandard, HighContrast, InvertHighContrast ]
+            |> List.map
+                (\mode ->
+                    if mode == colorPreference then
+                        Html.text ""
 
-                else
-                    button palette (ChangePreference mode) ("Change to " ++ colorPreferenceToString mode)
-            )
-        |> viewContent palette
+                    else
+                        button (ChangePreference mode)
+                            ("Change to " ++ colorPreferenceToString mode)
+                )
+            |> Html.div []
+        , viewContent palette
+            [ Html.h3
+                [ style "color" (Color.toRGBString palette.secondary) ]
+                [ Html.text (colorPreferenceToString colorPreference) ]
+            , Html.div
+                [ style "color" (Color.toRGBString palette.primary) ]
+                [ Html.text "Try changing the color scheme using the buttons." ]
+            ]
+        ]
 
 
 viewContent : Palette -> List (Html msg) -> Html msg
@@ -128,29 +136,23 @@ viewContent palette content =
     in
     Html.div
         [ style "background-color" (Color.toRGBString (Tuple.first palette.backgroundColors))
-        , style "padding" "20px"
+        , style "padding" "8px"
         ]
         [ Html.div
             [ style "background-image" (linearGradient palette.backgroundColors)
-            , style "color" (Color.toRGBString palette.primary)
 
             --Positioning
-            , style "display" "flex"
-            , style "justify-content" "space-around"
             , style "margin" "20px"
+            , style "padding" "8px"
             , style "border" ("1px dashed " ++ Color.toRGBString palette.secondary)
-            , style "padding" "20px"
             ]
             content
         ]
 
 
-button : Palette -> msg -> String -> Html msg
-button palette msg text =
+button : msg -> String -> Html msg
+button msg text =
     Html.button
         [ Html.Events.onClick msg
-        , style "background-color" (Color.toRGBString (Tuple.second palette.backgroundColors))
-        , style "border-color" (Color.toRGBString palette.secondary)
-        , style "color" (Color.toRGBString palette.primary)
         ]
         [ Html.text text ]
