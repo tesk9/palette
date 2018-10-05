@@ -62,7 +62,9 @@ view model =
                         , exampleList (List.map (\color -> ( 10, color )) rainbow)
                             viewMonochromaticGenerator
                         , exampleList
-                            (List.map (\stepSize -> ( toFloat stepSize * 5, black )) (List.range 1 11))
+                            (List.map (\stepSize -> ( toFloat stepSize * 5, black ))
+                                (List.range 1 (List.length rainbow))
+                            )
                             viewMonochromaticGenerator
                         , Html.h4 [] [ Html.text "Shades" ]
                         , exampleList rainbow viewMonochromaticShades
@@ -524,4 +526,9 @@ overlappingSquares blend ( a, b ) =
 
 rainbow : List Color
 rainbow =
-    [ red, orange, yellow, green, blue, purple, lightSeaGreen, coral, hotPink, lavender, aliceBlue ]
+    [ coral
+    , olive
+    , gold
+    , teal
+    , blueViolet
+    ]
