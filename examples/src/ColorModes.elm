@@ -28,6 +28,37 @@ type ColorPreference
     | InvertHighContrast
 
 
+type alias Palette =
+    { primary : Color
+    , secondary : Color
+    , backgroundColors : ( Color, Color )
+    }
+
+
+mapPalette : (Color -> Color) -> Palette -> Palette
+mapPalette map palette =
+    { primary = map palette.primary
+    , secondary = map palette.secondary
+    , backgroundColors = Tuple.mapBoth map map palette.backgroundColors
+    }
+
+
+standardPalette : Palette
+standardPalette =
+    { primary = dimGray
+    , secondary = lightSalmon
+    , backgroundColors = ( lavenderBlush, Color.Generator.complementary lavenderBlush )
+    }
+
+
+highContrastPalette : Palette
+highContrastPalette =
+    { primary = black
+    , secondary = red
+    , backgroundColors = ( white, white )
+    }
+
+
 colorPreferenceToString : ColorPreference -> String
 colorPreferenceToString colorPreference =
     case colorPreference of
@@ -58,73 +89,60 @@ update msg m =
 view : Model -> Html Msg
 view colorPreference =
     let
-        standardPalette =
-            { top = lavenderBlush
-            , bottom = Color.Generator.complementary lavenderBlush
-            , font = dimGray
-            , border = steelBlue
-            }
-
-        highContrastPalette =
-            { top = white
-            , bottom = white
-            , font = Color.Generator.highContrast white
-            , border = blue
-            }
-
-        mapPalette map p =
-            { top = map p.top
-            , bottom = map p.bottom
-            , font = map p.font
-            , border = map p.border
-            }
-
         currentMode mode =
             Html.div [] [ Html.text ("Currently in " ++ colorPreferenceToString mode ++ " mode") ]
 
         modeOption mode =
             Html.button [ Html.Events.onClick (ChangePreference mode) ] [ Html.text ("Change to " ++ colorPreferenceToString mode) ]
-
-        viewWithPalette { top, bottom, font, border } =
-            let
-                linearGradient =
-                    "linear-gradient(" ++ Color.toRGBString top ++ "," ++ Color.toRGBString bottom ++ ")"
-            in
-            Html.div
-                [ style "background-image" linearGradient
-                , style "color" (Color.toRGBString font)
-
-                --Positioning
-                , style "display" "flex"
-                , style "justify-content" "space-around"
-                , style "margin" "20px"
-                , style "border" ("1px dashed " ++ Color.toRGBString border)
-                , style "padding" "20px"
-                ]
     in
     case colorPreference of
         Standard ->
-            viewWithPalette standardPalette
+            viewContent standardPalette
                 [ currentMode Standard
                 , modeOption InvertStandard
                 , modeOption HighContrast
                 ]
 
         InvertStandard ->
-            viewWithPalette (mapPalette Color.Generator.invert standardPalette)
+            viewContent (mapPalette Color.Generator.invert standardPalette)
                 [ modeOption Standard
                 , currentMode InvertStandard
                 ]
 
         HighContrast ->
-            viewWithPalette highContrastPalette
+            viewContent highContrastPalette
                 [ modeOption Standard
                 , currentMode HighContrast
                 , modeOption InvertHighContrast
                 ]
 
         InvertHighContrast ->
-            viewWithPalette (mapPalette Color.Generator.invert highContrastPalette)
+            viewContent (mapPalette Color.Generator.invert highContrastPalette)
                 [ modeOption HighContrast
                 , currentMode InvertHighContrast
                 ]
+
+
+viewContent : Palette -> List (Html msg) -> Html msg
+viewContent palette content =
+    let
+        linearGradient ( top, bottom ) =
+            "linear-gradient(" ++ Color.toRGBString top ++ "," ++ Color.toRGBString bottom ++ ")"
+    in
+    Html.div
+        [ style "background-color" (Color.toRGBString (Tuple.first palette.backgroundColors))
+        , style "padding" "20px"
+        ]
+        [ Html.div
+            [ style "background-image" (linearGradient palette.backgroundColors)
+            , style "color" (Color.toRGBString palette.primary)
+
+            --Positioning
+            , style "display" "flex"
+            , style "justify-content" "space-around"
+            , style "margin" "20px"
+            , style "border" ("1px dashed " ++ Color.toRGBString palette.secondary)
+            , style "padding" "20px"
+            ]
+            content
+        ]
