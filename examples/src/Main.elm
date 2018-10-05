@@ -122,8 +122,8 @@ view model =
                             [ ( orangeRed, "orangeRed" )
                             , ( tomato, "tomato" )
                             , ( coral, "coral" )
-                            , ( darkOrange, "coral" )
-                            , ( orange, "coral" )
+                            , ( darkOrange, "darkOrange" )
+                            , ( orange, "orange" )
                             ]
                             cell
                         , Html.h4 [] [ Html.text "Yellows" ]
