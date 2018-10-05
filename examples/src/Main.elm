@@ -28,8 +28,6 @@ view : Model -> Html msg
 view _ =
     Html.main_ []
         [ Html.h1 [] [ Html.text "Examples" ]
-        , exampleSection "Contrast checks"
-            (exampleList [ ( red, yellow ) ] viewContrast)
         , exampleSection "Color Schemes"
             (Html.div []
                 [ exampleSubsection "Complementary"
@@ -306,11 +304,6 @@ exampleList examples viewExample =
             (\example -> Html.li [] [ viewExample example ])
             examples
         )
-
-
-viewContrast : ( Color, Color ) -> Html msg
-viewContrast ( a, b ) =
-    cellsContainer [ plainCell a, plainCell b ]
 
 
 viewGrayscale : Color -> Html msg
