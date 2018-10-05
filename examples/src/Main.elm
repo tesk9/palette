@@ -6,6 +6,7 @@ import Color.Blend
 import Color.Contrast
 import Color.Generator
 import ColorModes
+import Comparison
 import Html exposing (Html)
 import Html.Attributes exposing (style)
 import Html.Events
@@ -78,16 +79,16 @@ view model =
                     (Html.div []
                         [ Html.h4 [] [ Html.text "Add" ]
                         , exampleList (List.map (\color -> ( color, lightSeaGreen )) rainbow)
-                            (overlappingSquares Color.Blend.add)
+                            (Comparison.viewOverlapping Color.Blend.add)
                         , Html.h4 [] [ Html.text "Subtract" ]
                         , exampleList (List.map (\color -> ( color, lightSeaGreen )) rainbow)
-                            (overlappingSquares Color.Blend.subtract)
+                            (Comparison.viewOverlapping Color.Blend.subtract)
                         , Html.h4 [] [ Html.text "Multiply" ]
                         , exampleList (List.map (\color -> ( color, lightSeaGreen )) rainbow)
-                            (overlappingSquares Color.Blend.multiply)
+                            (Comparison.viewOverlapping Color.Blend.multiply)
                         , Html.h4 [] [ Html.text "Divide" ]
                         , exampleList (List.map (\color -> ( color, lightSeaGreen )) rainbow)
-                            (overlappingSquares Color.Blend.divide)
+                            (Comparison.viewOverlapping Color.Blend.divide)
                         ]
                     )
                 ]
@@ -105,7 +106,7 @@ view model =
                             , ( paleVioletRed, "paleVioletRed" )
                             , ( mediumVioletRed, "mediumVioletRed" )
                             ]
-                            cell
+                            Comparison.viewWithName
                         , Html.h4 [] [ Html.text "Reds" ]
                         , exampleList
                             [ ( lightSalmon, "lightSalmon" )
@@ -118,7 +119,7 @@ view model =
                             , ( darkRed, "darkRed" )
                             , ( red, "red" )
                             ]
-                            cell
+                            Comparison.viewWithName
                         , Html.h4 [] [ Html.text "Orange-Reds" ]
                         , exampleList
                             [ ( orangeRed, "orangeRed" )
@@ -127,7 +128,7 @@ view model =
                             , ( darkOrange, "darkOrange" )
                             , ( orange, "orange" )
                             ]
-                            cell
+                            Comparison.viewWithName
                         , Html.h4 [] [ Html.text "Yellows" ]
                         , exampleList
                             [ ( yellow, "yellow" )
@@ -142,7 +143,7 @@ view model =
                             , ( darkKhaki, "darkKhaki" )
                             , ( gold, "gold" )
                             ]
-                            cell
+                            Comparison.viewWithName
                         , Html.h4 [] [ Html.text "Browns" ]
                         , exampleList
                             [ ( cornsilk, "cornsilk" )
@@ -163,7 +164,7 @@ view model =
                             , ( brown, "brown" )
                             , ( maroon, "maroon" )
                             ]
-                            cell
+                            Comparison.viewWithName
                         , Html.h4 [] [ Html.text "Greens" ]
                         , exampleList
                             [ ( darkOliveGreen, "darkOliveGreen" )
@@ -187,7 +188,7 @@ view model =
                             , ( green, "green" )
                             , ( darkGreen, "darkGreen" )
                             ]
-                            cell
+                            Comparison.viewWithName
                         , Html.h4 [] [ Html.text "Cyans" ]
                         , exampleList
                             [ ( aqua, "aqua" )
@@ -203,7 +204,7 @@ view model =
                             , ( darkCyan, "darkCyan" )
                             , ( teal, "teal" )
                             ]
-                            cell
+                            Comparison.viewWithName
                         , Html.h4 [] [ Html.text "Blues" ]
                         , exampleList
                             [ ( lightSteelBlue, "lightSteelBlue" )
@@ -222,7 +223,7 @@ view model =
                             , ( navy, "navy" )
                             , ( midnightBlue, "midnightBlue" )
                             ]
-                            cell
+                            Comparison.viewWithName
                         , Html.h4 [] [ Html.text "Purples" ]
                         , exampleList
                             [ ( lavender, "lavender" )
@@ -244,7 +245,7 @@ view model =
                             , ( slateBlue, "slateBlue" )
                             , ( mediumSlateBlue, "mediumSlateBlue" )
                             ]
-                            cell
+                            Comparison.viewWithName
                         , Html.h4 [] [ Html.text "Whites" ]
                         , exampleList
                             [ ( white, "white" )
@@ -265,7 +266,7 @@ view model =
                             , ( lavenderBlush, "lavenderBlush" )
                             , ( mistyRose, "mistyRose" )
                             ]
-                            cell
+                            Comparison.viewWithName
                         , Html.h4 [] [ Html.text "Blacks and Grays" ]
                         , exampleList
                             [ ( gainsboro, "gainsboro" )
@@ -279,7 +280,7 @@ view model =
                             , ( darkSlateGray, "darkSlateGray" )
                             , ( black, "black" )
                             ]
-                            cell
+                            Comparison.viewWithName
                         ]
                     )
                 ]
@@ -318,20 +319,17 @@ exampleList examples viewExample =
 
 viewGrayscale : Color -> Html msg
 viewGrayscale color =
-    cellsContainer
-        [ plainCell color, plainCell (Color.Generator.grayscale color) ]
+    Comparison.viewPalette color [ Color.Generator.grayscale color ]
 
 
 viewInverse : Color -> Html msg
 viewInverse color =
-    cellsContainer
-        [ plainCell color, plainCell (Color.Generator.invert color) ]
+    Comparison.viewPalette color [ Color.Generator.invert color ]
 
 
 viewComplementary : Color -> Html msg
 viewComplementary color =
-    cellsContainer
-        [ plainCell color, plainCell (Color.Generator.complementary color) ]
+    Comparison.viewPalette color [ Color.Generator.complementary color ]
 
 
 viewTriadic : Color -> Html msg
@@ -340,8 +338,7 @@ viewTriadic color =
         ( one, two ) =
             Color.Generator.triadic color
     in
-    cellsContainer
-        [ plainCell color, multiCells [ one, two ] ]
+    Comparison.viewPalette color [ one, two ]
 
 
 viewSplitComplementary : ( Float, Color ) -> Html msg
@@ -350,8 +347,7 @@ viewSplitComplementary ( degree, color ) =
         ( one, two ) =
             Color.Generator.splitComplementary degree color
     in
-    cellsContainer
-        [ plainCell color, multiCells [ one, two ] ]
+    Comparison.viewPalette color [ one, two ]
 
 
 viewSquare : Color -> Html msg
@@ -360,8 +356,7 @@ viewSquare color =
         ( one, two, three ) =
             Color.Generator.square color
     in
-    cellsContainer
-        [ plainCell color, multiCells [ one, two, three ] ]
+    Comparison.viewPalette color [ one, two, three ]
 
 
 viewRectangle : ( Float, Color ) -> Html msg
@@ -370,154 +365,49 @@ viewRectangle ( degree, color ) =
         ( one, two, three ) =
             Color.Generator.tetratic degree color
     in
-    cellsContainer
-        [ plainCell color, multiCells [ one, two, three ] ]
+    Comparison.viewPalette color [ one, two, three ]
 
 
 viewMonochromaticShades : Color -> Html msg
 viewMonochromaticShades color =
-    cellsContainer
-        [ plainCell color
-        , multiCells
-            [ color
-            , Color.Generator.shade 10 color
-            , Color.Generator.shade 20 color
-            , Color.Generator.shade 30 color
-            , Color.Generator.shade 40 color
-            ]
+    Comparison.viewPalette color
+        [ color
+        , Color.Generator.shade 10 color
+        , Color.Generator.shade 20 color
+        , Color.Generator.shade 30 color
+        , Color.Generator.shade 40 color
         ]
 
 
 viewMonochromaticTints : Color -> Html msg
 viewMonochromaticTints color =
-    cellsContainer
-        [ plainCell color
-        , multiCells
-            [ color
-            , Color.Generator.tint 10 color
-            , Color.Generator.tint 20 color
-            , Color.Generator.tint 30 color
-            , Color.Generator.tint 40 color
-            ]
+    Comparison.viewPalette color
+        [ color
+        , Color.Generator.tint 10 color
+        , Color.Generator.tint 20 color
+        , Color.Generator.tint 30 color
+        , Color.Generator.tint 40 color
         ]
 
 
 viewMonochromaticTones : Color -> Html msg
 viewMonochromaticTones color =
-    cellsContainer
-        [ plainCell color
-        , multiCells
-            [ Color.Generator.tone -100 color
-            , Color.Generator.tone -80 color
-            , Color.Generator.tone -60 color
-            , Color.Generator.tone -40 color
-            , Color.Generator.tone -20 color
-            , color
-            , Color.Generator.tone 20 color
-            , Color.Generator.tone 40 color
-            ]
+    Comparison.viewPalette color
+        [ Color.Generator.tone -100 color
+        , Color.Generator.tone -80 color
+        , Color.Generator.tone -60 color
+        , Color.Generator.tone -40 color
+        , Color.Generator.tone -20 color
+        , color
+        , Color.Generator.tone 20 color
+        , Color.Generator.tone 40 color
         ]
 
 
 viewMonochromaticGenerator : ( Float, Color ) -> Html msg
 viewMonochromaticGenerator ( stepSize, color ) =
-    cellsContainer
-        [ plainCell color
-        , multiCells (Color.Generator.monochromatic stepSize color)
-        ]
-
-
-cellsContainer : List (Html msg) -> Html msg
-cellsContainer =
-    Html.div [ style "margin" "8px" ]
-
-
-cell : ( Color, String ) -> Html msg
-cell ( color, name ) =
-    let
-        rgbColor =
-            Color.toRGBString color
-
-        highContrastColor =
-            Color.Generator.highContrast color
-                |> Color.toRGBString
-    in
-    Html.div
-        [ style "display" "flex"
-        , style "justify-content" "center"
-        , style "align-items" "flex-start"
-        , style "background-color" rgbColor
-        , style "width" "200px"
-        ]
-        [ Html.span
-            [ style "margin" "8px"
-            , style "padding" "4px"
-            , style "overflow" "scroll"
-            , style "text-align" "center"
-            , style "color" highContrastColor
-            ]
-            [ Html.div [] [ Html.text name ] ]
-        ]
-
-
-plainCell : Color -> Html msg
-plainCell color =
-    Html.div
-        [ style "background-color" (Color.toRGBString color)
-        , style "height" "50px"
-        , style "width" "100px"
-        ]
-        []
-
-
-multiCells : List Color -> Html msg
-multiCells colors =
-    let
-        miniCell color =
-            Html.span
-                [ style "width" "100%"
-                , style "height" "20px"
-                , style "background-color" color
-                ]
-                []
-    in
-    Html.div
-        [ style "display" "flex"
-        , style "justify-content" "center"
-        , style "align-items" "flex-start"
-        ]
-        (List.map (\color -> miniCell (Color.toRGBString color)) colors)
-
-
-overlappingSquares : (Color -> Color -> Color) -> ( Color, Color ) -> Html msg
-overlappingSquares blend ( a, b ) =
-    Html.div
-        [ style "width" "70px"
-        , style "height" "70px"
-        , style "background-color" (Color.toRGBString a)
-        , style "position" "relative"
-        , style "margin-right" "70px"
-        , style "margin-bottom" "70px"
-        ]
-        [ Html.div
-            [ style "width" "70px"
-            , style "height" "70px"
-            , style "background-color" (Color.toRGBString b)
-            , style "position" "relative"
-            , style "top" "20px"
-            , style "left" "20px"
-            ]
-            [ Html.div
-                [ style "width" "50px"
-                , style "height" "50px"
-                , style "background-color" (Color.toRGBString (blend a b))
-                , style "position" "relative"
-                , style "top" "0"
-                , style "left" "0"
-                ]
-                []
-            ]
-        ]
+    Comparison.viewPalette color
+        (Color.Generator.monochromatic stepSize color)
 
 
 
