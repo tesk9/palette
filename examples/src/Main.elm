@@ -7,6 +7,7 @@ import Color.Contrast
 import Color.Generator
 import Html exposing (Html)
 import Html.Attributes exposing (style)
+import Html.Events
 import Palette.X11 exposing (..)
 import Platform
 
@@ -14,20 +15,22 @@ import Platform
 main : Platform.Program () Model Msg
 main =
     Browser.sandbox
-        { init = {}
-        , update = \_ model -> model
+        { init = { colorPreference = Standard }
+        , update = \newPreference model -> { model | colorPreference = newPreference }
         , view = view
         }
 
 
 type alias Model =
-    {}
+    { colorPreference : ColorPreferences }
 
 
-view : Model -> Html msg
-view _ =
+view : Model -> Html Msg
+view model =
     Html.main_ []
         [ Html.h1 [] [ Html.text "Examples" ]
+        , exampleSection "Contrast"
+            (viewContrast model.colorPreference)
         , exampleSection "Color Schemes"
             (Html.div []
                 [ exampleSubsection "Complementary"
@@ -306,6 +309,100 @@ exampleList examples viewExample =
         )
 
 
+type ColorPreferences
+    = Standard
+    | InvertStandard
+    | HighContrast
+    | InvertHighContrast
+
+
+colorPreferenceToString colorPreference =
+    case colorPreference of
+        Standard ->
+            "standard"
+
+        InvertStandard ->
+            "invert standard"
+
+        HighContrast ->
+            "high contrast"
+
+        InvertHighContrast ->
+            "invert high contrast"
+
+
+viewContrast : ColorPreferences -> Html Msg
+viewContrast colorPreference =
+    let
+        standardPalette =
+            { top = lavenderBlush
+            , bottom = Color.Generator.complementary lavenderBlush
+            , font = dimGray
+            }
+
+        highContrastPalette =
+            { top = white
+            , bottom = white
+            , font = Color.Generator.highContrast white
+            }
+
+        mapPalette map p =
+            { top = map p.top
+            , bottom = map p.bottom
+            , font = map p.font
+            }
+
+        currentMode mode =
+            Html.div [] [ Html.text ("Currently in " ++ colorPreferenceToString mode ++ " mode") ]
+
+        modeOption mode =
+            Html.button [ Html.Events.onClick mode ] [ Html.text ("Change to " ++ colorPreferenceToString mode) ]
+
+        viewWithPalette { top, bottom, font } =
+            let
+                linearGradient =
+                    "linear-gradient(" ++ Color.toRGBString top ++ "," ++ Color.toRGBString bottom ++ ")"
+            in
+            Html.div
+                [ style "background-image" linearGradient
+                , style "color" (Color.toRGBString font)
+
+                --Positioning
+                , style "display" "flex"
+                , style "justify-content" "space-around"
+                , style "margin" "20px"
+                , style "border" ("1px dashed " ++ Color.toRGBString font)
+                , style "padding" "20px"
+                ]
+    in
+    case colorPreference of
+        Standard ->
+            viewWithPalette standardPalette
+                [ currentMode Standard
+                , modeOption InvertStandard
+                , modeOption HighContrast
+                ]
+
+        InvertStandard ->
+            viewWithPalette (mapPalette Color.Generator.invert standardPalette)
+                [ modeOption Standard
+                , currentMode InvertStandard
+                ]
+
+        HighContrast ->
+            viewWithPalette highContrastPalette
+                [ modeOption Standard
+                , currentMode HighContrast
+                , modeOption InvertHighContrast
+                ]
+
+        InvertHighContrast ->
+            viewWithPalette (mapPalette Color.Generator.invert highContrastPalette)
+                [ modeOption HighContrast
+                , currentMode InvertHighContrast
+                ]
+
+
 viewGrayscale : Color -> Html msg
 viewGrayscale color =
     cellsContainer
@@ -511,7 +608,7 @@ overlappingSquares blend ( a, b ) =
 
 
 type alias Msg =
-    ()
+    ColorPreferences
 
 
 
