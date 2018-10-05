@@ -62,11 +62,6 @@ view model =
                         [ Html.h4 [] [ Html.text "Monochromatic Palette" ]
                         , exampleList (List.map (\color -> ( 10, color )) rainbow)
                             viewMonochromaticGenerator
-                        , exampleList
-                            (List.map (\stepSize -> ( toFloat stepSize * 5, black ))
-                                (List.range 1 (List.length rainbow))
-                            )
-                            viewMonochromaticGenerator
                         , Html.h4 [] [ Html.text "Shades" ]
                         , exampleList rainbow viewMonochromaticShades
                         , Html.h4 [] [ Html.text "Tints" ]
@@ -371,8 +366,7 @@ viewRectangle ( degree, color ) =
 viewMonochromaticShades : Color -> Html msg
 viewMonochromaticShades color =
     Comparison.viewPalette color
-        [ color
-        , Color.Generator.shade 10 color
+        [ Color.Generator.shade 10 color
         , Color.Generator.shade 20 color
         , Color.Generator.shade 30 color
         , Color.Generator.shade 40 color
@@ -382,11 +376,11 @@ viewMonochromaticShades color =
 viewMonochromaticTints : Color -> Html msg
 viewMonochromaticTints color =
     Comparison.viewPalette color
-        [ color
-        , Color.Generator.tint 10 color
+        [ Color.Generator.tint 10 color
         , Color.Generator.tint 20 color
         , Color.Generator.tint 30 color
         , Color.Generator.tint 40 color
+        , Color.Generator.tint 50 color
         ]
 
 
@@ -398,9 +392,6 @@ viewMonochromaticTones color =
         , Color.Generator.tone -60 color
         , Color.Generator.tone -40 color
         , Color.Generator.tone -20 color
-        , color
-        , Color.Generator.tone 20 color
-        , Color.Generator.tone 40 color
         ]
 
 

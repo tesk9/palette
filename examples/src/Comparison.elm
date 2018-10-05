@@ -42,38 +42,56 @@ viewWithName ( color, name ) =
 
 
 viewPalette : Color -> List Color -> Html msg
-viewPalette color otherColors =
-    Html.div [ style "margin" "8px" ]
-        [ plainCell color, multiCells otherColors ]
-
-
-plainCell : Color -> Html msg
-plainCell color =
-    Html.div
-        [ style "background-color" (Color.toRGBString color)
-        , style "height" "50px"
-        , style "width" "100px"
-        ]
-        []
-
-
-multiCells : List Color -> Html msg
-multiCells colors =
+viewPalette baseColor otherColors =
     let
-        miniCell color =
-            Html.span
-                [ style "width" "100%"
-                , style "height" "20px"
-                , style "background-color" color
-                ]
-                []
+        baseColorWidth =
+            200
+
+        baseColorHeight =
+            100
+
+        radius =
+            if List.length otherColors > 8 then
+                15
+
+            else if List.length otherColors > 4 then
+                25
+
+            else
+                35
+
+        circleCount =
+            List.length otherColors
+
+        leftPlacement index =
+            baseColorWidth
+                * toFloat (index + 1)
+                / (toFloat circleCount + 1)
+                - radius
+                |> String.fromFloat
     in
     Html.div
-        [ style "display" "flex"
-        , style "justify-content" "center"
-        , style "align-items" "flex-start"
+        [ style "margin" "8px"
+        , style "height" (String.fromInt baseColorHeight ++ "px")
+        , style "width" (String.fromInt baseColorWidth ++ "px")
+        , style "position" "relative"
+        , style "background-color" (Color.toRGBString baseColor)
         ]
-        (List.map (\color -> miniCell (Color.toRGBString color)) colors)
+        (List.indexedMap
+            (\index color ->
+                Html.div
+                    [ style "width" (String.fromInt (radius * 2) ++ "px")
+                    , style "height" (String.fromInt (radius * 2) ++ "px")
+                    , style "border-radius" "50%"
+                    , style "background-color" (Color.toRGBString color)
+                    , style "position" "absolute"
+                    , style "left" (leftPlacement index ++ "px")
+                    , style "top" (String.fromFloat (baseColorHeight / 2 - radius) ++ "px")
+                    ]
+                    []
+            )
+            otherColors
+        )
 
 
 viewOverlapping : (Color -> Color -> Color) -> ( Color, Color ) -> Html msg
