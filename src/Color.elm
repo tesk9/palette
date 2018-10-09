@@ -44,6 +44,20 @@ If you change the saturation to 0%, you'll see gray.
 RGB is short for red-green-blue. This representation of color specifies how much
 red, green, and blue are in the color.
 
+I found [this chart](https://en.wikipedia.org/wiki/HSL_and_HSV#/media/File:HSV-RGB-comparison.svg) really
+helpful when thinking about how RGB colors work -- it shows red, green, and blue values as piecewise functions
+against Hue values. The chart is actually aimed at describing the HSV color space, which is a little
+different than the HSL color space, but it may be helpful for your brain too.
+
+As you work with RGB colors, it may also be helpful to know that this color space is **additive**.
+
+This means that if you add red, green, and blue together, you'll end up with white. The more
+colors you add, the brighter the result.
+
+This is different than what you may remember from painting in elementary school.
+Paint, where you're mixing pigments together, is a **subtractive**
+color space. Printing (CMYK color space) is also subtractive.
+
 @docs fromRGB, toRGB, toRGBString
 
 
