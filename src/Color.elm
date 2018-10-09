@@ -211,6 +211,11 @@ toRGBString color =
 
 
 {-| Luminance calculation adopted from <https://www.w3.org/TR/WCAG20-TECHS/G17.html>
+
+Luminance describes the perceived brightness of a color. You're unlikely to need
+to use this function directly. Maybe something in `Color.Contrast` or `Color.Generator`
+meets your needs instead?
+
 -}
 luminance : Color -> Float
 luminance color =
