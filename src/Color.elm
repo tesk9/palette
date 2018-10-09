@@ -25,17 +25,16 @@ you enjoyed playing with unit circles and polar coordinates in trigonometry.
 ![Representation of HSL values on a cylinder](https://upload.wikimedia.org/wikipedia/commons/6/6b/HSL_color_solid_cylinder_saturation_gray.png)
 (Image can be seen in context on the [HSL and HSV arcticle on Wikipedia](https://en.wikipedia.org/wiki/HSL_and_HSV). By HSL\_color\_solid\_cylinder.png: SharkDderivative work: SharkD  Talk - HSL\_color\_solid\_cylinder.png, CC BY-SA 3.0, <https://commons.wikimedia.org/w/index.php?curid=9801661>)
 
-HSL models hues as values on a circle. We can pick a hue by providing a degree.
+HSL models **hue** as a value on a circle. We can pick a hue by providing a degree.
 We start at red -- meaning that we can get to red by saying that our hue is 0 degrees or
 by saying that our hue is at 360 degrees. Green is at 90, teal is at 180, and
-there's a lovely purple is at 270.
+there's a lovely purple at 270.
 
-Saturation is how much of the hue is present. If the saturation is 100% (and the lightness is
-a middling value) then you'll recognize the hue immediately. When you see a hue of 0 degrees,
+**Saturation** is how much of the hue is present. When you see a hue of 0 degrees,
 a saturation of 100%, and lightness of 50%, your reaction is going to be "Schnickeys! that's red!"
-If the saturation where to change to 0%, you'd see gray.
+If you change the saturation to 0%, you'll see gray.
 
-Lightness is brightness -- 100% is white and 0% is black, no matter the hue or saturation.
+**Lightness** is brightness -- 100% is white and 0% is black.
 
 @docs fromHSL, toHSL, toHSLString
 
