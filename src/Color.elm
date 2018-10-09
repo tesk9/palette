@@ -132,6 +132,16 @@ toHSL color =
 
 
 {-| Get the HSL representation of a color as a `String`.
+
+    import Color exposing (toHSLString)
+    import Html exposing (p, text)
+    import Html.Attributes exposing (style)
+    import Palette.X11 exposing (red)
+
+    view =
+        p [ style "color" (toHSLString red) ]
+            [ text "Wow! This sure looks red!" ]
+
 -}
 toHSLString : Color -> String
 toHSLString color =
@@ -180,6 +190,16 @@ toRGB color =
 
 
 {-| Get the RGB representation of a color as a `String`.
+
+    import Color exposing (toRGBString)
+    import Html exposing (p, text)
+    import Html.Attributes exposing (style)
+    import Palette.X11 exposing (red)
+
+    view =
+        p [ style "color" (toRGBString red) ]
+            [ text "Wow! This sure looks red!" ]
+
 -}
 toRGBString : Color -> String
 toRGBString color =
