@@ -28,6 +28,8 @@ TODO (consider this a headsup on likely API changes!):
   - Wrap fontsize with some constructors
   - Cassowary constraint solving..?
 
+See an example here: <https://ellie-app.com/3CgJZNMyxw3a1>.
+
 -}
 sufficientContrast : WCAGLevel -> { fontSize : Float, fontWeight : Int } -> Color -> Color -> Bool
 sufficientContrast wcagLevel { fontSize, fontWeight } color1 color2 =
@@ -52,6 +54,9 @@ sufficientContrast wcagLevel { fontSize, fontWeight } color1 color2 =
 
 
 {-| Calculate the contrast between two colors.
+
+See an example here: <https://ellie-app.com/3CgJZNMyxw3a1>.
+
 -}
 contrast : Color -> Color -> Float
 contrast color1 color2 =
