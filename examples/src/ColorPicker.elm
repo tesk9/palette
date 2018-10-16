@@ -5,6 +5,7 @@ import Color.Generator exposing (adjustLightness, adjustSaturation, rotate)
 import Html exposing (Html)
 import Html.Attributes exposing (attribute, id, style)
 import Html.Events
+import Json.Decode
 
 
 type Model
@@ -16,8 +17,8 @@ init =
     Model (Color.fromHSL ( 0, 100, 50 ))
 
 
-type alias Msg =
-    ()
+type Msg
+    = AdjustHue Int
 
 
 view : Model -> Html Msg
@@ -50,6 +51,7 @@ viewHueSelector (Model selectedColor) =
                 , style "border" "1px solid black"
                 , style "position" "relative"
                 , style "top" (String.fromFloat currentHue ++ "px")
+                , onKeyDown [ upArrow (AdjustHue 1), downArrow (AdjustHue -1) ]
                 ]
                 []
 
@@ -58,7 +60,7 @@ viewHueSelector (Model selectedColor) =
                 |> List.map (\hue -> viewHueSlice (Color.fromHSL ( toFloat hue, 100, 50 )))
     in
     Html.div []
-        [ Html.div [] (slider :: rainbow)
+        [ Html.div [ style "position" "relative" ] (slider :: rainbow)
         , Html.label [ id labelId ] [ Html.text "Hue Selector" ]
         ]
 
@@ -75,7 +77,36 @@ viewHueSlice color =
 
 
 update : Msg -> Model -> Model
-update msg model =
+update msg (Model color) =
     case msg of
-        () ->
-            model
+        AdjustHue degree ->
+            Color.Generator.rotate (toFloat degree) color
+                |> Model
+
+
+upArrow : msg -> Json.Decode.Decoder ( msg, Bool )
+upArrow msg =
+    succeedForKeyCode 38 msg
+
+
+downArrow : msg -> Json.Decode.Decoder ( msg, Bool )
+downArrow msg =
+    succeedForKeyCode 40 msg
+
+
+succeedForKeyCode : Int -> msg -> Json.Decode.Decoder ( msg, Bool )
+succeedForKeyCode key msg =
+    Json.Decode.andThen
+        (\keyCode ->
+            if keyCode == key then
+                Json.Decode.succeed ( msg, True )
+
+            else
+                Json.Decode.fail (String.fromInt keyCode)
+        )
+        Html.Events.keyCode
+
+
+onKeyDown : List (Json.Decode.Decoder ( msg, Bool )) -> Html.Attribute msg
+onKeyDown decoders =
+    Html.Events.preventDefaultOn "keydown" (Json.Decode.oneOf decoders)
