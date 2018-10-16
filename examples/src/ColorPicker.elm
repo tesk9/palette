@@ -19,6 +19,7 @@ init =
 
 type Msg
     = AdjustHue Int
+    | SetColor Color
 
 
 view : Model -> Html Msg
@@ -72,6 +73,7 @@ viewHueSlice color =
         , style "height" "1px"
         , style "margin-left" "1px"
         , style "background-color" (Color.toHSLString color)
+        , Html.Events.onClick (SetColor color)
         ]
         []
 
@@ -82,6 +84,9 @@ update msg (Model color) =
         AdjustHue degree ->
             Color.Generator.rotate (toFloat degree) color
                 |> Model
+
+        SetColor newColor ->
+            Model newColor
 
 
 upArrow : msg -> Json.Decode.Decoder ( msg, Bool )
