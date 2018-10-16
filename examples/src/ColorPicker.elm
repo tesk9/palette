@@ -10,12 +10,17 @@ import Slider
 
 
 type Model
-    = Model Color
+    = Model Color PickerStyle
+
+
+type PickerStyle
+    = RGB
+    | HSL
 
 
 init : Model
 init =
-    Model (Color.fromHSL ( 0, 100, 50 ))
+    Model (Color.fromHSL ( 0, 100, 50 )) HSL
 
 
 type Msg
@@ -26,7 +31,7 @@ type Msg
 
 
 view : Model -> Html Msg
-view model =
+view (Model color pickerStyle) =
     Html.section
         [ style "display" "flex"
         , style "align-items" "stretch"
@@ -35,27 +40,35 @@ view model =
         , style "border-radius" "8px"
         , style "border" "1px solid grey"
         ]
-        [ hueSelector model
-        , Html.div
-            [ style "display" "flex"
-            , style "flex-direction" "column"
-            , style "align-items" "center"
-            ]
-            [ Html.h2 [] [ Html.text "HSL Color Picker" ]
-            , viewColor model
-            , Html.div
-                [ style "display" "flex"
-                , style "margin-top" "auto"
+    <|
+        case pickerStyle of
+            HSL ->
+                [ hueSelector color
+                , Html.div
+                    [ style "display" "flex"
+                    , style "flex-direction" "column"
+                    , style "align-items" "center"
+                    ]
+                    [ Html.h2 [] [ Html.text "HSL Color Picker" ]
+                    , viewColor color
+                    , Html.div
+                        [ style "display" "flex"
+                        , style "margin-top" "auto"
+                        ]
+                        [ saturationSelector color
+                        , lightnessSelector color
+                        ]
+                    ]
                 ]
-                [ saturationSelector model
-                , lightnessSelector model
+
+            RGB ->
+                [ Html.h2 [] [ Html.text "RGB Color Picker" ]
+                , viewColor color
                 ]
-            ]
-        ]
 
 
-hueSelector : Model -> Html Msg
-hueSelector (Model selectedColor) =
+hueSelector : Color -> Html Msg
+hueSelector selectedColor =
     let
         ( currentHue, _, _ ) =
             Color.toHSL selectedColor
@@ -76,8 +89,8 @@ hueSelector (Model selectedColor) =
         }
 
 
-saturationSelector : Model -> Html Msg
-saturationSelector (Model selectedColor) =
+saturationSelector : Color -> Html Msg
+saturationSelector selectedColor =
     let
         ( hue, currentSaturation, lightness ) =
             Color.toHSL selectedColor
@@ -98,8 +111,8 @@ saturationSelector (Model selectedColor) =
         }
 
 
-lightnessSelector : Model -> Html Msg
-lightnessSelector (Model selectedColor) =
+lightnessSelector : Color -> Html Msg
+lightnessSelector selectedColor =
     let
         ( hue, saturation, currentLightness ) =
             Color.toHSL selectedColor
@@ -120,8 +133,8 @@ lightnessSelector (Model selectedColor) =
         }
 
 
-viewColor : Model -> Html msg
-viewColor (Model color) =
+viewColor : Color -> Html msg
+viewColor color =
     Html.div
         [ style "width" "150px"
         , style "height" "150px"
@@ -132,16 +145,16 @@ viewColor (Model color) =
 
 
 update : Msg -> Model -> Model
-update msg (Model color) =
+update msg (Model color pickerStyle) =
     case msg of
         AdjustHue degree ->
-            Model (rotate degree color)
+            Model (rotate degree color) pickerStyle
 
         AdjustSaturation percentage ->
-            Model (adjustSaturation percentage color)
+            Model (adjustSaturation percentage color) pickerStyle
 
         AdjustLightness percentage ->
-            Model (adjustLightness percentage color)
+            Model (adjustLightness percentage color) pickerStyle
 
         SetColor newColor ->
-            Model newColor
+            Model newColor pickerStyle
