@@ -23,11 +23,7 @@ type alias Config msg =
 
 view : Config msg -> Html msg
 view config =
-    Html.div
-        [ style "background-color" "lightgrey"
-        , style "border" "1px solid gray"
-        , style "padding" "20px"
-        ]
+    Html.div [ style "padding" "10px 36px 10px 10px" ]
         [ Html.div [ style "position" "relative" ] (slider config :: range config)
         , Html.label
             [ id config.labelId

@@ -27,9 +27,13 @@ type Msg
 
 view : Model -> Html Msg
 view model =
-    Html.div
+    Html.section
         [ style "display" "flex"
         , style "align-items" "stretch"
+        , style "background-color" "lightgrey"
+        , style "width" "445px"
+        , style "border-radius" "8px"
+        , style "border" "1px solid grey"
         ]
         [ hueSelector model
         , Html.div
@@ -37,7 +41,8 @@ view model =
             , style "flex-direction" "column"
             , style "align-items" "center"
             ]
-            [ viewColor model
+            [ Html.h2 [] [ Html.text "HSL Color Picker" ]
+            , viewColor model
             , Html.div
                 [ style "display" "flex"
                 , style "margin-top" "auto"
@@ -67,7 +72,7 @@ hueSelector (Model selectedColor) =
         , valueMax = 359
         , valueNow = round currentHue
         , labelId = "hue-selector"
-        , labelText = "Hue Selector"
+        , labelText = "Hue"
         }
 
 
@@ -89,7 +94,7 @@ saturationSelector (Model selectedColor) =
         , valueMax = 100
         , valueNow = round currentSaturation
         , labelId = "saturation-selector"
-        , labelText = "Saturation Selector"
+        , labelText = "Saturation"
         }
 
 
@@ -111,16 +116,15 @@ lightnessSelector (Model selectedColor) =
         , valueMax = 100
         , valueNow = round currentLightness
         , labelId = "lightness-selector"
-        , labelText = "Lightness Selector"
+        , labelText = "Lightness"
         }
 
 
 viewColor : Model -> Html msg
 viewColor (Model color) =
     Html.div
-        [ style "width" "200px"
-        , style "height" "200px"
-        , style "margin" "20px"
+        [ style "width" "150px"
+        , style "height" "150px"
         , style "border-radius" "50%"
         , style "background-color" (Color.toRGBString color)
         ]
