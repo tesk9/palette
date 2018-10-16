@@ -39,23 +39,45 @@ view config =
 
 
 slider : Config msg -> Html msg
-slider { valueMin, valueMax, valueNow, labelId, increase, decrease, asColor } =
+slider { valueMin, valueMax, valueNow, labelId, labelText, increase, decrease, asColor } =
+    let
+        border =
+            style "border" ("1px solid " ++ toRGBString (highContrast (asColor valueNow)))
+    in
     Html.div
-        [ attribute "aria-role" "slider"
-        , attribute "aria-valuemin" (String.fromInt valueMin)
-        , attribute "aria-valuemax" (String.fromInt valueMax)
-        , attribute "aria-valuenow" (String.fromInt valueNow)
-        , attribute "aria-labelledby" labelId
-        , attribute "tabindex" "0"
-        , style "width" "100px"
-        , style "height" "1px"
-        , style "border" ("1px solid " ++ toRGBString (highContrast (asColor valueNow)))
-        , style "position" "relative"
+        [ style "position" "relative"
         , style "margin" "auto"
         , style "top" (String.fromInt (valueMax - valueNow + 2) ++ "px")
-        , onKeyDown [ upArrow increase, downArrow decrease ]
         ]
-        []
+        [ Html.div
+            [ attribute "aria-role" "slider"
+            , attribute "aria-valuemin" (String.fromInt valueMin)
+            , attribute "aria-valuemax" (String.fromInt valueMax)
+            , attribute "aria-valuenow" (String.fromInt valueNow)
+            , attribute "aria-labelledby" labelId
+            , attribute "aria-controls" (labelId ++ "-result")
+            , attribute "tabindex" "0"
+            , style "width" "100px"
+            , style "height" "1px"
+            , border
+            , onKeyDown [ upArrow increase, downArrow decrease ]
+            ]
+            []
+        , Html.div
+            [ attribute "aria-role" "presentation"
+            , id (labelId ++ "-result")
+            , style "position" "absolute"
+            , style "width" "24px"
+            , style "text-align" "center"
+            , style "padding" "2px"
+            , style "border-radius" "2px"
+            , style "left" "100%"
+            , style "top" "-10px"
+            , style "background-color" "white"
+            , border
+            ]
+            [ Html.text (String.fromInt valueNow) ]
+        ]
 
 
 range : Config msg -> List (Html msg)
