@@ -28,7 +28,11 @@ type Msg
 view : Model -> Html Msg
 view model =
     Html.div
-        []
+        [ style "display" "flex"
+        , style "align-items" "flex-end"
+        , style "justify-content" "space-around"
+        , style "width" "400px"
+        ]
         [ hueSelector model
         , saturationSelector model
         , lightnessSelector model

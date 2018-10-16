@@ -23,7 +23,8 @@ type alias Config msg =
 
 view : Config msg -> Html msg
 view config =
-    Html.div []
+    Html.div
+        []
         [ Html.div [ style "position" "relative" ] (slider config :: range config)
         , Html.label [ id config.labelId ] [ Html.text config.labelText ]
         ]
@@ -42,6 +43,7 @@ slider { valueMin, valueMax, valueNow, labelId, increase, decrease, asColor } =
         , style "height" "1px"
         , style "border" ("1px solid " ++ toRGBString (highContrast (asColor valueNow)))
         , style "position" "relative"
+        , style "margin" "auto"
         , style "top" (String.fromInt valueNow ++ "px")
         , onKeyDown [ upArrow increase, downArrow decrease ]
         ]
@@ -58,7 +60,7 @@ viewSlice config value =
     Html.div
         [ style "width" "100px"
         , style "height" "1px"
-        , style "margin-left" "1px"
+        , style "margin" "auto"
         , style "background-color" (toRGBString (config.asColor value))
         , Html.Events.onClick (config.setTo (config.asColor value))
         ]
