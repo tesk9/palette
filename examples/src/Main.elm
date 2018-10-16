@@ -6,6 +6,7 @@ import Color.Blend
 import Color.Contrast
 import Color.Generator
 import ColorModes
+import ColorPicker
 import Comparison
 import Html exposing (Html)
 import Html.Attributes exposing (style)
@@ -17,26 +18,48 @@ import Platform
 main : Platform.Program () Model Msg
 main =
     Browser.sandbox
-        { init = { colorModesModel = ColorModes.init }
-        , update = \msg model -> { model | colorModesModel = ColorModes.update msg model.colorModesModel }
+        { init =
+            { colorModesModel = ColorModes.init
+            , colorPickerModel = ColorPicker.init
+            }
+        , update = update
         , view = view
         }
 
 
 type alias Model =
-    { colorModesModel : ColorModes.Model }
+    { colorModesModel : ColorModes.Model
+    , colorPickerModel : ColorPicker.Model
+    }
 
 
-type alias Msg =
-    ColorModes.Msg
+type Msg
+    = ColorModesMsg ColorModes.Msg
+    | ColorPickerMsg ColorPicker.Msg
+
+
+update : Msg -> Model -> Model
+update msg model =
+    case msg of
+        ColorModesMsg colorMsg ->
+            { model | colorModesModel = ColorModes.update colorMsg model.colorModesModel }
+
+        ColorPickerMsg colorMsg ->
+            { model | colorPickerModel = ColorPicker.update colorMsg model.colorPickerModel }
 
 
 view : Model -> Html Msg
 view model =
     Html.main_ []
         [ Html.h1 [] [ Html.text "Examples" ]
+        , exampleSection "Color Picker"
+            (ColorPicker.view model.colorPickerModel
+                |> Html.map ColorPickerMsg
+            )
         , exampleSection "Contrast"
-            (ColorModes.view model.colorModesModel)
+            (ColorModes.view model.colorModesModel
+                |> Html.map ColorModesMsg
+            )
         , exampleSection "Color Schemes"
             (Html.div []
                 [ exampleSubsection "Complementary"
