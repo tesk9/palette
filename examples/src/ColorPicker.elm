@@ -19,7 +19,7 @@ init =
 
 
 type Msg
-    = AdjustHue Int
+    = AdjustHue Float
     | SetColor Color
 
 
@@ -53,7 +53,7 @@ update : Msg -> Model -> Model
 update msg (Model color) =
     case msg of
         AdjustHue degree ->
-            Color.Generator.rotate (toFloat degree) color
+            Color.Generator.rotate degree color
                 |> Model
 
         SetColor newColor ->
