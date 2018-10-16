@@ -47,25 +47,7 @@ view (Model color pickerStyle) =
                 viewHSLSelectors color
 
             RGB ->
-                [ Html.div
-                    [ style "display" "flex"
-                    , style "flex-direction" "column"
-                    , style "align-items" "center"
-                    ]
-                    [ Html.h2 [] [ Html.text "RGB Color Picker" ]
-                    , changePicker "HSL" HSL
-                    , viewColor color
-                    ]
-                ]
-
-
-changePicker : String -> PickerStyle -> Html Msg
-changePicker text pickerStyle =
-    Html.button
-        [ Html.Events.onClick (SetPickerStyle pickerStyle)
-        , style "margin" "8px"
-        ]
-        [ Html.text ("View " ++ text ++ " ColorPicker") ]
+                viewRGBSelectors color
 
 
 viewHSLSelectors : Color -> List (Html Msg)
@@ -122,6 +104,70 @@ viewHSLSelectors selectedColor =
             ]
         ]
     ]
+
+
+viewRGBSelectors : Color -> List (Html Msg)
+viewRGBSelectors selectedColor =
+    let
+        ( currentR, currentG, currentB ) =
+            Color.toHSL selectedColor
+    in
+    [ Html.div []
+        [ Html.div [ style "display" "flex" ]
+            [ Slider.view
+                { increase = AdjustLightness 1
+                , decrease = AdjustLightness -1
+                , asColor = \r -> Color.fromRGB ( toFloat r, 0, 0 )
+                , setTo = SetColor
+                , valueMin = 0
+                , valueMax = 255
+                , valueNow = round currentR
+                , labelId = "redness-selector"
+                , labelText = "Red"
+                }
+            , Slider.view
+                { increase = AdjustLightness 1
+                , decrease = AdjustLightness -1
+                , asColor = \g -> Color.fromRGB ( 0, toFloat g, 0 )
+                , setTo = SetColor
+                , valueMin = 0
+                , valueMax = 255
+                , valueNow = round currentG
+                , labelId = "greenness-selector"
+                , labelText = "Green"
+                }
+            , Slider.view
+                { increase = AdjustLightness 1
+                , decrease = AdjustLightness -1
+                , asColor = \b -> Color.fromRGB ( 0, 0, toFloat b )
+                , setTo = SetColor
+                , valueMin = 0
+                , valueMax = 255
+                , valueNow = round currentB
+                , labelId = "blueness-selector"
+                , labelText = "Blue"
+                }
+            ]
+        ]
+    , Html.div
+        [ style "display" "flex"
+        , style "flex-direction" "column"
+        , style "align-items" "center"
+        ]
+        [ Html.h2 [] [ Html.text "RGB Color Picker" ]
+        , changePicker "HSL" HSL
+        , viewColor selectedColor
+        ]
+    ]
+
+
+changePicker : String -> PickerStyle -> Html Msg
+changePicker text pickerStyle =
+    Html.button
+        [ Html.Events.onClick (SetPickerStyle pickerStyle)
+        , style "margin" "8px"
+        ]
+        [ Html.text ("View " ++ text ++ " ColorPicker") ]
 
 
 viewColor : Color -> Html msg
