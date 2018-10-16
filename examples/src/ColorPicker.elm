@@ -44,24 +44,7 @@ view (Model color pickerStyle) =
     <|
         case pickerStyle of
             HSL ->
-                [ hueSelector color
-                , Html.div
-                    [ style "display" "flex"
-                    , style "flex-direction" "column"
-                    , style "align-items" "center"
-                    ]
-                    [ Html.h2 [] [ Html.text "HSL Color Picker" ]
-                    , changePicker "RGB" RGB
-                    , viewColor color
-                    , Html.div
-                        [ style "display" "flex"
-                        , style "margin-top" "auto"
-                        ]
-                        [ saturationSelector color
-                        , lightnessSelector color
-                        ]
-                    ]
-                ]
+                viewHSLSelectors color
 
             RGB ->
                 [ Html.div
@@ -85,19 +68,16 @@ changePicker text pickerStyle =
         [ Html.text ("View " ++ text ++ " ColorPicker") ]
 
 
-hueSelector : Color -> Html Msg
-hueSelector selectedColor =
+viewHSLSelectors : Color -> List (Html Msg)
+viewHSLSelectors selectedColor =
     let
-        ( currentHue, _, _ ) =
+        ( currentHue, currentSaturation, currentLightness ) =
             Color.toHSL selectedColor
-
-        asColor hue =
-            Color.fromHSL ( toFloat hue, 100, 50 )
     in
-    Slider.view
+    [ Slider.view
         { increase = AdjustHue 1
         , decrease = AdjustHue -1
-        , asColor = asColor
+        , asColor = \hue -> Color.fromHSL ( toFloat hue, 100, 50 )
         , setTo = SetColor
         , valueMin = 0
         , valueMax = 359
@@ -105,50 +85,43 @@ hueSelector selectedColor =
         , labelId = "hue-selector"
         , labelText = "Hue"
         }
-
-
-saturationSelector : Color -> Html Msg
-saturationSelector selectedColor =
-    let
-        ( hue, currentSaturation, lightness ) =
-            Color.toHSL selectedColor
-
-        asColor saturation =
-            Color.fromHSL ( hue, toFloat saturation, 50 )
-    in
-    Slider.view
-        { increase = AdjustSaturation 1
-        , decrease = AdjustSaturation -1
-        , asColor = asColor
-        , setTo = SetColor
-        , valueMin = 0
-        , valueMax = 100
-        , valueNow = round currentSaturation
-        , labelId = "saturation-selector"
-        , labelText = "Saturation"
-        }
-
-
-lightnessSelector : Color -> Html Msg
-lightnessSelector selectedColor =
-    let
-        ( hue, saturation, currentLightness ) =
-            Color.toHSL selectedColor
-
-        asColor lightness =
-            Color.fromHSL ( hue, saturation, toFloat lightness )
-    in
-    Slider.view
-        { increase = AdjustLightness 1
-        , decrease = AdjustLightness -1
-        , asColor = asColor
-        , setTo = SetColor
-        , valueMin = 0
-        , valueMax = 100
-        , valueNow = round currentLightness
-        , labelId = "lightness-selector"
-        , labelText = "Lightness"
-        }
+    , Html.div
+        [ style "display" "flex"
+        , style "flex-direction" "column"
+        , style "align-items" "center"
+        ]
+        [ Html.h2 [] [ Html.text "HSL Color Picker" ]
+        , changePicker "RGB" RGB
+        , viewColor selectedColor
+        , Html.div
+            [ style "display" "flex"
+            , style "margin-top" "auto"
+            ]
+            [ Slider.view
+                { increase = AdjustSaturation 1
+                , decrease = AdjustSaturation -1
+                , asColor = \saturation -> Color.fromHSL ( currentHue, toFloat saturation, 50 )
+                , setTo = SetColor
+                , valueMin = 0
+                , valueMax = 100
+                , valueNow = round currentSaturation
+                , labelId = "saturation-selector"
+                , labelText = "Saturation"
+                }
+            , Slider.view
+                { increase = AdjustLightness 1
+                , decrease = AdjustLightness -1
+                , asColor = \lightness -> Color.fromHSL ( currentHue, currentSaturation, toFloat lightness )
+                , setTo = SetColor
+                , valueMin = 0
+                , valueMax = 100
+                , valueNow = round currentLightness
+                , labelId = "lightness-selector"
+                , labelText = "Lightness"
+                }
+            ]
+        ]
+    ]
 
 
 viewColor : Color -> Html msg
