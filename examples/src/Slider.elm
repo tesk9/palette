@@ -15,6 +15,7 @@ type alias Config msg =
     , valueMax : Int
     , valueNow : Float
     , labelId : String
+    , labelText : String
     }
 
 
@@ -22,7 +23,7 @@ view : Config msg -> Html msg
 view config =
     Html.div []
         [ Html.div [ style "position" "relative" ] (slider config :: range config)
-        , Html.label [ id config.labelId ] [ Html.text "Hue Selector" ]
+        , Html.label [ id config.labelId ] [ Html.text config.labelText ]
         ]
 
 
