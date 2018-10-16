@@ -3,8 +3,7 @@ module Color.Generator exposing
     , highContrast
     , shade, tint, tone
     , grayscale, invert
-    , rotate, adjustSaturation
-    , adjustLightness
+    , rotate, adjustSaturation, adjustLightness
     )
 
 {-|
@@ -22,8 +21,7 @@ Generate a palette based on a starting color.
 
 @docs shade, tint, tone
 @docs grayscale, invert
-@docs rotate, adjustSaturation
-@docs adjustLightness
+@docs rotate, adjustSaturation, adjustLightness
 
 -}
 
