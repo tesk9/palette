@@ -10,10 +10,11 @@ type alias Config msg =
     { increase : msg
     , decrease : msg
     , setTo : Int -> msg
+    , valueToSliderColor : Int -> String
     , valueAsColor : Int -> String
     , valueMin : Int
     , valueMax : Int
-    , valueNow : Float
+    , valueNow : Int
     , labelId : String
     , labelText : String
     }
@@ -28,19 +29,19 @@ view config =
 
 
 slider : Config msg -> Html msg
-slider { valueMin, valueMax, valueNow, labelId, increase, decrease } =
+slider { valueMin, valueMax, valueNow, labelId, increase, decrease, valueToSliderColor } =
     Html.div
         [ attribute "aria-role" "slider"
         , attribute "aria-valuemin" (String.fromInt valueMin)
         , attribute "aria-valuemax" (String.fromInt valueMax)
-        , attribute "aria-valuenow" (String.fromFloat valueNow)
+        , attribute "aria-valuenow" (String.fromInt valueNow)
         , attribute "aria-labelledby" labelId
         , attribute "tabindex" "0"
         , style "width" "100px"
         , style "height" "1px"
-        , style "border" "1px solid black"
+        , style "border" ("1px solid " ++ valueToSliderColor valueNow)
         , style "position" "relative"
-        , style "top" (String.fromFloat valueNow ++ "px")
+        , style "top" (String.fromInt valueNow ++ "px")
         , onKeyDown [ upArrow increase, downArrow decrease ]
         ]
         []
