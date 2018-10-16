@@ -28,6 +28,7 @@ type Msg
     | AdjustSaturation Float
     | AdjustLightness Float
     | SetColor Color
+    | SetPickerStyle PickerStyle
 
 
 view : Model -> Html Msg
@@ -50,6 +51,7 @@ view (Model color pickerStyle) =
                     , style "align-items" "center"
                     ]
                     [ Html.h2 [] [ Html.text "HSL Color Picker" ]
+                    , changePicker "RGB" RGB
                     , viewColor color
                     , Html.div
                         [ style "display" "flex"
@@ -62,9 +64,25 @@ view (Model color pickerStyle) =
                 ]
 
             RGB ->
-                [ Html.h2 [] [ Html.text "RGB Color Picker" ]
-                , viewColor color
+                [ Html.div
+                    [ style "display" "flex"
+                    , style "flex-direction" "column"
+                    , style "align-items" "center"
+                    ]
+                    [ Html.h2 [] [ Html.text "RGB Color Picker" ]
+                    , changePicker "HSL" HSL
+                    , viewColor color
+                    ]
                 ]
+
+
+changePicker : String -> PickerStyle -> Html Msg
+changePicker text pickerStyle =
+    Html.button
+        [ Html.Events.onClick (SetPickerStyle pickerStyle)
+        , style "margin" "8px"
+        ]
+        [ Html.text ("View " ++ text ++ " ColorPicker") ]
 
 
 hueSelector : Color -> Html Msg
@@ -158,3 +176,6 @@ update msg (Model color pickerStyle) =
 
         SetColor newColor ->
             Model newColor pickerStyle
+
+        SetPickerStyle newPickerStyle ->
+            Model color newPickerStyle
