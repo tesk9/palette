@@ -31,7 +31,7 @@ view model =
         [ style "display" "flex"
         , style "align-items" "flex-end"
         , style "justify-content" "space-around"
-        , style "width" "400px"
+        , style "width" "500px"
         ]
         [ hueSelector model
         , saturationSelector model
@@ -53,8 +53,8 @@ hueSelector (Model selectedColor) =
         , decrease = AdjustHue -1
         , asColor = asColor
         , setTo = SetColor
-        , valueMin = 1
-        , valueMax = 360
+        , valueMin = 0
+        , valueMax = 359
         , valueNow = round currentHue
         , labelId = "hue-selector"
         , labelText = "Hue Selector"

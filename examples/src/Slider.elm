@@ -24,9 +24,17 @@ type alias Config msg =
 view : Config msg -> Html msg
 view config =
     Html.div
-        []
+        [ style "background-color" "lightgrey"
+        , style "border" "1px solid gray"
+        , style "padding" "20px"
+        ]
         [ Html.div [ style "position" "relative" ] (slider config :: range config)
-        , Html.label [ id config.labelId ] [ Html.text config.labelText ]
+        , Html.label
+            [ id config.labelId
+            , style "display" "block"
+            , style "text-align" "center"
+            ]
+            [ Html.text config.labelText ]
         ]
 
 
@@ -44,7 +52,7 @@ slider { valueMin, valueMax, valueNow, labelId, increase, decrease, asColor } =
         , style "border" ("1px solid " ++ toRGBString (highContrast (asColor valueNow)))
         , style "position" "relative"
         , style "margin" "auto"
-        , style "top" (String.fromInt (valueMax - valueNow) ++ "px")
+        , style "top" (String.fromInt (valueMax - valueNow + 2) ++ "px")
         , onKeyDown [ upArrow increase, downArrow decrease ]
         ]
         []
