@@ -31,6 +31,20 @@ import Color exposing (Color)
 
 
 {-| Rotate a color by degrees [0, 360).
+
+Picture the color wheel. Suppose you want to find 8 evenly-spaced colors from a starting color.
+You might do something like this:
+
+    import Color
+    import Color.Generator
+
+    eightEvenColors : Color -> List Color
+    eightEvenColors color =
+        List.range 0 7
+            |> List.map (\i -> Color.Generator.rotate (toFloat i * 360 / 8) color)
+
+Check out this code on Ellie here: <https://ellie-app.com/3CRfDs2HLvGa1>.
+
 -}
 rotate : Float -> Color -> Color
 rotate degrees color =
