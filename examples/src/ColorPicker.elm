@@ -1,7 +1,7 @@
 module ColorPicker exposing (Model, Msg, init, update, view)
 
 import Color exposing (Color)
-import Color.Generator exposing (adjustLightness, adjustSaturation, highContrast, rotate)
+import Color.Generator exposing (adjustLightness, adjustSaturation, rotate)
 import Html exposing (Html)
 import Html.Attributes exposing (attribute, id, style)
 import Html.Events
@@ -47,9 +47,8 @@ hueSelector (Model selectedColor) =
     Slider.view
         { increase = AdjustHue 1
         , decrease = AdjustHue -1
-        , setTo = asColor >> SetColor
-        , valueAsColor = asColor >> Color.toHSLString
-        , valueToSliderColor = asColor >> highContrast >> Color.toHSLString
+        , asColor = asColor
+        , setTo = SetColor
         , valueMin = 1
         , valueMax = 360
         , valueNow = round currentHue
@@ -70,9 +69,8 @@ saturationSelector (Model selectedColor) =
     Slider.view
         { increase = AdjustSaturation 1
         , decrease = AdjustSaturation -1
-        , setTo = asColor >> SetColor
-        , valueAsColor = asColor >> Color.toHSLString
-        , valueToSliderColor = asColor >> highContrast >> Color.toHSLString
+        , asColor = asColor
+        , setTo = SetColor
         , valueMin = 0
         , valueMax = 100
         , valueNow = round currentSaturation
@@ -93,9 +91,8 @@ lightnessSelector (Model selectedColor) =
     Slider.view
         { increase = AdjustLightness 1
         , decrease = AdjustLightness -1
-        , setTo = asColor >> SetColor
-        , valueAsColor = asColor >> Color.toHSLString
-        , valueToSliderColor = asColor >> highContrast >> Color.toHSLString
+        , asColor = asColor
+        , setTo = SetColor
         , valueMin = 0
         , valueMax = 100
         , valueNow = round currentLightness

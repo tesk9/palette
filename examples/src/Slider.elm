@@ -1,5 +1,7 @@
 module Slider exposing (Config, view)
 
+import Color exposing (Color, toRGBString)
+import Color.Generator exposing (highContrast)
 import Html exposing (Html)
 import Html.Attributes exposing (attribute, id, style)
 import Html.Events
@@ -9,9 +11,8 @@ import Json.Decode
 type alias Config msg =
     { increase : msg
     , decrease : msg
-    , setTo : Int -> msg
-    , valueToSliderColor : Int -> String
-    , valueAsColor : Int -> String
+    , asColor : Int -> Color
+    , setTo : Color -> msg
     , valueMin : Int
     , valueMax : Int
     , valueNow : Int
@@ -29,7 +30,7 @@ view config =
 
 
 slider : Config msg -> Html msg
-slider { valueMin, valueMax, valueNow, labelId, increase, decrease, valueToSliderColor } =
+slider { valueMin, valueMax, valueNow, labelId, increase, decrease, asColor } =
     Html.div
         [ attribute "aria-role" "slider"
         , attribute "aria-valuemin" (String.fromInt valueMin)
@@ -39,7 +40,7 @@ slider { valueMin, valueMax, valueNow, labelId, increase, decrease, valueToSlide
         , attribute "tabindex" "0"
         , style "width" "100px"
         , style "height" "1px"
-        , style "border" ("1px solid " ++ valueToSliderColor valueNow)
+        , style "border" ("1px solid " ++ toRGBString (highContrast (asColor valueNow)))
         , style "position" "relative"
         , style "top" (String.fromInt valueNow ++ "px")
         , onKeyDown [ upArrow increase, downArrow decrease ]
@@ -58,8 +59,8 @@ viewSlice config value =
         [ style "width" "100px"
         , style "height" "1px"
         , style "margin-left" "1px"
-        , style "background-color" (config.valueAsColor value)
-        , Html.Events.onClick (config.setTo value)
+        , style "background-color" (toRGBString (config.asColor value))
+        , Html.Events.onClick (config.setTo (config.asColor value))
         ]
         []
 
