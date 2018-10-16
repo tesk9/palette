@@ -27,6 +27,9 @@ type Msg
     = AdjustHue Float
     | AdjustSaturation Float
     | AdjustLightness Float
+    | AdjustRedness Float
+    | AdjustGreenness Float
+    | AdjustBlueness Float
     | SetColor Color
     | SetPickerStyle PickerStyle
 
@@ -110,13 +113,13 @@ viewRGBSelectors : Color -> List (Html Msg)
 viewRGBSelectors selectedColor =
     let
         ( currentR, currentG, currentB ) =
-            Color.toHSL selectedColor
+            Color.toRGB selectedColor
     in
     [ Html.div []
         [ Html.div [ style "display" "flex" ]
             [ Slider.view
-                { increase = AdjustLightness 1
-                , decrease = AdjustLightness -1
+                { increase = AdjustRedness 1
+                , decrease = AdjustRedness -1
                 , asColor = \r -> Color.fromRGB ( toFloat r, 0, 0 )
                 , setTo = SetColor
                 , valueMin = 0
@@ -126,8 +129,8 @@ viewRGBSelectors selectedColor =
                 , labelText = "Red"
                 }
             , Slider.view
-                { increase = AdjustLightness 1
-                , decrease = AdjustLightness -1
+                { increase = AdjustGreenness 1
+                , decrease = AdjustGreenness -1
                 , asColor = \g -> Color.fromRGB ( 0, toFloat g, 0 )
                 , setTo = SetColor
                 , valueMin = 0
@@ -137,8 +140,8 @@ viewRGBSelectors selectedColor =
                 , labelText = "Green"
                 }
             , Slider.view
-                { increase = AdjustLightness 1
-                , decrease = AdjustLightness -1
+                { increase = AdjustBlueness 1
+                , decrease = AdjustBlueness -1
                 , asColor = \b -> Color.fromRGB ( 0, 0, toFloat b )
                 , setTo = SetColor
                 , valueMin = 0
@@ -192,6 +195,27 @@ update msg (Model color pickerStyle) =
 
         AdjustLightness percentage ->
             Model (adjustLightness percentage color) pickerStyle
+
+        AdjustRedness by ->
+            let
+                ( current, g, b ) =
+                    Color.toRGB color
+            in
+            Model (Color.fromRGB ( current + by, g, b )) pickerStyle
+
+        AdjustGreenness by ->
+            let
+                ( r, current, b ) =
+                    Color.toRGB color
+            in
+            Model (Color.fromRGB ( r, current + by, b )) pickerStyle
+
+        AdjustBlueness by ->
+            let
+                ( r, g, current ) =
+                    Color.toRGB color
+            in
+            Model (Color.fromRGB ( r, g, current + by )) pickerStyle
 
         SetColor newColor ->
             Model newColor pickerStyle
