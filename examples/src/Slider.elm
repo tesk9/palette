@@ -44,7 +44,7 @@ slider { valueMin, valueMax, valueNow, labelId, increase, decrease, asColor } =
         , style "border" ("1px solid " ++ toRGBString (highContrast (asColor valueNow)))
         , style "position" "relative"
         , style "margin" "auto"
-        , style "top" (String.fromInt valueNow ++ "px")
+        , style "top" (String.fromInt (valueMax - valueNow) ++ "px")
         , onKeyDown [ upArrow increase, downArrow decrease ]
         ]
         []
@@ -52,7 +52,9 @@ slider { valueMin, valueMax, valueNow, labelId, increase, decrease, asColor } =
 
 range : Config msg -> List (Html msg)
 range config =
-    List.map (viewSlice config) (List.range config.valueMin config.valueMax)
+    List.range config.valueMin config.valueMax
+        |> List.reverse
+        |> List.map (viewSlice config)
 
 
 viewSlice : Config msg -> Int -> Html msg
