@@ -1,5 +1,6 @@
 module Color.Generator exposing
-    ( complementary, triadic, splitComplementary, square, tetratic, monochromatic
+    ( complementary, triadic, splitComplementary, square, tetratic
+    , monochromatic
     , highContrast
     , shade, tint, tone
     , grayscale, invert
@@ -13,7 +14,19 @@ module Color.Generator exposing
 
 Generate a palette based on a starting color.
 
-@docs complementary, triadic, splitComplementary, square, tetratic, monochromatic
+
+### By Hue
+
+@docs complementary, triadic, splitComplementary, square, tetratic
+
+
+### By Lightness
+
+@docs monochromatic
+
+
+### By contrast
+
 @docs highContrast
 
 
@@ -189,9 +202,12 @@ grayscale color =
         |> Color.fromRGB
 
 
-{-| Find the highest contrast color to use in concert with the passed-in color.
+{-| Find a high contrast color to use in concert with the passed-in color.
+This funciton will return either black or white, whichever will be higher contrast
+given the starter color.
 
-<http://www.worqx.com/color/itten.htm>
+This is most useful when working with styleguide colors. It will not produce
+particularly visually pleasing results, but they will be consistent and readable.
 
 -}
 highContrast : Color -> Color
