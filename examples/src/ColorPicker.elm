@@ -29,13 +29,23 @@ view : Model -> Html Msg
 view model =
     Html.div
         [ style "display" "flex"
-        , style "align-items" "flex-end"
-        , style "justify-content" "space-around"
-        , style "width" "500px"
+        , style "align-items" "stretch"
         ]
         [ hueSelector model
-        , saturationSelector model
-        , lightnessSelector model
+        , Html.div
+            [ style "display" "flex"
+            , style "flex-direction" "column"
+            , style "align-items" "center"
+            ]
+            [ viewColor model
+            , Html.div
+                [ style "display" "flex"
+                , style "margin-top" "auto"
+                ]
+                [ saturationSelector model
+                , lightnessSelector model
+                ]
+            ]
         ]
 
 
@@ -103,6 +113,18 @@ lightnessSelector (Model selectedColor) =
         , labelId = "lightness-selector"
         , labelText = "Lightness Selector"
         }
+
+
+viewColor : Model -> Html msg
+viewColor (Model color) =
+    Html.div
+        [ style "width" "200px"
+        , style "height" "200px"
+        , style "margin" "20px"
+        , style "border-radius" "50%"
+        , style "background-color" (Color.toRGBString color)
+        ]
+        []
 
 
 update : Msg -> Model -> Model
