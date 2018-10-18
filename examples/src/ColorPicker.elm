@@ -29,7 +29,7 @@ view (Model color pickerStyle) =
         [ style "display" "flex"
         , style "align-items" "stretch"
         , style "background-color" "lightgrey"
-        , style "width" "445px"
+        , style "width" "min-content"
         , style "border-radius" "8px"
         , style "border" "1px solid grey"
         ]
@@ -71,7 +71,7 @@ viewHSLSelectors selectedColor =
         , valueNow = round currentHue
         , labelId = "hue-selector"
         , labelText = "Hue"
-        , width = 100
+        , width = 70
         }
     , Html.div
         [ style "display" "flex"
@@ -93,7 +93,7 @@ viewHSLSelectors selectedColor =
                 , valueNow = round currentSaturation
                 , labelId = "saturation-selector"
                 , labelText = "Saturation"
-                , width = 100
+                , width = 70
                 }
             , Slider.view
                 { setValue = toFloat >> setLightness
@@ -103,7 +103,7 @@ viewHSLSelectors selectedColor =
                 , valueNow = round currentLightness
                 , labelId = "lightness-selector"
                 , labelText = "Lightness"
-                , width = 100
+                , width = 70
                 }
             ]
         ]
@@ -141,7 +141,7 @@ viewRGBSelectors selectedColor =
                 , valueNow = round currentR
                 , labelId = "redness-selector"
                 , labelText = "Red"
-                , width = 40
+                , width = 35
                 }
             , Slider.view
                 { setValue = toFloat >> setG
@@ -151,7 +151,7 @@ viewRGBSelectors selectedColor =
                 , valueNow = round currentG
                 , labelId = "greenness-selector"
                 , labelText = "Green"
-                , width = 40
+                , width = 35
                 }
             , Slider.view
                 { setValue = toFloat >> setB
@@ -161,7 +161,7 @@ viewRGBSelectors selectedColor =
                 , valueNow = round currentB
                 , labelId = "blueness-selector"
                 , labelText = "Blue"
-                , width = 40
+                , width = 35
                 }
             ]
         ]
@@ -169,6 +169,7 @@ viewRGBSelectors selectedColor =
         [ style "display" "flex"
         , style "flex-direction" "column"
         , style "align-items" "center"
+        , style "min-width" "200px"
         ]
         [ Html.h2 [] [ Html.text "RGB Color Picker" ]
         , changePicker "HSL" HSL
@@ -189,8 +190,9 @@ changePicker text pickerStyle =
 viewColor : Color -> Html msg
 viewColor color =
     Html.div
-        [ style "width" "150px"
-        , style "height" "150px"
+        [ style "width" "120px"
+        , style "height" "120px"
+        , style "margin-top" "16px"
         , style "border-radius" "50%"
         , style "background-color" (Color.toRGBString color)
         ]
