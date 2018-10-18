@@ -5,6 +5,7 @@ import Color.Generator exposing (highContrast)
 import Html exposing (Html)
 import Html.Attributes exposing (attribute, id, style)
 import Html.Events
+import Html.Keyed
 import Json.Decode
 
 
@@ -24,7 +25,9 @@ type alias Config msg =
 view : Config msg -> Html msg
 view config =
     Html.div [ style "padding" "10px 36px 10px 10px" ]
-        [ Html.div [ style "position" "relative" ] (slider config :: range config)
+        [ Html.Keyed.node "div"
+            [ style "position" "relative" ]
+            (slider config :: range config)
         , Html.label
             [ id config.labelId
             , style "display" "block"
@@ -40,7 +43,8 @@ slider { valueMin, valueMax, valueNow, labelId, labelText, increase, decrease, a
         border =
             style "border" ("1px solid " ++ toRGBString (highContrast (asColor valueNow)))
     in
-    Html.div
+    ( labelText ++ "--" ++ "slider"
+    , Html.div
         [ style "position" "relative"
         , style "margin" "auto"
         , style "top" (String.fromInt (valueMax - valueNow + 2) ++ "px")
