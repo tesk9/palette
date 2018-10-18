@@ -9,8 +9,11 @@ import Json.Decode
 import Slider
 
 
-type Model
-    = Model Color PickerStyle
+type alias Model =
+    { selectedColor : Color
+    , savedColor : Color
+    , pickerStyle : PickerStyle
+    }
 
 
 type PickerStyle
@@ -20,11 +23,11 @@ type PickerStyle
 
 init : Color -> Model
 init color =
-    Model color HSL
+    Model color color HSL
 
 
 view : Model -> Html Msg
-view (Model color pickerStyle) =
+view { selectedColor, pickerStyle } =
     Html.section
         [ style "display" "flex"
         , style "align-items" "stretch"
@@ -36,10 +39,10 @@ view (Model color pickerStyle) =
     <|
         case pickerStyle of
             HSL ->
-                viewHSLSelectors color
+                viewHSLSelectors selectedColor
 
             RGB ->
-                viewRGBSelectors color
+                viewRGBSelectors selectedColor
 
 
 viewHSLSelectors : Color -> List (Html Msg)
@@ -224,13 +227,13 @@ type Msg
 
 
 update : Msg -> Model -> ( Model, Maybe Color )
-update msg (Model color pickerStyle) =
+update msg { selectedColor, savedColor, pickerStyle } =
     case msg of
         SetColor newColor ->
-            ( Model newColor pickerStyle, Nothing )
+            ( Model newColor savedColor pickerStyle, Nothing )
 
         SetPickerStyle newPickerStyle ->
-            ( Model color newPickerStyle, Nothing )
+            ( Model selectedColor savedColor newPickerStyle, Nothing )
 
         SaveColor ->
-            ( Model color pickerStyle, Just color )
+            ( Model selectedColor savedColor pickerStyle, Just selectedColor )
