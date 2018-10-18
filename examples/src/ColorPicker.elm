@@ -132,7 +132,7 @@ viewRGBSelectors selectedColor =
                 |> SetColor
     in
     [ Html.div []
-        [ Html.div [ style "display" "flex" ]
+        [ Html.div [ style "display" "flex", style "justify-content" "space-around" ]
             [ Slider.view
                 { setValue = toFloat >> setR
                 , asColor = \r -> Color.fromRGB ( toFloat r, 0, 0 )
@@ -182,7 +182,8 @@ changePicker : String -> PickerStyle -> Html Msg
 changePicker text pickerStyle =
     Html.button
         [ Html.Events.onClick (SetPickerStyle pickerStyle)
-        , style "margin" "8px"
+        , style "padding" "8px"
+        , style "border-radius" "6px"
         ]
         [ Html.text ("View " ++ text ++ " ColorPicker") ]
 

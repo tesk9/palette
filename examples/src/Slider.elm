@@ -23,7 +23,10 @@ type alias Config msg =
 
 view : Config msg -> Html msg
 view config =
-    Html.div [ style "padding" "10px 36px 10px 10px" ]
+    Html.div
+        [ style "padding" "10px 36px 10px 10px"
+        , style "width" (String.fromFloat (config.width + 4) ++ "px")
+        ]
         [ Html.Keyed.node "div"
             [ style "position" "relative" ]
             (slider config :: range config)
@@ -51,7 +54,6 @@ slider { valueMin, valueMax, valueNow, setValue, labelId, labelText, asColor, wi
     ( labelText ++ "--" ++ "slider"
     , Html.div
         [ style "position" "relative"
-        , style "margin" "auto"
         , style "top" (String.fromInt (valueMax - valueNow + 2) ++ "px")
         ]
         [ Html.div
@@ -71,14 +73,16 @@ slider { valueMin, valueMax, valueNow, setValue, labelId, labelText, asColor, wi
         , Html.div
             [ attribute "aria-role" "presentation"
             , id (labelId ++ "-result")
+            , style "text-align" "center"
+            , style "border-radius" "2px"
+            , style "background-color" "white"
+
+            --positioning
             , style "position" "absolute"
             , style "width" "24px"
-            , style "text-align" "center"
             , style "padding" "2px"
-            , style "border-radius" "2px"
-            , style "left" "100%"
+            , style "right" "-28px"
             , style "top" "-10px"
-            , style "background-color" "white"
             , border
             ]
             [ Html.text (String.fromInt valueNow) ]
@@ -99,7 +103,7 @@ viewSlice config value =
     , Html.div
         [ style "width" (String.fromFloat config.width ++ "px")
         , style "height" "1px"
-        , style "margin" "auto"
+        , style "margin-left" "1px"
         , style "background-color" (toRGBString (config.asColor value))
         , Html.Events.onClick (config.setValue value)
         ]
