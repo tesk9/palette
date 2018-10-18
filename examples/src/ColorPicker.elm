@@ -18,9 +18,9 @@ type PickerStyle
     | HSL
 
 
-init : Model
-init =
-    Model (Color.fromHSL ( 0, 100, 50 )) HSL
+init : Color -> Model
+init color =
+    Model color HSL
 
 
 view : Model -> Html Msg
@@ -188,21 +188,39 @@ changePicker text pickerStyle =
         [ Html.text ("View " ++ text ++ " ColorPicker") ]
 
 
-viewColor : Color -> Html msg
+viewColor : Color -> Html Msg
 viewColor color =
     Html.div
-        [ style "width" "120px"
-        , style "height" "120px"
-        , style "margin-top" "16px"
-        , style "border-radius" "50%"
-        , style "background-color" (Color.toRGBString color)
+        [ style "display" "flex"
+        , style "flex-direction" "column"
         ]
-        []
+        [ Html.div
+            [ style "width" "100px"
+            , style "height" "100px"
+            , style "margin-top" "16px"
+            , style "border-radius" "50%"
+            , style "background-color" (Color.toRGBString color)
+            ]
+            []
+        , saveColor
+        ]
+
+
+saveColor : Html Msg
+saveColor =
+    Html.button
+        [ Html.Events.onClick SaveColor
+        , style "margin-top" "4px"
+        , style "padding" "4px"
+        , style "border-radius" "6px"
+        ]
+        [ Html.text "Save Color" ]
 
 
 type Msg
     = SetColor Color
     | SetPickerStyle PickerStyle
+    | SaveColor
 
 
 update : Msg -> Model -> ( Model, Maybe Color )
@@ -213,3 +231,6 @@ update msg (Model color pickerStyle) =
 
         SetPickerStyle newPickerStyle ->
             ( Model color newPickerStyle, Nothing )
+
+        SaveColor ->
+            ( Model color pickerStyle, Just color )

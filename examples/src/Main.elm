@@ -17,10 +17,15 @@ import Platform
 
 main : Platform.Program () Model Msg
 main =
+    let
+        selectedColor =
+            Color.fromHSL ( 0, 100, 50 )
+    in
     Browser.sandbox
         { init =
             { colorModesModel = ColorModes.init
-            , colorPickerModel = ColorPicker.init
+            , colorPickerModel = ColorPicker.init selectedColor
+            , selectedColor = selectedColor
             }
         , update = update
         , view = view
@@ -30,6 +35,7 @@ main =
 type alias Model =
     { colorModesModel : ColorModes.Model
     , colorPickerModel : ColorPicker.Model
+    , selectedColor : Color
     }
 
 
@@ -49,7 +55,10 @@ update msg model =
                 ( newColorPickerModel, maybeNewColor ) =
                     ColorPicker.update colorMsg model.colorPickerModel
             in
-            { model | colorPickerModel = newColorPickerModel }
+            { model
+                | colorPickerModel = newColorPickerModel
+                , selectedColor = Maybe.withDefault model.selectedColor maybeNewColor
+            }
 
 
 view : Model -> Html Msg
