@@ -17,6 +17,7 @@ type alias Config msg =
     , valueNow : Int
     , labelId : String
     , labelText : String
+    , width : Float
     }
 
 
@@ -36,7 +37,7 @@ view config =
 
 
 slider : Config msg -> ( String, Html msg )
-slider { valueMin, valueMax, valueNow, setValue, labelId, labelText, asColor } =
+slider { valueMin, valueMax, valueNow, setValue, labelId, labelText, asColor, width } =
     let
         border =
             style "border" ("1px solid " ++ toRGBString (highContrast (asColor valueNow)))
@@ -61,7 +62,7 @@ slider { valueMin, valueMax, valueNow, setValue, labelId, labelText, asColor } =
             , attribute "aria-labelledby" labelId
             , attribute "aria-controls" (labelId ++ "-result")
             , attribute "tabindex" "0"
-            , style "width" "100px"
+            , style "width" (String.fromFloat width ++ "px")
             , style "height" "1px"
             , border
             , arrows { up = increase, down = decrease }
@@ -96,7 +97,7 @@ viewSlice : Config msg -> Int -> ( String, Html msg )
 viewSlice config value =
     ( config.labelText ++ "--" ++ "slice" ++ "--" ++ String.fromInt value
     , Html.div
-        [ style "width" "100px"
+        [ style "width" (String.fromFloat config.width ++ "px")
         , style "height" "1px"
         , style "margin" "auto"
         , style "background-color" (toRGBString (config.asColor value))

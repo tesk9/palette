@@ -71,6 +71,7 @@ viewHSLSelectors selectedColor =
         , valueNow = round currentHue
         , labelId = "hue-selector"
         , labelText = "Hue"
+        , width = 100
         }
     , Html.div
         [ style "display" "flex"
@@ -92,6 +93,7 @@ viewHSLSelectors selectedColor =
                 , valueNow = round currentSaturation
                 , labelId = "saturation-selector"
                 , labelText = "Saturation"
+                , width = 100
                 }
             , Slider.view
                 { setValue = toFloat >> setLightness
@@ -101,6 +103,7 @@ viewHSLSelectors selectedColor =
                 , valueNow = round currentLightness
                 , labelId = "lightness-selector"
                 , labelText = "Lightness"
+                , width = 100
                 }
             ]
         ]
@@ -138,6 +141,7 @@ viewRGBSelectors selectedColor =
                 , valueNow = round currentR
                 , labelId = "redness-selector"
                 , labelText = "Red"
+                , width = 40
                 }
             , Slider.view
                 { setValue = toFloat >> setG
@@ -147,6 +151,7 @@ viewRGBSelectors selectedColor =
                 , valueNow = round currentG
                 , labelId = "greenness-selector"
                 , labelText = "Green"
+                , width = 40
                 }
             , Slider.view
                 { setValue = toFloat >> setB
@@ -156,6 +161,7 @@ viewRGBSelectors selectedColor =
                 , valueNow = round currentB
                 , labelId = "blueness-selector"
                 , labelText = "Blue"
+                , width = 40
                 }
             ]
         ]
