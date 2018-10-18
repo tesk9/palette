@@ -27,7 +27,7 @@ init color =
 
 
 view : Model -> Html Msg
-view { selectedColor, pickerStyle } =
+view model =
     Html.section
         [ style "display" "flex"
         , style "align-items" "stretch"
@@ -37,16 +37,16 @@ view { selectedColor, pickerStyle } =
         , style "border" "1px solid grey"
         ]
     <|
-        case pickerStyle of
+        case model.pickerStyle of
             HSL ->
-                viewHSLSelectors selectedColor
+                viewHSLSelectors model
 
             RGB ->
-                viewRGBSelectors selectedColor
+                viewRGBSelectors model
 
 
-viewHSLSelectors : Color -> List (Html Msg)
-viewHSLSelectors selectedColor =
+viewHSLSelectors : Model -> List (Html Msg)
+viewHSLSelectors ({ selectedColor } as model) =
     let
         ( currentHue, currentSaturation, currentLightness ) =
             Color.toHSL selectedColor
@@ -83,7 +83,7 @@ viewHSLSelectors selectedColor =
         ]
         [ Html.h2 [] [ Html.text "HSL Color Picker" ]
         , changePicker "RGB" RGB
-        , viewColor selectedColor
+        , viewColor model
         , Html.div
             [ style "display" "flex"
             , style "margin-top" "auto"
@@ -113,8 +113,8 @@ viewHSLSelectors selectedColor =
     ]
 
 
-viewRGBSelectors : Color -> List (Html Msg)
-viewRGBSelectors selectedColor =
+viewRGBSelectors : Model -> List (Html Msg)
+viewRGBSelectors ({ selectedColor } as model) =
     let
         ( currentR, currentG, currentB ) =
             Color.toRGB selectedColor
@@ -176,7 +176,7 @@ viewRGBSelectors selectedColor =
         ]
         [ Html.h2 [] [ Html.text "RGB Color Picker" ]
         , changePicker "HSL" HSL
-        , viewColor selectedColor
+        , viewColor model
         ]
     ]
 
@@ -191,8 +191,8 @@ changePicker text pickerStyle =
         [ Html.text ("View " ++ text ++ " ColorPicker") ]
 
 
-viewColor : Color -> Html Msg
-viewColor color =
+viewColor : Model -> Html Msg
+viewColor { selectedColor, savedColor } =
     Html.div
         [ style "display" "flex"
         , style "flex-direction" "column"
@@ -202,22 +202,23 @@ viewColor color =
             , style "height" "100px"
             , style "margin-top" "16px"
             , style "border-radius" "50%"
-            , style "background-color" (Color.toRGBString color)
+            , style "background-color" (Color.toRGBString selectedColor)
             ]
             []
-        , saveColor
-        ]
+        , Html.button
+            ([ style "margin-top" "4px"
+             , style "padding" "4px"
+             , style "border-radius" "6px"
+             ]
+                ++ (if Color.toRGBString selectedColor == Color.toRGBString savedColor then
+                        [ Html.Attributes.disabled True ]
 
-
-saveColor : Html Msg
-saveColor =
-    Html.button
-        [ Html.Events.onClick SaveColor
-        , style "margin-top" "4px"
-        , style "padding" "4px"
-        , style "border-radius" "6px"
+                    else
+                        [ Html.Attributes.disabled False, Html.Events.onClick SaveColor ]
+                   )
+            )
+            [ Html.text "Save Color" ]
         ]
-        [ Html.text "Save Color" ]
 
 
 type Msg
