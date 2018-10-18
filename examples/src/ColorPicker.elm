@@ -205,11 +205,11 @@ type Msg
     | SetPickerStyle PickerStyle
 
 
-update : Msg -> Model -> Model
+update : Msg -> Model -> ( Model, Maybe Color )
 update msg (Model color pickerStyle) =
     case msg of
         SetColor newColor ->
-            Model newColor pickerStyle
+            ( Model newColor pickerStyle, Nothing )
 
         SetPickerStyle newPickerStyle ->
-            Model color newPickerStyle
+            ( Model color newPickerStyle, Nothing )

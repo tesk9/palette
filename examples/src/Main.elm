@@ -45,7 +45,11 @@ update msg model =
             { model | colorModesModel = ColorModes.update colorMsg model.colorModesModel }
 
         ColorPickerMsg colorMsg ->
-            { model | colorPickerModel = ColorPicker.update colorMsg model.colorPickerModel }
+            let
+                ( newColorPickerModel, maybeNewColor ) =
+                    ColorPicker.update colorMsg model.colorPickerModel
+            in
+            { model | colorPickerModel = newColorPickerModel }
 
 
 view : Model -> Html Msg
