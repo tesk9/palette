@@ -108,16 +108,20 @@ viewSlice config value =
 
 arrows : { up : msg, down : msg } -> Html.Attribute msg
 arrows { up, down } =
-    Html.Events.preventDefaultOn "keydown" <|
-        Json.Decode.andThen
-            (\keyCode ->
-                if keyCode == 38 then
-                    Json.Decode.succeed ( up, True )
+    onKeyDown
+        (\keyCode ->
+            if keyCode == 38 then
+                Json.Decode.succeed ( up, True )
 
-                else if keyCode == 40 then
-                    Json.Decode.succeed ( down, True )
+            else if keyCode == 40 then
+                Json.Decode.succeed ( down, True )
 
-                else
-                    Json.Decode.fail (String.fromInt keyCode)
-            )
-            Html.Events.keyCode
+            else
+                Json.Decode.fail (String.fromInt keyCode)
+        )
+
+
+onKeyDown : (Int -> Json.Decode.Decoder ( msg, Bool )) -> Html.Attribute msg
+onKeyDown withKeyCode =
+    Html.Events.preventDefaultOn "keydown"
+        (Json.Decode.andThen withKeyCode Html.Events.keyCode)
