@@ -13,6 +13,7 @@ import Html.Attributes exposing (style)
 import Html.Events
 import Palette.X11 exposing (..)
 import Platform
+import Preview
 
 
 main : Platform.Program () Model Msg
@@ -25,6 +26,7 @@ main =
         { init =
             { colorModesModel = ColorModes.init
             , colorPickerModel = ColorPicker.init selectedColor
+            , previewModel = Preview.init
             , selectedColor = selectedColor
             }
         , update = update
@@ -35,6 +37,7 @@ main =
 type alias Model =
     { colorModesModel : ColorModes.Model
     , colorPickerModel : ColorPicker.Model
+    , previewModel : Preview.Model
     , selectedColor : Color
     }
 
@@ -42,6 +45,7 @@ type alias Model =
 type Msg
     = ColorModesMsg ColorModes.Msg
     | ColorPickerMsg ColorPicker.Msg
+    | PreviewMsg Preview.Msg
 
 
 update : Msg -> Model -> Model
@@ -60,14 +64,21 @@ update msg model =
                 , selectedColor = Maybe.withDefault model.selectedColor maybeNewColor
             }
 
+        PreviewMsg previewMsg ->
+            { model | previewModel = Preview.update previewMsg model.previewModel }
+
 
 view : Model -> Html Msg
 view model =
     Html.main_ []
         [ Html.h1 [] [ Html.text "Examples" ]
-        , exampleSection "Color Picker"
-            (ColorPicker.view model.colorPickerModel
-                |> Html.map ColorPickerMsg
+        , exampleSection "Custom color"
+            (Html.div [ style "display" "flex" ]
+                [ ColorPicker.view model.colorPickerModel
+                    |> Html.map ColorPickerMsg
+                , Preview.view model.selectedColor model.previewModel
+                    |> Html.map PreviewMsg
+                ]
             )
         , exampleSection "Contrast"
             (ColorModes.view model.colorModesModel
