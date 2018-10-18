@@ -64,7 +64,7 @@ slider { valueMin, valueMax, valueNow, setValue, labelId, labelText, asColor } =
             , style "width" "100px"
             , style "height" "1px"
             , border
-            , onKeyDown [ upArrow increase, downArrow decrease ]
+            , arrows { up = increase, down = decrease }
             ]
             []
         , Html.div
@@ -106,29 +106,18 @@ viewSlice config value =
     )
 
 
-upArrow : msg -> Json.Decode.Decoder ( msg, Bool )
-upArrow msg =
-    succeedForKeyCode 38 msg
+arrows : { up : msg, down : msg } -> Html.Attribute msg
+arrows { up, down } =
+    Html.Events.preventDefaultOn "keydown" <|
+        Json.Decode.andThen
+            (\keyCode ->
+                if keyCode == 38 then
+                    Json.Decode.succeed ( up, True )
 
+                else if keyCode == 40 then
+                    Json.Decode.succeed ( down, True )
 
-downArrow : msg -> Json.Decode.Decoder ( msg, Bool )
-downArrow msg =
-    succeedForKeyCode 40 msg
-
-
-succeedForKeyCode : Int -> msg -> Json.Decode.Decoder ( msg, Bool )
-succeedForKeyCode key msg =
-    Json.Decode.andThen
-        (\keyCode ->
-            if keyCode == key then
-                Json.Decode.succeed ( msg, True )
-
-            else
-                Json.Decode.fail (String.fromInt keyCode)
-        )
-        Html.Events.keyCode
-
-
-onKeyDown : List (Json.Decode.Decoder ( msg, Bool )) -> Html.Attribute msg
-onKeyDown decoders =
-    Html.Events.preventDefaultOn "keydown" (Json.Decode.oneOf decoders)
+                else
+                    Json.Decode.fail (String.fromInt keyCode)
+            )
+            Html.Events.keyCode
