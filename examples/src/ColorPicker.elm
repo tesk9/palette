@@ -23,17 +23,6 @@ init =
     Model (Color.fromHSL ( 0, 100, 50 )) HSL
 
 
-type Msg
-    = AdjustHue Float
-    | AdjustSaturation Float
-    | AdjustLightness Float
-    | AdjustRedness Float
-    | AdjustGreenness Float
-    | AdjustBlueness Float
-    | SetColor Color
-    | SetPickerStyle PickerStyle
-
-
 view : Model -> Html Msg
 view (Model color pickerStyle) =
     Html.section
@@ -58,12 +47,25 @@ viewHSLSelectors selectedColor =
     let
         ( currentHue, currentSaturation, currentLightness ) =
             Color.toHSL selectedColor
+
+        setHue hue =
+            ( hue, currentSaturation, currentLightness )
+                |> Color.fromHSL
+                |> SetColor
+
+        setSaturation saturation =
+            ( currentHue, saturation, currentLightness )
+                |> Color.fromHSL
+                |> SetColor
+
+        setLightness lightness =
+            ( currentHue, currentSaturation, lightness )
+                |> Color.fromHSL
+                |> SetColor
     in
     [ Slider.view
-        { increase = AdjustHue 1
-        , decrease = AdjustHue -1
+        { setValue = toFloat >> setHue
         , asColor = \hue -> Color.fromHSL ( toFloat hue, 100, 50 )
-        , setTo = SetColor
         , valueMin = 0
         , valueMax = 359
         , valueNow = round currentHue
@@ -83,10 +85,8 @@ viewHSLSelectors selectedColor =
             , style "margin-top" "auto"
             ]
             [ Slider.view
-                { increase = AdjustSaturation 1
-                , decrease = AdjustSaturation -1
+                { setValue = toFloat >> setSaturation
                 , asColor = \saturation -> Color.fromHSL ( currentHue, toFloat saturation, 50 )
-                , setTo = SetColor
                 , valueMin = 0
                 , valueMax = 100
                 , valueNow = round currentSaturation
@@ -94,10 +94,8 @@ viewHSLSelectors selectedColor =
                 , labelText = "Saturation"
                 }
             , Slider.view
-                { increase = AdjustLightness 1
-                , decrease = AdjustLightness -1
+                { setValue = toFloat >> setLightness
                 , asColor = \lightness -> Color.fromHSL ( currentHue, currentSaturation, toFloat lightness )
-                , setTo = SetColor
                 , valueMin = 0
                 , valueMax = 100
                 , valueNow = round currentLightness
@@ -114,14 +112,27 @@ viewRGBSelectors selectedColor =
     let
         ( currentR, currentG, currentB ) =
             Color.toRGB selectedColor
+
+        setR redness =
+            ( redness, currentG, currentB )
+                |> Color.fromRGB
+                |> SetColor
+
+        setG greenness =
+            ( currentR, greenness, currentB )
+                |> Color.fromRGB
+                |> SetColor
+
+        setB blueness =
+            ( currentR, currentG, blueness )
+                |> Color.fromRGB
+                |> SetColor
     in
     [ Html.div []
         [ Html.div [ style "display" "flex" ]
             [ Slider.view
-                { increase = AdjustRedness 1
-                , decrease = AdjustRedness -1
+                { setValue = toFloat >> setR
                 , asColor = \r -> Color.fromRGB ( toFloat r, 0, 0 )
-                , setTo = SetColor
                 , valueMin = 0
                 , valueMax = 255
                 , valueNow = round currentR
@@ -129,10 +140,8 @@ viewRGBSelectors selectedColor =
                 , labelText = "Red"
                 }
             , Slider.view
-                { increase = AdjustGreenness 1
-                , decrease = AdjustGreenness -1
+                { setValue = toFloat >> setG
                 , asColor = \g -> Color.fromRGB ( 0, toFloat g, 0 )
-                , setTo = SetColor
                 , valueMin = 0
                 , valueMax = 255
                 , valueNow = round currentG
@@ -140,10 +149,8 @@ viewRGBSelectors selectedColor =
                 , labelText = "Green"
                 }
             , Slider.view
-                { increase = AdjustBlueness 1
-                , decrease = AdjustBlueness -1
+                { setValue = toFloat >> setB
                 , asColor = \b -> Color.fromRGB ( 0, 0, toFloat b )
-                , setTo = SetColor
                 , valueMin = 0
                 , valueMax = 255
                 , valueNow = round currentB
@@ -184,39 +191,14 @@ viewColor color =
         []
 
 
+type Msg
+    = SetColor Color
+    | SetPickerStyle PickerStyle
+
+
 update : Msg -> Model -> Model
 update msg (Model color pickerStyle) =
     case msg of
-        AdjustHue degree ->
-            Model (rotate degree color) pickerStyle
-
-        AdjustSaturation percentage ->
-            Model (adjustSaturation percentage color) pickerStyle
-
-        AdjustLightness percentage ->
-            Model (adjustLightness percentage color) pickerStyle
-
-        AdjustRedness by ->
-            let
-                ( current, g, b ) =
-                    Color.toRGB color
-            in
-            Model (Color.fromRGB ( current + by, g, b )) pickerStyle
-
-        AdjustGreenness by ->
-            let
-                ( r, current, b ) =
-                    Color.toRGB color
-            in
-            Model (Color.fromRGB ( r, current + by, b )) pickerStyle
-
-        AdjustBlueness by ->
-            let
-                ( r, g, current ) =
-                    Color.toRGB color
-            in
-            Model (Color.fromRGB ( r, g, current + by )) pickerStyle
-
         SetColor newColor ->
             Model newColor pickerStyle
 

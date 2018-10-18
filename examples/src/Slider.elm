@@ -10,10 +10,8 @@ import Json.Decode
 
 
 type alias Config msg =
-    { increase : msg
-    , decrease : msg
+    { setValue : Int -> msg
     , asColor : Int -> Color
-    , setTo : Color -> msg
     , valueMin : Int
     , valueMax : Int
     , valueNow : Int
@@ -37,11 +35,17 @@ view config =
         ]
 
 
-slider : Config msg -> Html msg
-slider { valueMin, valueMax, valueNow, labelId, labelText, increase, decrease, asColor } =
+slider : Config msg -> ( String, Html msg )
+slider { valueMin, valueMax, valueNow, setValue, labelId, labelText, asColor } =
     let
         border =
             style "border" ("1px solid " ++ toRGBString (highContrast (asColor valueNow)))
+
+        increase =
+            setValue (valueNow + 1)
+
+        decrease =
+            setValue (valueNow - 1)
     in
     ( labelText ++ "--" ++ "slider"
     , Html.div
@@ -78,25 +82,28 @@ slider { valueMin, valueMax, valueNow, labelId, labelText, increase, decrease, a
             ]
             [ Html.text (String.fromInt valueNow) ]
         ]
+    )
 
 
-range : Config msg -> List (Html msg)
+range : Config msg -> List ( String, Html msg )
 range config =
     List.range config.valueMin config.valueMax
         |> List.reverse
         |> List.map (viewSlice config)
 
 
-viewSlice : Config msg -> Int -> Html msg
+viewSlice : Config msg -> Int -> ( String, Html msg )
 viewSlice config value =
-    Html.div
+    ( config.labelText ++ "--" ++ "slice" ++ "--" ++ String.fromInt value
+    , Html.div
         [ style "width" "100px"
         , style "height" "1px"
         , style "margin" "auto"
         , style "background-color" (toRGBString (config.asColor value))
-        , Html.Events.onClick (config.setTo (config.asColor value))
+        , Html.Events.onClick (config.setValue value)
         ]
         []
+    )
 
 
 upArrow : msg -> Json.Decode.Decoder ( msg, Bool )
