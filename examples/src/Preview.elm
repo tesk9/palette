@@ -96,7 +96,7 @@ view selectedColor model =
             [ generatorOptions model
             , case model.selectedGenerator of
                 Generator name generate ->
-                    Comparison.viewPalette selectedColor (generate selectedColor)
+                    viewPalette selectedColor generate
 
                 WithDegrees name generate (Editing currentValue) ->
                     customValueEditor "degrees" (Editing currentValue)
@@ -110,14 +110,14 @@ view selectedColor model =
                     Html.div []
                         [ customValueEditor "degrees" (Confirmed degrees)
                             |> Html.map (WithStep name generate >> SetStep)
-                        , Comparison.viewPalette selectedColor (generate degrees selectedColor)
+                        , viewPalette selectedColor (generate degrees)
                         ]
 
                 WithStep name generate (Confirmed step) ->
                     Html.div []
                         [ customValueEditor "steps" (Confirmed step)
                             |> Html.map (WithStep name generate >> SetStep)
-                        , Comparison.viewPalette selectedColor (generate step selectedColor)
+                        , viewPalette selectedColor (generate step)
                         ]
             ]
         ]
@@ -196,6 +196,11 @@ customValueConfirmation currentValue =
                 [ Html.Attributes.disabled True ]
         )
         [ Html.text "Generate!" ]
+
+
+viewPalette : Color -> (Color -> List Color) -> Html msg
+viewPalette selectedColor generate =
+    Comparison.viewPalette selectedColor (generate selectedColor)
 
 
 type Msg
