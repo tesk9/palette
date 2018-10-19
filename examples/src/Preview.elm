@@ -111,7 +111,7 @@ view selectedColor model =
                         [ customValueEditor (unitToString unit) unitIncrements
                         , viewEditablePalette selectedColor generate unitIncrements
                         ]
-                        |> Html.map (GeneratorWith unit name generate >> SetStep)
+                        |> Html.map (GeneratorWith unit name generate >> SetGenerator)
             ]
         ]
 
@@ -123,7 +123,14 @@ generatorOptions model =
             [ Html.text "Color.Generator." ]
         , Html.select
             [ Html.Attributes.id "generator-select"
-            , Html.Events.onInput SetGenerator
+            , Html.Events.onInput
+                (\value ->
+                    model.generators
+                        |> List.filter (\g -> generatorName g == value)
+                        |> List.head
+                        |> Maybe.withDefault model.selectedGenerator
+                        |> SetGenerator
+                )
             ]
             (List.map (generatorOption (generatorName model.selectedGenerator)) model.generators)
         ]
@@ -174,21 +181,11 @@ viewPalette selectedColor generate =
 
 
 type Msg
-    = SetGenerator String
-    | SetStep Generator
+    = SetGenerator Generator
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
         SetGenerator generator ->
-            { model
-                | selectedGenerator =
-                    model.generators
-                        |> List.filter (\g -> generatorName g == generator)
-                        |> List.head
-                        |> Maybe.withDefault model.selectedGenerator
-            }
-
-        SetStep generator ->
             { model | selectedGenerator = generator }
