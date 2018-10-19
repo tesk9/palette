@@ -33,35 +33,60 @@ generatorName generator =
 type Unit
     = Degrees
     | Steps
+    | Percentage
 
 
 unitToString : Unit -> String
 unitToString unit =
     case unit of
         Degrees ->
-            "Degrees"
+            "degrees"
 
         Steps ->
-            "Steps"
+            "steps"
+
+        Percentage ->
+            "percent"
 
 
 generatorList : ( Generator, List Generator )
 generatorList =
-    ( Generator "complementary"
+    ( Generator
+        "complementary"
         (normalizeSingularFunction Generator.complementary)
-    , [ Generator "triadic"
+    , [ Generator
+            "triadic"
             (normalizeTupleFunction Generator.triadic)
       , GeneratorWith Degrees
             "splitComplementary"
             (\degrees -> normalizeTupleFunction (Generator.splitComplementary degrees))
             Nothing
-      , Generator "square"
+      , Generator
+            "square"
             (normalizeTripleFunction Generator.square)
       , GeneratorWith Degrees
             "tetratic"
             (\degrees -> normalizeTripleFunction (Generator.tetratic degrees))
             Nothing
-      , GeneratorWith Degrees "monochromatic" Generator.monochromatic Nothing
+      , GeneratorWith Degrees
+            "monochromatic"
+            Generator.monochromatic
+            Nothing
+      , Generator
+            "highContrast"
+            (normalizeSingularFunction Generator.highContrast)
+      , GeneratorWith Percentage
+            "shade"
+            (\percentage -> normalizeSingularFunction (Generator.shade percentage))
+            Nothing
+      , GeneratorWith Percentage
+            "tint"
+            (\percentage -> normalizeSingularFunction (Generator.tint percentage))
+            Nothing
+      , GeneratorWith Percentage
+            "tone"
+            (\percentage -> normalizeSingularFunction (Generator.tone percentage))
+            Nothing
       ]
     )
 
