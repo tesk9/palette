@@ -16,17 +16,25 @@ type alias Model =
 
 
 type Generator
-    = Generator String (Color -> List Color)
-    | GeneratorWith Unit String (Float -> Color -> List Color) (Maybe Float)
+    = Generator
+        { name : String
+        , generate : Color -> List Color
+        }
+    | GeneratorWith
+        { name : String
+        , unit : Unit
+        , generate : Float -> Color -> List Color
+        , editable : Maybe Float
+        }
 
 
 generatorName : Generator -> String
 generatorName generator =
     case generator of
-        Generator name _ ->
+        Generator { name } ->
             name
 
-        GeneratorWith _ name _ _ ->
+        GeneratorWith { name } ->
             name
 
 
@@ -55,18 +63,66 @@ generatorList =
         apply generator normalize a b =
             normalize (generator a b)
     in
-    ( Generator "complementary" (Generator.complementary >> List.singleton)
-    , [ Generator "triadic" (Generator.triadic >> tupleToList)
-      , GeneratorWith Degrees "splitComplementary" (apply Generator.splitComplementary tupleToList) Nothing
-      , Generator "square" (Generator.square >> tripleToList)
-      , GeneratorWith Degrees "tetratic" (apply Generator.tetratic tripleToList) Nothing
-      , GeneratorWith Degrees "monochromatic" Generator.monochromatic Nothing
-      , Generator "highContrast" (Generator.highContrast >> List.singleton)
-      , GeneratorWith Percentage "shade" (apply Generator.shade List.singleton) Nothing
-      , GeneratorWith Percentage "tint" (apply Generator.tint List.singleton) Nothing
-      , GeneratorWith Percentage "tone" (apply Generator.tone List.singleton) Nothing
-      , Generator "grayscale" (Generator.grayscale >> List.singleton)
-      , Generator "invert" (Generator.invert >> List.singleton)
+    ( Generator
+        { name = "complementary"
+        , generate = Generator.complementary >> List.singleton
+        }
+    , [ Generator
+            { name = "triadic"
+            , generate = Generator.triadic >> tupleToList
+            }
+      , GeneratorWith
+            { name = "splitComplementary"
+            , unit = Degrees
+            , generate = apply Generator.splitComplementary tupleToList
+            , editable = Nothing
+            }
+      , Generator
+            { name = "square"
+            , generate = Generator.square >> tripleToList
+            }
+      , GeneratorWith
+            { name = "tetratic"
+            , unit = Degrees
+            , generate = apply Generator.tetratic tripleToList
+            , editable = Nothing
+            }
+      , GeneratorWith
+            { name = "monochromatic"
+            , unit = Degrees
+            , generate = Generator.monochromatic
+            , editable = Nothing
+            }
+      , Generator
+            { name = "highContrast"
+            , generate = Generator.highContrast >> List.singleton
+            }
+      , GeneratorWith
+            { name = "shade"
+            , unit = Percentage
+            , generate = apply Generator.shade List.singleton
+            , editable = Nothing
+            }
+      , GeneratorWith
+            { name = "tint"
+            , unit = Percentage
+            , generate = apply Generator.tint List.singleton
+            , editable = Nothing
+            }
+      , GeneratorWith
+            { name = "tone"
+            , unit = Percentage
+            , generate = apply Generator.tone List.singleton
+            , editable = Nothing
+            }
+      , Generator
+            { name = "grayscale"
+            , generate = Generator.grayscale >> List.singleton
+            }
+      , Generator
+            { name = "invert"
+            , generate = Generator.invert >> List.singleton
+            }
       ]
     )
 
@@ -95,15 +151,19 @@ view selectedColor model =
         , Html.div []
             [ generatorOptions model
             , case model.selectedGenerator of
-                Generator name generate ->
+                Generator { name, generate } ->
                     viewPalette selectedColor generate
 
-                GeneratorWith unit name generate unitIncrements ->
+                GeneratorWith { unit, name, generate, editable } ->
                     Html.div []
-                        [ customValueEditor (unitToString unit) unitIncrements
-                        , viewEditablePalette selectedColor generate unitIncrements
+                        [ customValueEditor (unitToString unit) editable
+                        , viewEditablePalette selectedColor generate editable
                         ]
-                        |> Html.map (GeneratorWith unit name generate >> SetGenerator)
+                        |> Html.map
+                            (\newEditable ->
+                                GeneratorWith { name = name, unit = unit, generate = generate, editable = newEditable }
+                                    |> SetGenerator
+                            )
             ]
         ]
 
