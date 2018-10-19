@@ -151,17 +151,17 @@ view selectedColor model =
         , Html.div []
             [ generatorOptions model
             , case model.selectedGenerator of
-                Generator { name, generate } ->
-                    viewPalette selectedColor generate
+                Generator details ->
+                    viewPalette selectedColor details.generate
 
-                GeneratorWith { unit, name, generate, editable } ->
+                GeneratorWith details ->
                     Html.div []
-                        [ customValueEditor (unitToString unit) editable
-                        , viewEditablePalette selectedColor generate editable
+                        [ customValueEditor (unitToString details.unit) details.editable
+                        , viewEditablePalette selectedColor details
                         ]
                         |> Html.map
                             (\newEditable ->
-                                GeneratorWith { name = name, unit = unit, generate = generate, editable = newEditable }
+                                GeneratorWith { details | editable = newEditable }
                                     |> SetGenerator
                             )
             ]
@@ -217,8 +217,11 @@ customValueEditor unit currentValue =
         ]
 
 
-viewEditablePalette : Color -> (Float -> Color -> List Color) -> Maybe Float -> Html msg
-viewEditablePalette selectedColor generate editable =
+viewEditablePalette :
+    Color
+    -> { a | generate : Float -> Color -> List Color, editable : Maybe Float }
+    -> Html msg
+viewEditablePalette selectedColor { generate, editable } =
     case editable of
         Just value ->
             viewPalette selectedColor (generate value)
