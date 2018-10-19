@@ -51,31 +51,20 @@ unitToString unit =
 
 generatorList : ( Generator, List Generator )
 generatorList =
+    let
+        apply generator normalize a b =
+            normalize (generator a b)
+    in
     ( Generator "complementary" (Generator.complementary >> List.singleton)
     , [ Generator "triadic" (Generator.triadic >> tupleToList)
-      , GeneratorWith Degrees
-            "splitComplementary"
-            (\degrees -> normalizeTupleFunction (Generator.splitComplementary degrees))
-            Nothing
+      , GeneratorWith Degrees "splitComplementary" (apply Generator.splitComplementary tupleToList) Nothing
       , Generator "square" (Generator.square >> tripleToList)
-      , GeneratorWith Degrees
-            "tetratic"
-            (\degrees -> normalizeTripleFunction (Generator.tetratic degrees))
-            Nothing
+      , GeneratorWith Degrees "tetratic" (apply Generator.tetratic tripleToList) Nothing
       , GeneratorWith Degrees "monochromatic" Generator.monochromatic Nothing
       , Generator "highContrast" (Generator.highContrast >> List.singleton)
-      , GeneratorWith Percentage
-            "shade"
-            (\percentage color -> [ Generator.shade percentage color ])
-            Nothing
-      , GeneratorWith Percentage
-            "tint"
-            (\percentage color -> [ Generator.tint percentage color ])
-            Nothing
-      , GeneratorWith Percentage
-            "tone"
-            (\percentage color -> [ Generator.tone percentage color ])
-            Nothing
+      , GeneratorWith Percentage "shade" (apply Generator.shade List.singleton) Nothing
+      , GeneratorWith Percentage "tint" (apply Generator.tint List.singleton) Nothing
+      , GeneratorWith Percentage "tone" (apply Generator.tone List.singleton) Nothing
       , Generator "grayscale" (Generator.grayscale >> List.singleton)
       , Generator "invert" (Generator.invert >> List.singleton)
       ]
@@ -90,24 +79,6 @@ tupleToList ( a, b ) =
 tripleToList : ( a, a, a ) -> List a
 tripleToList ( a, b, c ) =
     [ a, b, c ]
-
-
-normalizeTupleFunction : (a -> ( a, a )) -> a -> List a
-normalizeTupleFunction func color =
-    let
-        ( one, two ) =
-            func color
-    in
-    [ one, two ]
-
-
-normalizeTripleFunction : (a -> ( a, a, a )) -> a -> List a
-normalizeTripleFunction func color =
-    let
-        ( one, two, three ) =
-            func color
-    in
-    [ one, two, three ]
 
 
 init : Model
