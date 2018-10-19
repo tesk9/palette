@@ -51,51 +51,45 @@ unitToString unit =
 
 generatorList : ( Generator, List Generator )
 generatorList =
-    ( Generator
-        "complementary"
-        (normalizeSingularFunction Generator.complementary)
-    , [ Generator
-            "triadic"
-            (normalizeTupleFunction Generator.triadic)
+    ( Generator "complementary" (Generator.complementary >> List.singleton)
+    , [ Generator "triadic" (Generator.triadic >> tupleToList)
       , GeneratorWith Degrees
             "splitComplementary"
             (\degrees -> normalizeTupleFunction (Generator.splitComplementary degrees))
             Nothing
-      , Generator
-            "square"
-            (normalizeTripleFunction Generator.square)
+      , Generator "square" (Generator.square >> tripleToList)
       , GeneratorWith Degrees
             "tetratic"
             (\degrees -> normalizeTripleFunction (Generator.tetratic degrees))
             Nothing
-      , GeneratorWith Degrees
-            "monochromatic"
-            Generator.monochromatic
-            Nothing
-      , Generator
-            "highContrast"
-            (normalizeSingularFunction Generator.highContrast)
+      , GeneratorWith Degrees "monochromatic" Generator.monochromatic Nothing
+      , Generator "highContrast" (Generator.highContrast >> List.singleton)
       , GeneratorWith Percentage
             "shade"
-            (\percentage -> normalizeSingularFunction (Generator.shade percentage))
+            (\percentage color -> [ Generator.shade percentage color ])
             Nothing
       , GeneratorWith Percentage
             "tint"
-            (\percentage -> normalizeSingularFunction (Generator.tint percentage))
+            (\percentage color -> [ Generator.tint percentage color ])
             Nothing
       , GeneratorWith Percentage
             "tone"
-            (\percentage -> normalizeSingularFunction (Generator.tone percentage))
+            (\percentage color -> [ Generator.tone percentage color ])
             Nothing
-      , Generator "grayscale" (normalizeSingularFunction Generator.grayscale)
-      , Generator "invert" (normalizeSingularFunction Generator.invert)
+      , Generator "grayscale" (Generator.grayscale >> List.singleton)
+      , Generator "invert" (Generator.invert >> List.singleton)
       ]
     )
 
 
-normalizeSingularFunction : (a -> a) -> a -> List a
-normalizeSingularFunction func color =
-    [ func color ]
+tupleToList : ( a, a ) -> List a
+tupleToList ( a, b ) =
+    [ a, b ]
+
+
+tripleToList : ( a, a, a ) -> List a
+tripleToList ( a, b, c ) =
+    [ a, b, c ]
 
 
 normalizeTupleFunction : (a -> ( a, a )) -> a -> List a
