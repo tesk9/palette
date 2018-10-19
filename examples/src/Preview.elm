@@ -46,15 +46,14 @@ generatorList =
     , [ Generator "triadic"
             (normalizeTupleFunction Generator.triadic)
       , WithDegrees "splitComplementary"
-            (\step -> normalizeTupleFunction (Generator.splitComplementary step))
+            (\degrees -> normalizeTupleFunction (Generator.splitComplementary degrees))
             (Editing Nothing)
       , Generator "square"
             (normalizeTripleFunction Generator.square)
       , WithDegrees "tetratic"
-            (\step -> normalizeTripleFunction (Generator.tetratic step))
+            (\degrees -> normalizeTripleFunction (Generator.tetratic degrees))
             (Editing Nothing)
-
-      --, Generator "monochromatic" Generator.monochromatic
+      , WithStep "monochromatic" Generator.monochromatic (Editing Nothing)
       ]
     )
 
@@ -93,34 +92,26 @@ view : Color -> Model -> Html Msg
 view selectedColor model =
     Html.div [ style "margin-left" "20px" ]
         [ Html.h3 [] [ Html.text "Generate additional colors" ]
-        , Html.div [] <|
-            case model.selectedGenerator of
+        , Html.div []
+            [ generatorOptions model
+            , case model.selectedGenerator of
                 Generator name generate ->
-                    [ generatorOptions model
-                    , Comparison.viewPalette selectedColor (generate selectedColor)
-                    ]
+                    Comparison.viewPalette selectedColor (generate selectedColor)
 
                 WithDegrees name generate (Editing currentValue) ->
-                    [ generatorOptions model
-                    , customValueEditor currentValue
+                    customValueEditor "Degrees" currentValue
                         |> Html.map (WithDegrees name generate >> SetStep)
-                    ]
 
                 WithStep name generate (Editing currentValue) ->
-                    [ generatorOptions model
-                    , customValueEditor currentValue
+                    customValueEditor "Steps" currentValue
                         |> Html.map (WithStep name generate >> SetStep)
-                    ]
 
                 WithDegrees name generate (Confirmed step) ->
-                    [ generatorOptions model
-                    , Comparison.viewPalette selectedColor (generate step selectedColor)
-                    ]
+                    Comparison.viewPalette selectedColor (generate step selectedColor)
 
                 WithStep name generate (Confirmed step) ->
-                    [ generatorOptions model
-                    , Comparison.viewPalette selectedColor (generate step selectedColor)
-                    ]
+                    Comparison.viewPalette selectedColor (generate step selectedColor)
+            ]
         ]
 
 
@@ -150,10 +141,10 @@ generatorOption selectedGenerator generator =
         [ Html.text name ]
 
 
-customValueEditor : Maybe Float -> Html Editable
-customValueEditor currentValue =
+customValueEditor : String -> Maybe Float -> Html Editable
+customValueEditor unit currentValue =
     Html.div []
-        [ customValueInput "Degrees" currentValue
+        [ customValueInput unit currentValue
         , customValueConfirmation currentValue
         ]
 
@@ -161,8 +152,7 @@ customValueEditor currentValue =
 customValueInput : String -> Maybe Float -> Html Editable
 customValueInput label currentValue =
     Html.label []
-        [ Html.text label
-        , Html.input
+        [ Html.input
             [ Maybe.map String.fromFloat currentValue
                 |> Maybe.withDefault ""
                 |> Html.Attributes.value
@@ -173,6 +163,7 @@ customValueInput label currentValue =
                 )
             ]
             []
+        , Html.text label
         ]
 
 
