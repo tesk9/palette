@@ -17,10 +17,11 @@ type alias Model =
 
 type Generator
     = Generator String (Color -> List Color)
-    | WithStep String (Float -> Color -> List Color) Step
+    | WithDegrees String (Float -> Color -> List Color) Editable
+    | WithStep String (Float -> Color -> List Color) Editable
 
 
-type Step
+type Editable
     = Editing (Maybe Float)
     | Confirmed Float
 
@@ -31,22 +32,25 @@ generatorName generator =
         Generator name _ ->
             name
 
+        WithDegrees name _ _ ->
+            name
+
         WithStep name _ _ ->
             name
 
 
-polychromatic : ( Generator, List Generator )
-polychromatic =
+generatorList : ( Generator, List Generator )
+generatorList =
     ( Generator "complementary"
         (normalizeSingularFunction Generator.complementary)
     , [ Generator "triadic"
             (normalizeTupleFunction Generator.triadic)
-      , WithStep "splitComplementary"
+      , WithDegrees "splitComplementary"
             (\step -> normalizeTupleFunction (Generator.splitComplementary step))
             (Editing Nothing)
       , Generator "square"
             (normalizeTripleFunction Generator.square)
-      , WithStep "tetratic"
+      , WithDegrees "tetratic"
             (\step -> normalizeTripleFunction (Generator.tetratic step))
             (Editing Nothing)
 
@@ -80,8 +84,8 @@ normalizeTripleFunction func color =
 
 init : Model
 init =
-    { generators = Tuple.first polychromatic :: Tuple.second polychromatic
-    , selectedGenerator = Tuple.first polychromatic
+    { generators = Tuple.first generatorList :: Tuple.second generatorList
+    , selectedGenerator = Tuple.first generatorList
     }
 
 
@@ -96,36 +100,21 @@ view selectedColor model =
                     , Comparison.viewPalette selectedColor (generate selectedColor)
                     ]
 
+                WithDegrees name generate (Editing currentValue) ->
+                    [ generatorOptions model
+                    , customValueEditor currentValue
+                        |> Html.map (WithDegrees name generate >> SetStep)
+                    ]
+
                 WithStep name generate (Editing currentValue) ->
                     [ generatorOptions model
-                    , Html.label []
-                        [ Html.text "Degrees"
-                        , Html.input
-                            [ Maybe.map String.fromFloat currentValue
-                                |> Maybe.withDefault ""
-                                |> Html.Attributes.value
-                            , Html.Events.onInput
-                                (\value ->
-                                    String.toFloat value
-                                        |> Editing
-                                        |> WithStep name generate
-                                        |> SetStep
-                                )
-                            ]
-                            []
-                        ]
-                    , Html.button
-                        (case currentValue of
-                            Just value ->
-                                [ Html.Events.onClick
-                                    (SetStep (WithStep name generate (Confirmed value)))
-                                , Html.Attributes.disabled False
-                                ]
+                    , customValueEditor currentValue
+                        |> Html.map (WithStep name generate >> SetStep)
+                    ]
 
-                            Nothing ->
-                                [ Html.Attributes.disabled True ]
-                        )
-                        [ Html.text "Generate!" ]
+                WithDegrees name generate (Confirmed step) ->
+                    [ generatorOptions model
+                    , Comparison.viewPalette selectedColor (generate step selectedColor)
                     ]
 
                 WithStep name generate (Confirmed step) ->
@@ -159,6 +148,47 @@ generatorOption selectedGenerator generator =
         , Html.Attributes.selected (name == selectedGenerator)
         ]
         [ Html.text name ]
+
+
+customValueEditor : Maybe Float -> Html Editable
+customValueEditor currentValue =
+    Html.div []
+        [ customValueInput "Degrees" currentValue
+        , customValueConfirmation currentValue
+        ]
+
+
+customValueInput : String -> Maybe Float -> Html Editable
+customValueInput label currentValue =
+    Html.label []
+        [ Html.text label
+        , Html.input
+            [ Maybe.map String.fromFloat currentValue
+                |> Maybe.withDefault ""
+                |> Html.Attributes.value
+            , Html.Events.onInput
+                (\value ->
+                    String.toFloat value
+                        |> Editing
+                )
+            ]
+            []
+        ]
+
+
+customValueConfirmation : Maybe Float -> Html Editable
+customValueConfirmation currentValue =
+    Html.button
+        (case currentValue of
+            Just value ->
+                [ Html.Events.onClick (Confirmed value)
+                , Html.Attributes.disabled False
+                ]
+
+            Nothing ->
+                [ Html.Attributes.disabled True ]
+        )
+        [ Html.text "Generate!" ]
 
 
 type Msg
