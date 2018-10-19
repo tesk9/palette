@@ -17,6 +17,22 @@ type alias Model =
 
 type Generator
     = Generator String (Color -> List Color)
+    | WithStep String (Float -> Color -> List Color) Step
+
+
+type Step
+    = Editing (Maybe Float)
+    | Confirmed Float
+
+
+generatorName : Generator -> String
+generatorName generator =
+    case generator of
+        Generator name _ ->
+            name
+
+        WithStep name _ _ ->
+            name
 
 
 polychromatic : ( Generator, List Generator )
@@ -25,8 +41,9 @@ polychromatic =
         (normalizeSingularFunction Generator.complementary)
     , [ Generator "triadic"
             (normalizeTupleFunction Generator.triadic)
-
-      --, Generator "splitComplementary" Generator.splitComplementary
+      , WithStep "splitComplementary"
+            (\step -> normalizeTupleFunction (Generator.splitComplementary step))
+            (Editing Nothing)
       , Generator "square"
             (normalizeTripleFunction Generator.square)
 
@@ -69,13 +86,52 @@ init =
 
 view : Color -> Model -> Html Msg
 view selectedColor model =
-    case model.selectedGenerator of
-        Generator name generate ->
-            Html.div [ style "margin-left" "20px" ]
-                [ Html.h3 [] [ Html.text "Generate additional colors" ]
-                , generatorOptions model
-                , Comparison.viewPalette selectedColor (generate selectedColor)
-                ]
+    Html.div [ style "margin-left" "20px" ]
+        [ Html.h3 [] [ Html.text "Generate additional colors" ]
+        , Html.div [] <|
+            case model.selectedGenerator of
+                Generator name generate ->
+                    [ generatorOptions model
+                    , Comparison.viewPalette selectedColor (generate selectedColor)
+                    ]
+
+                WithStep name generate (Editing currentValue) ->
+                    [ generatorOptions model
+                    , Html.label []
+                        [ Html.text "Degrees"
+                        , Html.input
+                            [ Maybe.map String.fromFloat currentValue
+                                |> Maybe.withDefault ""
+                                |> Html.Attributes.value
+                            , Html.Events.onInput
+                                (\value ->
+                                    String.toFloat value
+                                        |> Editing
+                                        |> WithStep name generate
+                                        |> SetStep
+                                )
+                            ]
+                            []
+                        ]
+                    , Html.button
+                        (case currentValue of
+                            Just value ->
+                                [ Html.Events.onClick
+                                    (SetStep (WithStep name generate (Confirmed value)))
+                                , Html.Attributes.disabled False
+                                ]
+
+                            Nothing ->
+                                [ Html.Attributes.disabled True ]
+                        )
+                        [ Html.text "Generate!" ]
+                    ]
+
+                WithStep name generate (Confirmed step) ->
+                    [ generatorOptions model
+                    , Comparison.viewPalette selectedColor (generate step selectedColor)
+                    ]
+        ]
 
 
 generatorOptions : Model -> Html Msg
@@ -87,12 +143,16 @@ generatorOptions model =
             [ Html.Attributes.id "generator-select"
             , Html.Events.onInput SetGenerator
             ]
-            (List.map (generatorOption model.selectedGenerator) model.generators)
+            (List.map (generatorOption (generatorName model.selectedGenerator)) model.generators)
         ]
 
 
-generatorOption : Generator -> Generator -> Html Msg
-generatorOption (Generator selectedGenerator _) (Generator name generator) =
+generatorOption : String -> Generator -> Html Msg
+generatorOption selectedGenerator generator =
+    let
+        name =
+            generatorName generator
+    in
     Html.option
         [ Html.Attributes.value name
         , Html.Attributes.selected (name == selectedGenerator)
@@ -102,6 +162,7 @@ generatorOption (Generator selectedGenerator _) (Generator name generator) =
 
 type Msg
     = SetGenerator String
+    | SetStep Generator
 
 
 update : Msg -> Model -> Model
@@ -111,7 +172,10 @@ update msg model =
             { model
                 | selectedGenerator =
                     model.generators
-                        |> List.filter (\(Generator name _) -> name == generator)
+                        |> List.filter (\g -> generatorName g == generator)
                         |> List.head
                         |> Maybe.withDefault model.selectedGenerator
             }
+
+        SetStep generator ->
+            { model | selectedGenerator = generator }
