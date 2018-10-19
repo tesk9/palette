@@ -99,18 +99,26 @@ view selectedColor model =
                     Comparison.viewPalette selectedColor (generate selectedColor)
 
                 WithDegrees name generate (Editing currentValue) ->
-                    customValueEditor "Degrees" currentValue
+                    customValueEditor "degrees" (Editing currentValue)
                         |> Html.map (WithDegrees name generate >> SetStep)
 
                 WithStep name generate (Editing currentValue) ->
-                    customValueEditor "Steps" currentValue
+                    customValueEditor "steps" (Editing currentValue)
                         |> Html.map (WithStep name generate >> SetStep)
 
-                WithDegrees name generate (Confirmed step) ->
-                    Comparison.viewPalette selectedColor (generate step selectedColor)
+                WithDegrees name generate (Confirmed degrees) ->
+                    Html.div []
+                        [ customValueEditor "degrees" (Confirmed degrees)
+                            |> Html.map (WithStep name generate >> SetStep)
+                        , Comparison.viewPalette selectedColor (generate degrees selectedColor)
+                        ]
 
                 WithStep name generate (Confirmed step) ->
-                    Comparison.viewPalette selectedColor (generate step selectedColor)
+                    Html.div []
+                        [ customValueEditor "steps" (Confirmed step)
+                            |> Html.map (WithStep name generate >> SetStep)
+                        , Comparison.viewPalette selectedColor (generate step selectedColor)
+                        ]
             ]
         ]
 
@@ -141,12 +149,24 @@ generatorOption selectedGenerator generator =
         [ Html.text name ]
 
 
-customValueEditor : String -> Maybe Float -> Html Editable
-customValueEditor unit currentValue =
-    Html.div []
-        [ customValueInput unit currentValue
-        , customValueConfirmation currentValue
-        ]
+customValueEditor : String -> Editable -> Html Editable
+customValueEditor unit editable =
+    case editable of
+        Editing currentValue ->
+            Html.div []
+                [ customValueInput unit currentValue
+                , customValueConfirmation currentValue
+                ]
+
+        Confirmed value ->
+            Html.div []
+                [ Html.text (String.fromFloat value ++ " " ++ unit)
+                , Html.button
+                    [ Html.Events.onClick (Editing (Just value))
+                    ]
+                    [ Html.text "Edit"
+                    ]
+                ]
 
 
 customValueInput : String -> Maybe Float -> Html Editable
@@ -156,11 +176,7 @@ customValueInput label currentValue =
             [ Maybe.map String.fromFloat currentValue
                 |> Maybe.withDefault ""
                 |> Html.Attributes.value
-            , Html.Events.onInput
-                (\value ->
-                    String.toFloat value
-                        |> Editing
-                )
+            , Html.Events.onInput (String.toFloat >> Editing)
             ]
             []
         , Html.text label
