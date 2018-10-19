@@ -17,13 +17,8 @@ type alias Model =
 
 type Generator
     = Generator String (Color -> List Color)
-    | WithDegrees String (Float -> Color -> List Color) Editable
-    | WithStep String (Float -> Color -> List Color) Editable
-
-
-type Editable
-    = Editing (Maybe Float)
-    | Confirmed Float
+    | WithDegrees String (Float -> Color -> List Color) (Maybe Float)
+    | WithStep String (Float -> Color -> List Color) (Maybe Float)
 
 
 generatorName : Generator -> String
@@ -47,13 +42,13 @@ generatorList =
             (normalizeTupleFunction Generator.triadic)
       , WithDegrees "splitComplementary"
             (\degrees -> normalizeTupleFunction (Generator.splitComplementary degrees))
-            (Editing Nothing)
+            Nothing
       , Generator "square"
             (normalizeTripleFunction Generator.square)
       , WithDegrees "tetratic"
             (\degrees -> normalizeTripleFunction (Generator.tetratic degrees))
-            (Editing Nothing)
-      , WithStep "monochromatic" Generator.monochromatic (Editing Nothing)
+            Nothing
+      , WithDegrees "monochromatic" Generator.monochromatic Nothing
       ]
     )
 
@@ -141,65 +136,30 @@ generatorOption selectedGenerator generator =
         [ Html.text name ]
 
 
-customValueEditor : String -> Editable -> Html Editable
-customValueEditor unit editable =
-    case editable of
-        Editing currentValue ->
-            Html.div []
-                [ customValueInput unit currentValue
-                , customValueConfirmation currentValue
+customValueEditor : String -> Maybe Float -> Html (Maybe Float)
+customValueEditor unit currentValue =
+    Html.div []
+        [ Html.label []
+            [ Html.input
+                [ Maybe.map String.fromFloat currentValue
+                    |> Maybe.withDefault ""
+                    |> Html.Attributes.value
+                , Html.Events.onInput String.toFloat
                 ]
-
-        Confirmed value ->
-            Html.div []
-                [ Html.text (String.fromFloat value ++ " " ++ unit)
-                , Html.button
-                    [ Html.Events.onClick (Editing (Just value))
-                    ]
-                    [ Html.text "Edit"
-                    ]
-                ]
-
-
-customValueInput : String -> Maybe Float -> Html Editable
-customValueInput label currentValue =
-    Html.label []
-        [ Html.input
-            [ Maybe.map String.fromFloat currentValue
-                |> Maybe.withDefault ""
-                |> Html.Attributes.value
-            , Html.Events.onInput (String.toFloat >> Editing)
+                []
+            , Html.text unit
             ]
-            []
-        , Html.text label
         ]
 
 
-customValueConfirmation : Maybe Float -> Html Editable
-customValueConfirmation currentValue =
-    Html.button
-        (case currentValue of
-            Just value ->
-                [ Html.Events.onClick (Confirmed value)
-                , Html.Attributes.disabled False
-                ]
-
-            Nothing ->
-                [ Html.Attributes.disabled True ]
-        )
-        [ Html.text "Generate!" ]
-
-
+viewEditablePalette : Color -> (Float -> Color -> List Color) -> Maybe Float -> Html msg
 viewEditablePalette selectedColor generate editable =
     case editable of
-        Editing (Just value) ->
+        Just value ->
             viewPalette selectedColor (generate value)
 
-        Editing Nothing ->
+        Nothing ->
             Html.text ""
-
-        Confirmed value ->
-            viewPalette selectedColor (generate value)
 
 
 viewPalette : Color -> (Color -> List Color) -> Html msg
