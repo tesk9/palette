@@ -17,8 +17,7 @@ type alias Model =
 
 type Generator
     = Generator String (Color -> List Color)
-    | WithDegrees String (Float -> Color -> List Color) (Maybe Float)
-    | WithStep String (Float -> Color -> List Color) (Maybe Float)
+    | GeneratorWith Unit String (Float -> Color -> List Color) (Maybe Float)
 
 
 generatorName : Generator -> String
@@ -27,11 +26,23 @@ generatorName generator =
         Generator name _ ->
             name
 
-        WithDegrees name _ _ ->
+        GeneratorWith _ name _ _ ->
             name
 
-        WithStep name _ _ ->
-            name
+
+type Unit
+    = Degrees
+    | Steps
+
+
+unitToString : Unit -> String
+unitToString unit =
+    case unit of
+        Degrees ->
+            "Degrees"
+
+        Steps ->
+            "Steps"
 
 
 generatorList : ( Generator, List Generator )
@@ -40,15 +51,17 @@ generatorList =
         (normalizeSingularFunction Generator.complementary)
     , [ Generator "triadic"
             (normalizeTupleFunction Generator.triadic)
-      , WithDegrees "splitComplementary"
+      , GeneratorWith Degrees
+            "splitComplementary"
             (\degrees -> normalizeTupleFunction (Generator.splitComplementary degrees))
             Nothing
       , Generator "square"
             (normalizeTripleFunction Generator.square)
-      , WithDegrees "tetratic"
+      , GeneratorWith Degrees
+            "tetratic"
             (\degrees -> normalizeTripleFunction (Generator.tetratic degrees))
             Nothing
-      , WithDegrees "monochromatic" Generator.monochromatic Nothing
+      , GeneratorWith Degrees "monochromatic" Generator.monochromatic Nothing
       ]
     )
 
@@ -93,19 +106,12 @@ view selectedColor model =
                 Generator name generate ->
                     viewPalette selectedColor generate
 
-                WithDegrees name generate degrees ->
+                GeneratorWith unit name generate unitIncrements ->
                     Html.div []
-                        [ customValueEditor "degrees" degrees
-                        , viewEditablePalette selectedColor generate degrees
+                        [ customValueEditor (unitToString unit) unitIncrements
+                        , viewEditablePalette selectedColor generate unitIncrements
                         ]
-                        |> Html.map (WithDegrees name generate >> SetStep)
-
-                WithStep name generate steps ->
-                    Html.div []
-                        [ customValueEditor "steps" steps
-                        , viewEditablePalette selectedColor generate steps
-                        ]
-                        |> Html.map (WithStep name generate >> SetStep)
+                        |> Html.map (GeneratorWith unit name generate >> SetStep)
             ]
         ]
 
