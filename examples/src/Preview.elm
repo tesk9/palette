@@ -87,6 +87,8 @@ generatorList =
             "tone"
             (\percentage -> normalizeSingularFunction (Generator.tone percentage))
             Nothing
+      , Generator "grayscale" (normalizeSingularFunction Generator.grayscale)
+      , Generator "invert" (normalizeSingularFunction Generator.invert)
       ]
     )
 
