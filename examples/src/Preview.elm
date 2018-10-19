@@ -144,7 +144,7 @@ generatorOption selectedGenerator generator =
 
 customValueEditor : String -> Maybe Float -> Html (Maybe Float)
 customValueEditor unit currentValue =
-    Html.div []
+    Html.div [ style "margin-bottom" "8px" ]
         [ Html.label []
             [ Html.input
                 [ Maybe.map String.fromFloat currentValue
