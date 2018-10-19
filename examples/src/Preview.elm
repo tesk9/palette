@@ -21,18 +21,18 @@ type Generator
 
 polychromatic : ( Generator, List Generator )
 polychromatic =
-    ( Generator "Color.Generator.complementary"
+    ( Generator "complementary"
         (normalizeSingularFunction Generator.complementary)
-    , [ Generator "Color.Generator.triadic"
+    , [ Generator "triadic"
             (normalizeTupleFunction Generator.triadic)
 
-      --, Generator "Color.Generator.splitComplementary" Generator.splitComplementary
-      , Generator "Color.Generator.square"
+      --, Generator "splitComplementary" Generator.splitComplementary
+      , Generator "square"
             (normalizeTripleFunction Generator.square)
 
-      --, Generator "Color.Generator.tetratic"
+      --, Generator "tetratic"
       --      (normalizeTripleFunction Generator.tetratic)
-      --, Generator "Color.Generator.monochromatic" Generator.monochromatic
+      --, Generator "monochromatic" Generator.monochromatic
       ]
     )
 
@@ -74,16 +74,15 @@ view selectedColor model =
             Html.div [ style "margin-left" "20px" ]
                 [ Html.h3 [] [ Html.text "Generate additional colors" ]
                 , generatorOptions model
-                , Html.h4 [] [ Html.text name ]
                 , Comparison.viewPalette selectedColor (generate selectedColor)
                 ]
 
 
 generatorOptions : Model -> Html Msg
 generatorOptions model =
-    Html.div []
+    Html.div [ style "margin-bottom" "8px" ]
         [ Html.label [ Html.Attributes.for "generator-select" ]
-            [ Html.text "Select a generator" ]
+            [ Html.text "Color.Generator." ]
         , Html.select
             [ Html.Attributes.id "generator-select"
             , Html.Events.onInput SetGenerator
