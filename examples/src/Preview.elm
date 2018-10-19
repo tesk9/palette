@@ -98,27 +98,19 @@ view selectedColor model =
                 Generator name generate ->
                     viewPalette selectedColor generate
 
-                WithDegrees name generate (Editing currentValue) ->
-                    customValueEditor "degrees" (Editing currentValue)
+                WithDegrees name generate degrees ->
+                    Html.div []
+                        [ customValueEditor "degrees" degrees
+                        , viewEditablePalette selectedColor generate degrees
+                        ]
                         |> Html.map (WithDegrees name generate >> SetStep)
 
-                WithStep name generate (Editing currentValue) ->
-                    customValueEditor "steps" (Editing currentValue)
+                WithStep name generate steps ->
+                    Html.div []
+                        [ customValueEditor "steps" steps
+                        , viewEditablePalette selectedColor generate steps
+                        ]
                         |> Html.map (WithStep name generate >> SetStep)
-
-                WithDegrees name generate (Confirmed degrees) ->
-                    Html.div []
-                        [ customValueEditor "degrees" (Confirmed degrees)
-                            |> Html.map (WithStep name generate >> SetStep)
-                        , viewPalette selectedColor (generate degrees)
-                        ]
-
-                WithStep name generate (Confirmed step) ->
-                    Html.div []
-                        [ customValueEditor "steps" (Confirmed step)
-                            |> Html.map (WithStep name generate >> SetStep)
-                        , viewPalette selectedColor (generate step)
-                        ]
             ]
         ]
 
@@ -196,6 +188,18 @@ customValueConfirmation currentValue =
                 [ Html.Attributes.disabled True ]
         )
         [ Html.text "Generate!" ]
+
+
+viewEditablePalette selectedColor generate editable =
+    case editable of
+        Editing (Just value) ->
+            viewPalette selectedColor (generate value)
+
+        Editing Nothing ->
+            Html.text ""
+
+        Confirmed value ->
+            viewPalette selectedColor (generate value)
 
 
 viewPalette : Color -> (Color -> List Color) -> Html msg
