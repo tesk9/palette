@@ -46,9 +46,10 @@ polychromatic =
             (Editing Nothing)
       , Generator "square"
             (normalizeTripleFunction Generator.square)
+      , WithStep "tetratic"
+            (\step -> normalizeTripleFunction (Generator.tetratic step))
+            (Editing Nothing)
 
-      --, Generator "tetratic"
-      --      (normalizeTripleFunction Generator.tetratic)
       --, Generator "monochromatic" Generator.monochromatic
       ]
     )
