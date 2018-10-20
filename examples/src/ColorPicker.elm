@@ -11,7 +11,6 @@ import Slider
 
 type alias Model =
     { selectedColor : Color
-    , savedColor : Color
     , pickerStyle : PickerStyle
     }
 
@@ -23,7 +22,7 @@ type PickerStyle
 
 init : Color -> Model
 init color =
-    Model color color HSL
+    Model color HSL
 
 
 view : Model -> Html Msg
@@ -192,7 +191,7 @@ changePicker text pickerStyle =
 
 
 viewColor : Model -> Html Msg
-viewColor { selectedColor, savedColor } =
+viewColor { selectedColor } =
     Html.div
         [ style "display" "flex"
         , style "flex-direction" "column"
@@ -205,36 +204,19 @@ viewColor { selectedColor, savedColor } =
             , style "background-color" (Color.toRGBString selectedColor)
             ]
             []
-        , Html.button
-            ([ style "margin-top" "4px"
-             , style "padding" "4px"
-             , style "border-radius" "6px"
-             ]
-                ++ (if Color.toRGBString selectedColor == Color.toRGBString savedColor then
-                        [ Html.Attributes.disabled True ]
-
-                    else
-                        [ Html.Attributes.disabled False, Html.Events.onClick SaveColor ]
-                   )
-            )
-            [ Html.text "Save Color" ]
         ]
 
 
 type Msg
     = SetColor Color
     | SetPickerStyle PickerStyle
-    | SaveColor
 
 
 update : Msg -> Model -> ( Model, Maybe Color )
-update msg { selectedColor, savedColor, pickerStyle } =
+update msg { selectedColor, pickerStyle } =
     case msg of
         SetColor newColor ->
-            ( Model newColor savedColor pickerStyle, Nothing )
+            ( Model newColor pickerStyle, Just newColor )
 
         SetPickerStyle newPickerStyle ->
-            ( Model selectedColor savedColor newPickerStyle, Nothing )
-
-        SaveColor ->
-            ( Model selectedColor savedColor pickerStyle, Just selectedColor )
+            ( Model selectedColor newPickerStyle, Nothing )
