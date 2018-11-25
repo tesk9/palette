@@ -222,7 +222,11 @@ toRGBString color =
     "rgb(" ++ String.fromFloat r ++ "," ++ String.fromFloat g ++ "," ++ String.fromFloat b ++ ")"
 
 
-{-| Build a new color from a hex string.
+{-| Build a new color from a hex string. Supports lowercase or uppercase strings.
+
+    myColorResult =
+        Color.fromHexString "#FFDD00"
+
 -}
 fromHexString : String -> Result String Color
 fromHexString colorString =
@@ -230,7 +234,7 @@ fromHexString colorString =
         colorList =
             String.dropLeft 1 colorString
                 |> String.toList
-                |> List.map fromHexSymbol
+                |> List.filterMap fromHexSymbol
     in
     case colorList of
         r1 :: r0 :: g1 :: g0 :: b1 :: b0 :: [] ->
@@ -438,7 +442,7 @@ decToHex c =
         nextValue ( round c, "" )
 
 
-fromHexSymbol : Char -> Int
+fromHexSymbol : Char -> Maybe Int
 fromHexSymbol m =
     let
         decValues =
@@ -462,7 +466,6 @@ fromHexSymbol m =
                 ]
     in
     Dict.get (Char.toUpper m) decValues
-        |> Maybe.withDefault 0
 
 
 getHexSymbol : Int -> String
