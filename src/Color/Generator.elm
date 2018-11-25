@@ -1,10 +1,10 @@
 module Color.Generator exposing
-    ( complementary, triadic, splitComplementary, square, tetratic, monochromatic
+    ( complementary, triadic, splitComplementary, square, tetratic
+    , monochromatic
     , highContrast
     , shade, tint, tone
     , grayscale, invert
-    , rotate, adjustSaturation
-    , adjustLightness
+    , rotate, adjustSaturation, adjustLightness
     )
 
 {-|
@@ -14,7 +14,19 @@ module Color.Generator exposing
 
 Generate a palette based on a starting color.
 
-@docs complementary, triadic, splitComplementary, square, tetratic, monochromatic
+
+### By Hue
+
+@docs complementary, triadic, splitComplementary, square, tetratic
+
+
+### By Lightness
+
+@docs monochromatic
+
+
+### By contrast
+
 @docs highContrast
 
 
@@ -22,8 +34,7 @@ Generate a palette based on a starting color.
 
 @docs shade, tint, tone
 @docs grayscale, invert
-@docs rotate, adjustSaturation
-@docs adjustLightness
+@docs rotate, adjustSaturation, adjustLightness
 
 -}
 
@@ -31,6 +42,20 @@ import Color exposing (Color)
 
 
 {-| Rotate a color by degrees [0, 360).
+
+Picture the color wheel. Suppose you want to find 8 evenly-spaced colors from a starting color.
+You might do something like this:
+
+    import Color
+    import Color.Generator
+
+    eightEvenColors : Color -> List Color
+    eightEvenColors color =
+        List.range 0 7
+            |> List.map (\i -> Color.Generator.rotate (toFloat i * 360 / 8) color)
+
+Check out this code on Ellie here: <https://ellie-app.com/3CRfDs2HLvGa1>.
+
 -}
 rotate : Float -> Color -> Color
 rotate degrees color =
@@ -177,9 +202,12 @@ grayscale color =
         |> Color.fromRGB
 
 
-{-| Find the highest contrast color to use in concert with the passed-in color.
+{-| Find a high contrast color to use in concert with the passed-in color.
+This funciton will return either black or white, whichever will be higher contrast
+given the starter color.
 
-<http://www.worqx.com/color/itten.htm>
+This is most useful when working with styleguide colors. It will not produce
+particularly visually pleasing results, but they will be consistent and readable.
 
 -}
 highContrast : Color -> Color
