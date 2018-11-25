@@ -6,37 +6,84 @@ import Color.Blend
 import Color.Contrast
 import Color.Generator
 import ColorModes
+import ColorPicker
 import Comparison
 import Html exposing (Html)
 import Html.Attributes exposing (style)
 import Html.Events
 import Palette.X11 exposing (..)
 import Platform
+import Preview
 
 
 main : Platform.Program () Model Msg
 main =
+    let
+        selectedColor =
+            Color.fromHSL ( 0, 100, 50 )
+    in
     Browser.sandbox
-        { init = { colorModesModel = ColorModes.init }
-        , update = \msg model -> { model | colorModesModel = ColorModes.update msg model.colorModesModel }
+        { init =
+            { colorModesModel = ColorModes.init
+            , colorPickerModel = ColorPicker.init selectedColor
+            , previewModel = Preview.init
+            , selectedColor = selectedColor
+            }
+        , update = update
         , view = view
         }
 
 
 type alias Model =
-    { colorModesModel : ColorModes.Model }
+    { colorModesModel : ColorModes.Model
+    , colorPickerModel : ColorPicker.Model
+    , previewModel : Preview.Model
+    , selectedColor : Color
+    }
 
 
-type alias Msg =
-    ColorModes.Msg
+type Msg
+    = ColorModesMsg ColorModes.Msg
+    | ColorPickerMsg ColorPicker.Msg
+    | PreviewMsg Preview.Msg
+
+
+update : Msg -> Model -> Model
+update msg model =
+    case msg of
+        ColorModesMsg colorMsg ->
+            { model | colorModesModel = ColorModes.update colorMsg model.colorModesModel }
+
+        ColorPickerMsg colorMsg ->
+            let
+                ( newColorPickerModel, maybeNewColor ) =
+                    ColorPicker.update colorMsg model.colorPickerModel
+            in
+            { model
+                | colorPickerModel = newColorPickerModel
+                , selectedColor = Maybe.withDefault model.selectedColor maybeNewColor
+            }
+
+        PreviewMsg previewMsg ->
+            { model | previewModel = Preview.update previewMsg model.previewModel }
 
 
 view : Model -> Html Msg
 view model =
     Html.main_ []
         [ Html.h1 [] [ Html.text "Examples" ]
+        , exampleSection "API"
+            (Html.div []
+                [ ColorPicker.view model.colorPickerModel
+                    |> Html.map ColorPickerMsg
+                , Preview.view model.selectedColor model.previewModel
+                    |> Html.map PreviewMsg
+                ]
+            )
         , exampleSection "Contrast"
-            (ColorModes.view model.colorModesModel)
+            (ColorModes.view model.colorModesModel
+                |> Html.map ColorModesMsg
+            )
         , exampleSection "Color Schemes"
             (Html.div []
                 [ exampleSubsection "Complementary"
