@@ -44,7 +44,7 @@ update msg { selectedColor } =
         SetHexColor colorString ->
             let
                 newColor =
-                    fromHexString colorString
+                    Color.fromHexString colorString
                         |> Result.withDefault selectedColor
             in
             ( Model newColor, Just newColor )
@@ -104,54 +104,3 @@ decToHex c =
 toHexString : ( Float, Float, Float ) -> String
 toHexString ( r, g, b ) =
     "#" ++ decToHex r ++ decToHex g ++ decToHex b
-
-
-fromHexString : String -> Result String Color
-fromHexString colorString =
-    let
-        colorList =
-            String.dropLeft 1 colorString
-                |> String.toList
-                |> List.map fromHexSymbol
-    in
-    case colorList of
-        r1 :: r0 :: g1 :: g0 :: b1 :: b0 :: [] ->
-            ( r1 * 16 + r0 |> toFloat
-            , g1 * 16 + g0 |> toFloat
-            , b1 * 16 + b0 |> toFloat
-            )
-                |> Color.fromRGB
-                |> Ok
-
-        r :: g :: b :: [] ->
-            Err "fromHexString does not support 3-character hex strings."
-
-        _ ->
-            Err ("fromHexString could not convert " ++ colorString ++ " to a Color.")
-
-
-fromHexSymbol : Char -> Int
-fromHexSymbol m =
-    let
-        decValues =
-            Dict.fromList
-                [ ( '0', 0 )
-                , ( '1', 1 )
-                , ( '2', 2 )
-                , ( '3', 3 )
-                , ( '4', 4 )
-                , ( '5', 5 )
-                , ( '6', 6 )
-                , ( '7', 7 )
-                , ( '8', 8 )
-                , ( '9', 9 )
-                , ( 'A', 10 )
-                , ( 'B', 11 )
-                , ( 'C', 12 )
-                , ( 'D', 13 )
-                , ( 'E', 14 )
-                , ( 'F', 15 )
-                ]
-    in
-    Dict.get (Char.toUpper m) decValues
-        |> Maybe.withDefault 0

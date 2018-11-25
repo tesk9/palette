@@ -77,6 +77,8 @@ Hex colors are also additive and can also be thought of as a piecewise function.
 
 -}
 
+import Dict
+
 
 {-| -}
 type
@@ -84,7 +86,6 @@ type
     -- TODO: other models! conversions! as necessary.
     = HSL HSLValue
     | RGB RGBValue
-    | Hex HexValue
 
 
 {-| Internal representation of HSL used to enforce type safety.
@@ -97,12 +98,6 @@ type HSLValue
 -}
 type RGBValue
     = RGBValue Float Float Float
-
-
-{-| Internal representation of RGB used to enforce type safety.
--}
-type alias HexValue =
-    { r1 : Char, r0 : Char, g1 : Char, g0 : Char, b1 : Char, b0 : Char }
 
 
 {-| Build a new color based on HSL values.
@@ -146,9 +141,6 @@ toHSL color =
         RGB rgbValues ->
             convertRGBToHSL rgbValues
                 |> toHSL
-
-        Hex { r1, r0, g1, g0, b1, b0 } ->
-            ( 0, 0, 0 )
 
 
 {-| Get the HSL representation of a color as a `String`.
@@ -204,9 +196,6 @@ toRGB color =
         RGB (RGBValue r g b) ->
             ( r, g, b )
 
-        Hex { r1, r0, g1, g0, b1, b0 } ->
-            ( 0, 0, 0 )
-
         HSL hslValues ->
             convertHSLToRGB hslValues
                 |> toRGB
@@ -235,9 +224,28 @@ toRGBString color =
 
 {-| Build a new color from a hex string.
 -}
-fromHexString : String -> Color
+fromHexString : String -> Result String Color
 fromHexString colorString =
-    Hex (HexValue '0' '0' '0' '0' '0' '0')
+    let
+        colorList =
+            String.dropLeft 1 colorString
+                |> String.toList
+                |> List.map fromHexSymbol
+    in
+    case colorList of
+        r1 :: r0 :: g1 :: g0 :: b1 :: b0 :: [] ->
+            ( r1 * 16 + r0 |> toFloat
+            , g1 * 16 + g0 |> toFloat
+            , b1 * 16 + b0 |> toFloat
+            )
+                |> fromRGB
+                |> Ok
+
+        r :: g :: b :: [] ->
+            Err "fromHexString does not support 3-character hex strings."
+
+        _ ->
+            Err ("fromHexString could not convert " ++ colorString ++ " to a Color.")
 
 
 {-| Get the Hex representation of a color as a `String`.
@@ -400,3 +408,34 @@ convertHSLToRGB (HSLValue hue360 saturationPercent lightnessPercent) =
         , (g + lightnessModifier) * 255
         , (b + lightnessModifier) * 255
         )
+
+
+
+{- Hex/Dec lookup tables -}
+
+
+fromHexSymbol : Char -> Int
+fromHexSymbol m =
+    let
+        decValues =
+            Dict.fromList
+                [ ( '0', 0 )
+                , ( '1', 1 )
+                , ( '2', 2 )
+                , ( '3', 3 )
+                , ( '4', 4 )
+                , ( '5', 5 )
+                , ( '6', 6 )
+                , ( '7', 7 )
+                , ( '8', 8 )
+                , ( '9', 9 )
+                , ( 'A', 10 )
+                , ( 'B', 11 )
+                , ( 'C', 12 )
+                , ( 'D', 13 )
+                , ( 'E', 14 )
+                , ( 'F', 15 )
+                ]
+    in
+    Dict.get (Char.toUpper m) decValues
+        |> Maybe.withDefault 0
