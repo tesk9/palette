@@ -265,7 +265,11 @@ fromHexString colorString =
 -}
 toHexString : Color -> String
 toHexString color =
-    "#TODO"
+    let
+        ( r, g, b ) =
+            toRGB color
+    in
+    "#" ++ decToHex r ++ decToHex g ++ decToHex b
 
 
 {-| Luminance calculation adopted from <https://www.w3.org/TR/WCAG20-TECHS/G17.html>
@@ -414,6 +418,26 @@ convertHSLToRGB (HSLValue hue360 saturationPercent lightnessPercent) =
 {- Hex/Dec lookup tables -}
 
 
+decToHex : Float -> String
+decToHex c =
+    let
+        nextValue ( dec, hex ) =
+            if dec == 0 then
+                hex
+
+            else
+                nextValue
+                    ( dec // 16
+                    , getHexSymbol (remainderBy 16 dec) ++ hex
+                    )
+    in
+    if c == 0 then
+        "00"
+
+    else
+        nextValue ( round c, "" )
+
+
 fromHexSymbol : Char -> Int
 fromHexSymbol m =
     let
@@ -439,3 +463,30 @@ fromHexSymbol m =
     in
     Dict.get (Char.toUpper m) decValues
         |> Maybe.withDefault 0
+
+
+getHexSymbol : Int -> String
+getHexSymbol m =
+    let
+        hexValues =
+            Dict.fromList
+                [ ( 0, "0" )
+                , ( 1, "1" )
+                , ( 2, "2" )
+                , ( 3, "3" )
+                , ( 4, "4" )
+                , ( 5, "5" )
+                , ( 6, "6" )
+                , ( 7, "7" )
+                , ( 8, "8" )
+                , ( 9, "9" )
+                , ( 10, "A" )
+                , ( 11, "B" )
+                , ( 12, "C" )
+                , ( 13, "D" )
+                , ( 14, "E" )
+                , ( 15, "F" )
+                ]
+    in
+    Dict.get m hexValues
+        |> Maybe.withDefault "0"
