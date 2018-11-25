@@ -2,6 +2,7 @@ module ColorPicker exposing (Model, Msg, init, update, view)
 
 import Color exposing (Color)
 import Color.Generator exposing (adjustLightness, adjustSaturation, rotate)
+import Dict
 import Html exposing (Html)
 import Html.Attributes exposing (attribute, id, style)
 import Html.Events
@@ -27,21 +28,78 @@ init color =
 
 view : Model -> Html Msg
 view model =
-    Html.section
-        [ style "display" "flex"
-        , style "align-items" "stretch"
-        , style "background-color" "lightgrey"
-        , style "width" "min-content"
-        , style "border-radius" "8px"
-        , style "border" "1px solid grey"
-        ]
-    <|
-        case model.pickerStyle of
-            HSL ->
-                viewHSLSelectors model
+    case model.pickerStyle of
+        HSL ->
+            Html.input
+                [ Html.Attributes.type_ "color"
+                , Color.toRGB model.selectedColor
+                    |> toHexString
+                    |> Html.Attributes.value
+                ]
+                []
 
-            RGB ->
-                viewRGBSelectors model
+        RGB ->
+            Html.section
+                [ style "display" "flex"
+                , style "align-items" "stretch"
+                , style "background-color" "lightgrey"
+                , style "width" "min-content"
+                , style "border-radius" "8px"
+                , style "border" "1px solid grey"
+                ]
+                (viewRGBSelectors model)
+
+
+getHexSymbol : Int -> String
+getHexSymbol m =
+    let
+        hexValues =
+            Dict.fromList
+                [ ( 0, "0" )
+                , ( 1, "1" )
+                , ( 2, "2" )
+                , ( 3, "3" )
+                , ( 4, "4" )
+                , ( 5, "5" )
+                , ( 6, "6" )
+                , ( 7, "7" )
+                , ( 8, "8" )
+                , ( 9, "9" )
+                , ( 10, "A" )
+                , ( 11, "B" )
+                , ( 12, "C" )
+                , ( 13, "D" )
+                , ( 14, "E" )
+                , ( 15, "F" )
+                ]
+    in
+    Dict.get m hexValues
+        |> Maybe.withDefault "0"
+
+
+decToHex : Float -> String
+decToHex c =
+    let
+        nextValue ( dec, hex ) =
+            if dec == 0 then
+                hex
+
+            else
+                nextValue
+                    ( dec // 16
+                    , getHexSymbol (remainderBy 16 dec) ++ hex
+                    )
+    in
+    if c == 0 then
+        "00"
+
+    else
+        nextValue ( round c, "" )
+
+
+toHexString : ( Float, Float, Float ) -> String
+toHexString ( r, g, b ) =
+    "#" ++ decToHex r ++ decToHex g ++ decToHex b
 
 
 viewHSLSelectors : Model -> List (Html Msg)
