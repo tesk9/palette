@@ -21,14 +21,17 @@ init color =
 
 view : Model -> Html Msg
 view model =
-    Html.input
-        [ Html.Attributes.type_ "color"
-        , Color.toRGB model.selectedColor
-            |> toHexString
-            |> Html.Attributes.value
-        , Html.Events.onInput SetHexColor
+    Html.label []
+        [ Html.input
+            [ Html.Attributes.type_ "color"
+            , Color.toRGB model.selectedColor
+                |> toHexString
+                |> Html.Attributes.value
+            , Html.Events.onInput SetHexColor
+            ]
+            []
+        , Html.span [ style "padding" "2px" ] [ Html.text "Select a color" ]
         ]
-        []
 
 
 type Msg
