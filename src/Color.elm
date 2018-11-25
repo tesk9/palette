@@ -2,6 +2,7 @@ module Color exposing
     ( Color
     , fromHSL, toHSL, toHSLString
     , fromRGB, toRGB, toRGBString
+    , fromHexString, toHexString
     , luminance
     )
 
@@ -61,6 +62,15 @@ color space. Printing (CMYK color space) is also subtractive.
 @docs fromRGB, toRGB, toRGBString
 
 
+### Hex values
+
+Hexadecimal colors actually use the same color space as RGB colors. The difference
+between the two systems is in the base: RGB colors are base 10 and hex colors are base 16.
+Hex colors are also additive and can also be thought of as a piecewise function.
+
+@docs fromHexString, toHexString
+
+
 ## Color properties
 
 @docs luminance
@@ -74,6 +84,7 @@ type
     -- TODO: other models! conversions! as necessary.
     = HSL HSLValue
     | RGB RGBValue
+    | Hex HexValue
 
 
 {-| Internal representation of HSL used to enforce type safety.
@@ -86,6 +97,12 @@ type HSLValue
 -}
 type RGBValue
     = RGBValue Float Float Float
+
+
+{-| Internal representation of RGB used to enforce type safety.
+-}
+type alias HexValue =
+    { r1 : Char, r0 : Char, g1 : Char, g0 : Char, b1 : Char, b0 : Char }
 
 
 {-| Build a new color based on HSL values.
@@ -129,6 +146,9 @@ toHSL color =
         RGB rgbValues ->
             convertRGBToHSL rgbValues
                 |> toHSL
+
+        Hex { r1, r0, g1, g0, b1, b0 } ->
+            ( 0, 0, 0 )
 
 
 {-| Get the HSL representation of a color as a `String`.
@@ -184,6 +204,9 @@ toRGB color =
         RGB (RGBValue r g b) ->
             ( r, g, b )
 
+        Hex { r1, r0, g1, g0, b1, b0 } ->
+            ( 0, 0, 0 )
+
         HSL hslValues ->
             convertHSLToRGB hslValues
                 |> toRGB
@@ -208,6 +231,30 @@ toRGBString color =
             toRGB color
     in
     "rgb(" ++ String.fromFloat r ++ "," ++ String.fromFloat g ++ "," ++ String.fromFloat b ++ ")"
+
+
+{-| Build a new color from a hex string.
+-}
+fromHexString : String -> Color
+fromHexString colorString =
+    Hex (HexValue '0' '0' '0' '0' '0' '0')
+
+
+{-| Get the Hex representation of a color as a `String`.
+
+    import Color exposing (toHexString)
+    import Html exposing (p, text)
+    import Html.Attributes exposing (style)
+    import Palette.X11 exposing (red)
+
+    view =
+        p [ style "color" (toHexString red) ]
+            [ text "Wow! This sure looks red!" ]
+
+-}
+toHexString : Color -> String
+toHexString color =
+    "#TODO"
 
 
 {-| Luminance calculation adopted from <https://www.w3.org/TR/WCAG20-TECHS/G17.html>
