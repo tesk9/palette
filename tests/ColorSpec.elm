@@ -26,7 +26,7 @@ colorSpec =
             , test "from lowercase Hex to Hex" <|
                 \_ ->
                     Color.fromHexString "#d3e700"
-                        |> Result.map (Color.toHexString >> Expect.equal "#FFD700")
+                        |> Result.map (Color.toHexString >> Expect.equal "#D3E700")
                         |> Result.withDefault (Expect.fail "Could not parse color string")
             , test "from Hex to Hex" <|
                 \_ ->
