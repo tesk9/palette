@@ -35,6 +35,7 @@ view model =
                 , Color.toRGB model.selectedColor
                     |> toHexString
                     |> Html.Attributes.value
+                , Html.Events.onInput SetHexColor
                 ]
                 []
 
@@ -48,58 +49,6 @@ view model =
                 , style "border" "1px solid grey"
                 ]
                 (viewRGBSelectors model)
-
-
-getHexSymbol : Int -> String
-getHexSymbol m =
-    let
-        hexValues =
-            Dict.fromList
-                [ ( 0, "0" )
-                , ( 1, "1" )
-                , ( 2, "2" )
-                , ( 3, "3" )
-                , ( 4, "4" )
-                , ( 5, "5" )
-                , ( 6, "6" )
-                , ( 7, "7" )
-                , ( 8, "8" )
-                , ( 9, "9" )
-                , ( 10, "A" )
-                , ( 11, "B" )
-                , ( 12, "C" )
-                , ( 13, "D" )
-                , ( 14, "E" )
-                , ( 15, "F" )
-                ]
-    in
-    Dict.get m hexValues
-        |> Maybe.withDefault "0"
-
-
-decToHex : Float -> String
-decToHex c =
-    let
-        nextValue ( dec, hex ) =
-            if dec == 0 then
-                hex
-
-            else
-                nextValue
-                    ( dec // 16
-                    , getHexSymbol (remainderBy 16 dec) ++ hex
-                    )
-    in
-    if c == 0 then
-        "00"
-
-    else
-        nextValue ( round c, "" )
-
-
-toHexString : ( Float, Float, Float ) -> String
-toHexString ( r, g, b ) =
-    "#" ++ decToHex r ++ decToHex g ++ decToHex b
 
 
 viewHSLSelectors : Model -> List (Html Msg)
@@ -267,6 +216,7 @@ viewColor { selectedColor } =
 
 type Msg
     = SetColor Color
+    | SetHexColor String
     | SetPickerStyle PickerStyle
 
 
@@ -276,5 +226,120 @@ update msg { selectedColor, pickerStyle } =
         SetColor newColor ->
             ( Model newColor pickerStyle, Just newColor )
 
+        SetHexColor colorString ->
+            let
+                newColor =
+                    fromHexString colorString
+                        |> Result.withDefault selectedColor
+            in
+            ( Model newColor pickerStyle, Just newColor )
+
         SetPickerStyle newPickerStyle ->
             ( Model selectedColor newPickerStyle, Nothing )
+
+
+
+-- HEX conversions (to be pulled into the main Color module eventually)
+
+
+getHexSymbol : Int -> String
+getHexSymbol m =
+    let
+        hexValues =
+            Dict.fromList
+                [ ( 0, "0" )
+                , ( 1, "1" )
+                , ( 2, "2" )
+                , ( 3, "3" )
+                , ( 4, "4" )
+                , ( 5, "5" )
+                , ( 6, "6" )
+                , ( 7, "7" )
+                , ( 8, "8" )
+                , ( 9, "9" )
+                , ( 10, "A" )
+                , ( 11, "B" )
+                , ( 12, "C" )
+                , ( 13, "D" )
+                , ( 14, "E" )
+                , ( 15, "F" )
+                ]
+    in
+    Dict.get m hexValues
+        |> Maybe.withDefault "0"
+
+
+decToHex : Float -> String
+decToHex c =
+    let
+        nextValue ( dec, hex ) =
+            if dec == 0 then
+                hex
+
+            else
+                nextValue
+                    ( dec // 16
+                    , getHexSymbol (remainderBy 16 dec) ++ hex
+                    )
+    in
+    if c == 0 then
+        "00"
+
+    else
+        nextValue ( round c, "" )
+
+
+toHexString : ( Float, Float, Float ) -> String
+toHexString ( r, g, b ) =
+    "#" ++ decToHex r ++ decToHex g ++ decToHex b
+
+
+fromHexString : String -> Result String Color
+fromHexString colorString =
+    let
+        colorList =
+            String.dropLeft 1 colorString
+                |> String.toList
+                |> List.map fromHexSymbol
+    in
+    case colorList of
+        r1 :: r0 :: g1 :: g0 :: b1 :: b0 :: [] ->
+            ( r1 * 16 + r0 |> toFloat
+            , g1 * 16 + g0 |> toFloat
+            , b1 * 16 + b0 |> toFloat
+            )
+                |> Color.fromRGB
+                |> Ok
+
+        r :: g :: b :: [] ->
+            Err "fromHexString does not support 3-character hex strings."
+
+        _ ->
+            Err ("fromHexString could not convert " ++ colorString ++ " to a Color.")
+
+
+fromHexSymbol : Char -> Int
+fromHexSymbol m =
+    let
+        decValues =
+            Dict.fromList
+                [ ( '0', 0 )
+                , ( '1', 1 )
+                , ( '2', 2 )
+                , ( '3', 3 )
+                , ( '4', 4 )
+                , ( '5', 5 )
+                , ( '6', 6 )
+                , ( '7', 7 )
+                , ( '8', 8 )
+                , ( '9', 9 )
+                , ( 'A', 10 )
+                , ( 'B', 11 )
+                , ( 'C', 12 )
+                , ( 'D', 13 )
+                , ( 'E', 14 )
+                , ( 'F', 15 )
+                ]
+    in
+    Dict.get (Char.toUpper m) decValues
+        |> Maybe.withDefault 0
