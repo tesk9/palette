@@ -72,8 +72,8 @@ view : Model -> Html Msg
 view model =
     Html.main_ []
         [ Html.h1 [] [ Html.text "Examples" ]
-        , exampleSection "Custom color"
-            (Html.div [ style "display" "flex" ]
+        , exampleSection "API"
+            (Html.div []
                 [ ColorPicker.view model.colorPickerModel
                     |> Html.map ColorPickerMsg
                 , Preview.view model.selectedColor model.previewModel

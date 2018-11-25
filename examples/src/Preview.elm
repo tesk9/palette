@@ -146,25 +146,22 @@ init =
 
 view : Color -> Model -> Html Msg
 view selectedColor model =
-    Html.div [ style "margin-left" "20px" ]
-        [ Html.h3 [] [ Html.text "Generate additional colors" ]
-        , Html.div []
-            [ generatorOptions model
-            , case model.selectedGenerator of
-                Generator details ->
-                    viewPalette selectedColor details.generate
+    Html.div [ style "margin-top" "4px" ]
+        [ generatorOptions model
+        , case model.selectedGenerator of
+            Generator details ->
+                viewPalette selectedColor details.generate
 
-                GeneratorWith details ->
-                    Html.div []
-                        [ customValueEditor (unitToString details.unit) details.editable
-                        , viewEditablePalette selectedColor details
-                        ]
-                        |> Html.map
-                            (\newEditable ->
-                                GeneratorWith { details | editable = newEditable }
-                                    |> SetGenerator
-                            )
-            ]
+            GeneratorWith details ->
+                Html.div []
+                    [ customValueEditor (unitToString details.unit) details.editable
+                    , viewEditablePalette selectedColor details
+                    ]
+                    |> Html.map
+                        (\newEditable ->
+                            GeneratorWith { details | editable = newEditable }
+                                |> SetGenerator
+                        )
         ]
 
 
