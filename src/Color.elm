@@ -22,7 +22,7 @@ You may be intuitively familiar with HSL color modeling if you've worked with a
 color wheel before. It also may be a great place to start working with color if
 you enjoyed playing with unit circles and polar coordinates in trigonometry.
 
-![Representation of HSL values on a cylinder](https://upload.wikimedia.org/wikipedia/commons/6/6b/HSL_color_solid_cylinder_saturation_gray.png)
+![Representation of HSL values on a cylinder](https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/HSL_color_solid_cylinder_saturation_gray.png/320px-HSL_color_solid_cylinder_saturation_gray.png)
 (Image can be seen in context on the [HSL and HSV arcticle on Wikipedia](https://en.wikipedia.org/wiki/HSL_and_HSV). By HSL\_color\_solid\_cylinder.png: SharkDderivative work: SharkD  Talk - HSL\_color\_solid\_cylinder.png, CC BY-SA 3.0, <https://commons.wikimedia.org/w/index.php?curid=9801661>)
 
 HSL models **hue** as a value on a circle. We can pick a hue by providing a degree.
