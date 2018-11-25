@@ -150,7 +150,7 @@ view selectedColor model =
         [ generatorOptions model
         , case model.selectedGenerator of
             Generator details ->
-                viewPalette selectedColor details.generate
+                viewPalette selectedColor details.name details.generate
 
             GeneratorWith details ->
                 Html.div []
@@ -216,20 +216,39 @@ customValueEditor unit currentValue =
 
 viewEditablePalette :
     Color
-    -> { a | generate : Float -> Color -> List Color, editable : Maybe Float }
+    -> { a | name : String, generate : Float -> Color -> List Color, editable : Maybe Float }
     -> Html msg
-viewEditablePalette selectedColor { generate, editable } =
+viewEditablePalette selectedColor { name, generate, editable } =
     case editable of
         Just value ->
-            viewPalette selectedColor (generate value)
+            viewPalette selectedColor (name ++ " " ++ String.fromFloat value) (generate value)
 
         Nothing ->
             Html.text ""
 
 
-viewPalette : Color -> (Color -> List Color) -> Html msg
-viewPalette selectedColor generate =
-    Comparison.viewPalette selectedColor (generate selectedColor)
+viewPalette : Color -> String -> (Color -> List Color) -> Html msg
+viewPalette selectedColor name generate =
+    let
+        ( r, g, b ) =
+            Color.toRGB selectedColor
+    in
+    Html.div []
+        [ Html.code []
+            [ Html.text
+                ("Color.Generator."
+                    ++ name
+                    ++ " <| Color.fromRGB ( "
+                    ++ String.fromFloat r
+                    ++ ", "
+                    ++ String.fromFloat g
+                    ++ ", "
+                    ++ String.fromFloat b
+                    ++ " ) == "
+                )
+            ]
+        , Comparison.viewPalette (Color.fromRGB ( 255, 255, 255 )) (generate selectedColor)
+        ]
 
 
 type Msg
