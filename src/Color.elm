@@ -244,12 +244,15 @@ fromHexString colorString =
 
     import Color exposing (toHexString)
     import Html exposing (p, text)
-    import Html.Attributes exposing (style)
+    import Html.Attributes exposing (type_, value)
     import Palette.X11 exposing (red)
 
     view =
-        p [ style "color" (toHexString red) ]
-            [ text "Wow! This sure looks red!" ]
+        Html.input
+            [ type_ "color"
+            , value (toHexString red)
+            ]
+            []
 
 -}
 toHexString : Color -> String
