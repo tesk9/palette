@@ -2,7 +2,7 @@ module ColorSpec exposing (colorSpec, luminanceSuite)
 
 import Color exposing (Color)
 import Expect exposing (Expectation)
-import Fuzz exposing (Fuzzer, int, list, string)
+import Fuzz exposing (Fuzzer)
 import Palette.X11 exposing (..)
 import Test exposing (..)
 
@@ -19,20 +19,32 @@ colorSpec =
                 \_ ->
                     Color.fromHSL ( -10, 123, -10 )
                         |> expectHSLValues ( 350, 100, 0 )
-            , test "from Hex with bad values" <|
-                \_ ->
-                    Color.fromHexString "#FFDG00"
-                        |> Expect.err
-            , test "from lowercase Hex to Hex" <|
-                \_ ->
-                    Color.fromHexString "#d3e700"
-                        |> Result.map (Color.toHexString >> Expect.equal "#D3E700")
-                        |> Result.withDefault (Expect.fail "Could not parse color string")
-            , test "from Hex to Hex" <|
-                \_ ->
-                    Color.fromHexString "#FFD700"
-                        |> Result.map (Color.toHexString >> Expect.equal "#FFD700")
-                        |> Result.withDefault (Expect.fail "Could not parse color string")
+            , describe "Hex"
+                [ test "from Hex with bad values" <|
+                    \_ ->
+                        Color.fromHexString "#FFDG00"
+                            |> Expect.err
+                , test "from lowercase Hex to Hex" <|
+                    \_ ->
+                        Color.fromHexString "#d3e700"
+                            |> Result.map (Color.toHexString >> Expect.equal "#D3E700")
+                            |> Result.withDefault (Expect.fail "Could not parse color string")
+                , test "from Hex to Hex" <|
+                    \_ ->
+                        Color.fromHexString "#FFD700"
+                            |> Result.map (Color.toHexString >> Expect.equal "#FFD700")
+                            |> Result.withDefault (Expect.fail "Could not parse color string")
+                , fuzz hexStringFuzzer "fuzz Hex to Hex" <|
+                    \hex ->
+                        if String.length hex == 7 then
+                            Color.fromHexString hex
+                                |> Result.map (Color.toHexString >> Expect.equal hex)
+                                |> Result.withDefault (Expect.fail "Could not parse color string")
+
+                        else
+                            Color.fromHexString hex
+                                |> Expect.err
+                ]
             ]
         , describe "to a String"
             [ test "toRGBString" <|
@@ -182,3 +194,16 @@ whiteHSL =
 blackHSL : Color
 blackHSL =
     Color.fromHSL ( 0, 0, 0 )
+
+
+hexStringFuzzer : Fuzzer String
+hexStringFuzzer =
+    Fuzz.list hexCharFuzzer
+        |> Fuzz.map (\charList -> "#" ++ String.fromList charList)
+
+
+hexCharFuzzer : Fuzzer Char
+hexCharFuzzer =
+    [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' ]
+        |> List.map Fuzz.constant
+        |> Fuzz.oneOf
