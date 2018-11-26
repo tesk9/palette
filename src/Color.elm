@@ -63,7 +63,6 @@ color space. Printing (CMYK color space) is also subtractive.
 
 Hexadecimal colors actually use the same color space as RGB colors. The difference
 between the two systems is in the base: RGB colors are base 10 and hex colors are base 16.
-Hex colors are also additive and can also be thought of as a piecewise function.
 
 You will need to use hex colors if you're working with an
 [HTML input of type color](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color).
