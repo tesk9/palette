@@ -435,11 +435,7 @@ decToHex c =
                     , getHexSymbol (remainderBy 16 dec) ++ hex
                     )
     in
-    if c == 0 then
-        "00"
-
-    else
-        nextValue ( round c, "" )
+    String.padLeft 2 '0' (nextValue ( round c, "" ))
 
 
 fromHexSymbol : Char -> Maybe Int
