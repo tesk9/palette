@@ -11,10 +11,7 @@ module Color exposing
 @docs Color
 
 
-## Working with `Color`s
-
-
-### HSL values
+## HSL values
 
 HSL is short for hue, saturation, and lightness (or luminosity, or random other
 L words depending on who you ask. Think "brightness", and you'll be on the right track).
@@ -62,11 +59,14 @@ color space. Printing (CMYK color space) is also subtractive.
 @docs fromRGB, toRGB, toRGBString
 
 
-### Hex values
+## Hex values
 
 Hexadecimal colors actually use the same color space as RGB colors. The difference
 between the two systems is in the base: RGB colors are base 10 and hex colors are base 16.
 Hex colors are also additive and can also be thought of as a piecewise function.
+
+You will need to use hex colors if you're working with an
+[HTML input of type color](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color).
 
 @docs fromHexString, toHexString
 
