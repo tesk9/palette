@@ -41,6 +41,19 @@ colorSpec =
                                 |> Result.map (Color.toHexString >> Expect.equal hex)
                                 |> Result.withDefault (Expect.fail "Could not parse color string")
 
+                        else if String.length hex == 4 then
+                            let
+                                fullLengthHexString =
+                                    String.toList hex
+                                        |> List.concatMap (\v -> [ v, v ])
+                                        |> String.fromList
+                                        |> String.dropLeft 1
+                                        |> Debug.log "fullLengthHexString"
+                            in
+                            Color.fromHexString hex
+                                |> Result.map (Color.toHexString >> Expect.equal fullLengthHexString)
+                                |> Result.withDefault (Expect.fail "Could not parse color string")
+
                         else
                             Color.fromHexString hex
                                 |> Expect.err
