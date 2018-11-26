@@ -2,6 +2,7 @@ module Color exposing
     ( Color
     , fromHSL, toHSL, toHSLString
     , fromRGB, toRGB, toRGBString
+    , fromHexString, toHexString
     , luminance
     )
 
@@ -10,10 +11,7 @@ module Color exposing
 @docs Color
 
 
-## Working with `Color`s
-
-
-### HSL values
+## HSL values
 
 HSL is short for hue, saturation, and lightness (or luminosity, or random other
 L words depending on who you ask. Think "brightness", and you'll be on the right track).
@@ -61,11 +59,24 @@ color space. Printing (CMYK color space) is also subtractive.
 @docs fromRGB, toRGB, toRGBString
 
 
+## Hex values
+
+Hexadecimal colors actually use the same color space as RGB colors. The difference
+between the two systems is in the base: RGB colors are base 10 and hex colors are base 16.
+
+You will need to use hex colors if you're working with an
+[HTML input of type color](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color).
+
+@docs fromHexString, toHexString
+
+
 ## Color properties
 
 @docs luminance
 
 -}
+
+import Dict
 
 
 {-| -}
@@ -210,6 +221,71 @@ toRGBString color =
     "rgb(" ++ String.fromFloat r ++ "," ++ String.fromFloat g ++ "," ++ String.fromFloat b ++ ")"
 
 
+{-| Build a new color from a hex string. Supports lowercase or uppercase strings.
+
+    (Color.fromHexString "#FFDD00" == Color.fromHexString "#FD0")
+        && (Color.fromHexString "#FFDD00" == Color.fromHexString "#ffdd00")
+
+-}
+fromHexString : String -> Result String Color
+fromHexString colorString =
+    let
+        colorList =
+            String.dropLeft 1 colorString
+                |> String.toList
+                |> List.filterMap fromHexSymbol
+    in
+    case colorList of
+        r1 :: r0 :: g1 :: g0 :: b1 :: b0 :: [] ->
+            ( r1 * 16 + r0 |> toFloat
+            , g1 * 16 + g0 |> toFloat
+            , b1 * 16 + b0 |> toFloat
+            )
+                |> fromRGB
+                |> Ok
+
+        r :: g :: b :: [] ->
+            ( r * 16 + r |> toFloat
+            , g * 16 + g |> toFloat
+            , b * 16 + b |> toFloat
+            )
+                |> fromRGB
+                |> Ok
+
+        _ ->
+            Err ("fromHexString could not convert " ++ colorString ++ " to a Color.")
+
+
+{-| Get the Hex representation of a color as a `String`.
+
+    import Color exposing (toHexString)
+    import Html exposing (p, text)
+    import Html.Attributes exposing (type_, value)
+    import Palette.X11 exposing (red)
+
+    view =
+        Html.input
+            [ type_ "color"
+            , value (toHexString red)
+            ]
+            []
+
+Note: this function will always return a string in the form "#RRGGBB". It will
+not return shortened values (e.g., "#RGB").
+
+If you want or need this functionality, please make an issue for it on the
+github repo for this library.
+
+-}
+toHexString : Color -> String
+toHexString color =
+    let
+        ( r, g, b ) =
+            toRGB color
+    in
+    "#" ++ decToHex r ++ decToHex g ++ decToHex b
+
+
 {-| Luminance calculation adopted from <https://www.w3.org/TR/WCAG20-TECHS/G17.html>
 
 Luminance describes the perceived brightness of a color. You're unlikely to need
@@ -350,3 +426,76 @@ convertHSLToRGB (HSLValue hue360 saturationPercent lightnessPercent) =
         , (g + lightnessModifier) * 255
         , (b + lightnessModifier) * 255
         )
+
+
+
+{- Hex/Dec lookup tables -}
+
+
+decToHex : Float -> String
+decToHex c =
+    let
+        nextValue ( dec, hex ) =
+            if dec == 0 then
+                hex
+
+            else
+                nextValue
+                    ( dec // 16
+                    , getHexSymbol (remainderBy 16 dec) ++ hex
+                    )
+    in
+    String.padLeft 2 '0' (nextValue ( round c, "" ))
+
+
+fromHexSymbol : Char -> Maybe Int
+fromHexSymbol m =
+    let
+        decValues =
+            Dict.fromList
+                [ ( '0', 0 )
+                , ( '1', 1 )
+                , ( '2', 2 )
+                , ( '3', 3 )
+                , ( '4', 4 )
+                , ( '5', 5 )
+                , ( '6', 6 )
+                , ( '7', 7 )
+                , ( '8', 8 )
+                , ( '9', 9 )
+                , ( 'A', 10 )
+                , ( 'B', 11 )
+                , ( 'C', 12 )
+                , ( 'D', 13 )
+                , ( 'E', 14 )
+                , ( 'F', 15 )
+                ]
+    in
+    Dict.get (Char.toUpper m) decValues
+
+
+getHexSymbol : Int -> String
+getHexSymbol m =
+    let
+        hexValues =
+            Dict.fromList
+                [ ( 0, "0" )
+                , ( 1, "1" )
+                , ( 2, "2" )
+                , ( 3, "3" )
+                , ( 4, "4" )
+                , ( 5, "5" )
+                , ( 6, "6" )
+                , ( 7, "7" )
+                , ( 8, "8" )
+                , ( 9, "9" )
+                , ( 10, "A" )
+                , ( 11, "B" )
+                , ( 12, "C" )
+                , ( 13, "D" )
+                , ( 14, "E" )
+                , ( 15, "F" )
+                ]
+    in
+    Dict.get m hexValues
+        |> Maybe.withDefault "0"
