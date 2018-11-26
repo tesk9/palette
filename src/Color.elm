@@ -224,8 +224,8 @@ toRGBString color =
 
 {-| Build a new color from a hex string. Supports lowercase or uppercase strings.
 
-    myColorResult =
-        Color.fromHexString "#FFDD00"
+    (Color.fromHexString "#FFDD00" == Color.fromHexString "#FD0")
+        && (Color.fromHexString "#FFDD00" == Color.fromHexString "#ffdd00")
 
 -}
 fromHexString : String -> Result String Color
@@ -246,7 +246,12 @@ fromHexString colorString =
                 |> Ok
 
         r :: g :: b :: [] ->
-            Err "fromHexString does not support 3-character hex strings."
+            ( r * 16 + r |> toFloat
+            , g * 16 + g |> toFloat
+            , b * 16 + b |> toFloat
+            )
+                |> fromRGB
+                |> Ok
 
         _ ->
             Err ("fromHexString could not convert " ++ colorString ++ " to a Color.")
@@ -265,6 +270,12 @@ fromHexString colorString =
             , value (toHexString red)
             ]
             []
+
+Note: this function will always return a string in the form "#RRGGBB". It will
+not return shortened values (e.g., "#RGB").
+
+If you want or need this functionality, please make an issue for it on the
+github repo for this library.
 
 -}
 toHexString : Color -> String
