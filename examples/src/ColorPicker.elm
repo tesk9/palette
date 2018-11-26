@@ -1,12 +1,9 @@
 module ColorPicker exposing (Model, Msg, init, update, view)
 
 import Color exposing (Color)
-import Color.Generator exposing (adjustLightness, adjustSaturation, rotate)
-import Dict
 import Html exposing (Html)
 import Html.Attributes exposing (attribute, id, style)
 import Html.Events
-import Json.Decode
 
 
 type alias Model =
