@@ -54,7 +54,7 @@ myPalette =
         (color2, color3) =
             triadic red
     in
-    (red, color2, color3))
+    (red, color2, color3)
 
 ```
 
