@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/tesk9/palette.svg?branch=master)](https://travis-ci.org/tesk9/palette)
+
 Work with Colors in Elm.
 
 This package makes working with RGB, HSL, and Hex colors easy, convenient, and safe.
