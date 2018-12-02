@@ -7,7 +7,7 @@
     "test": "."
   },
   "scripts": {
-    "test": "elm-test"
+    "test": "elm-format --validate src && elm-test && cd examples && elm make src/Main.elm --output=/dev/null"
   },
   "keywords": [
     "colors",
