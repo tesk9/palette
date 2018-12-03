@@ -103,8 +103,6 @@ open http://localhost:8000/src/Main.elm
 
 ### Running tests
 
-I couldn't get the tests working on travis ci properly :( But there are tests!
-
 ```
 npm install
 npm test
