@@ -61,7 +61,15 @@ examples =
                 ]
                 viewColor
             , Html.h4 [] [ Html.text "Aluminums" ]
-            , Html.text "TODO"
+            , Example.list
+                [ ( aluminum1, "aluminum1" )
+                , ( aluminum2, "aluminum2" )
+                , ( aluminum3, "aluminum3" )
+                , ( aluminum4, "aluminum4" )
+                , ( aluminum5, "aluminum5" )
+                , ( aluminum6, "aluminum6" )
+                ]
+                viewColor
             ]
         )
 

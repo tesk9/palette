@@ -6,6 +6,7 @@ module Palette.Tango exposing
     , skyBlue1, skyBlue2, skyBlue3
     , plum1, plum2, plum3
     , scarletRed1, scarletRed2, scarletRed3
+    , aluminum1, aluminum2, aluminum3, aluminum4, aluminum5, aluminum6
     )
 
 {-|
@@ -48,7 +49,7 @@ module Palette.Tango exposing
 
 ## Aluminums
 
-TODO: @docs aluminum1, aluminum2, aluminum3
+@docs aluminum1, aluminum2, aluminum3, aluminum4, aluminum5, aluminum6
 
 -}
 
@@ -139,7 +140,25 @@ scarletRed3 =
     Color.fromHexString "#a40000"
 
 
+aluminum1 =
+    Color.fromHexString "#eeeeec"
 
---TODO: organize aluminum colors
---Aluminum
---    eeeeec d3d7cf babdb6 888a85 555753 2e3436
+
+aluminum2 =
+    Color.fromHexString "#d3d7cf"
+
+
+aluminum3 =
+    Color.fromHexString "#babdb6"
+
+
+aluminum4 =
+    Color.fromHexString "#888a85"
+
+
+aluminum5 =
+    Color.fromHexString "#555753"
+
+
+aluminum6 =
+    Color.fromHexString "#2e3436"
