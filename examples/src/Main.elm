@@ -12,6 +12,7 @@ import ExampleHelpers as Example
 import Html exposing (Html)
 import Palette.Tango as Tango
 import Palette.X11 as X11
+import PaletteExamples.Tango
 import PaletteExamples.X11
 import Platform
 import Preview
@@ -142,7 +143,12 @@ view model =
                     )
                 ]
             )
-        , PaletteExamples.X11.examples
+        , Example.section "Palette"
+            (Html.div []
+                [ PaletteExamples.X11.examples
+                , PaletteExamples.Tango.examples
+                ]
+            )
         ]
 
 
