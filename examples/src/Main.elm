@@ -8,30 +8,38 @@ import Color.Generator
 import ColorModes
 import ColorPicker
 import Comparison
+import ExampleHelpers as Example
 import Html exposing (Html)
-import Html.Attributes exposing (style)
-import Html.Events
-import Palette.X11 exposing (..)
+import Palette.Tango as Tango
+import Palette.X11 as X11
+import PaletteExamples.Tango
+import PaletteExamples.X11
 import Platform
 import Preview
+import Url exposing (Url)
+import Url.Parser exposing ((</>), Parser, int, map, oneOf, s, string)
 
 
 main : Platform.Program () Model Msg
 main =
+    Browser.sandbox
+        { init = init
+        , view = view
+        , update = update
+        }
+
+
+init : Model
+init =
     let
         selectedColor =
             Color.fromHSL ( 0, 100, 50 )
     in
-    Browser.sandbox
-        { init =
-            { colorModesModel = ColorModes.init
-            , colorPickerModel = ColorPicker.init selectedColor
-            , previewModel = Preview.init
-            , selectedColor = selectedColor
-            }
-        , update = update
-        , view = view
-        }
+    { colorModesModel = ColorModes.init
+    , colorPickerModel = ColorPicker.init selectedColor
+    , previewModel = Preview.init
+    , selectedColor = selectedColor
+    }
 
 
 type alias Model =
@@ -72,7 +80,7 @@ view : Model -> Html Msg
 view model =
     Html.main_ []
         [ Html.h1 [] [ Html.text "Examples" ]
-        , exampleSection "API"
+        , Example.section "API"
             (Html.div []
                 [ ColorPicker.view model.colorPickerModel
                     |> Html.map ColorPickerMsg
@@ -80,285 +88,68 @@ view model =
                     |> Html.map PreviewMsg
                 ]
             )
-        , exampleSection "Contrast"
+        , Example.section "Contrast"
             (ColorModes.view model.colorModesModel
                 |> Html.map ColorModesMsg
             )
-        , exampleSection "Color Schemes"
+        , Example.section "Color Schemes"
             (Html.div []
-                [ exampleSubsection "Complementary"
-                    (exampleList rainbow viewComplementary)
-                , exampleSubsection "Triadic"
-                    (exampleList rainbow viewTriadic)
-                , exampleSubsection "Split Complementary"
-                    (exampleList (List.map (\color -> ( 30, color )) rainbow)
+                [ Example.subsection "Complementary"
+                    (Example.list rainbow viewComplementary)
+                , Example.subsection "Triadic"
+                    (Example.list rainbow viewTriadic)
+                , Example.subsection "Split Complementary"
+                    (Example.list (List.map (\color -> ( 30, color )) rainbow)
                         viewSplitComplementary
                     )
-                , exampleSubsection "Square"
-                    (exampleList rainbow viewSquare)
-                , exampleSubsection "Tetratic"
-                    (exampleList (List.map (\color -> ( 30, color )) rainbow)
+                , Example.subsection "Square"
+                    (Example.list rainbow viewSquare)
+                , Example.subsection "Tetratic"
+                    (Example.list (List.map (\color -> ( 30, color )) rainbow)
                         viewRectangle
                     )
-                , exampleSubsection "Grayscale"
-                    (exampleList rainbow viewGrayscale)
-                , exampleSubsection "Invert"
-                    (exampleList rainbow viewInverse)
-                , exampleSubsection "Monochromatic"
+                , Example.subsection "Grayscale"
+                    (Example.list rainbow viewGrayscale)
+                , Example.subsection "Invert"
+                    (Example.list rainbow viewInverse)
+                , Example.subsection "Monochromatic"
                     (Html.div []
                         [ Html.h4 [] [ Html.text "Monochromatic Palette" ]
-                        , exampleList (List.map (\color -> ( 10, color )) rainbow)
+                        , Example.list (List.map (\color -> ( 10, color )) rainbow)
                             viewMonochromaticGenerator
                         , Html.h4 [] [ Html.text "Shades" ]
-                        , exampleList rainbow viewMonochromaticShades
+                        , Example.list rainbow viewMonochromaticShades
                         , Html.h4 [] [ Html.text "Tints" ]
-                        , exampleList rainbow viewMonochromaticTints
+                        , Example.list rainbow viewMonochromaticTints
                         , Html.h4 [] [ Html.text "Tones" ]
-                        , exampleList rainbow viewMonochromaticTones
+                        , Example.list rainbow viewMonochromaticTones
                         ]
                     )
-                , exampleSubsection "Blending"
+                , Example.subsection "Blending"
                     (Html.div []
                         [ Html.h4 [] [ Html.text "Add" ]
-                        , exampleList (List.map (\color -> ( color, lightSeaGreen )) rainbow)
+                        , Example.list (List.map (\color -> ( color, X11.lightSeaGreen )) rainbow)
                             (Comparison.viewOverlapping Color.Blend.add)
                         , Html.h4 [] [ Html.text "Subtract" ]
-                        , exampleList (List.map (\color -> ( color, lightSeaGreen )) rainbow)
+                        , Example.list (List.map (\color -> ( color, X11.lightSeaGreen )) rainbow)
                             (Comparison.viewOverlapping Color.Blend.subtract)
                         , Html.h4 [] [ Html.text "Multiply" ]
-                        , exampleList (List.map (\color -> ( color, lightSeaGreen )) rainbow)
+                        , Example.list (List.map (\color -> ( color, X11.lightSeaGreen )) rainbow)
                             (Comparison.viewOverlapping Color.Blend.multiply)
                         , Html.h4 [] [ Html.text "Divide" ]
-                        , exampleList (List.map (\color -> ( color, lightSeaGreen )) rainbow)
+                        , Example.list (List.map (\color -> ( color, X11.lightSeaGreen )) rainbow)
                             (Comparison.viewOverlapping Color.Blend.divide)
                         ]
                     )
                 ]
             )
-        , exampleSection "Palette"
+        , Example.section "Palette"
             (Html.div []
-                [ exampleSubsection "X11"
-                    (Html.div []
-                        [ Html.h4 [] [ Html.text "Pinks" ]
-                        , exampleList
-                            [ ( pink, "pink" )
-                            , ( lightPink, "lightPink" )
-                            , ( hotPink, "hotPink" )
-                            , ( deepPink, "deepPink" )
-                            , ( paleVioletRed, "paleVioletRed" )
-                            , ( mediumVioletRed, "mediumVioletRed" )
-                            ]
-                            Comparison.viewWithName
-                        , Html.h4 [] [ Html.text "Reds" ]
-                        , exampleList
-                            [ ( lightSalmon, "lightSalmon" )
-                            , ( salmon, "salmon" )
-                            , ( darkSalmon, "darkSalmon" )
-                            , ( lightCoral, "lightCoral" )
-                            , ( indianRed, "indianRed" )
-                            , ( crimson, "crimson" )
-                            , ( firebrick, "firebrick" )
-                            , ( darkRed, "darkRed" )
-                            , ( red, "red" )
-                            ]
-                            Comparison.viewWithName
-                        , Html.h4 [] [ Html.text "Orange-Reds" ]
-                        , exampleList
-                            [ ( orangeRed, "orangeRed" )
-                            , ( tomato, "tomato" )
-                            , ( coral, "coral" )
-                            , ( darkOrange, "darkOrange" )
-                            , ( orange, "orange" )
-                            ]
-                            Comparison.viewWithName
-                        , Html.h4 [] [ Html.text "Yellows" ]
-                        , exampleList
-                            [ ( yellow, "yellow" )
-                            , ( lightYellow, "lightYellow" )
-                            , ( lemonChiffon, "lemonChiffon" )
-                            , ( lightGoldenrodYellow, "lightGoldenrodYellow" )
-                            , ( papayaWhip, "papayaWhip" )
-                            , ( moccasin, "moccasin" )
-                            , ( peachPuff, "peachPuff" )
-                            , ( paleGoldenrod, "paleGoldenrod" )
-                            , ( khaki, "khaki" )
-                            , ( darkKhaki, "darkKhaki" )
-                            , ( gold, "gold" )
-                            ]
-                            Comparison.viewWithName
-                        , Html.h4 [] [ Html.text "Browns" ]
-                        , exampleList
-                            [ ( cornsilk, "cornsilk" )
-                            , ( blanchedAlmond, "blanchedAlmond" )
-                            , ( bisque, "bisque" )
-                            , ( navajoWhite, "navajoWhite" )
-                            , ( wheat, "wheat" )
-                            , ( burlywood, "burlywood" )
-                            , ( Palette.X11.tan, "tan" )
-                            , ( rosyBrown, "rosyBrown" )
-                            , ( sandyBrown, "sandyBrown" )
-                            , ( goldenrod, "goldenrod" )
-                            , ( darkGoldenrod, "darkGoldenrod" )
-                            , ( peru, "peru" )
-                            , ( chocolate, "chocolate" )
-                            , ( saddleBrown, "saddleBrown" )
-                            , ( sienna, "sienna" )
-                            , ( brown, "brown" )
-                            , ( maroon, "maroon" )
-                            ]
-                            Comparison.viewWithName
-                        , Html.h4 [] [ Html.text "Greens" ]
-                        , exampleList
-                            [ ( darkOliveGreen, "darkOliveGreen" )
-                            , ( olive, "olive" )
-                            , ( oliveDrab, "oliveDrab" )
-                            , ( yellowGreen, "yellowGreen" )
-                            , ( limeGreen, "limeGreen" )
-                            , ( lime, "lime" )
-                            , ( lawnGreen, "lawnGreen" )
-                            , ( chartreuse, "chartreuse" )
-                            , ( greenYellow, "greenYellow" )
-                            , ( springGreen, "springGreen" )
-                            , ( mediumSpringGreen, "mediumSpringGreen" )
-                            , ( lightGreen, "lightGreen" )
-                            , ( paleGreen, "paleGreen" )
-                            , ( darkSeaGreen, "darkSeaGreen" )
-                            , ( mediumAquamarine, "mediumAquamarine" )
-                            , ( mediumSeaGreen, "mediumSeaGreen" )
-                            , ( seaGreen, "seaGreen" )
-                            , ( forestGreen, "forestGreen" )
-                            , ( green, "green" )
-                            , ( darkGreen, "darkGreen" )
-                            ]
-                            Comparison.viewWithName
-                        , Html.h4 [] [ Html.text "Cyans" ]
-                        , exampleList
-                            [ ( aqua, "aqua" )
-                            , ( cyan, "cyan" )
-                            , ( lightCyan, "lightCyan" )
-                            , ( paleTurquoise, "paleTurquoise" )
-                            , ( aquamarine, "aquamarine" )
-                            , ( turquoise, "turquoise" )
-                            , ( mediumTurquoise, "mediumTurquoise" )
-                            , ( darkTurquoise, "darkTurquoise" )
-                            , ( lightSeaGreen, "lightSeaGreen" )
-                            , ( cadetBlue, "cadetBlue" )
-                            , ( darkCyan, "darkCyan" )
-                            , ( teal, "teal" )
-                            ]
-                            Comparison.viewWithName
-                        , Html.h4 [] [ Html.text "Blues" ]
-                        , exampleList
-                            [ ( lightSteelBlue, "lightSteelBlue" )
-                            , ( powderBlue, "powderBlue" )
-                            , ( lightBlue, "lightBlue" )
-                            , ( skyBlue, "skyBlue" )
-                            , ( lightSkyBlue, "lightSkyBlue" )
-                            , ( deepSkyBlue, "deepSkyBlue" )
-                            , ( dodgerBlue, "dodgerBlue" )
-                            , ( cornflowerBlue, "cornflowerBlue" )
-                            , ( steelBlue, "steelBlue" )
-                            , ( royalBlue, "royalBlue" )
-                            , ( blue, "blue" )
-                            , ( mediumBlue, "mediumBlue" )
-                            , ( darkBlue, "darkBlue" )
-                            , ( navy, "navy" )
-                            , ( midnightBlue, "midnightBlue" )
-                            ]
-                            Comparison.viewWithName
-                        , Html.h4 [] [ Html.text "Purples" ]
-                        , exampleList
-                            [ ( lavender, "lavender" )
-                            , ( thistle, "thistle" )
-                            , ( plum, "plum" )
-                            , ( violet, "violet" )
-                            , ( orchid, "orchid" )
-                            , ( fuchsia, "fuchsia" )
-                            , ( magenta, "magenta" )
-                            , ( mediumOrchid, "mediumOrchid" )
-                            , ( mediumPurple, "mediumPurple" )
-                            , ( blueViolet, "blueViolet" )
-                            , ( darkViolet, "darkViolet" )
-                            , ( darkOrchid, "darkOrchid" )
-                            , ( darkMagenta, "darkMagenta" )
-                            , ( purple, "purple" )
-                            , ( indigo, "indigo" )
-                            , ( darkSlateBlue, "darkSlateBlue" )
-                            , ( slateBlue, "slateBlue" )
-                            , ( mediumSlateBlue, "mediumSlateBlue" )
-                            ]
-                            Comparison.viewWithName
-                        , Html.h4 [] [ Html.text "Whites" ]
-                        , exampleList
-                            [ ( white, "white" )
-                            , ( snow, "snow" )
-                            , ( honeydew, "honeydew" )
-                            , ( mintCream, "mintCream" )
-                            , ( azure, "azure" )
-                            , ( aliceBlue, "aliceBlue" )
-                            , ( ghostWhite, "ghostWhite" )
-                            , ( whiteSmoke, "whiteSmoke" )
-                            , ( seashell, "seashell" )
-                            , ( beige, "beige" )
-                            , ( oldLace, "oldLace" )
-                            , ( floralWhite, "floralWhite" )
-                            , ( ivory, "ivory" )
-                            , ( antiqueWhite, "antiqueWhite" )
-                            , ( linen, "linen" )
-                            , ( lavenderBlush, "lavenderBlush" )
-                            , ( mistyRose, "mistyRose" )
-                            ]
-                            Comparison.viewWithName
-                        , Html.h4 [] [ Html.text "Blacks and Grays" ]
-                        , exampleList
-                            [ ( gainsboro, "gainsboro" )
-                            , ( lightGray, "lightGray" )
-                            , ( silver, "silver" )
-                            , ( darkGray, "darkGray" )
-                            , ( gray, "gray" )
-                            , ( dimGray, "dimGray" )
-                            , ( lightSlateGray, "lightSlateGray" )
-                            , ( slateGray, "slateGray" )
-                            , ( darkSlateGray, "darkSlateGray" )
-                            , ( black, "black" )
-                            ]
-                            Comparison.viewWithName
-                        ]
-                    )
+                [ PaletteExamples.Tango.examples
+                , PaletteExamples.X11.examples
                 ]
             )
         ]
-
-
-exampleSection : String -> Html msg -> Html msg
-exampleSection heading examples =
-    Html.section []
-        [ Html.h2 [] [ Html.text heading ]
-        , examples
-        ]
-
-
-exampleSubsection : String -> Html msg -> Html msg
-exampleSubsection heading examples =
-    Html.div []
-        [ Html.h3 [] [ Html.text heading ]
-        , examples
-        ]
-
-
-exampleList : List a -> (a -> Html msg) -> Html msg
-exampleList examples viewExample =
-    Html.ul
-        [ style "list-style" "none"
-        , style "display" "flex"
-        , style "flex-wrap" "wrap"
-        , style "margin" "0"
-        , style "padding" "0"
-        ]
-        (List.map
-            (\example -> Html.li [] [ viewExample example ])
-            examples
-        )
 
 
 viewGrayscale : Color -> Html msg
@@ -456,9 +247,9 @@ viewMonochromaticGenerator ( stepSize, color ) =
 
 rainbow : List Color
 rainbow =
-    [ coral
-    , olive
-    , gold
-    , teal
-    , blueViolet
+    [ X11.coral
+    , X11.olive
+    , X11.gold
+    , X11.teal
+    , X11.blueViolet
     ]
