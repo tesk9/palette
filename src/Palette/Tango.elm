@@ -56,88 +56,109 @@ module Palette.Tango exposing
 import Color exposing (Color)
 
 
+butter1 : Color
 butter1 =
-    Color.fromHexString "#fce94f"
+    Color.fromRGB ( 252, 233, 79 )
 
 
+butter2 : Color
 butter2 =
-    Color.fromHexString "#edd400"
+    Color.fromRGB ( 237, 212, 0 )
 
 
+butter3 : Color
 butter3 =
-    Color.fromHexString "#c4a000"
+    Color.fromRGB ( 196, 160, 0 )
 
 
+orange1 : Color
 orange1 =
-    Color.fromHexString "#fcaf3e"
+    Color.fromRGB ( 252, 175, 62 )
 
 
+orange2 : Color
 orange2 =
-    Color.fromHexString "#f57900"
+    Color.fromRGB ( 245, 121, 0 )
 
 
+orange3 : Color
 orange3 =
-    Color.fromHexString "#ce5c00"
+    Color.fromRGB ( 206, 92, 0 )
 
 
+chocolate1 : Color
 chocolate1 =
-    Color.fromHexString "#e9b96e"
+    Color.fromRGB ( 233, 185, 110 )
 
 
+chocolate2 : Color
 chocolate2 =
-    Color.fromHexString "#c17d11"
+    Color.fromRGB ( 193, 125, 17 )
 
 
+chocolate3 : Color
 chocolate3 =
-    Color.fromHexString "#8f5902"
+    Color.fromRGB ( 143, 89, 2 )
 
 
+chameleon1 : Color
 chameleon1 =
-    Color.fromHexString "#8ae234"
+    Color.fromRGB ( 138, 226, 52 )
 
 
+chameleon2 : Color
 chameleon2 =
-    Color.fromHexString "#73d216"
+    Color.fromRGB ( 115, 210, 22 )
 
 
+chameleon3 : Color
 chameleon3 =
-    Color.fromHexString "#4e9a06"
+    Color.fromRGB ( 78, 154, 6 )
 
 
+skyBlue1 : Color
 skyBlue1 =
-    Color.fromHexString "#729fcf"
+    Color.fromRGB ( 114, 159, 207 )
 
 
+skyBlue2 : Color
 skyBlue2 =
-    Color.fromHexString "#3465a4"
+    Color.fromRGB ( 52, 101, 164 )
 
 
+skyBlue3 : Color
 skyBlue3 =
-    Color.fromHexString "#204a87"
+    Color.fromRGB ( 32, 74, 135 )
 
 
+plum1 : Color
 plum1 =
-    Color.fromHexString "#ad7fa8"
+    Color.fromRGB ( 173, 127, 168 )
 
 
+plum2 : Color
 plum2 =
-    Color.fromHexString "#75507b"
+    Color.fromRGB ( 117, 80, 123 )
 
 
+plum3 : Color
 plum3 =
-    Color.fromHexString "#5c3566"
+    Color.fromRGB ( 92, 53, 102 )
 
 
+scarletRed1 : Color
 scarletRed1 =
-    Color.fromHexString "#ef2929"
+    Color.fromRGB ( 239, 41, 41 )
 
 
+scarletRed2 : Color
 scarletRed2 =
-    Color.fromHexString "#cc0000"
+    Color.fromRGB ( 204, 0, 0 )
 
 
+scarletRed3 : Color
 scarletRed3 =
-    Color.fromHexString "#a40000"
+    Color.fromRGB ( 164, 0, 0 )
 
 
 aluminum1 : Color
