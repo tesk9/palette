@@ -145,8 +145,8 @@ view model =
             )
         , Example.section "Palette"
             (Html.div []
-                [ PaletteExamples.X11.examples
-                , PaletteExamples.Tango.examples
+                [ PaletteExamples.Tango.examples
+                , PaletteExamples.X11.examples
                 ]
             )
         ]
