@@ -69,7 +69,7 @@ examples =
                 , ( aluminum5, "aluminum5" )
                 , ( aluminum6, "aluminum6" )
                 ]
-                viewColor
+                Comparison.viewWithName
             ]
         )
 

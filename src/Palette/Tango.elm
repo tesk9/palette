@@ -140,25 +140,31 @@ scarletRed3 =
     Color.fromHexString "#a40000"
 
 
+aluminum1 : Color
 aluminum1 =
-    Color.fromHexString "#eeeeec"
+    Color.fromRGB ( 238, 238, 236 )
 
 
+aluminum2 : Color
 aluminum2 =
-    Color.fromHexString "#d3d7cf"
+    Color.fromRGB ( 211, 215, 207 )
 
 
+aluminum3 : Color
 aluminum3 =
-    Color.fromHexString "#babdb6"
+    Color.fromRGB ( 186, 189, 182 )
 
 
+aluminum4 : Color
 aluminum4 =
-    Color.fromHexString "#888a85"
+    Color.fromRGB ( 136, 138, 133 )
 
 
+aluminum5 : Color
 aluminum5 =
-    Color.fromHexString "#555753"
+    Color.fromRGB ( 85, 87, 83 )
 
 
+aluminum6 : Color
 aluminum6 =
-    Color.fromHexString "#2e3436"
+    Color.fromRGB ( 46, 52, 54 )
