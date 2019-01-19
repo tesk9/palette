@@ -77,16 +77,16 @@ which I believe means number of levels to produce.
 -}
 generate : AdvancedConfig -> List Color
 generate { start, rotations, hue, gamma, numLevels } =
-    generate_ numLevels []
+    let
+        generate_ : List Color -> List Color
+        generate_ colors =
+            if List.length colors >= numLevels then
+                colors
 
-
-generate_ : Int -> List Color -> List Color
-generate_ numLevels colors =
-    if List.length colors >= numLevels then
-        colors
-
-    else
-        generate_ numLevels (nextColor :: colors)
+            else
+                generate_ (nextColor :: colors)
+    in
+    generate_ []
 
 
 nextColor : Color

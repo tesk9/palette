@@ -4,7 +4,7 @@ import Color exposing (Color)
 import Expect exposing (Expectation)
 import Fuzz
 import Palette.Cubehelix as Cubehelix
-import Palette.X11 exposing (black, white)
+import Palette.X11 exposing (black, blue, red, white)
 import Test exposing (..)
 
 
@@ -30,6 +30,20 @@ cubehelixRotationsSpec =
                 \() ->
                     assertGeneratesNumLevels 1000
             ]
+        , describe "starting color"
+            [ test "start = 0 is blue" <|
+                \() ->
+                    assertStartingColor 0 blue
+            , test "start = 1 is red" <|
+                \() ->
+                    assertStartingColor 1 red
+            , test "start = 2 is green" <|
+                \() ->
+                    assertStartingColor 2 (Color.fromRGB ( 0, 255, 0 ))
+            , test "start = 3 is blue" <|
+                \() ->
+                    assertStartingColor 3 blue
+            ]
         , test "without hue" <|
             \() ->
                 -- When the hue is zero, we should go straight to from black to white.
@@ -47,6 +61,16 @@ assertGeneratesNumLevels numLevels =
     Cubehelix.generate { emptyConfig | numLevels = numLevels }
         |> List.length
         |> Expect.equal numLevels
+
+
+assertStartingColor : Float -> Color -> Expectation
+assertStartingColor startingAngle color =
+    case Cubehelix.generate { emptyConfig | numLevels = 1, start = startingAngle } of
+        start :: [] ->
+            expectColorsEqual color start
+
+        _ ->
+            Expect.fail "Uh oh -- `generate` didn't return the right number of levels. See `assertStartingColor`."
 
 
 emptyConfig : Cubehelix.AdvancedConfig
