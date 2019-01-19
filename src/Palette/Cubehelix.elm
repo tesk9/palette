@@ -28,15 +28,25 @@ type alias Config =
 {-| -}
 type alias AdvancedConfig =
     { -- "direction" of color deviation from black at the start.
-      --  R = 1, G = 2, B = 3.
+      -- R = 1, G = 2, B = 3.
+      -- I wonder if this would be easier to think about in terms of HSL starting arguments?
       start : Float
     , -- how many rotations between the start (black) and end (white)
-      -- this number can be negative. Why? I dunno.
+      -- generally should be [-1.5, 1.5]
       rotations : Float
-    , -- Hue should be in [0, 1]
+    , -- Hue should be in [0, 1].
+      -- I think this field may be misnamed, actually. His Fortran code
+      -- has the comment "for hue intensity scaling (in the range 0.0 (B+W) to 1.0"
+      -- Okay, then another note in the paper:
+      -- "A hue parameter (h), which controls how saturated the colours are.".
+      -- So is this actually a saturation value?
+      -- At any rate, if this is zero, the expected behavior is that the
+      -- resulting color scheme is grayscale & increasing in brightness. So maybe
+      -- that's a good palce to start.
       hue : Float
     , -- Gamma factor emphasizes low or high intensity values
       gamma : Float
+    , numLevels : Int
     }
 
 
@@ -58,9 +68,13 @@ defaultConfig =
     , rotations = -1.5
     , hue = 1.0
     , gamma = 1.0
+    , numLevels = 256
     }
 
 
+{-| Seems like his code (not having any idea how to read Fortran) has a `NLEV` parameter
+which I believe means number of levels to produce.
+-}
 generate : AdvancedConfig -> List Color
-generate { start, rotations, hue, gamma } =
+generate { start, rotations, hue, gamma, numLevels } =
     []
