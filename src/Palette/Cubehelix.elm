@@ -21,8 +21,7 @@ Given that right now I don't understand what the advanced config is
 for, exactly! :P
 -}
 type alias Config =
-    { hue : Float
-    }
+    ()
 
 
 {-| -}
@@ -34,16 +33,11 @@ type alias AdvancedConfig =
     , -- how many rotations between the start (black) and end (white)
       -- generally should be [-1.5, 1.5]
       rotations : Float
-    , -- Hue should be in [0, 1].
-      -- I think this field may be misnamed, actually. His Fortran code
-      -- has the comment "for hue intensity scaling (in the range 0.0 (B+W) to 1.0"
-      -- Okay, then another note in the paper:
-      -- "A hue parameter (h), which controls how saturated the colours are.".
-      -- So is this actually a saturation value?
-      -- At any rate, if this is zero, the expected behavior is that the
-      -- resulting color scheme is grayscale & increasing in brightness. So maybe
-      -- that's a good palce to start.
-      hue : Float
+    , -- Saturation should be in [0, 1].
+      -- Think of this value as the distance from gray.
+      -- If this is zero, the expected behavior is that the
+      -- resulting color scheme is grayscale & increasing in brightness
+      saturation : Float
     , -- Gamma factor emphasizes low or high intensity values
       gamma : Float
     , numLevels : Int
@@ -66,7 +60,7 @@ defaultConfig =
     -- −1.5 rotations means → B → G → R → B
     -- So positive direction rotations are RGB, and negative are BGR
     , rotations = -1.5
-    , hue = 1.0
+    , saturation = 1.0
     , gamma = 1.0
     , numLevels = 256
     }
@@ -76,19 +70,63 @@ defaultConfig =
 which I believe means number of levels to produce.
 -}
 generate : AdvancedConfig -> List Color
-generate { start, rotations, hue, gamma, numLevels } =
+generate { start, rotations, saturation, gamma, numLevels } =
     let
+        -- FRACT=FLOAT(I-1)/FLOAT(NLEV-1)
+        -- ANGLE=2*PI*(START/3.0+1.0+ROTS*FRACT)
+        -- FRACT=FRACT**GAMMA
+        -- AMP=HUE*FRACT*(1-FRACT)/2.0
+        -- RED(I)=FRACT+AMP*(-0.14861*COS(ANGLE)+1.78277*SIN(ANGLE))
+        -- GRN(I)=FRACT+AMP*(-0.29227*COS(ANGLE)-0.90649*SIN(ANGLE))
+        -- BLU(I)=FRACT+AMP*(+1.97294*COS(ANGLE))
+        -- angle =
+        --     2 * pi
         generate_ : List Color -> List Color
         generate_ colors =
+            let
+                stepSize =
+                    2 * pi / toFloat numLevels
+
+                theta =
+                    (toFloat (List.length colors) + 1) * stepSize
+            in
             if List.length colors >= numLevels then
                 colors
 
             else
-                generate_ (nextColor :: colors)
+                generate_ (nextColor theta :: colors)
+
+        nextColor : Float -> Color
+        nextColor theta =
+            let
+                x =
+                    saturation * cos theta
+
+                y =
+                    saturation * sin theta
+
+                z =
+                    theta * sqrt 2 / (2 * pi * rotations)
+            in
+            ( x, y, z )
+                |> toUnitRGB
+                |> adjustForIntensity
+                |> Color.fromRGB
     in
-    generate_ []
+    if numLevels > 0 then
+        generate_ []
+
+    else
+        []
 
 
-nextColor : Color
-nextColor =
-    Color.fromRGB ( 0, 0, 0 )
+toUnitRGB : ( Float, Float, Float ) -> ( Float, Float, Float )
+toUnitRGB ( x, y, z ) =
+    -- TODO: actual conversion
+    ( x, y, z )
+
+
+adjustForIntensity : ( Float, Float, Float ) -> ( Float, Float, Float )
+adjustForIntensity ( r, g, b ) =
+    -- TODO: actual conversion
+    ( r, g, b )

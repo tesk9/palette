@@ -77,7 +77,7 @@ emptyConfig : Cubehelix.AdvancedConfig
 emptyConfig =
     { start = 0
     , rotations = 0
-    , hue = 0
+    , saturation = 0
     , gamma = 0
     , numLevels = 0
     }
