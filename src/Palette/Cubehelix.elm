@@ -64,7 +64,7 @@ defaultConfig =
       start = 0.5
 
     -- −1.5 rotations means → B → G → R → B
-    --  So positive direction rotations are RGB, and negative are BGR
+    -- So positive direction rotations are RGB, and negative are BGR
     , rotations = -1.5
     , hue = 1.0
     , gamma = 1.0
@@ -82,13 +82,13 @@ generate { start, rotations, hue, gamma, numLevels } =
 
 generate_ : Int -> List Color -> List Color
 generate_ numLevels colors =
-    if List.length colors == numLevels then
+    if List.length colors >= numLevels then
         colors
 
     else
-        generate_ numLevels (nextNumber :: colors)
+        generate_ numLevels (nextColor :: colors)
 
 
-nextNumber : Color
-nextNumber =
+nextColor : Color
+nextColor =
     Color.fromRGB ( 0, 0, 0 )

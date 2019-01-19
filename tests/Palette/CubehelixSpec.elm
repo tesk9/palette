@@ -14,7 +14,9 @@ cubehelixRotationsSpec =
         [ describe "numLevels"
             [ test "negative numLevels" <|
                 \() ->
-                    Expect.fail "PENDING -- negative numLevels"
+                    Cubehelix.generate { emptyConfig | numLevels = -1 }
+                        |> List.length
+                        |> Expect.equal 0
             , test "numLevels = 0" <|
                 \() ->
                     assertGeneratesNumLevels 0
