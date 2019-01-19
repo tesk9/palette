@@ -77,4 +77,18 @@ which I believe means number of levels to produce.
 -}
 generate : AdvancedConfig -> List Color
 generate { start, rotations, hue, gamma, numLevels } =
-    []
+    generate_ numLevels []
+
+
+generate_ : Int -> List Color -> List Color
+generate_ numLevels colors =
+    if List.length colors == numLevels then
+        colors
+
+    else
+        generate_ numLevels (nextNumber :: colors)
+
+
+nextNumber : Color
+nextNumber =
+    Color.fromRGB ( 0, 0, 0 )
