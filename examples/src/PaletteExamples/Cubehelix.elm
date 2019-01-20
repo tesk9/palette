@@ -39,6 +39,25 @@ examples =
                   )
                 ]
                 viewExample
+            , Html.h4 [] [ Html.text "Rotations" ]
+            , Example.list
+                [ ( Cubehelix.generate { defaultConfig | rotations = -1.5 }
+                  , "Cubehelix.generate { defaultConfig | rotations = -1.5 }"
+                  )
+                , ( Cubehelix.generate { defaultConfig | rotations = -1 }
+                  , "Cubehelix.generate { defaultConfig | rotations = -1 }"
+                  )
+                , ( Cubehelix.generate { defaultConfig | rotations = 0 }
+                  , "Cubehelix.generate { defaultConfig | rotations = 0 }"
+                  )
+                , ( Cubehelix.generate { defaultConfig | rotations = 1 }
+                  , "Cubehelix.generate { defaultConfig | rotations = 1 }"
+                  )
+                , ( Cubehelix.generate { defaultConfig | rotations = 1.5 }
+                  , "Cubehelix.generate { defaultConfig | rotations = 1.5 }"
+                  )
+                ]
+                viewExample
             ]
         )
 
