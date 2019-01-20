@@ -30,8 +30,8 @@ cubehelixRotationsSpec =
                 \() ->
                     assertGeneratesNumLevels 1000
             ]
-        , describe "without hue"
-            -- When the hue is zero, we should go straight to from black to white.
+        , describe "without saturation"
+            -- When the saturation is zero, we should go straight to from black to white.
             [ test "starting red" <|
                 \() ->
                     assertEndingColor 1 white
