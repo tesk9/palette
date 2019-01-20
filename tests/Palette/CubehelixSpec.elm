@@ -41,6 +41,9 @@ cubehelixRotationsSpec =
             , test "starting blue" <|
                 \() ->
                     assertEndingColor 3 white
+            , test "middle colors are grayscale" <|
+                \() ->
+                    assertMiddleColor (Color.fromRGB ( 127.5, 127.5, 127.5 ))
             ]
         ]
 
@@ -50,6 +53,16 @@ assertGeneratesNumLevels numLevels =
     Cubehelix.generate { emptyConfig | numLevels = numLevels }
         |> List.length
         |> Expect.equal numLevels
+
+
+assertMiddleColor : Color -> Expectation
+assertMiddleColor color =
+    case Cubehelix.generate { emptyConfig | numLevels = 3, saturation = 0 } of
+        start :: middle :: tail ->
+            expectColorsEqual color middle
+
+        _ ->
+            Expect.fail "Uh oh -- `generate` didn't return the right number of levels. See `assertEndingColor`."
 
 
 assertEndingColor : Float -> Color -> Expectation
