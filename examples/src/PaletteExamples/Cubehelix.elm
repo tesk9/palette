@@ -1,6 +1,7 @@
 module PaletteExamples.Cubehelix exposing (examples)
 
 import Color
+import Color.Generator exposing (adjustSaturation)
 import Comparison
 import ExampleHelpers as Example
 import Html exposing (Html)
@@ -17,24 +18,24 @@ examples =
                 [ ( Cubehelix.generate defaultConfig
                   , "Cubehelix.generate Cubehelix.defaultConfig"
                   )
-                , ( Cubehelix.generate { defaultConfig | start = 2, saturation = 1.0 }
-                  , "Cubehelix.generate { defaultConfig | start = 2, saturation = 1.0 }"
+                , ( Cubehelix.generate { defaultConfig | startingColor = Color.fromHSL ( 0, 100, 0 ) }
+                  , "Cubehelix.generate { defaultConfig | startingColor = Color.fromHSL ( 0, 100, 0 ) }"
                   )
-                , ( Cubehelix.generate { defaultConfig | start = 3, saturation = 1.0 }
-                  , "Cubehelix.generate { defaultConfig | start = 3, saturation = 1.0 }"
+                , ( Cubehelix.generate { defaultConfig | startingColor = Color.fromHSL ( 120, 100, 0 ) }
+                  , "Cubehelix.generate { defaultConfig | startingColor = Color.fromHSL ( 120, 100, 0 ) }"
                   )
                 ]
                 viewExample
             , Html.h4 [] [ Html.text "Grayscale" ]
             , Example.list
-                [ ( Cubehelix.generate { defaultConfig | saturation = 0 }
-                  , "Cubehelix.generate { defaultConfig | saturation = 0 }"
+                [ ( Cubehelix.generate { defaultConfig | startingColor = adjustSaturation -100 defaultConfig.startingColor }
+                  , "Cubehelix.generate { defaultConfig | startingColor = adjustSaturation -100 defaultConfig.startingColor }"
                   )
-                , ( Cubehelix.generate { defaultConfig | saturation = 0, start = 2 }
-                  , "Cubehelix.generate { defaultConfig | saturation = 0, start = 2 }"
+                , ( Cubehelix.generate { defaultConfig | startingColor = Color.fromHSL ( 120, 0, 0 ) }
+                  , "Cubehelix.generate { defaultConfig | startingColor = Color.fromHSL ( 120 , 0, 0 )  }"
                   )
-                , ( Cubehelix.generate { defaultConfig | saturation = 0, start = 3 }
-                  , "Cubehelix.generate { defaultConfig | saturation = 0, start = 3 }"
+                , ( Cubehelix.generate { defaultConfig | startingColor = Color.fromHSL ( 240, 0, 0 ) }
+                  , "Cubehelix.generate { defaultConfig | startingColor = Color.fromHSL ( 240 , 0, 0 )  }"
                   )
                 ]
                 viewExample

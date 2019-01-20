@@ -34,13 +34,13 @@ cubehelixRotationsSpec =
             -- When the saturation is zero, we should go straight to from black to white.
             [ test "starting red" <|
                 \() ->
-                    assertEndingColor 1 white
+                    assertEndingColor (Color.fromHSL ( 0, 0, 100 )) white
             , test "starting green" <|
                 \() ->
-                    assertEndingColor 2 white
+                    assertEndingColor (Color.fromHSL ( 120, 0, 100 )) white
             , test "starting blue" <|
                 \() ->
-                    assertEndingColor 3 white
+                    assertEndingColor (Color.fromHSL ( 240, 0, 100 )) white
             , test "middle colors are grayscale" <|
                 \() ->
                     assertMiddleColor (Color.fromRGB ( 127.5, 127.5, 127.5 ))
@@ -57,7 +57,7 @@ assertGeneratesNumLevels numLevels =
 
 assertMiddleColor : Color -> Expectation
 assertMiddleColor color =
-    case Cubehelix.generate { emptyConfig | numLevels = 3, saturation = 0 } of
+    case Cubehelix.generate { emptyConfig | numLevels = 3, startingColor = Color.fromHSL ( 0, 0, 0 ) } of
         start :: middle :: tail ->
             expectColorsEqual color middle
 
@@ -65,9 +65,9 @@ assertMiddleColor color =
             Expect.fail "Uh oh -- `generate` didn't return the right number of levels. See `assertEndingColor`."
 
 
-assertEndingColor : Float -> Color -> Expectation
-assertEndingColor startingAngle color =
-    case Cubehelix.generate { emptyConfig | numLevels = 2, saturation = 0, start = startingAngle } of
+assertEndingColor : Color -> Color -> Expectation
+assertEndingColor startingColor color =
+    case Cubehelix.generate { emptyConfig | numLevels = 2, startingColor = startingColor } of
         start :: end :: [] ->
             expectColorsEqual color end
 
@@ -77,9 +77,8 @@ assertEndingColor startingAngle color =
 
 emptyConfig : Cubehelix.AdvancedConfig
 emptyConfig =
-    { start = 0
+    { startingColor = red
     , rotations = 1
-    , saturation = 0.5
     , gamma = 1
     , numLevels = 0
     }

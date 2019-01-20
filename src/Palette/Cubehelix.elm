@@ -20,18 +20,8 @@ import Color exposing (Color)
 
 {-| -}
 type alias AdvancedConfig =
-    { -- "direction" of color deviation from black at the start.
-      -- R = 1, G = 2, B = 3.
-      -- I wonder if this would be easier to think about in terms of HSL starting arguments?
-      start : Float
-    , -- how many rotations between the start (black) and end (white)
-      -- generally should be [-1.5, 1.5]
-      rotations : Float
-    , -- Saturation should be in [0, 1].
-      -- Think of this value as the distance from gray.
-      -- If this is zero, the expected behavior is that the
-      -- resulting color scheme is grayscale & increasing in brightness
-      saturation : Float
+    { startingColor : Color
+    , rotations : Float
     , -- Gamma factor emphasizes low or high intensity values
       gamma : Float
     , numLevels : Int
@@ -46,15 +36,11 @@ even intensity.
 -}
 defaultConfig : AdvancedConfig
 defaultConfig =
-    { -- This start color is purple, apparently.
-      -- which is between R = 1 and B = 3 ≡ 0 when using modulo 3 arithmetic, with R = 1, G = 2, B = 3
-      -- What, though, is the difference between this and `hue`?
-      start = 0.5
+    { startingColor = Color.fromHSL ( 60, 100, 0 )
 
     -- −1.5 rotations means → B → G → R → B
     -- So positive direction rotations are RGB, and negative are BGR
     , rotations = -1.5
-    , saturation = 1.0
     , gamma = 1.0
     , numLevels = 256
     }
@@ -64,28 +50,62 @@ defaultConfig =
 generate : AdvancedConfig -> List Color
 generate ({ numLevels } as config) =
     let
+        internalConfig =
+            toInternalConfig config
+
         generate_ : List Color -> List Color
         generate_ colors =
             if List.length colors >= numLevels then
                 colors
 
             else
-                generate_ (colorAtStep (List.length colors) config :: colors)
+                generate_ (colorAtStep (List.length colors) internalConfig :: colors)
     in
     List.reverse (generate_ [])
 
 
-colorAtStep : Int -> AdvancedConfig -> Color
-colorAtStep i { rotations, start, numLevels, gamma, saturation } =
+toInternalConfig : AdvancedConfig -> InternalConfig
+toInternalConfig { startingColor, rotations, gamma, numLevels } =
     let
-        fract =
+        ( hue, sat, _ ) =
+            Color.toHSL startingColor
+    in
+    { start = hue * 3 / 360 + 1
+    , saturation = sat / 100
+    , rotations = rotations
+    , gamma = gamma
+    , fract =
+        \i ->
             toFloat i / (toFloat numLevels - 1)
+    }
 
+
+type alias InternalConfig =
+    { -- "direction" of color deviation from black at the start.
+      -- R = 1, G = 2, B = 3.
+      -- I wonder if this would be easier to think about in terms of HSL starting arguments?
+      start : Float
+    , -- Saturation should be in [0, 1].
+      -- Think of this value as the distance from gray.
+      -- If this is zero, the expected behavior is that the
+      -- resulting color scheme is grayscale & increasing in brightness
+      saturation : Float
+    , -- how many rotations between the start (black) and end (white)
+      -- generally should be [-1.5, 1.5]
+      rotations : Float
+    , gamma : Float
+    , fract : Int -> Float
+    }
+
+
+colorAtStep : Int -> InternalConfig -> Color
+colorAtStep i { rotations, start, fract, gamma, saturation } =
+    let
         angle =
-            2 * pi * (start / 3.0 + 1.0 + rotations * fract)
+            2 * pi * (start / 3.0 + 1.0 + rotations * fract i)
 
         fract_ =
-            fract * gamma
+            fract i * gamma
 
         amp =
             saturation * fract_ * (1 - fract_) / 2.0
