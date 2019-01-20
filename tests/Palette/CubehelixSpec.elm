@@ -31,9 +31,10 @@ cubehelixRotationsSpec =
                     assertGeneratesNumLevels 1000
             ]
         , describe "starting color"
-            [ test "start = 0 is blue" <|
-                \() ->
-                    assertStartingColor 0 blue
+            [ only <|
+                test "start = 0 is blue" <|
+                    \() ->
+                        assertStartingColor 0 blue
             , test "start = 1 is red" <|
                 \() ->
                     assertStartingColor 1 red
@@ -76,8 +77,8 @@ assertStartingColor startingAngle color =
 emptyConfig : Cubehelix.AdvancedConfig
 emptyConfig =
     { start = 0
-    , rotations = 0
-    , saturation = 0
+    , rotations = 1
+    , saturation = 0.5
     , gamma = 0
     , numLevels = 0
     }

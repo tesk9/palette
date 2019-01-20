@@ -109,8 +109,9 @@ generate { start, rotations, saturation, gamma, numLevels } =
                     theta * sqrt 2 / (2 * pi * rotations)
             in
             ( x, y, z )
-                |> toUnitRGB
-                |> adjustForIntensity
+                -- |> toUnitRGB
+                -- |> adjustForIntensity
+                -- |> to255
                 |> Color.fromRGB
     in
     if numLevels > 0 then
@@ -120,13 +121,35 @@ generate { start, rotations, saturation, gamma, numLevels } =
         []
 
 
-toUnitRGB : ( Float, Float, Float ) -> ( Float, Float, Float )
-toUnitRGB ( x, y, z ) =
-    -- TODO: actual conversion
-    ( x, y, z )
+type alias Matrix a =
+    ( Vector a, Vector a, Vector a )
 
 
-adjustForIntensity : ( Float, Float, Float ) -> ( Float, Float, Float )
+type alias Vector a =
+    ( a, a, a )
+
+
+toUnitRGB : Vector Float -> Vector Float
+toUnitRGB =
+    matrixMult
+        ( ( 1, 1 - sqrt 2, 1 ), ( 1, 1, 1 - sqrt 2 ), ( 1 - sqrt 2, 1, 1 ) )
+
+
+adjustForIntensity : Vector Float -> Vector Float
 adjustForIntensity ( r, g, b ) =
     -- TODO: actual conversion
     ( r, g, b )
+
+
+to255 : Vector Float -> Vector Float
+to255 =
+    matrixMult
+        ( ( 255, 0, 0 ), ( 0, 255, 0 ), ( 0, 0, 255 ) )
+
+
+matrixMult : Matrix Float -> Vector Float -> Vector Float
+matrixMult ( ( m11, m21, m31 ), ( m12, m22, m32 ), ( m13, m23, m33 ) ) ( x1, x2, x3 ) =
+    ( m11 * x1 + m12 * x2 + m13 * x3
+    , m21 * x1 + m22 * x2 + m23 * x3
+    , m31 * x1 + m32 * x2 + m33 * x3
+    )
