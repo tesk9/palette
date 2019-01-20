@@ -76,7 +76,7 @@ generate ({ numLevels } as config) =
                 colors
 
             else
-                generate_ (colorAtStep (List.length colors + 1) config :: colors)
+                generate_ (colorAtStep (List.length colors) config :: colors)
     in
     List.reverse (generate_ [])
 
