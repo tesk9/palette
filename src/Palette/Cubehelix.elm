@@ -1,6 +1,7 @@
 module Palette.Cubehelix exposing
-    ( AdvancedConfig
-    , Config, generate
+    ( defaultConfig
+    , generate
+    , AdvancedConfig
     )
 
 {-| <https://www.mrao.cam.ac.uk/~dag/CUBEHELIX/>
@@ -8,20 +9,13 @@ module Palette.Cubehelix exposing
 Green, D. A., 2011, \`A colour scheme for the display of astronomical intensity images', Bulletin of the Astronomical Society of India, 39, 289.
 (2011BASI...39..289G at ADS.)
 
-@docs generate -- TODO: Config?
+@docs defaultConfig
+@docs generate
 @docs AdvancedConfig
 
 -}
 
 import Color exposing (Color)
-
-
-{-| Probably will want a learning path including a simpler config.
-Given that right now I don't understand what the advanced config is
-for, exactly! :P
--}
-type alias Config =
-    ()
 
 
 {-| -}
