@@ -66,90 +66,43 @@ defaultConfig =
     }
 
 
-{-| Seems like his code (not having any idea how to read Fortran) has a `NLEV` parameter
-which I believe means number of levels to produce.
--}
+{-| -}
 generate : AdvancedConfig -> List Color
-generate { start, rotations, saturation, gamma, numLevels } =
+generate ({ numLevels } as config) =
     let
-        -- FRACT=FLOAT(I-1)/FLOAT(NLEV-1)
-        -- ANGLE=2*PI*(START/3.0+1.0+ROTS*FRACT)
-        -- FRACT=FRACT**GAMMA
-        -- AMP=HUE*FRACT*(1-FRACT)/2.0
-        -- RED(I)=FRACT+AMP*(-0.14861*COS(ANGLE)+1.78277*SIN(ANGLE))
-        -- GRN(I)=FRACT+AMP*(-0.29227*COS(ANGLE)-0.90649*SIN(ANGLE))
-        -- BLU(I)=FRACT+AMP*(+1.97294*COS(ANGLE))
-        -- angle =
-        --     2 * pi
         generate_ : List Color -> List Color
         generate_ colors =
-            let
-                stepSize =
-                    2 * pi / toFloat numLevels
-
-                theta =
-                    (toFloat (List.length colors) + 1) * stepSize
-            in
             if List.length colors >= numLevels then
                 colors
 
             else
-                generate_ (nextColor theta :: colors)
-
-        nextColor : Float -> Color
-        nextColor theta =
-            let
-                x =
-                    saturation * cos theta
-
-                y =
-                    saturation * sin theta
-
-                z =
-                    theta * sqrt 2 / (2 * pi * rotations)
-            in
-            ( x, y, z )
-                -- |> toUnitRGB
-                -- |> adjustForIntensity
-                -- |> to255
-                |> Color.fromRGB
+                generate_ (colorAtStep (List.length colors + 1) config :: colors)
     in
-    if numLevels > 0 then
-        generate_ []
-
-    else
-        []
+    generate_ []
 
 
-type alias Matrix a =
-    ( Vector a, Vector a, Vector a )
+colorAtStep : Int -> AdvancedConfig -> Color
+colorAtStep i { rotations, start, numLevels, gamma, saturation } =
+    let
+        fract =
+            toFloat i / (toFloat numLevels - 1)
 
+        angle =
+            2 * pi * (start / 3.0 + 1.0 + rotations * fract)
 
-type alias Vector a =
-    ( a, a, a )
+        fract_ =
+            fract * gamma
 
+        amp =
+            saturation * fract_ * (1 - fract_) / 2.0
 
-toUnitRGB : Vector Float -> Vector Float
-toUnitRGB =
-    matrixMult
-        ( ( 1, 1 - sqrt 2, 1 ), ( 1, 1, 1 - sqrt 2 ), ( 1 - sqrt 2, 1, 1 ) )
+        red =
+            fract_ + amp * (-0.14861 * cos angle + 1.78277 * sin angle)
 
+        green =
+            fract_ + amp * (-0.29227 * cos angle - 0.90649 * sin angle)
 
-adjustForIntensity : Vector Float -> Vector Float
-adjustForIntensity ( r, g, b ) =
-    -- TODO: actual conversion
-    ( r, g, b )
-
-
-to255 : Vector Float -> Vector Float
-to255 =
-    matrixMult
-        ( ( 255, 0, 0 ), ( 0, 255, 0 ), ( 0, 0, 255 ) )
-
-
-matrixMult : Matrix Float -> Vector Float -> Vector Float
-matrixMult ( ( m11, m21, m31 ), ( m12, m22, m32 ), ( m13, m23, m33 ) ) ( x1, x2, x3 ) =
-    ( m11 * x1 + m12 * x2 + m13 * x3
-    , m21 * x1 + m22 * x2 + m23 * x3
-    , m31 * x1 + m32 * x2 + m33 * x3
-    )
+        blue =
+            fract_ + amp * (1.97294 * cos angle)
+    in
+    Color.fromRGB ( red * 255, green * 255, blue * 255 )

@@ -31,10 +31,9 @@ cubehelixRotationsSpec =
                     assertGeneratesNumLevels 1000
             ]
         , describe "starting color"
-            [ only <|
-                test "start = 0 is blue" <|
-                    \() ->
-                        assertStartingColor 0 blue
+            [ test "start = 0 is blue" <|
+                \() ->
+                    assertStartingColor 0 blue
             , test "start = 1 is red" <|
                 \() ->
                     assertStartingColor 1 red
@@ -45,15 +44,18 @@ cubehelixRotationsSpec =
                 \() ->
                     assertStartingColor 3 blue
             ]
-        , test "without hue" <|
-            \() ->
-                -- When the hue is zero, we should go straight to from black to white.
-                case Cubehelix.generate { emptyConfig | numLevels = 2 } of
-                    start :: end :: [] ->
-                        expectColorsEqual white end
-
-                    _ ->
-                        Expect.fail "Uh oh -- `generate` didn't return the right number of levels."
+        , describe "without hue"
+            -- When the hue is zero, we should go straight to from black to white.
+            [ test "starting red" <|
+                \() ->
+                    assertEndingColor 1 white
+            , test "starting green" <|
+                \() ->
+                    assertEndingColor 2 white
+            , test "starting blue" <|
+                \() ->
+                    assertEndingColor 3 white
+            ]
         ]
 
 
@@ -74,12 +76,22 @@ assertStartingColor startingAngle color =
             Expect.fail "Uh oh -- `generate` didn't return the right number of levels. See `assertStartingColor`."
 
 
+assertEndingColor : Float -> Color -> Expectation
+assertEndingColor startingAngle color =
+    case Cubehelix.generate { emptyConfig | numLevels = 2, saturation = 0, start = startingAngle } of
+        start :: end :: [] ->
+            expectColorsEqual color end
+
+        _ ->
+            Expect.fail "Uh oh -- `generate` didn't return the right number of levels. See `assertEndingColor`."
+
+
 emptyConfig : Cubehelix.AdvancedConfig
 emptyConfig =
     { start = 0
     , rotations = 1
     , saturation = 0.5
-    , gamma = 0
+    , gamma = 1
     , numLevels = 0
     }
 
