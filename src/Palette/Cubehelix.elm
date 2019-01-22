@@ -74,7 +74,7 @@ The `defaultConfig` produces 256 colors. Change the `numLevels` field to get few
 -}
 defaultConfig : AdvancedConfig
 defaultConfig =
-    { startingColor = Color.fromHSL ( 60, 100, 0 )
+    { startingColor = Color.fromHSL ( -60, 100, 0 )
     , rotationDirection = BGR
     , rotations = 1.5
     , gamma = 1.0
