@@ -1,14 +1,12 @@
 module Palette.Cubehelix exposing
     ( generate, defaultConfig
-    , AdvancedConfig
-    , RotationDirection(..)
+    , AdvancedConfig, RotationDirection(..)
     )
 
 {-| Are you looking to generate a color scheme in which none of the colors "pop"? Then this may be the tool for you!
 
 @docs generate, defaultConfig
-@docs AdvancedConfig
-@docs RotationDirection
+@docs AdvancedConfig, RotationDirection
 
 Professor Dave Green (whose name, given the context, makes me very happy! Please also see [these testimonials](http://davegreenfacts.soc.srcf.net/).)
 developed this method of generating even-intensity color schemes for use in astronomy. He called this method
@@ -23,13 +21,35 @@ helix?!) please read more about it [here](https://www.mrao.cam.ac.uk/~dag/CUBEHE
 import Color exposing (Color)
 
 
-{-| -}
+{-|
+
+    import Color exposing (Color)
+    import Palette.Cubehelix as Cubehelix
+
+    myPalette : List Color
+    myPalette =
+        Cubehelix.generate
+            { -- the starting color is used to derive what hue you want to start from (see HSL color space)
+              -- as well as how saturated (how far from grey) you want the colors produced to be.
+              -- the lightness of the color that you pass in is not used.
+              startingColor = Color
+            , -- rotationDirection can be `RGB` or `BGR`
+              rotationDirection = RotationDirection
+            , -- this number should be in [0, 1.5]. If it's not, it will be absolute-value-ified & clamped.
+              rotations = Float
+            , -- Gamma factor emphasizes low or high intensity values
+              gamma = Float
+            , -- `numLevels` corresponds to the number of colors you want in the resulting list.
+              -- This value will be clamped between 0 and 256.
+              numLevels = Int
+            }
+
+-}
 type alias AdvancedConfig =
     { startingColor : Color
     , rotationDirection : RotationDirection
     , rotations : Float
-    , -- Gamma factor emphasizes low or high intensity values
-      gamma : Float
+    , gamma : Float
     , numLevels : Int
     }
 
