@@ -13,20 +13,7 @@ examples : Html msg
 examples =
     Example.subsection "Cubehelix"
         (Html.div []
-            [ Html.h4 [] [ Html.text "With Colors" ]
-            , Example.list
-                [ ( Cubehelix.generate defaultConfig
-                  , "Cubehelix.generate Cubehelix.defaultConfig"
-                  )
-                , ( Cubehelix.generate { defaultConfig | startingColor = Color.fromHSL ( 0, 100, 0 ) }
-                  , "Cubehelix.generate { defaultConfig | startingColor = Color.fromHSL ( 0, 100, 0 ) }"
-                  )
-                , ( Cubehelix.generate { defaultConfig | startingColor = Color.fromHSL ( 120, 100, 0 ) }
-                  , "Cubehelix.generate { defaultConfig | startingColor = Color.fromHSL ( 120, 100, 0 ) }"
-                  )
-                ]
-                viewExample
-            , Html.h4 [] [ Html.text "Rotation direction" ]
+            [ Html.h4 [] [ Html.text "Rotation direction" ]
             , Example.list
                 [ ( Cubehelix.generate { defaultConfig | rotationDirection = Cubehelix.BGR, startingColor = Color.fromRGB ( 255, 0, 0 ) }
                   , "Cubehelix.generate { defaultConfig | rotationDirection = Cubehelix.BGR, startingColor = Color.fromRGB (255, 0, 0 ) }"
@@ -59,6 +46,19 @@ examples =
                   )
                 , ( Cubehelix.generate { defaultConfig | gamma = 1.75 }
                   , "Cubehelix.generate { defaultConfig | gamma = 1.75  }"
+                  )
+                ]
+                viewExample
+            , Html.h4 [] [ Html.text "Starting color" ]
+            , Example.list
+                [ ( Cubehelix.generate defaultConfig
+                  , "Cubehelix.generate Cubehelix.defaultConfig"
+                  )
+                , ( Cubehelix.generate { defaultConfig | startingColor = Color.fromHSL ( 0, 100, 0 ) }
+                  , "Cubehelix.generate { defaultConfig | startingColor = Color.fromHSL ( 0, 100, 0 ) }"
+                  )
+                , ( Cubehelix.generate { defaultConfig | startingColor = Color.fromHSL ( 120, 100, 0 ) }
+                  , "Cubehelix.generate { defaultConfig | startingColor = Color.fromHSL ( 120, 100, 0 ) }"
                   )
                 ]
                 viewExample
