@@ -53,7 +53,7 @@ cubehelixRotationsSpec =
                         Cubehelix.generate
                             { startingColor = red
                             , rotationDirection = direction
-                            , rotations = 1
+                            , rotations = 1.2
                             , gamma = 1
                             , numLevels = 3
                             }

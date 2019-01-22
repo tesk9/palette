@@ -49,10 +49,7 @@ defaultConfig : AdvancedConfig
 defaultConfig =
     { startingColor = Color.fromHSL ( 60, 100, 0 )
     , rotationDirection = BGR
-
-    -- −1.5 rotations means → B → G → R → B
-    -- So positive direction rotations are RGB, and negative are BGR
-    , rotations = -1.5
+    , rotations = 1.5
     , gamma = 1.0
     , numLevels = 256
     }
@@ -77,14 +74,23 @@ generate ({ numLevels } as config) =
 
 
 toInternalConfig : AdvancedConfig -> InternalConfig
-toInternalConfig { startingColor, rotations, gamma, numLevels } =
+toInternalConfig { startingColor, rotationDirection, rotations, gamma, numLevels } =
     let
         ( hue, sat, _ ) =
             Color.toHSL startingColor
+
+        positiveClampedRotations =
+            clamp 0 1.5 (abs rotations)
     in
     { start = hue * 3 / 360 + 1
     , saturation = sat / 100
-    , rotations = rotations
+    , rotations =
+        case rotationDirection of
+            RGB ->
+                positiveClampedRotations
+
+            BGR ->
+                -positiveClampedRotations
     , gamma = gamma
     , fract =
         \i ->
