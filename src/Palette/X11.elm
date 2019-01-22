@@ -12,7 +12,9 @@ module Palette.X11 exposing
     , gainsboro, lightGray, silver, darkGray, gray, dimGray, lightSlateGray, slateGray, darkSlateGray, black
     )
 
-{-|
+{-| [X11 colors](https://en.wikipedia.org/wiki/Web_colors#X11_color_names).
+![](https://user-images.githubusercontent.com/8811312/51518957-62d66200-1dd4-11e9-86c7-ef90e7b06811.png)
+Play with this example on [ellie](https://ellie-app.com/4wBgLmNppNHa1).
 
 
 ## Pinks
