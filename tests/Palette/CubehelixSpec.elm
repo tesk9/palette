@@ -49,28 +49,28 @@ cubehelixRotationsSpec =
                         { config = { emptyConfig | numLevels = 3, startingColor = Color.fromHSL ( 0, 0, 0 ) }
                         , expected = Color.fromRGB ( 127.5, 127.5, 127.5 )
                         }
-            , describe "rotation direction" <|
-                let
-                    generate direction =
-                        Cubehelix.generate
-                            { startingColor = red
-                            , rotationDirection = direction
-                            , rotations = 1.2
-                            , gamma = 1
-                            , numLevels = 3
-                            }
-                in
-                [ test "starting red, we should move through greens fastest with RGB direction" <|
-                    \() ->
-                        generate Cubehelix.RGB
-                            |> sumRGB
-                            |> (\( rSum, gSum, bSum ) -> Expect.true "More greens than reds and blues" (rSum < gSum && bSum < gSum))
-                , test "starting red, we should move through blues fastest with BGR direction" <|
-                    \() ->
-                        generate Cubehelix.BGR
-                            |> sumRGB
-                            |> (\( rSum, gSum, bSum ) -> Expect.true "More blues than reds and greens" (rSum < bSum && gSum < bSum))
-                ]
+            ]
+        , describe "rotation direction" <|
+            let
+                generate direction =
+                    Cubehelix.generate
+                        { startingColor = red
+                        , rotationDirection = direction
+                        , rotations = 1.2
+                        , gamma = 1
+                        , numLevels = 3
+                        }
+            in
+            [ test "starting red, we should move through greens fastest with RGB direction" <|
+                \() ->
+                    generate Cubehelix.RGB
+                        |> sumRGB
+                        |> (\( rSum, gSum, bSum ) -> Expect.true "More greens than reds and blues" (rSum < gSum && bSum < gSum))
+            , test "starting red, we should move through blues fastest with BGR direction" <|
+                \() ->
+                    generate Cubehelix.BGR
+                        |> sumRGB
+                        |> (\( rSum, gSum, bSum ) -> Expect.true "More blues than reds and greens" (rSum < bSum && gSum < bSum))
             ]
         ]
 
