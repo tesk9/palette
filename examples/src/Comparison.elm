@@ -133,9 +133,15 @@ viewOverlapping blend ( a, b ) =
 viewSpectrum : List Color -> Html msg
 viewSpectrum colors =
     let
+        spectrumWidth =
+            512
+
+        sliceWidth =
+            spectrumWidth // List.length colors
+
         slice color =
             Html.div
-                [ style "width" (px 2)
+                [ style "width" (px sliceWidth)
                 , style "height" (px 40)
                 , style "background-color" (Color.toRGBString color)
                 , style "display" "inline-block"
@@ -144,7 +150,7 @@ viewSpectrum colors =
     in
     colors
         |> List.map slice
-        |> Html.div [ style "min-width" (px (2 * List.length colors)) ]
+        |> Html.div [ style "min-width" (px spectrumWidth) ]
 
 
 px : Int -> String

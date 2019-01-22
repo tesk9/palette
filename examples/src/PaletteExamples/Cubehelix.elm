@@ -13,7 +13,26 @@ examples : Html msg
 examples =
     Example.subsection "Cubehelix"
         (Html.div []
-            [ Html.h4 [] [ Html.text "Rotation direction" ]
+            [ Html.h3 [] [ Html.text "Number of levels" ]
+            , Example.list
+                [ ( Cubehelix.generate { defaultConfig | numLevels = 2 }
+                  , "Cubehelix.generate { defaultConfig | numLevels = 2 }"
+                  )
+                , ( Cubehelix.generate { defaultConfig | numLevels = 5 }
+                  , "Cubehelix.generate { defaultConfig | numLevels = 5 }"
+                  )
+                , ( Cubehelix.generate { defaultConfig | numLevels = 10 }
+                  , "Cubehelix.generate { defaultConfig | numLevels = 10 }"
+                  )
+                , ( Cubehelix.generate { defaultConfig | numLevels = 100 }
+                  , "Cubehelix.generate { defaultConfig | numLevels = 100 }"
+                  )
+                , ( Cubehelix.generate { defaultConfig | numLevels = 256 }
+                  , "Cubehelix.generate { defaultConfig | numLevels = 256 }"
+                  )
+                ]
+                viewExample
+            , Html.h4 [] [ Html.text "Rotation direction" ]
             , Example.list
                 [ ( Cubehelix.generate { defaultConfig | rotationDirection = Cubehelix.BGR, startingColor = Color.fromRGB ( 255, 0, 0 ) }
                   , "Cubehelix.generate { defaultConfig | rotationDirection = Cubehelix.BGR, startingColor = Color.fromRGB (255, 0, 0 ) }"
