@@ -19,13 +19,19 @@ cubehelixRotationsSpec =
                         |> Expect.equal 0
             , test "numLevels = 0" <|
                 \() ->
-                    assertGeneratesNumLevels 0
+                    Cubehelix.generate { defaultConfig | numLevels = 0 }
+                        |> List.length
+                        |> Expect.equal 0
             , test "numLevels = 1" <|
                 \() ->
-                    assertGeneratesNumLevels 1
+                    Cubehelix.generate { defaultConfig | numLevels = 1 }
+                        |> List.length
+                        |> Expect.equal 1
             , fuzz (Fuzz.intRange 0 256) "numLevels fuzz" <|
                 \number ->
-                    assertGeneratesNumLevels number
+                    Cubehelix.generate { defaultConfig | numLevels = number }
+                        |> List.length
+                        |> Expect.equal number
             , test "numLevels large numbers" <|
                 \() ->
                     Cubehelix.generate { defaultConfig | numLevels = 1000 }
@@ -37,7 +43,10 @@ cubehelixRotationsSpec =
                 \() ->
                     let
                         config =
-                            { defaultConfig | numLevels = 3, startingColor = Color.fromHSL ( 0, 0, 0 ) }
+                            { defaultConfig
+                                | numLevels = 3
+                                , startingColor = Color.fromHSL ( 0, 0, 0 )
+                            }
                     in
                     case Cubehelix.generate config of
                         start :: second :: tail ->
@@ -56,6 +65,12 @@ cubehelixRotationsSpec =
                         , gamma = 1
                         , numLevels = 3
                         }
+
+                sumRGB : List Color -> ( Float, Float, Float )
+                sumRGB colors =
+                    colors
+                        |> List.map Color.toRGB
+                        |> List.foldl (\( r, g, b ) ( rSum, bSum, gSum ) -> ( rSum + r, gSum + g, bSum + b )) ( 0, 0, 0 )
             in
             [ test "starting red, we should move through greens fastest with RGB direction" <|
                 \() ->
@@ -69,17 +84,3 @@ cubehelixRotationsSpec =
                         |> (\( rSum, gSum, bSum ) -> Expect.true "More blues than reds and greens" (rSum < bSum && gSum < bSum))
             ]
         ]
-
-
-sumRGB : List Color -> ( Float, Float, Float )
-sumRGB colors =
-    colors
-        |> List.map Color.toRGB
-        |> List.foldl (\( r, g, b ) ( rSum, bSum, gSum ) -> ( rSum + r, gSum + g, bSum + b )) ( 0, 0, 0 )
-
-
-assertGeneratesNumLevels : Int -> Expectation
-assertGeneratesNumLevels numLevels =
-    Cubehelix.generate { defaultConfig | numLevels = numLevels }
-        |> List.length
-        |> Expect.equal numLevels
