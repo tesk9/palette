@@ -58,6 +58,19 @@ examples =
                   )
                 ]
                 viewExample
+            , Html.h4 [] [ Html.text "Gamma factor" ]
+            , Example.list
+                [ ( Cubehelix.generate { defaultConfig | gamma = 0.25 }
+                  , "Cubehelix.generate { defaultConfig | gamma = 0.25  }"
+                  )
+                , ( Cubehelix.generate { defaultConfig | gamma = 0.75 }
+                  , "Cubehelix.generate { defaultConfig | gamma = 0.75  }"
+                  )
+                , ( Cubehelix.generate { defaultConfig | gamma = 1.75 }
+                  , "Cubehelix.generate { defaultConfig | gamma = 1.75  }"
+                  )
+                ]
+                viewExample
             ]
         )
 

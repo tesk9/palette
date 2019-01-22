@@ -38,6 +38,9 @@ import Color exposing (Color)
             , -- this number should be in [0, 1.5]. If it's not, it will be absolute-value-ified & clamped.
               rotations = Float
             , -- Gamma factor emphasizes low or high intensity values
+              -- provide a 0 < gamma < 1 to emphasize low-intensity values
+              -- provide a 1 < gamma < 2  to emphasize high-intensity values
+              -- gamma values will be clamped with `clamp 0 2`
               gamma = Float
             , -- `numLevels` corresponds to the number of colors you want in the resulting list.
               -- This value will be clamped between 0 and 256.
@@ -126,7 +129,7 @@ toInternalConfig { startingColor, rotationDirection, rotations, gamma } numLevel
 
             BGR ->
                 -positiveClampedRotations
-    , gamma = gamma
+    , gamma = clamp 0 2 gamma
     , fract =
         \i ->
             toFloat i / (toFloat numLevels - 1)
@@ -166,7 +169,7 @@ colorAtStep i { rotations, start, fract, gamma, saturation } =
             2 * pi * (start / 3.0 + 1.0 + rotations * fract i)
 
         fract_ =
-            fract i * gamma
+            fract i ^ gamma
 
         amp =
             saturation * fract_ * (1 - fract_) / 2.0
