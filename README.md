@@ -2,23 +2,15 @@
 
 Work with Colors in Elm.
 
-This package makes working with RGB, HSL, and Hex colors easy, convenient, and safe.
+This package makes working with RGB, HSL, and Hex colors easy, accessible, and safe.
 Easily convert from one color system to another, blend and transform colors, and generate
-beautiful palettes programmatically. Use named colors from common web color palettes, like X11.
-
-Currently, `palette` does not provide first-class alpha channel support (transparency).
-
-Long term, I'm interested in exploring generating accessible palettes and validating
-the accessibility of existing palettes. Check out the `Color.Contrast` for more on accessibility.
-
-Issues, bugs, and enhancement suggestions very welcome on the github repo.
+beautiful palettes programmatically. Use named colors from common web color palettes, like X11 and Tango.
 
 ## Getting started
 
-You can view named colors in the `Palette` namespace, but sometimes you'll want to make your own
-custom or user defined colors.
+### Creating colors
 
-The library currently supports creating `Color`s from RGB values, HSL values, and hex values.
+Create colors from RGB, HSL, and hex values.
 
 ```
 import Color exposing (Color)
@@ -39,6 +31,34 @@ myHex =
     Color.fromHexString "#ff9800"
 
 ```
+
+### Accessibility
+
+Use `Color.Contrast.sufficientContrast` to see if two colors can be used together given the accessibility standards
+your project aims to meet and the font size and weight of your text.
+
+Use `Color.Contrast.contrast` to calculate color contrast in general.
+
+### Using palettes
+
+Use [X11](https://en.wikipedia.org/wiki/X11_color_names) and [Tango](http://tango.freedesktop.org/Tango_Icon_Theme_Guidelines#Color_Palette) colors by name:
+
+```
+import Color exposing (Color)
+import Palette.X11 as X11 exposing (orangeRed, tomato, coral, darkOrange, orange)
+import Palette.Tango as Tango exposing (butter1, butter2, butter3)
+
+orangyReds : List Color
+orangyReds =
+    [ orangeRed, tomato, coral, darkOrange, orange ]
+
+
+allTheButter : List Color
+allTheButter =
+    [ butter1, butter2, butter3 ]
+```
+
+You can also generate a customized cubehelix color scheme using `Palette.Cubehelix`, or by using `Color.Generator` helpers.
 
 ### Generating a palette
 
@@ -92,6 +112,14 @@ Use `Color.Contrast` functions to verify that your font size, boldness, and colo
 meet accessibility standards.
 
 ## Developing & Contributing
+
+Currently, `tesk9/palette` does not provide first-class alpha channel support (transparency).
+
+Long term, I'm interested in exploring generating accessible palettes and validating
+the accessibility of existing palettes.
+
+Issues, bugs, and enhancement suggestions very welcome on the github repo.
+
 
 ### Examples
 
