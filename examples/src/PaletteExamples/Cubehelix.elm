@@ -14,7 +14,7 @@ examples =
     Example.subsection "Cubehelix"
         (Html.div []
             [ Html.h3 [] [ Html.text "Number of levels" ]
-            , Example.list
+            , viewExamples
                 [ ( Cubehelix.generate 2
                   , "Cubehelix.generate 2"
                   )
@@ -31,9 +31,8 @@ examples =
                   , "Cubehelix.generate 256"
                   )
                 ]
-                viewExample
             , Html.h4 [] [ Html.text "Rotation direction" ]
-            , Example.list
+            , viewExamples
                 [ ( Cubehelix.generateAdvanced 256 { defaultConfig | rotationDirection = Cubehelix.BGR, startingColor = Color.fromRGB ( 255, 0, 0 ) }
                   , "Cubehelix.generateAdvanced 256 { defaultConfig | rotationDirection = Cubehelix.BGR, startingColor = Color.fromRGB (255, 0, 0 ) }"
                   )
@@ -41,9 +40,8 @@ examples =
                   , "Cubehelix.generateAdvanced 256 { defaultConfig | rotationDirection = Cubehelix.RGB, startingColor = Color.fromRGB (255, 0, 0 ) }"
                   )
                 ]
-                viewExample
             , Html.h4 [] [ Html.text "Rotation count" ]
-            , Example.list
+            , viewExamples
                 [ ( Cubehelix.generateAdvanced 256 { defaultConfig | rotations = 0 }
                   , "Cubehelix.generateAdvanced 256 { defaultConfig | rotations = 0 }"
                   )
@@ -54,9 +52,8 @@ examples =
                   , "Cubehelix.generateAdvanced 256 { defaultConfig | rotationDirection = Cubehelix.RGB, rotations = 1.5 }"
                   )
                 ]
-                viewExample
             , Html.h4 [] [ Html.text "Gamma factor" ]
-            , Example.list
+            , viewExamples
                 [ ( Cubehelix.generateAdvanced 256 { defaultConfig | gamma = 0.25 }
                   , "Cubehelix.generateAdvanced 256 { defaultConfig | gamma = 0.25  }"
                   )
@@ -67,9 +64,8 @@ examples =
                   , "Cubehelix.generateAdvanced 256 { defaultConfig | gamma = 1.75  }"
                   )
                 ]
-                viewExample
             , Html.h4 [] [ Html.text "Starting color, adjusting saturation" ]
-            , Example.list
+            , viewExamples
                 [ ( Cubehelix.generateAdvanced 10 { defaultConfig | startingColor = Color.fromHSL ( 0, 0, 0 ) }
                   , "Cubehelix.generateAdvanced 10 { defaultConfig | startingColor = Color.fromHSL ( 0, 0, 0 ) }"
                   )
@@ -80,9 +76,8 @@ examples =
                   , "Cubehelix.generateAdvanced 10 { defaultConfig | startingColor = Color.fromHSL ( 0, 100, 0 ) }"
                   )
                 ]
-                viewExample
             , Html.h4 [] [ Html.text "Starting color, adjusting hue" ]
-            , Example.list
+            , viewExamples
                 [ ( Cubehelix.generateAdvanced 10 { defaultConfig | startingColor = Color.fromHSL ( 0, 100, 0 ) }
                   , "Cubehelix.generateAdvanced 10 { defaultConfig | startingColor = Color.fromHSL ( 0, 100, 0 ) }"
                   )
@@ -93,9 +88,13 @@ examples =
                   , "Cubehelix.generateAdvanced 10 { defaultConfig |  startingColor = Color.fromHSL ( 240, 100, 0 ) }"
                   )
                 ]
-                viewExample
             ]
         )
+
+
+viewExamples : List ( List Color.Color, String ) -> Html msg
+viewExamples exs =
+    Example.listVertical exs viewExample
 
 
 viewExample : ( List Color.Color, String ) -> Html msg
@@ -104,7 +103,7 @@ viewExample ( colors, description ) =
         [ style "display" "flex"
         , style "align-items" "center"
         , style "flex-wrap" "wrap"
-        , style "margin-bottom" "6px"
+        , style "margin-bottom" "8px"
         ]
         [ Comparison.viewSpectrum colors
         , Html.code [] [ Html.text description ]
