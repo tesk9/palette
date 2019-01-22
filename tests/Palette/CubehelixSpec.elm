@@ -14,28 +14,23 @@ cubehelixRotationsSpec =
         [ describe "numLevels"
             [ test "negative numLevels" <|
                 \() ->
-                    Cubehelix.generate { defaultConfig | numLevels = -1 }
-                        |> List.length
+                    List.length (Cubehelix.generate -1)
                         |> Expect.equal 0
             , test "numLevels = 0" <|
                 \() ->
-                    Cubehelix.generate { defaultConfig | numLevels = 0 }
-                        |> List.length
+                    List.length (Cubehelix.generate 0)
                         |> Expect.equal 0
             , test "numLevels = 1" <|
                 \() ->
-                    Cubehelix.generate { defaultConfig | numLevels = 1 }
-                        |> List.length
+                    List.length (Cubehelix.generate 1)
                         |> Expect.equal 1
             , fuzz (Fuzz.intRange 0 256) "numLevels fuzz" <|
                 \number ->
-                    Cubehelix.generate { defaultConfig | numLevels = number }
-                        |> List.length
+                    List.length (Cubehelix.generate number)
                         |> Expect.equal number
             , test "numLevels large numbers" <|
                 \() ->
-                    Cubehelix.generate { defaultConfig | numLevels = 1000 }
-                        |> List.length
+                    List.length (Cubehelix.generate 1000)
                         |> Expect.equal 256
             ]
         , describe "without saturation"
@@ -43,12 +38,9 @@ cubehelixRotationsSpec =
                 \() ->
                     let
                         config =
-                            { defaultConfig
-                                | numLevels = 3
-                                , startingColor = Color.fromHSL ( 0, 0, 0 )
-                            }
+                            { defaultConfig | startingColor = Color.fromHSL ( 0, 0, 0 ) }
                     in
-                    case Cubehelix.generate config of
+                    case Cubehelix.generateAdvanced 3 config of
                         start :: second :: tail ->
                             Expect.equal "rgb(127.5,127.5,127.5)" (Color.toRGBString second)
 
@@ -58,12 +50,8 @@ cubehelixRotationsSpec =
         , describe "rotation direction" <|
             let
                 generate direction =
-                    Cubehelix.generate
-                        { defaultConfig
-                            | startingColor = red
-                            , rotationDirection = direction
-                            , numLevels = 3
-                        }
+                    Cubehelix.generateAdvanced 3
+                        { defaultConfig | startingColor = red, rotationDirection = direction }
 
                 sumRGB : List Color -> ( Float, Float, Float )
                 sumRGB colors =
