@@ -62,43 +62,14 @@ You can also generate a customized cubehelix color scheme using `Palette.Cubehel
 
 ### Generating a palette
 
-Suppose you want to use a three-color palette, and you know you want one of the colors to be red.
-Maybe you want the palette to be comprised of evenly-spaced colors on the color wheel.
+Designers often approach color not by picking one color at a time, but by describing the relationships between
+the colors, e.g., "I want 4 colors that are equally spaced on the color wheel," or, "I want 10 colors that
+are all of the same hue but with different lightnesses."
 
-```
-import Color exposing (Color)
-import Color.Generator
-import Palette.X11 exposing (red)
+If you approach color like this, then you'll be interested in using the helpers in `Color.Generator`, which has
+helpers like `square` (which generates 4 evenly-spaced colors) and `monochromatic` (which generates lovely
+single-hue lists of colors).
 
-myPalette : (Color, Color, Color)
-myPalette =
-    let
-        (color2, color3) =
-            triadic red
-    in
-    (red, color2, color3)
-
-```
-
-Or maybe we want a monochromatic color scheme -- the various tints and lightnesses
-available from a starting hue.
-
-```
-import Color exposing (Color)
-import Color.Generator
-import Palette.X11 exposing (red)
-
-
-myPalette : List Color
-myPalette =
-    let
-        stepSize =
-            -- how many degrees of lightness apart each step should be
-            10
-
-    in
-        Color.Generator.monochromatic stepSize red
-```
 
 ### Mixing colors together
 
