@@ -59,11 +59,10 @@ cubehelixRotationsSpec =
             let
                 generate direction =
                     Cubehelix.generate
-                        { startingColor = red
-                        , rotationDirection = direction
-                        , rotations = 1.2
-                        , gamma = 1
-                        , numLevels = 3
+                        { defaultConfig
+                            | startingColor = red
+                            , rotationDirection = direction
+                            , numLevels = 3
                         }
 
                 sumRGB : List Color -> ( Float, Float, Float )
