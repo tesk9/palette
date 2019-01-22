@@ -68,23 +68,29 @@ examples =
                   )
                 ]
                 viewExample
-            , Html.h4 [] [ Html.text "Starting color" ]
+            , Html.h4 [] [ Html.text "Starting color, adjusting saturation" ]
             , Example.list
-                [ ( Cubehelix.generate defaultConfig
-                  , "Cubehelix.generate Cubehelix.defaultConfig"
+                [ ( Cubehelix.generate { defaultConfig | startingColor = Color.fromHSL ( 0, 0, 0 ), numLevels = 10 }
+                  , "Cubehelix.generate { defaultConfig | startingColor = Color.fromHSL ( 0, 0, 0 ), numLevels = 10 }"
                   )
-                , ( Cubehelix.generate { defaultConfig | startingColor = Color.fromHSL ( 0, 100, 0 ) }
-                  , "Cubehelix.generate { defaultConfig | startingColor = Color.fromHSL ( 0, 100, 0 ) }"
+                , ( Cubehelix.generate { defaultConfig | startingColor = Color.fromHSL ( 0, 50, 0 ), numLevels = 10 }
+                  , "Cubehelix.generate { defaultConfig | startingColor = Color.fromHSL ( 0, 50, 0 ), numLevels = 10 }"
                   )
-                , ( Cubehelix.generate { defaultConfig | startingColor = Color.fromHSL ( 120, 100, 0 ) }
-                  , "Cubehelix.generate { defaultConfig | startingColor = Color.fromHSL ( 120, 100, 0 ) }"
+                , ( Cubehelix.generate { defaultConfig | startingColor = Color.fromHSL ( 0, 100, 0 ), numLevels = 10 }
+                  , "Cubehelix.generate { defaultConfig | startingColor = Color.fromHSL ( 0, 100, 0 ), numLevels = 10 }"
                   )
                 ]
                 viewExample
-            , Html.h4 [] [ Html.text "Grayscale" ]
+            , Html.h4 [] [ Html.text "Starting color, adjusting hue" ]
             , Example.list
-                [ ( Cubehelix.generate { defaultConfig | startingColor = Color.fromHSL ( 120, 0, 100 ) }
-                  , "Cubehelix.generate { defaultConfig | startingColor = Color.fromHSL ( 120, 0, 100 )  }"
+                [ ( Cubehelix.generate { defaultConfig | startingColor = Color.fromHSL ( 0, 100, 0 ), numLevels = 10 }
+                  , "Cubehelix.generate { defaultConfig | startingColor = Color.fromHSL ( 0, 100, 0 ), numLevels = 10 }"
+                  )
+                , ( Cubehelix.generate { defaultConfig | startingColor = Color.fromHSL ( 120, 100, 0 ), numLevels = 10 }
+                  , "Cubehelix.generate { defaultConfig |  startingColor = Color.fromHSL ( 120, 100, 0 ), numLevels = 10 }"
+                  )
+                , ( Cubehelix.generate { defaultConfig | startingColor = Color.fromHSL ( 240, 100, 0 ), numLevels = 10 }
+                  , "Cubehelix.generate { defaultConfig |  startingColor = Color.fromHSL ( 240, 100, 0 ), numLevels = 10 }"
                   )
                 ]
                 viewExample
