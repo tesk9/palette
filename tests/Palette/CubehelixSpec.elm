@@ -33,17 +33,7 @@ cubehelixRotationsSpec =
                         |> Expect.equal 256
             ]
         , describe "without saturation"
-            -- When the saturation is zero, we should go straight to from black to white.
-            [ test "starting red" <|
-                \() ->
-                    assertEndingColor (Color.fromHSL ( 0, 0, 100 )) white
-            , test "starting green" <|
-                \() ->
-                    assertEndingColor (Color.fromHSL ( 120, 0, 100 )) white
-            , test "starting blue" <|
-                \() ->
-                    assertEndingColor (Color.fromHSL ( 240, 0, 100 )) white
-            , test "middle colors are grayscale" <|
+            [ test "middle colors are grayscale" <|
                 \() ->
                     assertSecondColor
                         { config = { defaultConfig | numLevels = 3, startingColor = Color.fromHSL ( 0, 0, 0 ) }
@@ -94,16 +84,6 @@ assertSecondColor { config, expected } =
     case Cubehelix.generate config of
         start :: second :: tail ->
             expectColorsEqual expected second
-
-        _ ->
-            Expect.fail "Uh oh -- `generate` didn't return the right number of levels. See `assertEndingColor`."
-
-
-assertEndingColor : Color -> Color -> Expectation
-assertEndingColor startingColor color =
-    case Cubehelix.generate { defaultConfig | numLevels = 2, startingColor = startingColor } of
-        start :: end :: [] ->
-            expectColorsEqual color end
 
         _ ->
             Expect.fail "Uh oh -- `generate` didn't return the right number of levels. See `assertEndingColor`."
