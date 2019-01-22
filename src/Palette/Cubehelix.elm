@@ -6,6 +6,8 @@ module Palette.Cubehelix exposing
 
 {-| Are you looking to generate a color scheme in which none of the colors "pop"? Then this may be the tool for you!
 
+![](https://user-images.githubusercontent.com/8811312/51517402-6c110000-1dcf-11e9-8b04-8e574d39d6d7.png)
+
 Professor Dave Green (whose name, given the context, makes me very happy! Please also see [these testimonials](http://davegreenfacts.soc.srcf.net/).)
 developed this method of generating even-intensity color schemes for use in astronomy. He called this method
 "cubehelix" based on its relationship to the RGB color solid (a cube!). If you're curious (what cube?? what about the
