@@ -1,57 +1,65 @@
 module Palette.Cubehelix exposing
     ( generate
-    , generateAdvanced
-    , defaultConfig, AdvancedConfig, RotationDirection(..)
+    , generateAdvanced, defaultConfig
+    , AdvancedConfig, RotationDirection(..)
     )
 
 {-| Are you looking to generate a color scheme in which none of the colors "pop"? Then this may be the tool for you!
-
-
-## Generate a palette
-
-@docs generate
-
-
-## Customize your palette
-
-@docs generateAdvanced
-@docs defaultConfig, AdvancedConfig, RotationDirection
 
 Professor Dave Green (whose name, given the context, makes me very happy! Please also see [these testimonials](http://davegreenfacts.soc.srcf.net/).)
 developed this method of generating even-intensity color schemes for use in astronomy. He called this method
 "cubehelix" based on its relationship to the RGB color solid (a cube!). If you're curious (what cube?? what about the
 helix?!) please read more about it [here](https://www.mrao.cam.ac.uk/~dag/CUBEHELIX/), or see the paper:
 
-> Green, D. A., 2011, \`A colour scheme for the display of astronomical intensity images', Bulletin of the Astronomical Society of India, 39, 289.
-> (2011BASI...39..289G at ADS.)
+> Green, D. A., 2011, ["A colour scheme for the display of astronomical intensity images"](http://astron-soc.in/bulletin/11June/289392011.pdf), Bulletin of the Astronomical Society of India, 39, 289.
+> ([2011BASI...39..289G](https://ui.adsabs.harvard.edu/#abs/2011BASI...39..289G) at [ADS](https://ui.adsabs.harvard.edu/).)
+
+
+## Generate a palette
+
+    import Palette.Cubehelix as Cubehelix
+
+    myPalette : List Color
+    myPalette =
+        -- This will generate 10 even-intensity colors
+        Cubehelix.generate 10
+
+@docs generate
+
+
+## Customize your palette
+
+    import Color exposing (Color)
+    import Palette.Cubehelix as Cubehelix exposing (defaultConfig)
+
+    myPalette : List Color
+    myPalette =
+        Cubehelix.generateAdvanced 10 defaultConfig
+
+@docs generateAdvanced, defaultConfig
+@docs AdvancedConfig, RotationDirection
 
 -}
 
 import Color exposing (Color)
 
 
-{-|
+{-| `startingColor` is used to derive what hue you want to start from (see HSL color space)
+as well as how saturated (how far from grey) you want the colors produced to be.
+The lightness of the color that you pass in is not used.
 
-    import Color exposing (Color)
-    import Palette.Cubehelix as Cubehelix
+`rotationDirection` describes whether the helix moves towards red then green then blue, or
+blue then green then red. This is easiest to visualize if you think of a cube defined by three
+vectors, one each for red, green, and blue values. If that's not doing the trick,
+take a look at [<https://www.mrao.cam.ac.uk/~dag/CUBEHELIX/3d-default.png>][https://www.mrao.cam.ac.uk/~dag/CUBEHELIX/3d-default.png](this image).
 
-    myPalette : List Color
-    myPalette =
-        Cubehelix.generateAdvanced 10
-            { -- the starting color is used to derive what hue you want to start from (see HSL color space)
-              -- as well as how saturated (how far from grey) you want the colors produced to be.
-              -- the lightness of the color that you pass in is not used.
-              startingColor = Color
-            , -- rotationDirection can be `RGB` or `BGR`
-              rotationDirection = RotationDirection
-            , -- this number should be in [0, 1.5]. If it's not, it will be absolute-value-ified & clamped.
-              rotations = Float
-            , -- Gamma factor emphasizes low or high intensity values
-              -- provide a 0 < gamma < 1 to emphasize low-intensity values
-              -- provide a 1 < gamma < 2  to emphasize high-intensity values
-              -- gamma values will be clamped with `clamp 0 2`
-              gamma = Float
-            }
+`rotations` describes the number of rotations the helix should make as it moves from black (`Color.fromRGB (0, 0 0)`)
+to white `Color.fromRGB (255, 255, 255)`. `rotations` should be in [0, 1.5]. If it's not, it will be absolute-value-ified & clamped.
+
+The `gamma` value can be used to emphasize low- or high-intensity colors. `gamma` will be clamped with `clamp 0 2`.
+
+  - Provide a 0 < gamma < 1 to emphasize low-intensity values
+  - Provide a 1 < gamma < 2 to emphasize high-intensity values
 
 -}
 type alias AdvancedConfig =
@@ -74,13 +82,11 @@ type RotationDirection
 This is a great place to start to learn what different settings can get you. Try playing with one
 value at a time to see how it changes the result!
 
-See `AdvancedConfig` for more documentation on what each value signifies.
-
-    import Palette.Cubehelix as Cubehelix exposing (AdvancedConfig, defaultConfig)
-
-    myCubehelixConfig : AdvancedConfig
-    myCubehelixConfig =
-        { defaultConfig | rotationDirection = Cubehelix.RGB, rotations = 1 }
+    { startingColor = Color.fromHSL ( -60, 100, 0 )
+    , rotationDirection = BGR
+    , rotations = 1.5
+    , gamma = 1.0
+    }
 
 -}
 defaultConfig : AdvancedConfig
@@ -92,49 +98,14 @@ defaultConfig =
     }
 
 
-{-|
-
-    import Palette.Cubehelix as Cubehelix
-
-    myPalette : List Color
-    myPalette =
-        -- This will generate 10 even-intensity colors
-        Cubehelix.generate 10
-
-The first parameter, `numLevels`, corresponds to the number of colors you want to generate.
-`numLevels` will be clamped between 0 and 256.
-
-If you feel comfortable using `generate` & want to customize the palette you produce further,
-please see `generateAdvanced`.
-
+{-| The parameter (clamped between 0 and 256) corresponds to the number of colors you want to generate.
 -}
 generate : Int -> List Color
 generate numLevels =
     generateAdvanced numLevels defaultConfig
 
 
-{-|
-
-    import Color exposing (Color)
-    import Palette.Cubehelix as Cubehelix
-
-
-    -- `myTheme` will be 256 items long
-    myTheme : List Color
-    myTheme =
-        Cubehelix.generateAdvanced 256
-            { startingColor = Color.fromRGB ( 240, 0, 230 )
-            , rotationDirection = Cubehelix.BGR
-            , rotations = 1.2
-            , gamma = 1.5
-            }
-
-The first parameter, `numLevels`, corresponds to the number of colors you want to generate.
-`numLevels` will be clamped between 0 and 256.
-
-The second parameter, `config`, is a record with a bunch of special settings you can use to
-adjust the generated palette. See the docs on `AdvancedConfig` to learn more.
-
+{-| The first parameter (clamped between 0 and 256) corresponds to the number of colors you want to generate.
 -}
 generateAdvanced : Int -> AdvancedConfig -> List Color
 generateAdvanced numLevels config =
