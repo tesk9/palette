@@ -106,7 +106,6 @@ toInternalConfig { startingColor, rotationDirection, rotations, gamma, numLevels
 type alias InternalConfig =
     { -- "direction" of color deviation from black at the start.
       -- R = 1, G = 2, B = 3.
-      -- I wonder if this would be easier to think about in terms of HSL starting arguments?
       start : Float
     , -- Saturation should be in [0, 1].
       -- Think of this value as the distance from gray.
