@@ -1,14 +1,12 @@
 module Palette.Cubehelix exposing
-    ( defaultConfig
-    , generate
+    ( generate, defaultConfig
     , AdvancedConfig
     , RotationDirection(..)
     )
 
 {-| Are you looking to generate a color scheme in which none of the colors "pop"? Then this may be the tool for you!
 
-@docs defaultConfig
-@docs generate
+@docs generate, defaultConfig
 @docs AdvancedConfig
 @docs RotationDirection
 
@@ -45,10 +43,11 @@ type RotationDirection
 
 
 {-| These are the defaults in Green's paper.
-I don't think they're necessary what web developers
-would want, but they do clearly demonstrate the
-power of this color scheme approach in terms of keeping
-even intensity.
+I don't think they're necessary what web developers want, but they do clearly demonstrate the
+power of this color scheme approach in terms of keeping even intensity.
+
+The `defaultConfig` produces 256 colors. Change the `numLevels` field to get fewer (the value is clamped with `clamp 0 255`).
+
 -}
 defaultConfig : AdvancedConfig
 defaultConfig =
@@ -60,16 +59,27 @@ defaultConfig =
     }
 
 
-{-| -}
+{-|
+
+    import Palette.Cubehelix as Cubehelix
+
+    myTheme : List Color
+    myTheme =
+        Cubehelix.generate Cubehelix.defaultConfig
+
+-}
 generate : AdvancedConfig -> List Color
 generate ({ numLevels } as config) =
     let
+        clampedNumLevels =
+            clamp 0 256 numLevels
+
         internalConfig =
-            toInternalConfig config
+            toInternalConfig config clampedNumLevels
 
         generate_ : List Color -> List Color
         generate_ colors =
-            if List.length colors >= numLevels then
+            if List.length colors >= clampedNumLevels then
                 colors
 
             else
@@ -78,8 +88,8 @@ generate ({ numLevels } as config) =
     List.reverse (generate_ [])
 
 
-toInternalConfig : AdvancedConfig -> InternalConfig
-toInternalConfig { startingColor, rotationDirection, rotations, gamma, numLevels } =
+toInternalConfig : AdvancedConfig -> Int -> InternalConfig
+toInternalConfig { startingColor, rotationDirection, rotations, gamma } numLevels =
     let
         ( hue, sat, _ ) =
             Color.toHSL startingColor

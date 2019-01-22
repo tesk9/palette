@@ -28,7 +28,9 @@ cubehelixRotationsSpec =
                     assertGeneratesNumLevels number
             , test "numLevels large numbers" <|
                 \() ->
-                    assertGeneratesNumLevels 1000
+                    Cubehelix.generate { emptyConfig | numLevels = 1000 }
+                        |> List.length
+                        |> Expect.equal 256
             ]
         , describe "without saturation"
             -- When the saturation is zero, we should go straight to from black to white.
