@@ -144,7 +144,7 @@ viewSpectrum colors =
     in
     colors
         |> List.map slice
-        |> Html.div []
+        |> Html.div [ style "min-width" (px (2 * List.length colors)) ]
 
 
 px : Int -> String

@@ -75,7 +75,12 @@ examples =
 
 viewExample : ( List Color.Color, String ) -> Html msg
 viewExample ( colors, description ) =
-    Html.div [ style "display" "flex", style "align-items" "center" ]
+    Html.div
+        [ style "display" "flex"
+        , style "align-items" "center"
+        , style "flex-wrap" "wrap"
+        , style "margin-bottom" "6px"
+        ]
         [ Comparison.viewSpectrum colors
         , Html.code [] [ Html.text description ]
         ]
