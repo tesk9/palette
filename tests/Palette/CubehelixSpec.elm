@@ -43,9 +43,32 @@ cubehelixRotationsSpec =
                     assertEndingColor (Color.fromHSL ( 240, 0, 100 )) white
             , test "middle colors are grayscale" <|
                 \() ->
-                    assertMiddleColor (Color.fromRGB ( 127.5, 127.5, 127.5 ))
+                    assertSecondColor
+                        { config = { emptyConfig | numLevels = 3, startingColor = Color.fromHSL ( 0, 0, 0 ) }
+                        , expected = Color.fromRGB ( 127.5, 127.5, 127.5 )
+                        }
+            , describe "rotation direction" <|
+                [ test "starting red, we should move through greens fastest with RGB direction" <|
+                    \() ->
+                        Cubehelix.generate
+                            { startingColor = red
+                            , rotationDirection = Cubehelix.RGB
+                            , rotations = 1
+                            , gamma = 1
+                            , numLevels = 3
+                            }
+                            |> sumRGB
+                            |> (\( rSum, gSum, bSum ) -> Expect.true "More greens than reds and blues" (rSum < gSum && bSum < gSum))
+                ]
             ]
         ]
+
+
+sumRGB : List Color -> ( Float, Float, Float )
+sumRGB colors =
+    colors
+        |> List.map Color.toRGB
+        |> List.foldl (\( r, g, b ) ( rSum, bSum, gSum ) -> ( rSum + r, gSum + g, bSum + b )) ( 0, 0, 0 )
 
 
 assertGeneratesNumLevels : Int -> Expectation
@@ -55,11 +78,11 @@ assertGeneratesNumLevels numLevels =
         |> Expect.equal numLevels
 
 
-assertMiddleColor : Color -> Expectation
-assertMiddleColor color =
-    case Cubehelix.generate { emptyConfig | numLevels = 3, startingColor = Color.fromHSL ( 0, 0, 0 ) } of
-        start :: middle :: tail ->
-            expectColorsEqual color middle
+assertSecondColor : { config : Cubehelix.AdvancedConfig, expected : Color } -> Expectation
+assertSecondColor { config, expected } =
+    case Cubehelix.generate config of
+        start :: second :: tail ->
+            expectColorsEqual expected second
 
         _ ->
             Expect.fail "Uh oh -- `generate` didn't return the right number of levels. See `assertEndingColor`."
