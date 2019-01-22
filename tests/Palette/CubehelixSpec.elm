@@ -78,6 +78,7 @@ assertEndingColor startingColor color =
 emptyConfig : Cubehelix.AdvancedConfig
 emptyConfig =
     { startingColor = red
+    , rotationDirection = Cubehelix.RGB
     , rotations = 1
     , gamma = 1
     , numLevels = 0

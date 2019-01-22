@@ -2,6 +2,7 @@ module Palette.Cubehelix exposing
     ( defaultConfig
     , generate
     , AdvancedConfig
+    , RotationDirection(..)
     )
 
 {-| <https://www.mrao.cam.ac.uk/~dag/CUBEHELIX/>
@@ -12,6 +13,7 @@ Green, D. A., 2011, \`A colour scheme for the display of astronomical intensity 
 @docs defaultConfig
 @docs generate
 @docs AdvancedConfig
+@docs RotationDirection
 
 -}
 
@@ -21,11 +23,20 @@ import Color exposing (Color)
 {-| -}
 type alias AdvancedConfig =
     { startingColor : Color
+    , rotationDirection : RotationDirection
     , rotations : Float
     , -- Gamma factor emphasizes low or high intensity values
       gamma : Float
     , numLevels : Int
     }
+
+
+{-| The helix can rotate in the red, green, blue direction, or in the blue, green, red direction.
+Try both and see which one you like better!
+-}
+type RotationDirection
+    = RGB
+    | BGR
 
 
 {-| These are the defaults in Green's paper.
@@ -37,6 +48,7 @@ even intensity.
 defaultConfig : AdvancedConfig
 defaultConfig =
     { startingColor = Color.fromHSL ( 60, 100, 0 )
+    , rotationDirection = BGR
 
     -- −1.5 rotations means → B → G → R → B
     -- So positive direction rotations are RGB, and negative are BGR
