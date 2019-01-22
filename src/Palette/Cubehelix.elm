@@ -5,15 +5,20 @@ module Palette.Cubehelix exposing
     , RotationDirection(..)
     )
 
-{-| <https://www.mrao.cam.ac.uk/~dag/CUBEHELIX/>
-
-Green, D. A., 2011, \`A colour scheme for the display of astronomical intensity images', Bulletin of the Astronomical Society of India, 39, 289.
-(2011BASI...39..289G at ADS.)
+{-| Are you looking to generate a color scheme in which none of the colors "pop"? Then this may be the tool for you!
 
 @docs defaultConfig
 @docs generate
 @docs AdvancedConfig
 @docs RotationDirection
+
+Professor Dave Green (whose name, given the context, makes me very happy! Please also see [these testimonials](http://davegreenfacts.soc.srcf.net/).)
+developed this method of generating even-intensity color schemes for use in astronomy. He called this method
+"cubehelix" based on its relationship to the RGB color solid (a cube!). If you're curious (what cube?? what about the
+helix?!) please read more about it [here](https://www.mrao.cam.ac.uk/~dag/CUBEHELIX/), or see the paper:
+
+> Green, D. A., 2011, \`A colour scheme for the display of astronomical intensity images', Bulletin of the Astronomical Society of India, 39, 289.
+> (2011BASI...39..289G at ADS.)
 
 -}
 
