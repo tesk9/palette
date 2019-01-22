@@ -121,6 +121,15 @@ type alias InternalConfig =
     }
 
 
+{-| Hello, friend! Are you looking at the source code? How fun!
+Please look at <http://astron-soc.in/bulletin/11June/289392011.pdf> too.
+
+The major differences between this implementation and that one are:
+
+  - On the web, generally we want RGB values in [0,255] rather than [0,1], so the return values are scaled
+  - Color.fromRGB clamps the values between 0 and 255 for us, so we don't need to double check anything
+
+-}
 colorAtStep : Int -> InternalConfig -> Color
 colorAtStep i { rotations, start, fract, gamma, saturation } =
     let
