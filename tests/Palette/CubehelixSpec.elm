@@ -3,7 +3,7 @@ module Palette.CubehelixSpec exposing (cubehelixRotationsSpec)
 import Color exposing (Color)
 import Expect exposing (Expectation)
 import Fuzz
-import Palette.Cubehelix as Cubehelix
+import Palette.Cubehelix as Cubehelix exposing (defaultConfig)
 import Palette.X11 exposing (black, blue, red, white)
 import Test exposing (..)
 
@@ -14,7 +14,7 @@ cubehelixRotationsSpec =
         [ describe "numLevels"
             [ test "negative numLevels" <|
                 \() ->
-                    Cubehelix.generate { emptyConfig | numLevels = -1 }
+                    Cubehelix.generate { defaultConfig | numLevels = -1 }
                         |> List.length
                         |> Expect.equal 0
             , test "numLevels = 0" <|
@@ -28,7 +28,7 @@ cubehelixRotationsSpec =
                     assertGeneratesNumLevels number
             , test "numLevels large numbers" <|
                 \() ->
-                    Cubehelix.generate { emptyConfig | numLevels = 1000 }
+                    Cubehelix.generate { defaultConfig | numLevels = 1000 }
                         |> List.length
                         |> Expect.equal 256
             ]
@@ -46,7 +46,7 @@ cubehelixRotationsSpec =
             , test "middle colors are grayscale" <|
                 \() ->
                     assertSecondColor
-                        { config = { emptyConfig | numLevels = 3, startingColor = Color.fromHSL ( 0, 0, 0 ) }
+                        { config = { defaultConfig | numLevels = 3, startingColor = Color.fromHSL ( 0, 0, 0 ) }
                         , expected = Color.fromRGB ( 127.5, 127.5, 127.5 )
                         }
             ]
@@ -84,7 +84,7 @@ sumRGB colors =
 
 assertGeneratesNumLevels : Int -> Expectation
 assertGeneratesNumLevels numLevels =
-    Cubehelix.generate { emptyConfig | numLevels = numLevels }
+    Cubehelix.generate { defaultConfig | numLevels = numLevels }
         |> List.length
         |> Expect.equal numLevels
 
@@ -101,22 +101,12 @@ assertSecondColor { config, expected } =
 
 assertEndingColor : Color -> Color -> Expectation
 assertEndingColor startingColor color =
-    case Cubehelix.generate { emptyConfig | numLevels = 2, startingColor = startingColor } of
+    case Cubehelix.generate { defaultConfig | numLevels = 2, startingColor = startingColor } of
         start :: end :: [] ->
             expectColorsEqual color end
 
         _ ->
             Expect.fail "Uh oh -- `generate` didn't return the right number of levels. See `assertEndingColor`."
-
-
-emptyConfig : Cubehelix.AdvancedConfig
-emptyConfig =
-    { startingColor = red
-    , rotationDirection = Cubehelix.RGB
-    , rotations = 1
-    , gamma = 1
-    , numLevels = 0
-    }
 
 
 expectColorsEqual : Color -> Color -> Expectation
