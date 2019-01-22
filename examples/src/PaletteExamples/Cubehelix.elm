@@ -26,28 +26,19 @@ examples =
                   )
                 ]
                 viewExample
-            , Html.h4 [] [ Html.text "Grayscale" ]
+            , Html.h4 [] [ Html.text "Rotation direction" ]
             , Example.list
-                [ ( Cubehelix.generate { defaultConfig | startingColor = adjustSaturation -100 defaultConfig.startingColor }
-                  , "Cubehelix.generate { defaultConfig | startingColor = adjustSaturation -100 defaultConfig.startingColor }"
+                [ ( Cubehelix.generate { defaultConfig | rotationDirection = Cubehelix.BGR, startingColor = Color.fromRGB ( 255, 0, 0 ) }
+                  , "Cubehelix.generate { defaultConfig | rotationDirection = Cubehelix.BGR, startingColor = Color.fromRGB (255, 0, 0 ) }"
                   )
-                , ( Cubehelix.generate { defaultConfig | startingColor = Color.fromHSL ( 120, 0, 0 ) }
-                  , "Cubehelix.generate { defaultConfig | startingColor = Color.fromHSL ( 120 , 0, 0 )  }"
-                  )
-                , ( Cubehelix.generate { defaultConfig | startingColor = Color.fromHSL ( 240, 0, 0 ) }
-                  , "Cubehelix.generate { defaultConfig | startingColor = Color.fromHSL ( 240 , 0, 0 )  }"
+                , ( Cubehelix.generate { defaultConfig | rotationDirection = Cubehelix.RGB, startingColor = Color.fromRGB ( 255, 0, 0 ) }
+                  , "Cubehelix.generate { defaultConfig | rotationDirection = Cubehelix.RGB, startingColor = Color.fromRGB (255, 0, 0 ) }"
                   )
                 ]
                 viewExample
-            , Html.h4 [] [ Html.text "Rotations" ]
+            , Html.h4 [] [ Html.text "Rotation count" ]
             , Example.list
-                [ ( Cubehelix.generate { defaultConfig | rotationDirection = Cubehelix.BGR, rotations = 1.5 }
-                  , "Cubehelix.generate { defaultConfig | rotationDirection = Cubehelix.BGR, rotations = 1.5 }"
-                  )
-                , ( Cubehelix.generate { defaultConfig | rotationDirection = Cubehelix.BGR, rotations = 1 }
-                  , "Cubehelix.generate { defaultConfig | rotationDirection = Cubehelix.BGR, rotations = 1 }"
-                  )
-                , ( Cubehelix.generate { defaultConfig | rotations = 0 }
+                [ ( Cubehelix.generate { defaultConfig | rotations = 0 }
                   , "Cubehelix.generate { defaultConfig | rotations = 0 }"
                   )
                 , ( Cubehelix.generate { defaultConfig | rotationDirection = Cubehelix.RGB, rotations = 1 }
@@ -68,6 +59,13 @@ examples =
                   )
                 , ( Cubehelix.generate { defaultConfig | gamma = 1.75 }
                   , "Cubehelix.generate { defaultConfig | gamma = 1.75  }"
+                  )
+                ]
+                viewExample
+            , Html.h4 [] [ Html.text "Grayscale" ]
+            , Example.list
+                [ ( Cubehelix.generate { defaultConfig | startingColor = Color.fromHSL ( 120, 0, 100 ) }
+                  , "Cubehelix.generate { defaultConfig | startingColor = Color.fromHSL ( 120, 0, 100 )  }"
                   )
                 ]
                 viewExample
