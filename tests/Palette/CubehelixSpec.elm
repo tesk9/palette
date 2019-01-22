@@ -35,10 +35,16 @@ cubehelixRotationsSpec =
         , describe "without saturation"
             [ test "middle colors are grayscale" <|
                 \() ->
-                    assertSecondColor
-                        { config = { defaultConfig | numLevels = 3, startingColor = Color.fromHSL ( 0, 0, 0 ) }
-                        , expected = Color.fromRGB ( 127.5, 127.5, 127.5 )
-                        }
+                    let
+                        config =
+                            { defaultConfig | numLevels = 3, startingColor = Color.fromHSL ( 0, 0, 0 ) }
+                    in
+                    case Cubehelix.generate config of
+                        start :: second :: tail ->
+                            Expect.equal "rgb(127.5,127.5,127.5)" (Color.toRGBString second)
+
+                        _ ->
+                            Expect.fail "Uh oh -- `generate` didn't return the right number of levels."
             ]
         , describe "rotation direction" <|
             let
@@ -77,18 +83,3 @@ assertGeneratesNumLevels numLevels =
     Cubehelix.generate { defaultConfig | numLevels = numLevels }
         |> List.length
         |> Expect.equal numLevels
-
-
-assertSecondColor : { config : Cubehelix.AdvancedConfig, expected : Color } -> Expectation
-assertSecondColor { config, expected } =
-    case Cubehelix.generate config of
-        start :: second :: tail ->
-            expectColorsEqual expected second
-
-        _ ->
-            Expect.fail "Uh oh -- `generate` didn't return the right number of levels. See `assertEndingColor`."
-
-
-expectColorsEqual : Color -> Color -> Expectation
-expectColorsEqual a b =
-    Expect.equal (Color.toRGBString a) (Color.toRGBString b)
