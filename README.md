@@ -2,9 +2,13 @@
 
 Work with Colors in Elm.
 
-This package makes working with RGB, HSL, and Hex colors easy, accessible, and safe.
-Easily convert from one color system to another, blend and transform colors, and generate
-beautiful palettes programmatically. Use named colors from common web color palettes, like X11 and Tango.
+This package makes working with RGB, HSL, and hex colors easy, accessible, and safe.
+
+- Use RGB, HSL, and hex colors interchangeably
+- Calculate color contrasts
+- Use common web-color palettes
+- Generate beautiful palettes programmatically.
+- Blend and transform colors
 
 ## Getting started
 
@@ -34,12 +38,9 @@ myHex =
 
 ### Accessibility
 
-Use `Color.Contrast.sufficientContrast` to see if two colors can be used together given the accessibility standards
-your project aims to meet and the font size and weight of your text.
+Use `Color.Contrast` to verify that your font size, boldness, and color meet accessibility standards.
 
-Use `Color.Contrast.contrast` to calculate color contrast in general.
-
-### Using palettes
+### Palettes
 
 Use [X11](https://en.wikipedia.org/wiki/X11_color_names) and [Tango](http://tango.freedesktop.org/Tango_Icon_Theme_Guidelines#Color_Palette) colors by name:
 
@@ -58,16 +59,20 @@ allTheButter =
     [ butter1, butter2, butter3 ]
 ```
 
-You can also generate a customized cubehelix color scheme using `Palette.Cubehelix`, or by using `Color.Generator` helpers.
+#### Generating palettes
 
-### Generating a palette
+Generate a customized cubehelix color scheme using `Palette.Cubehelix`, or by using `Color.Generator` helpers.
+This color scheme is neat! It's a particularly good choice for charts & graphs because it generates colors
+that have quite even visual intensity.
+
+Alternatively, generate a palette with colors that pop:
 
 Designers often approach color not by picking one color at a time, but by describing the relationships between
 the colors, e.g., "I want 4 colors that are equally spaced on the color wheel," or, "I want 10 colors that
 are all of the same hue but with different lightnesses."
 
-If you approach color like this, then you'll be interested in using the helpers in `Color.Generator`, which has
-helpers like `square` (which generates 4 evenly-spaced colors) and `monochromatic` (which generates lovely
+If you approach color like this, then you'll be interested in using `Color.Generator`, which has
+helpers like `square` (generates 4 evenly-spaced colors) and `monochromatic` (generates lovely
 single-hue lists of colors).
 
 
@@ -76,11 +81,6 @@ single-hue lists of colors).
 If you've used Photoshop, you may be familiar with color blending with functions
 like `multiply`. If not, I recommend taking a lot at the examples & playing until
 you get a feel for what the functions do.
-
-### Working with contrast
-
-Use `Color.Contrast` functions to verify that your font size, boldness, and color
-meet accessibility standards.
 
 ## Developing & Contributing
 
