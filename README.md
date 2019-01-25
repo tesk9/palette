@@ -2,13 +2,13 @@
 
 Work with Colors in Elm.
 
-This package makes working with RGB, HSL, and hex colors easy, accessible, and safe.
+This package makes working with colors easy, accessible, and safe.
 
-- Use RGB, HSL, and hex colors interchangeably
 - Calculate color contrasts
 - Use common web-color palettes
 - Generate beautiful palettes programmatically.
 - Blend and transform colors
+- Use RGB, HSL, and hex colors interchangeably
 
 ## Getting started
 
