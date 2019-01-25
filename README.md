@@ -38,7 +38,7 @@ myHex =
 
 ### Accessibility
 
-Use `Color.Contrast` to verify that your font size, boldness, and color meet accessibility standards.
+Use `Color.Contrast` to verify that your font size, boldness, and colors meet accessibility standards.
 
 ### Palettes
 
