@@ -61,9 +61,8 @@ allTheButter =
 
 #### Generating palettes
 
-Generate a customized cubehelix color scheme using `Palette.Cubehelix`, or by using `Color.Generator` helpers.
-This color scheme is neat! It's a particularly good choice for charts & graphs because it generates colors
-that have quite even visual intensity.
+Generate a customized cubehelix color scheme using `Palette.Cubehelix`.
+These schemes are a good choice for charts & graphs because the produced colors have quite even visual intensity.
 
 Alternatively, generate a palette with colors that pop:
 
