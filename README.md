@@ -2,23 +2,19 @@
 
 Work with Colors in Elm.
 
-This package makes working with RGB, HSL, and Hex colors easy, convenient, and safe.
-Easily convert from one color system to another, blend and transform colors, and generate
-beautiful palettes programmatically. Use named colors from common web color palettes, like X11.
+This package makes working with RGB, HSL, and hex colors easy, accessible, and safe.
 
-Currently, `palette` does not provide first-class alpha channel support (transparency).
-
-Long term, I'm interested in exploring generating accessible palettes and validating
-the accessibility of existing palettes. Check out the `Color.Contrast` for more on accessibility.
-
-Issues, bugs, and enhancement suggestions very welcome on the github repo.
+- Use RGB, HSL, and hex colors interchangeably
+- Calculate color contrasts
+- Use common web-color palettes
+- Generate beautiful palettes programmatically.
+- Blend and transform colors
 
 ## Getting started
 
-You can view named colors in the `Palette` namespace, but sometimes you'll want to make your own
-custom or user defined colors.
+### Creating colors
 
-The library currently supports creating `Color`s from RGB values, HSL values, and hex values.
+Create colors from RGB, HSL, and hex values.
 
 ```
 import Color exposing (Color)
@@ -40,45 +36,45 @@ myHex =
 
 ```
 
-### Generating a palette
+### Accessibility
 
-Suppose you want to use a three-color palette, and you know you want one of the colors to be red.
-Maybe you want the palette to be comprised of evenly-spaced colors on the color wheel.
+Use `Color.Contrast` to verify that your font size, boldness, and color meet accessibility standards.
 
-```
-import Color exposing (Color)
-import Color.Generator
-import Palette.X11 exposing (red)
+### Palettes
 
-myPalette : (Color, Color, Color)
-myPalette =
-    let
-        (color2, color3) =
-            triadic red
-    in
-    (red, color2, color3)
-
-```
-
-Or maybe we want a monochromatic color scheme -- the various tints and lightnesses
-available from a starting hue.
+Use [X11](https://en.wikipedia.org/wiki/X11_color_names) and [Tango](http://tango.freedesktop.org/Tango_Icon_Theme_Guidelines#Color_Palette) colors by name:
 
 ```
 import Color exposing (Color)
-import Color.Generator
-import Palette.X11 exposing (red)
+import Palette.X11 as X11 exposing (orangeRed, tomato, coral, darkOrange, orange)
+import Palette.Tango as Tango exposing (butter1, butter2, butter3)
+
+orangyReds : List Color
+orangyReds =
+    [ orangeRed, tomato, coral, darkOrange, orange ]
 
 
-myPalette : List Color
-myPalette =
-    let
-        stepSize =
-            -- how many degrees of lightness apart each step should be
-            10
-
-    in
-        Color.Generator.monochromatic stepSize red
+allTheButter : List Color
+allTheButter =
+    [ butter1, butter2, butter3 ]
 ```
+
+#### Generating palettes
+
+Generate a customized cubehelix color scheme using `Palette.Cubehelix`, or by using `Color.Generator` helpers.
+This color scheme is neat! It's a particularly good choice for charts & graphs because it generates colors
+that have quite even visual intensity.
+
+Alternatively, generate a palette with colors that pop:
+
+Designers often approach color not by picking one color at a time, but by describing the relationships between
+the colors, e.g., "I want 4 colors that are equally spaced on the color wheel," or, "I want 10 colors that
+are all of the same hue but with different lightnesses."
+
+If you approach color like this, then you'll be interested in using `Color.Generator`, which has
+helpers like `square` (generates 4 evenly-spaced colors) and `monochromatic` (generates lovely
+single-hue lists of colors).
+
 
 ### Mixing colors together
 
@@ -86,12 +82,15 @@ If you've used Photoshop, you may be familiar with color blending with functions
 like `multiply`. If not, I recommend taking a lot at the examples & playing until
 you get a feel for what the functions do.
 
-### Working with contrast
-
-Use `Color.Contrast` functions to verify that your font size, boldness, and color
-meet accessibility standards.
-
 ## Developing & Contributing
+
+Currently, `tesk9/palette` does not provide first-class alpha channel support (transparency).
+
+Long term, I'm interested in exploring generating accessible palettes and validating
+the accessibility of existing palettes.
+
+Issues, bugs, and enhancement suggestions very welcome on the github repo.
+
 
 ### Examples
 

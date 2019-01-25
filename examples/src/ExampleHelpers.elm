@@ -1,4 +1,4 @@
-module ExampleHelpers exposing (list, section, subsection)
+module ExampleHelpers exposing (list, listVertical, section, subsection)
 
 import Html exposing (Html)
 import Html.Attributes exposing (style)
@@ -22,6 +22,29 @@ subsection heading examples =
 
 list : List a -> (a -> Html msg) -> Html msg
 list examples viewExample =
+    ul
+        (List.map
+            (\example -> Html.li [] [ viewExample example ])
+            examples
+        )
+
+
+listVertical : List a -> (a -> Html msg) -> Html msg
+listVertical examples viewExample =
+    ul
+        (List.map
+            (\example ->
+                Html.li
+                    [ style "min-width" "100%"
+                    ]
+                    [ viewExample example ]
+            )
+            examples
+        )
+
+
+ul : List (Html msg) -> Html msg
+ul =
     Html.ul
         [ style "list-style" "none"
         , style "display" "flex"
@@ -29,7 +52,3 @@ list examples viewExample =
         , style "margin" "0"
         , style "padding" "0"
         ]
-        (List.map
-            (\example -> Html.li [] [ viewExample example ])
-            examples
-        )

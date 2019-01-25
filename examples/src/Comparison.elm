@@ -1,4 +1,4 @@
-module Comparison exposing (viewOverlapping, viewPalette, viewWithName)
+module Comparison exposing (viewOverlapping, viewPalette, viewSpectrum, viewWithName)
 
 import Browser
 import Color exposing (Color)
@@ -128,6 +128,29 @@ viewOverlapping blend ( a, b ) =
             overlapPoint
             (blend a b)
         ]
+
+
+viewSpectrum : List Color -> Html msg
+viewSpectrum colors =
+    let
+        spectrumWidth =
+            512
+
+        sliceWidth =
+            spectrumWidth // List.length colors
+
+        slice color =
+            Html.div
+                [ style "width" (px sliceWidth)
+                , style "height" (px 40)
+                , style "background-color" (Color.toRGBString color)
+                , style "display" "inline-block"
+                ]
+                []
+    in
+    colors
+        |> List.map slice
+        |> Html.div [ style "min-width" (px spectrumWidth) ]
 
 
 px : Int -> String
