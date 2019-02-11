@@ -123,6 +123,25 @@ colorSpec =
                     ]
                 )
             ]
+        , describe "equality and equivalence"
+            [ test "(==) does not properly compare color values" <|
+                \_ ->
+                    Color.fromRGB ( 255, 0, 0 )
+                        == Color.fromHSL ( 0, 100, 50 )
+                        |> Expect.false "(==) compared color values unexpectedly"
+            , describe "equals"
+                [ test "when colors are identical, return true" <|
+                    \_ ->
+                        Color.fromHSL ( 0, 100, 50 )
+                            |> Color.equals (Color.fromRGB ( 255, 0, 0 ))
+                            |> Expect.true "Calling `equals` on identical colors failed"
+                , test "when colors are not identical, return false" <|
+                    \_ ->
+                        Color.fromHSL ( 0, 100, 51 )
+                            |> Color.equals (Color.fromRGB ( 255, 0, 0 ))
+                            |> Expect.false "Calling `equals` on disparate colors failed"
+                ]
+            ]
         ]
 
 

@@ -3,6 +3,7 @@ module Color exposing
     , fromHSL, toHSL, toHSLString
     , fromRGB, toRGB, toRGBString
     , fromHexString, toHexString
+    , equals
     , luminance
     )
 
@@ -68,6 +69,11 @@ You will need to use hex colors if you're working with an
 [HTML input of type color](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color).
 
 @docs fromHexString, toHexString
+
+
+## Equality
+
+@docs equals
 
 
 ## Color properties
@@ -284,6 +290,13 @@ toHexString color =
             toRGB color
     in
     "#" ++ decToHex r ++ decToHex g ++ decToHex b
+
+
+{-| Check two colors for equality.
+-}
+equals : Color -> Color -> Bool
+equals a b =
+    toRGB a == toRGB b
 
 
 {-| Luminance calculation adopted from <https://www.w3.org/TR/WCAG20-TECHS/G17.html>
