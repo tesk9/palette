@@ -2,13 +2,13 @@
 
 Work with Colors in Elm.
 
-This package makes working with RGB, HSL, and hex colors easy, accessible, and safe.
+This package makes working with colors easy, accessible, and safe.
 
-- Use RGB, HSL, and hex colors interchangeably
 - Calculate color contrasts
 - Use common web-color palettes
 - Generate beautiful palettes programmatically.
 - Blend and transform colors
+- Use RGB, HSL, and hex colors interchangeably
 
 ## Getting started
 
@@ -38,7 +38,7 @@ myHex =
 
 ### Accessibility
 
-Use `Color.Contrast` to verify that your font size, boldness, and color meet accessibility standards.
+Use `Color.Contrast` to verify that your font size, boldness, and colors meet accessibility standards.
 
 ### Palettes
 
@@ -61,9 +61,8 @@ allTheButter =
 
 #### Generating palettes
 
-Generate a customized cubehelix color scheme using `Palette.Cubehelix`, or by using `Color.Generator` helpers.
-This color scheme is neat! It's a particularly good choice for charts & graphs because it generates colors
-that have quite even visual intensity.
+Generate a customized cubehelix color scheme using `Palette.Cubehelix`.
+These schemes are a good choice for charts & graphs because the produced colors have quite even visual intensity.
 
 Alternatively, generate a palette with colors that pop:
 
