@@ -123,6 +123,13 @@ colorSpec =
                     ]
                 )
             ]
+        , describe "equality and equivalence"
+            [ test "(==) does not properly compare color values" <|
+                \_ ->
+                    Color.fromRGB ( 255, 0, 0 )
+                        == Color.fromHSL ( 0, 100, 50 )
+                        |> Expect.false "(==) compared color values unexpectedly"
+            ]
         ]
 
 
