@@ -4,9 +4,11 @@ module Palette.Cubehelix exposing
     , AdvancedConfig, RotationDirection(..)
     )
 
-{-| Are you looking to generate a color scheme in which none of the colors "pop"? Then this may be the tool for you!
+{-| Cubehelix color palette.
+![](https://user-images.githubusercontent.com/8811312/52818779-82238080-305c-11e9-8084-9c0048f549a2.png)
+Play with an example [here](https://ellie-app.com/4K5qvPZNws5a1).
 
-![](https://user-images.githubusercontent.com/8811312/51517402-6c110000-1dcf-11e9-8b04-8e574d39d6d7.png)
+Use this palette generator when you want a color scheme in which none of the colors "pop."
 
 Professor Dave Green (whose name, given the context, makes me very happy! Please also see [these testimonials](http://davegreenfacts.soc.srcf.net/).)
 developed this method of generating even-intensity color schemes for use in astronomy. He called this method
