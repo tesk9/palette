@@ -28,6 +28,9 @@ helix?!) please read more about it [here](https://www.mrao.cam.ac.uk/~dag/CUBEHE
         -- This will generate 10 even-intensity colors
         Cubehelix.generate 10
 
+![](https://user-images.githubusercontent.com/8811312/52819054-37563880-305d-11e9-9cf3-a553c54f2c11.png)
+See this example on [Ellie](https://ellie-app.com/4K5FZFNYhmwa1).
+
 @docs generate
 
 
