@@ -58,7 +58,7 @@ The lightness of the color that you pass in is not used.
 `rotationDirection` describes whether the helix moves towards red then green then blue, or
 blue then green then red. This is easiest to visualize if you think of a cube defined by three
 vectors, one each for red, green, and blue values. If that's not doing the trick,
-take a look at [<https://www.mrao.cam.ac.uk/~dag/CUBEHELIX/3d-default.png>][https://www.mrao.cam.ac.uk/~dag/CUBEHELIX/3d-default.png](this image).
+take a look at [this image](https://www.mrao.cam.ac.uk/~dag/CUBEHELIX/3d-default.png).
 
 `rotations` describes the number of rotations the helix should make as it moves from black (`Color.fromRGB (0, 0 0)`)
 to white `Color.fromRGB (255, 255, 255)`. `rotations` should be in [0, 1.5]. If it's not, it will be absolute-value-ified & clamped.
