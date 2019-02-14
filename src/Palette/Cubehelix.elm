@@ -37,11 +37,16 @@ See this example on [Ellie](https://ellie-app.com/4K5FZFNYhmwa1).
 ## Customize your palette
 
     import Color exposing (Color)
-    import Palette.Cubehelix as Cubehelix exposing (defaultConfig)
+    import Palette.Cubehelix as Cubehelix
 
     myPalette : List Color
     myPalette =
-        Cubehelix.generateAdvanced 10 defaultConfig
+        Cubehelix.generateAdvanced 27
+            { startingColor = Color.fromHSL ( 20, 100, 0 )
+            , rotationDirection = Cubehelix.BGR
+            , rotations = 1.2
+            , gamma = 0.9
+            }
 
 @docs generateAdvanced, defaultConfig
 @docs AdvancedConfig, RotationDirection
