@@ -57,16 +57,46 @@ colorSpec =
                     Color.fromRGB ( -10, 123, 300 )
                         |> Color.toRGBString
                         |> Expect.equal "rgb(0,123,255)"
+            , test "toRGBAString" <|
+                \_ ->
+                    Color.fromRGBA
+                        { red = -10
+                        , green = 123
+                        , blue = 300
+                        , alpha = Opacity.custom 0.5
+                        }
+                        |> Color.toRGBAString
+                        |> Expect.equal "rgba(0,123,255,0.5)"
             , test "toHSLString" <|
                 \_ ->
                     Color.fromHSL ( 15, -13, 300 )
                         |> Color.toHSLString
                         |> Expect.equal "hsl(15,0%,100%)"
+            , test "toHSLAString" <|
+                \_ ->
+                    Color.fromHSLA
+                        { hue = 15
+                        , saturation = -13
+                        , lightness = 300
+                        , alpha = Opacity.custom 0.5
+                        }
+                        |> Color.toHSLAString
+                        |> Expect.equal "hsla(15,0%,100%,0.5)"
             , test "toHexString" <|
                 \_ ->
                     Color.fromRGB ( -10, 123, 300 )
                         |> Color.toHexString
                         |> Expect.equal "#007BFF"
+            , test "toHexAString" <|
+                \_ ->
+                    Color.fromRGBA
+                        { red = -10
+                        , green = 123
+                        , blue = 300
+                        , alpha = Opacity.custom 0.5
+                        }
+                        |> Color.toHexAString
+                        |> Expect.equal "#007BFF80"
             ]
         , describe "equality and equivalence"
             [ test "(==) does not properly compare color values" <|

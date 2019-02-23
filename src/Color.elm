@@ -5,6 +5,7 @@ module Color exposing
     , fromRGB, toRGB, toRGBString
     , fromRGBA, toRGBA, toRGBAString
     , fromHexString, toHexString
+    , toHexAString
     , equals
     , luminance
     )
@@ -73,6 +74,7 @@ You will need to use hex colors if you're working with an
 [HTML input of type color](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color).
 
 @docs fromHexString, toHexString
+@docs toHexAString
 
 
 ## Equality
@@ -326,6 +328,21 @@ toHexString (Color color _) =
             Internal.Color.toHex color
     in
     "#" ++ r ++ g ++ b
+
+
+{-| -}
+toHexAString : Color -> String
+toHexAString (Color color opacity) =
+    let
+        ( r, g, b ) =
+            Internal.Color.toHex color
+
+        alpha =
+            Opacity.toFloat opacity
+                * 256
+                |> Internal.Color.decToHex
+    in
+    "#" ++ r ++ g ++ b ++ alpha
 
 
 {-| Check two colors for equality.

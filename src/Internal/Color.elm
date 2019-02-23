@@ -2,7 +2,7 @@ module Internal.Color exposing
     ( Color
     , fromHSL, toHSL
     , fromRGB, toRGB
-    , fromHexString, toHex
+    , fromHexString, toHex, decToHex
     )
 
 {-|
@@ -10,7 +10,7 @@ module Internal.Color exposing
 @docs Color
 @docs fromHSL, toHSL
 @docs fromRGB, toRGB
-@docs fromHexString, toHex
+@docs fromHexString, toHex, decToHex
 
 -}
 
