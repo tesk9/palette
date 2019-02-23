@@ -83,12 +83,20 @@ You will need to use hex colors if you're working with an
 -}
 
 import Dict
+import Opacity exposing (Opacity)
 
 
 {-| -}
-type
-    Color
-    -- TODO: other models! conversions! as necessary.
+type Color
+    = Color InternalColor Opacity
+
+
+opaqueColor : InternalColor -> Color
+opaqueColor color =
+    Color color Opacity.opaque
+
+
+type InternalColor
     = HSL HSLValue
     | RGB RGBValue
 
@@ -121,7 +129,12 @@ Lightness is a percentage value. It's clamped between 0 and 100 (inclusive).
 
 -}
 fromHSL : ( Float, Float, Float ) -> Color
-fromHSL ( hue, s, l ) =
+fromHSL =
+    fromHSLInternal >> opaqueColor
+
+
+fromHSLInternal : ( Float, Float, Float ) -> InternalColor
+fromHSLInternal ( hue, s, l ) =
     let
         hueInt =
             floor hue
@@ -138,14 +151,19 @@ fromHSL ( hue, s, l ) =
 {-| Extract the hue, saturation, and lightness values from an existing Color.
 -}
 toHSL : Color -> ( Float, Float, Float )
-toHSL color =
+toHSL (Color color _) =
+    toHSLInternal color
+
+
+toHSLInternal : InternalColor -> ( Float, Float, Float )
+toHSLInternal color =
     case color of
         HSL (HSLValue h s l) ->
             ( h, s, l )
 
         RGB rgbValues ->
             convertRGBToHSL rgbValues
-                |> toHSL
+                |> toHSLInternal
 
 
 {-| Get the HSL representation of a color as a `String`.
@@ -189,21 +207,31 @@ This function clamps each rgb value between 0 and 255 (inclusive).
 
 -}
 fromRGB : ( Float, Float, Float ) -> Color
-fromRGB ( r, g, b ) =
+fromRGB =
+    fromRGBInternal >> opaqueColor
+
+
+fromRGBInternal : ( Float, Float, Float ) -> InternalColor
+fromRGBInternal ( r, g, b ) =
     RGB (RGBValue (clamp 0 255 r) (clamp 0 255 g) (clamp 0 255 b))
 
 
 {-| Extract the red, green, blue values from an existing Color.
 -}
 toRGB : Color -> ( Float, Float, Float )
-toRGB color =
+toRGB (Color color _) =
+    toRGBInternal color
+
+
+toRGBInternal : InternalColor -> ( Float, Float, Float )
+toRGBInternal color =
     case color of
         RGB (RGBValue r g b) ->
             ( r, g, b )
 
         HSL hslValues ->
             convertHSLToRGB hslValues
-                |> toRGB
+                |> toRGBInternal
 
 
 {-| Get the RGB representation of a color as a `String`.
@@ -345,7 +373,7 @@ luminance color =
 
 
 {-| -}
-convertRGBToHSL : RGBValue -> Color
+convertRGBToHSL : RGBValue -> InternalColor
 convertRGBToHSL (RGBValue r255 g255 b255) =
     let
         ( r, g, b ) =
@@ -384,14 +412,14 @@ convertRGBToHSL (RGBValue r255 g255 b255) =
             else
                 chroma / (1 - abs (2 * lightness - 1))
     in
-    fromHSL
+    fromHSLInternal
         ( hue
         , saturation * 100
         , lightness * 100
         )
 
 
-convertHSLToRGB : HSLValue -> Color
+convertHSLToRGB : HSLValue -> InternalColor
 convertHSLToRGB (HSLValue hue360 saturationPercent lightnessPercent) =
     let
         saturation =
@@ -434,7 +462,7 @@ convertHSLToRGB (HSLValue hue360 saturationPercent lightnessPercent) =
         lightnessModifier =
             lightness - chroma / 2
     in
-    fromRGB
+    fromRGBInternal
         ( (r + lightnessModifier) * 255
         , (g + lightnessModifier) * 255
         , (b + lightnessModifier) * 255
