@@ -93,10 +93,16 @@ colorSpec =
                         |> Expect.equal "#FF00FF80"
             ]
         , describe "equality and equivalence"
-            [ test "(==) does not properly compare color values" <|
+            [ test "(==) does not properly compare color values across color spaces" <|
                 \_ ->
                     Color.fromRGB ( 255, 0, 0 )
                         == Color.fromHSL ( 0, 100, 50 )
+                        |> Expect.false "(==) compared color values unexpectedly"
+            , test "(==) does not properly compare repeated modelings of the same color" <|
+                \_ ->
+                    -- Both results are black! however (==) won't compare them properly.
+                    Color.fromHSL ( 3, 50, 0 )
+                        == Color.fromHSL ( 45, 50, 0 )
                         |> Expect.false "(==) compared color values unexpectedly"
             , describe "equals"
                 [ test "when colors are identical, return true" <|
