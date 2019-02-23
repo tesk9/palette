@@ -177,7 +177,7 @@ fromHexString : String -> Maybe { red : Float, green : Float, blue : Float, alph
 fromHexString colorString =
     let
         colorList =
-            String.dropLeft 1 colorString
+            colorString
                 |> String.toList
                 |> List.filterMap fromHexSymbol
     in
