@@ -1,26 +1,26 @@
 module Internal.Color exposing
     ( Color
     , fromHSLA, toHSL
-    , fromRGB, toRGB
+    , fromRGBA, toRGBA
     )
 
 {-|
 
 @docs Color
 @docs fromHSLA, toHSL
-@docs fromRGB, toRGB
+@docs fromRGBA, toRGBA
 
 -}
 
 import Dict
 import Internal.HSLA as HSLA
 import Internal.Hex as Hex
-import Internal.RGB as RGB
+import Internal.RGBA as RGBA
 
 
 type Color
     = HSLA HSLA.Color
-    | RGB RGB.Color
+    | RGBA RGBA.Color
 
 
 fromHSLA : HSLA.Channels -> Color
@@ -34,23 +34,23 @@ toHSL color =
         HSLA values ->
             HSLA.toChannels values
 
-        RGB rgbValues ->
-            toHSL (convertRGBToHSL rgbValues)
+        RGBA rgbValues ->
+            toHSL (convertRGBAToHSL rgbValues)
 
 
-fromRGB : RGB.Channels -> Color
-fromRGB values =
-    RGB (RGB.fromChannels values)
+fromRGBA : RGBA.Channels -> Color
+fromRGBA values =
+    RGBA (RGBA.fromChannels values)
 
 
-toRGB : Color -> RGB.Channels
-toRGB color =
+toRGBA : Color -> RGBA.Channels
+toRGBA color =
     case color of
-        RGB values ->
-            RGB.toChannels values
+        RGBA values ->
+            RGBA.toChannels values
 
         HSLA hslValues ->
-            toRGB (convertHSLToRGB hslValues)
+            toRGBA (convertHSLToRGBA hslValues)
 
 
 
@@ -58,15 +58,15 @@ toRGB color =
 
 
 {-| -}
-convertRGBToHSL : RGB.Color -> Color
-convertRGBToHSL color =
-    RGB.toChannels color
-        |> HSLA.fromRGB
+convertRGBAToHSL : RGBA.Color -> Color
+convertRGBAToHSL color =
+    RGBA.toChannels color
+        |> HSLA.fromRGBA
         |> HSLA
 
 
-convertHSLToRGB : HSLA.Color -> Color
-convertHSLToRGB color =
+convertHSLToRGBA : HSLA.Color -> Color
+convertHSLToRGBA color =
     HSLA.toChannels color
-        |> RGB.fromHSLA
-        |> RGB
+        |> RGBA.fromHSLA
+        |> RGBA

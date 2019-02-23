@@ -232,8 +232,8 @@ fromRGB ( red, green, blue ) =
 
 {-| -}
 fromRGBA : { red : Float, green : Float, blue : Float, alpha : Opacity } -> Color
-fromRGBA { red, green, blue, alpha } =
-    Internal.Color.fromRGB { red = red, green = green, blue = blue }
+fromRGBA ({ alpha } as values) =
+    Internal.Color.fromRGBA values
         |> Color alpha
 
 
@@ -252,11 +252,7 @@ toRGB color =
 -}
 toRGBA : Color -> { red : Float, green : Float, blue : Float, alpha : Opacity }
 toRGBA color =
-    let
-        { red, green, blue } =
-            Internal.Color.toRGB (internalColor color)
-    in
-    { red = red, green = green, blue = blue, alpha = opacity color }
+    Internal.Color.toRGBA (internalColor color)
 
 
 {-| Get the RGB representation of a color as a `String`.

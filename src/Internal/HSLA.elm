@@ -1,4 +1,4 @@
-module Internal.HSLA exposing (Channels, Color, fromChannels, fromRGB, toChannels)
+module Internal.HSLA exposing (Channels, Color, fromChannels, fromRGBA, toChannels)
 
 import Opacity exposing (Opacity)
 
@@ -40,8 +40,8 @@ toChannels (Color values) =
     values
 
 
-fromRGB : { red : Float, green : Float, blue : Float } -> Color
-fromRGB { red, green, blue } =
+fromRGBA : { red : Float, green : Float, blue : Float, alpha : Opacity } -> Color
+fromRGBA { red, green, blue, alpha } =
     let
         ( r, g, b ) =
             ( red / 255, green / 255, blue / 255 )
@@ -83,5 +83,5 @@ fromRGB { red, green, blue } =
         { hue = hue
         , saturation = saturation * 100
         , lightness = lightness * 100
-        , alpha = Opacity.opaque -- TODO
+        , alpha = alpha
         }

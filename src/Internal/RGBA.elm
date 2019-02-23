@@ -1,4 +1,6 @@
-module Internal.RGB exposing (Channels, Color, fromChannels, fromHSLA, toChannels)
+module Internal.RGBA exposing (Channels, Color, fromChannels, fromHSLA, toChannels)
+
+import Opacity exposing (Opacity)
 
 
 type Color
@@ -6,15 +8,16 @@ type Color
 
 
 type alias Channels =
-    { red : Float, green : Float, blue : Float }
+    { red : Float, green : Float, blue : Float, alpha : Opacity }
 
 
 fromChannels : Channels -> Color
-fromChannels { red, green, blue } =
+fromChannels { red, green, blue, alpha } =
     Color
         { red = clamp 0 255 red
         , green = clamp 0 255 green
         , blue = clamp 0 255 blue
+        , alpha = alpha
         }
 
 
@@ -23,8 +26,8 @@ toChannels (Color values) =
     values
 
 
-fromHSLA : { a | hue : Float, saturation : Float, lightness : Float } -> Color
-fromHSLA ({ hue } as hsl) =
+fromHSLA : { hue : Float, saturation : Float, lightness : Float, alpha : Opacity } -> Color
+fromHSLA ({ hue, alpha } as hsl) =
     let
         saturation =
             hsl.saturation / 100
@@ -70,4 +73,5 @@ fromHSLA ({ hue } as hsl) =
         { red = (r + lightnessModifier) * 255
         , green = (g + lightnessModifier) * 255
         , blue = (b + lightnessModifier) * 255
+        , alpha = alpha
         }
