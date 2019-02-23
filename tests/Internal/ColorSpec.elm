@@ -9,47 +9,69 @@ import Test exposing (..)
 
 internalColorSpec : Test
 internalColorSpec =
-    describe "between color models"
-        [ test "from rgb black to hsl black" <|
-            \_ ->
-                Internal.Color.fromRGB ( 0, 0, 0 )
-                    |> Internal.Color.toHSL
-                    |> expectTripleEquals ( 0, 0, 0 )
-        , test "from hsl black to rgb black" <|
-            \_ ->
-                Internal.Color.fromHSL ( 0, 0, 0 )
-                    |> Internal.Color.toRGB
-                    |> expectTripleEquals ( 0, 0, 0 )
-        , test "from rgb white to hsl white" <|
-            \_ ->
-                Internal.Color.fromRGB ( 255, 255, 255 )
-                    |> Internal.Color.toHSL
-                    |> expectTripleEquals ( 0, 0, 100 )
-        , test "from hsl white to rgb white" <|
-            \_ ->
-                Internal.Color.fromHSL ( 0, 0, 100 )
-                    |> Internal.Color.toRGB
-                    |> expectTripleEquals ( 255, 255, 255 )
-        , test "from rgb red to hsl red" <|
-            \_ ->
-                Internal.Color.fromRGB ( 255, 0, 0 )
-                    |> Internal.Color.toHSL
-                    |> expectTripleEquals ( 0, 100, 50 )
-        , test "from hsl red to rgb red" <|
-            \_ ->
-                Internal.Color.fromHSL ( 0, 100, 50 )
-                    |> Internal.Color.toRGB
-                    |> expectTripleEquals ( 255, 0, 0 )
-        , test "from rgb green to hsl green" <|
-            \_ ->
-                Internal.Color.fromRGB ( 0, 128, 0 )
-                    |> Internal.Color.toHSL
-                    |> expectTripleEquals ( 120, 100, 25 )
-        , test "from hsl green to rgb green" <|
-            \_ ->
-                Internal.Color.fromHSL ( 120, 100, 25 )
-                    |> Internal.Color.toRGB
-                    |> expectTripleEquals ( 0, 128, 0 )
+    describe "Conversions & channel values"
+        [ describe "toHSL"
+            [ describe "from RGB color"
+                [ test "black" <|
+                    \_ ->
+                        Internal.Color.fromRGB ( 0, 0, 0 )
+                            |> Internal.Color.toHSL
+                            |> expectTripleEquals ( 0, 0, 0 )
+                , test "white" <|
+                    \_ ->
+                        Internal.Color.fromRGB ( 255, 255, 255 )
+                            |> Internal.Color.toHSL
+                            |> expectTripleEquals ( 0, 0, 100 )
+                , test "red" <|
+                    \_ ->
+                        Internal.Color.fromRGB ( 255, 0, 0 )
+                            |> Internal.Color.toHSL
+                            |> expectTripleEquals ( 0, 100, 50 )
+                , test "green" <|
+                    \_ ->
+                        Internal.Color.fromRGB ( 0, 128, 0 )
+                            |> Internal.Color.toHSL
+                            |> expectTripleEquals ( 120, 100, 25 )
+                ]
+            , describe "from HSL color"
+                [ test "black" <|
+                    \_ ->
+                        Internal.Color.fromHSL ( 0, 0, 0 )
+                            |> Internal.Color.toHSL
+                            |> expectTripleEquals ( 0, 0, 0 )
+                ]
+            ]
+        , describe "toRGB"
+            [ describe "from RGB color"
+                [ test "black" <|
+                    \_ ->
+                        Internal.Color.fromRGB ( 0, 0, 0 )
+                            |> Internal.Color.toRGB
+                            |> expectTripleEquals ( 0, 0, 0 )
+                ]
+            , describe "from HSL color"
+                [ test "black" <|
+                    \_ ->
+                        Internal.Color.fromHSL ( 0, 0, 0 )
+                            |> Internal.Color.toRGB
+                            |> expectTripleEquals ( 0, 0, 0 )
+                , test "white" <|
+                    \_ ->
+                        Internal.Color.fromHSL ( 0, 0, 100 )
+                            |> Internal.Color.toRGB
+                            |> expectTripleEquals ( 255, 255, 255 )
+                , test "red" <|
+                    \_ ->
+                        Internal.Color.fromHSL ( 0, 100, 50 )
+                            |> Internal.Color.toRGB
+                            |> expectTripleEquals ( 255, 0, 0 )
+                , test "green" <|
+                    \_ ->
+                        Internal.Color.fromHSL ( 120, 100, 25 )
+                            |> Internal.Color.toRGB
+                            |> expectTripleEquals ( 0, 128, 0 )
+                ]
+            ]
         , describe "from RGB to HSL and back to RGB again"
             (List.indexedMap testRGBToHSLToRGB
                 [ ( 255, 0, 0 )
