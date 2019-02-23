@@ -12,22 +12,22 @@ internalColorSpec =
     describe "between color models"
         [ test "from rgb black to hsl black" <|
             \_ ->
-                blackRGB
+                Internal.Color.fromRGB ( 0, 0, 0 )
                     |> Internal.Color.toHSL
                     |> expectTripleEquals ( 0, 0, 0 )
         , test "from hsl black to rgb black" <|
             \_ ->
-                blackHSL
+                Internal.Color.fromHSL ( 0, 0, 0 )
                     |> Internal.Color.toRGB
                     |> expectTripleEquals ( 0, 0, 0 )
         , test "from rgb white to hsl white" <|
             \_ ->
-                whiteRGB
+                Internal.Color.fromRGB ( 255, 255, 255 )
                     |> Internal.Color.toHSL
                     |> expectTripleEquals ( 0, 0, 100 )
         , test "from hsl white to rgb white" <|
             \_ ->
-                whiteHSL
+                Internal.Color.fromHSL ( 0, 0, 100 )
                     |> Internal.Color.toRGB
                     |> expectTripleEquals ( 255, 255, 255 )
         , test "from rgb red to hsl red" <|
@@ -120,23 +120,3 @@ expectTripleEquals expected actual =
 roundTriple : ( Float, Float, Float ) -> ( Int, Int, Int )
 roundTriple ( a, b, c ) =
     ( round a, round b, round c )
-
-
-whiteRGB : Color
-whiteRGB =
-    Internal.Color.fromRGB ( 255, 255, 255 )
-
-
-whiteHSL : Color
-whiteHSL =
-    Internal.Color.fromHSL ( 0, 0, 100 )
-
-
-blackRGB : Color
-blackRGB =
-    Internal.Color.fromRGB ( 0, 0, 0 )
-
-
-blackHSL : Color
-blackHSL =
-    Internal.Color.fromHSL ( 0, 0, 0 )
