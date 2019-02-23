@@ -17,7 +17,9 @@ internalColorSpec =
                     |> expectTripleEquals ( 0, 0, 0 )
         , test "from hsl black to rgb black" <|
             \_ ->
-                expectRGB ( 0, 0, 0 ) blackHSL
+                blackHSL
+                    |> Internal.Color.toRGB
+                    |> expectTripleEquals ( 0, 0, 0 )
         , test "from rgb white to hsl white" <|
             \_ ->
                 whiteRGB
@@ -25,7 +27,9 @@ internalColorSpec =
                     |> expectTripleEquals ( 0, 0, 100 )
         , test "from hsl white to rgb white" <|
             \_ ->
-                expectRGB ( 255, 255, 255 ) whiteHSL
+                whiteHSL
+                    |> Internal.Color.toRGB
+                    |> expectTripleEquals ( 255, 255, 255 )
         , test "from rgb red to hsl red" <|
             \_ ->
                 Internal.Color.fromRGB ( 255, 0, 0 )
@@ -34,7 +38,8 @@ internalColorSpec =
         , test "from hsl red to rgb red" <|
             \_ ->
                 Internal.Color.fromHSL ( 0, 100, 50 )
-                    |> expectRGB ( 255, 0, 0 )
+                    |> Internal.Color.toRGB
+                    |> expectTripleEquals ( 255, 0, 0 )
         , test "from rgb green to hsl green" <|
             \_ ->
                 Internal.Color.fromRGB ( 0, 128, 0 )
@@ -43,7 +48,8 @@ internalColorSpec =
         , test "from hsl green to rgb green" <|
             \_ ->
                 Internal.Color.fromHSL ( 120, 100, 25 )
-                    |> expectRGB ( 0, 128, 0 )
+                    |> Internal.Color.toRGB
+                    |> expectTripleEquals ( 0, 128, 0 )
         , describe "from RGB to HSL and back to RGB again"
             (List.indexedMap rgbToHSLToRGB
                 [ ( 255, 0, 0 )
@@ -76,7 +82,8 @@ rgbToHSLToRGB index color =
             Internal.Color.fromRGB color
                 |> Internal.Color.toHSL
                 |> Internal.Color.fromHSL
-                |> expectRGB color
+                |> Internal.Color.toRGB
+                |> expectTripleEquals color
 
 
 hslToRGBtoHSL : Int -> ( Float, Float, Float ) -> Test
@@ -103,13 +110,6 @@ printRGBName =
 printHSLName : ( Float, Float, Float ) -> String
 printHSLName =
     Color.toHSLString << Color.fromHSL
-
-
-{-| This exists mostly to make float equality checks nicer.
--}
-expectRGB : ( Float, Float, Float ) -> Color -> Expectation
-expectRGB expected color =
-    expectTripleEquals (Internal.Color.toRGB color) expected
 
 
 expectTripleEquals : ( Float, Float, Float ) -> ( Float, Float, Float ) -> Expectation
