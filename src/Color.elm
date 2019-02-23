@@ -88,6 +88,7 @@ You will need to use hex colors if you're working with an
 
 import Dict
 import Internal.Color
+import Internal.HSLA
 import Internal.Hex
 import Opacity exposing (Opacity)
 
@@ -126,19 +127,15 @@ fromHSL : ( Float, Float, Float ) -> Color
 fromHSL ( hue, saturation, lightness ) =
     let
         hslValue =
-            { hue = hue, saturation = saturation, lightness = lightness }
+            { hue = hue, saturation = saturation, lightness = lightness, alpha = Opacity.opaque }
     in
-    Internal.Color.fromHSL hslValue
+    Internal.Color.fromHSLA hslValue
         |> Color Opacity.opaque
 
 
-fromHSLA : { hue : Float, saturation : Float, lightness : Float, alpha : Opacity } -> Color
-fromHSLA { hue, saturation, lightness, alpha } =
-    let
-        hslValue =
-            { hue = hue, saturation = saturation, lightness = lightness }
-    in
-    Internal.Color.fromHSL hslValue
+fromHSLA : Internal.HSLA.Channels -> Color
+fromHSLA ({ alpha } as values) =
+    Internal.Color.fromHSLA values
         |> Color alpha
 
 

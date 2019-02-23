@@ -1,4 +1,6 @@
-module Internal.HSL exposing (Channels, Color, fromChannels, fromRGB, toChannels)
+module Internal.HSLA exposing (Channels, Color, fromChannels, fromRGB, toChannels)
+
+import Opacity exposing (Opacity)
 
 
 type Color
@@ -6,11 +8,15 @@ type Color
 
 
 type alias Channels =
-    { hue : Float, saturation : Float, lightness : Float }
+    { hue : Float
+    , saturation : Float
+    , lightness : Float
+    , alpha : Opacity
+    }
 
 
 fromChannels : Channels -> Color
-fromChannels { hue, saturation, lightness } =
+fromChannels { hue, saturation, lightness, alpha } =
     let
         hueInt =
             floor hue
@@ -25,6 +31,7 @@ fromChannels { hue, saturation, lightness } =
         { hue = hue360 + floatingHueValues
         , saturation = clamp 0 100 saturation
         , lightness = clamp 0 100 lightness
+        , alpha = alpha
         }
 
 
@@ -76,4 +83,5 @@ fromRGB { red, green, blue } =
         { hue = hue
         , saturation = saturation * 100
         , lightness = lightness * 100
+        , alpha = Opacity.opaque -- TODO
         }

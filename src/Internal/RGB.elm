@@ -1,4 +1,4 @@
-module Internal.RGB exposing (Channels, Color, fromChannels, fromHSL, toChannels)
+module Internal.RGB exposing (Channels, Color, fromChannels, fromHSLA, toChannels)
 
 
 type Color
@@ -23,8 +23,8 @@ toChannels (Color values) =
     values
 
 
-fromHSL : { hue : Float, saturation : Float, lightness : Float } -> Color
-fromHSL ({ hue } as hsl) =
+fromHSLA : { a | hue : Float, saturation : Float, lightness : Float } -> Color
+fromHSLA ({ hue } as hsl) =
     let
         saturation =
             hsl.saturation / 100
