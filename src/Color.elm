@@ -146,7 +146,11 @@ fromHSLA { hue, saturation, lightness, alpha } =
 -}
 toHSL : Color -> ( Float, Float, Float )
 toHSL color =
-    Internal.Color.toHSL (internalColor color)
+    let
+        { hue, saturation, lightness } =
+            toHSLA color
+    in
+    ( hue, saturation, lightness )
 
 
 {-| Extract the hue, saturation, lightness, and alpha values from an existing Color.
@@ -154,7 +158,7 @@ toHSL color =
 toHSLA : Color -> { hue : Float, saturation : Float, lightness : Float, alpha : Opacity }
 toHSLA color =
     let
-        ( hue, saturation, lightness ) =
+        { hue, saturation, lightness } =
             Internal.Color.toHSL (internalColor color)
     in
     { hue = hue, saturation = saturation, lightness = lightness, alpha = opacity color }
