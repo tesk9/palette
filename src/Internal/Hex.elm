@@ -1,9 +1,13 @@
-module Internal.Hex exposing (fromString, toString, toStringWithOpacity)
+module Internal.Hex exposing (fromString, toString)
 
 import Dict
 
 
-fromString : String -> Maybe { red : Float, green : Float, blue : Float, alpha : Float }
+type alias Channels =
+    { red : Float, green : Float, blue : Float, alpha : Float }
+
+
+fromString : String -> Maybe Channels
 fromString colorString =
     let
         colorList =
@@ -37,7 +41,7 @@ hexWithAlpha :
     -> ( Int, Int )
     -> ( Int, Int )
     -> Maybe ( Int, Int )
-    -> { red : Float, green : Float, blue : Float, alpha : Float }
+    -> Channels
 hexWithAlpha rs gs bs aa =
     let
         fromHex : ( Int, Int ) -> Float
@@ -53,18 +57,22 @@ hexWithAlpha rs gs bs aa =
     }
 
 
-toString :
-    { a | red : Float, green : Float, blue : Float }
-    -> String
-toString { red, green, blue } =
+toString : Channels -> String
+toString ({ alpha } as values) =
+    if 1.0 == alpha then
+        toStringWithoutOpacity values
+
+    else
+        toStringWithOpacity values
+
+
+toStringWithoutOpacity : Channels -> String
+toStringWithoutOpacity { red, green, blue } =
     "#" ++ decToHex red ++ decToHex green ++ decToHex blue
 
 
-toStringWithOpacity :
-    { a | red : Float, green : Float, blue : Float }
-    -> Float
-    -> String
-toStringWithOpacity { red, green, blue } alpha =
+toStringWithOpacity : Channels -> String
+toStringWithOpacity { red, green, blue, alpha } =
     "#" ++ decToHex red ++ decToHex green ++ decToHex blue ++ decToHex (alpha * 255)
 
 

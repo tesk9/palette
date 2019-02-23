@@ -357,14 +357,17 @@ github repo for this library.
 toHexString : Color -> String
 toHexString color =
     let
-        ({ alpha } as rgb) =
+        { red, green, blue, alpha } =
             toRGBA color
-    in
-    if Opacity.opaque == alpha then
-        Internal.Hex.toString rgb
 
-    else
-        Internal.Hex.toStringWithOpacity rgb (Opacity.toFloat alpha)
+        values =
+            { red = red
+            , green = green
+            , blue = blue
+            , alpha = Opacity.toFloat alpha
+            }
+    in
+    Internal.Hex.toString values
 
 
 {-| Check two colors for equality.

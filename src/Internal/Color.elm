@@ -14,6 +14,7 @@ module Internal.Color exposing
 
 import Dict
 import Internal.HSL as HSL
+import Internal.Hex as Hex
 import Internal.RGB as RGB
 
 
