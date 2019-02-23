@@ -182,48 +182,44 @@ fromHexString colorString =
                 |> List.filterMap fromHexSymbol
     in
     case colorList of
-        r1 :: r0 :: g1 :: g0 :: b1 :: b0 :: alpha ->
-            Maybe.map
-                (\o ->
-                    { red = fromHex r1 r0
-                    , green = fromHex g1 g0
-                    , blue = fromHex b1 b0
-                    , alpha = o
-                    }
-                )
-                (hexWithAlpha alpha)
+        r1 :: r0 :: g1 :: g0 :: b1 :: b0 :: a1 :: a0 :: [] ->
+            hexWithAlpha ( r1, r0 ) ( g1, g0 ) ( b1, b0 ) (Just ( a1, a0 ))
+                |> Just
+
+        r1 :: r0 :: g1 :: g0 :: b1 :: b0 :: [] ->
+            hexWithAlpha ( r1, r0 ) ( g1, g0 ) ( b1, b0 ) Nothing
+                |> Just
+
+        r :: g :: b :: a :: [] ->
+            hexWithAlpha ( r, r ) ( g, g ) ( b, b ) (Just ( a, a ))
+                |> Just
 
         r :: g :: b :: [] ->
-            Just
-                { red = fromHex r r
-                , green = fromHex g g
-                , blue = fromHex b b
-                , alpha = 1
-                }
+            hexWithAlpha ( r, r ) ( g, g ) ( b, b ) Nothing
+                |> Just
 
         _ ->
             Nothing
 
 
-hexWithAlpha : List Int -> Maybe Float
-hexWithAlpha chars =
-    case chars of
-        a1 :: a0 :: [] ->
-            Just (fromHex a1 a0)
+hexWithAlpha :
+    ( Int, Int )
+    -> ( Int, Int )
+    -> ( Int, Int )
+    -> Maybe ( Int, Int )
+    -> { red : Float, green : Float, blue : Float, alpha : Float }
+hexWithAlpha rs gs bs aa =
+    { red = fromHex rs
+    , green = fromHex gs
+    , blue = fromHex bs
+    , alpha =
+        -- Default to opaque
+        Maybe.map fromHex aa |> Maybe.withDefault 1.0
+    }
 
-        a :: [] ->
-            Just (fromHex a a)
 
-        [] ->
-            -- Default to opaque
-            Just 1.0
-
-        _ ->
-            Nothing
-
-
-fromHex : Int -> Int -> Float
-fromHex a b =
+fromHex : ( Int, Int ) -> Float
+fromHex ( a, b ) =
     toFloat (a * 16 + b)
 
 
