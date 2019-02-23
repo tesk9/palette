@@ -94,12 +94,12 @@ import Opacity exposing (Opacity)
 
 {-| -}
 type Color
-    = Color Internal.Color.Color Opacity
+    = Color Opacity Internal.Color.Color
 
 
 opaqueColor : Internal.Color.Color -> Color
-opaqueColor color =
-    Color color Opacity.opaque
+opaqueColor =
+    Color Opacity.opaque
 
 
 {-| Build a new color based on HSL values.
@@ -125,20 +125,21 @@ fromHSL ( hue, saturation, lightness ) =
 
 fromHSLA : { hue : Float, saturation : Float, lightness : Float, alpha : Opacity } -> Color
 fromHSLA { hue, saturation, lightness, alpha } =
-    Color (Internal.Color.fromHSL { hue = hue, saturation = saturation, lightness = lightness }) alpha
+    Internal.Color.fromHSL { hue = hue, saturation = saturation, lightness = lightness }
+        |> Color alpha
 
 
 {-| Extract the hue, saturation, and lightness values from an existing Color.
 -}
 toHSL : Color -> ( Float, Float, Float )
-toHSL (Color color _) =
+toHSL (Color _ color) =
     Internal.Color.toHSL color
 
 
 {-| Extract the hue, saturation, lightness, and alpha values from an existing Color.
 -}
 toHSLA : Color -> { hue : Float, saturation : Float, lightness : Float, alpha : Opacity }
-toHSLA (Color color opacity) =
+toHSLA (Color opacity color) =
     let
         ( hue, saturation, lightness ) =
             Internal.Color.toHSL color
@@ -175,7 +176,7 @@ toHSLString color =
 
 {-| -}
 toHSLAString : Color -> String
-toHSLAString (Color color opacity) =
+toHSLAString (Color opacity color) =
     let
         ( h, s, l ) =
             Internal.Color.toHSL color
@@ -219,13 +220,14 @@ fromRGB ( red, green, blue ) =
 {-| -}
 fromRGBA : { red : Float, green : Float, blue : Float, alpha : Opacity } -> Color
 fromRGBA { red, green, blue, alpha } =
-    Color (Internal.Color.fromRGB { red = red, green = green, blue = blue }) alpha
+    Internal.Color.fromRGB { red = red, green = green, blue = blue }
+        |> Color alpha
 
 
 {-| Extract the red, green, blue values from an existing Color.
 -}
 toRGB : Color -> ( Float, Float, Float )
-toRGB (Color color _) =
+toRGB (Color _ color) =
     let
         { red, green, blue } =
             Internal.Color.toRGB color
@@ -236,7 +238,7 @@ toRGB (Color color _) =
 {-| Extract the red, green, blue, and alpha values from an existing Color.
 -}
 toRGBA : Color -> { red : Float, green : Float, blue : Float, alpha : Opacity }
-toRGBA (Color color opacity) =
+toRGBA (Color opacity color) =
     let
         { red, green, blue } =
             Internal.Color.toRGB color
@@ -273,7 +275,7 @@ toRGBString color =
 
 {-| -}
 toRGBAString : Color -> String
-toRGBAString (Color color opacity) =
+toRGBAString (Color opacity color) =
     let
         { red, green, blue } =
             Internal.Color.toRGB color
@@ -330,7 +332,7 @@ github repo for this library.
 
 -}
 toHexString : Color -> String
-toHexString (Color color opacity) =
+toHexString (Color opacity color) =
     let
         rgb =
             Internal.Color.toRGB color
