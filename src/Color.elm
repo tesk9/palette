@@ -332,7 +332,7 @@ toHexString (Color color _) =
 -}
 equals : Color -> Color -> Bool
 equals a b =
-    toRGB a == toRGB b
+    toRGBA a == toRGBA b
 
 
 {-| Luminance calculation adopted from <https://www.w3.org/TR/WCAG20-TECHS/G17.html>
