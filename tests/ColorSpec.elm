@@ -3,6 +3,7 @@ module ColorSpec exposing (colorSpec, luminanceSuite)
 import Color exposing (Color)
 import Expect exposing (Expectation)
 import Fuzz exposing (Fuzzer)
+import Opacity
 import Palette.X11 exposing (..)
 import Test exposing (..)
 
@@ -140,6 +141,15 @@ colorSpec =
                         Color.fromHSL ( 0, 100, 51 )
                             |> Color.equals (Color.fromRGB ( 255, 0, 0 ))
                             |> Expect.false "Calling `equals` on disparate colors failed"
+                , test "when opacity differs, colors are not identical" <|
+                    \_ ->
+                        let
+                            values =
+                                { red = 0, green = 0, blue = 0, alpha = Opacity.transparent }
+                        in
+                        Color.fromRGBA values
+                            |> Color.equals (Color.fromRGBA { values | alpha = Opacity.opaque })
+                            |> Expect.false "Calling `equals` on different opacities failed"
                 ]
             ]
         ]
