@@ -1,10 +1,11 @@
 module Internal.Hex exposing (fromString, toString)
 
 import Dict
+import Opacity exposing (Opacity)
 
 
 type alias Channels =
-    { red : Float, green : Float, blue : Float, alpha : Float }
+    { red : Float, green : Float, blue : Float, alpha : Opacity }
 
 
 fromString : String -> Maybe Channels
@@ -53,13 +54,15 @@ hexWithAlpha rs gs bs aa =
     , blue = fromHex bs
     , alpha =
         -- Default to opaque
-        Maybe.map fromHex aa |> Maybe.withDefault 1.0
+        Maybe.map fromHex aa
+            |> Maybe.map Opacity.custom
+            |> Maybe.withDefault Opacity.opaque
     }
 
 
 toString : Channels -> String
 toString ({ alpha } as values) =
-    if 1.0 == alpha then
+    if Opacity.opaque == alpha then
         toStringWithoutOpacity values
 
     else
@@ -73,7 +76,11 @@ toStringWithoutOpacity { red, green, blue } =
 
 toStringWithOpacity : Channels -> String
 toStringWithOpacity { red, green, blue, alpha } =
-    "#" ++ decToHex red ++ decToHex green ++ decToHex blue ++ decToHex (alpha * 255)
+    let
+        opacityInDec =
+            decToHex (Opacity.toFloat alpha * 255)
+    in
+    "#" ++ decToHex red ++ decToHex green ++ decToHex blue ++ opacityInDec
 
 
 

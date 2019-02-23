@@ -53,6 +53,11 @@ toRGBA color =
             toRGBA (convertHSLToRGBA hslValues)
 
 
+fromHexString : String -> Maybe Color
+fromHexString str =
+    Maybe.map (RGBA.fromChannels >> RGBA) (Hex.fromString str)
+
+
 
 -- CONVERSIONS
 

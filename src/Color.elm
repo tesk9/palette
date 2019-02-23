@@ -317,7 +317,7 @@ fromHexString colorString =
                     { red = red
                     , green = green
                     , blue = blue
-                    , alpha = Opacity.custom alpha
+                    , alpha = alpha
                     }
                 )
 
@@ -349,18 +349,7 @@ github repo for this library.
 -}
 toHexString : Color -> String
 toHexString color =
-    let
-        { red, green, blue, alpha } =
-            toRGBA color
-
-        values =
-            { red = red
-            , green = green
-            , blue = blue
-            , alpha = Opacity.toFloat alpha
-            }
-    in
-    Internal.Hex.toString values
+    Internal.Hex.toString (toRGBA color)
 
 
 {-| Check two colors for equality.
