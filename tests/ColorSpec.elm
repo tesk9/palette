@@ -3,7 +3,7 @@ module ColorSpec exposing (colorSpec, luminanceSuite)
 import Color exposing (Color)
 import Expect exposing (Expectation)
 import Fuzz exposing (Fuzzer)
-import Internal.ColorFuzzer exposing (hexStringFuzzer)
+import Internal.ColorFuzzer exposing (hexString, hexStringOfLength)
 import Opacity
 import Palette.X11 exposing (..)
 import Test exposing (..)
@@ -34,7 +34,7 @@ colorSpec =
                     \_ ->
                         Color.fromHexString "#FFD700"
                             |> expectHex "#FFD700"
-                , fuzz hexStringFuzzer "fuzz Hex to Hex" <|
+                , fuzz hexString "fuzz Hex to Hex" <|
                     \hex ->
                         if String.length hex == 7 then
                             Color.fromHexString hex

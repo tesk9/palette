@@ -1,16 +1,49 @@
-module Internal.ColorFuzzer exposing (hexStringFuzzer)
+module Internal.ColorFuzzer exposing (hexString, hexStringOfLength)
 
+import Dict exposing (Dict)
 import Fuzz exposing (Fuzzer)
+import Internal.Color exposing (Color)
+import Random exposing (Generator)
+import Shrink
 
 
-hexStringFuzzer : Fuzzer String
-hexStringFuzzer =
-    Fuzz.list hexCharFuzzer
-        |> Fuzz.map (\charList -> "#" ++ String.fromList charList)
+hexString : Fuzzer String
+hexString =
+    Fuzz.oneOf
+        [ hexStringOfLength 3
+        , hexStringOfLength 9
+        ]
+
+
+hexStringOfLength : Int -> Fuzzer String
+hexStringOfLength l =
+    Fuzz.custom (hexGenerator l) Shrink.string
+
+
+hexGenerator : Int -> Generator String
+hexGenerator listLength =
+    Random.list listLength (Random.int 0 15)
+        |> Random.map
+            (\l ->
+                "#" ++ String.join "" (List.map getCharString l)
+            )
 
 
 hexCharFuzzer : Fuzzer Char
 hexCharFuzzer =
-    [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' ]
+    Dict.values hexChars
         |> List.map Fuzz.constant
         |> Fuzz.oneOf
+
+
+getCharString : Int -> String
+getCharString index =
+    Maybe.withDefault '0' (Dict.get index hexChars)
+        |> String.fromChar
+
+
+hexChars : Dict Int Char
+hexChars =
+    [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' ]
+        |> List.indexedMap (\i v -> ( i, v ))
+        |> Dict.fromList
