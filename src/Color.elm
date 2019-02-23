@@ -2,6 +2,7 @@ module Color exposing
     ( Color
     , fromHSL, toHSL, toHSLString
     , fromRGB, toRGB, toRGBString
+    , fromRGBA, toRGBA, toRGBAString
     , fromHexString, toHexString
     , equals
     , luminance
@@ -58,6 +59,7 @@ Paint, where you're mixing pigments together, is a **subtractive**
 color space. Printing (CMYK color space) is also subtractive.
 
 @docs fromRGB, toRGB, toRGBString
+@docs fromRGBA, toRGBA, toRGBAString
 
 
 ## Hex values
@@ -169,11 +171,28 @@ fromRGB =
     Internal.Color.fromRGB >> opaqueColor
 
 
+{-| -}
+fromRGBA : { red : Float, green : Float, blue : Float, alpha : Opacity } -> Color
+fromRGBA { red, green, blue, alpha } =
+    Color (Internal.Color.fromRGB ( red, green, blue )) alpha
+
+
 {-| Extract the red, green, blue values from an existing Color.
 -}
 toRGB : Color -> ( Float, Float, Float )
 toRGB (Color color _) =
     Internal.Color.toRGB color
+
+
+{-| Extract the red, green, blue, and alpha values from an existing Color.
+-}
+toRGBA : Color -> { red : Float, green : Float, blue : Float, alpha : Opacity }
+toRGBA (Color color opacity) =
+    let
+        ( red, green, blue ) =
+            Internal.Color.toRGB color
+    in
+    { red = red, green = green, blue = blue, alpha = opacity }
 
 
 {-| Get the RGB representation of a color as a `String`.
@@ -194,7 +213,31 @@ toRGBString color =
         ( r, g, b ) =
             toRGB color
     in
-    "rgb(" ++ String.fromFloat r ++ "," ++ String.fromFloat g ++ "," ++ String.fromFloat b ++ ")"
+    "rgb("
+        ++ String.fromFloat r
+        ++ ","
+        ++ String.fromFloat g
+        ++ ","
+        ++ String.fromFloat b
+        ++ ")"
+
+
+{-| -}
+toRGBAString : Color -> String
+toRGBAString (Color color opacity) =
+    let
+        ( r, g, b ) =
+            Internal.Color.toRGB color
+    in
+    "rgba("
+        ++ String.fromFloat r
+        ++ ","
+        ++ String.fromFloat g
+        ++ ","
+        ++ String.fromFloat b
+        ++ ","
+        ++ Opacity.toString opacity
+        ++ ")"
 
 
 {-| Build a new color from a hex string. Supports lowercase or uppercase strings.
