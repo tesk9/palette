@@ -182,13 +182,16 @@ fromHexString colorString =
                 |> List.filterMap fromHexSymbol
     in
     case colorList of
-        r1 :: r0 :: g1 :: g0 :: b1 :: b0 :: [] ->
-            Just
-                { red = fromHex r1 r0
-                , green = fromHex g1 g0
-                , blue = fromHex b1 b0
-                , alpha = 1
-                }
+        r1 :: r0 :: g1 :: g0 :: b1 :: b0 :: alpha ->
+            Maybe.map
+                (\o ->
+                    { red = fromHex r1 r0
+                    , green = fromHex g1 g0
+                    , blue = fromHex b1 b0
+                    , alpha = o
+                    }
+                )
+                (hexWithAlpha alpha)
 
         r :: g :: b :: [] ->
             Just
@@ -197,6 +200,23 @@ fromHexString colorString =
                 , blue = fromHex b b
                 , alpha = 1
                 }
+
+        _ ->
+            Nothing
+
+
+hexWithAlpha : List Int -> Maybe Float
+hexWithAlpha chars =
+    case chars of
+        a1 :: a0 :: [] ->
+            Just (fromHex a1 a0)
+
+        a :: [] ->
+            Just (fromHex a a)
+
+        [] ->
+            -- Default to opaque
+            Just 1.0
 
         _ ->
             Nothing
