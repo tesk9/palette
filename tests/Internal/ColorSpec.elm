@@ -84,7 +84,7 @@ internalColorSpec =
                 ]
             )
         , fuzz ColorFuzz.hslValues "from HSL to RGB and back to HSL again" <|
-            \color ->
+            \(( h, s, l ) as color) ->
                 let
                     operations =
                         Internal.Color.fromHSL
@@ -95,7 +95,18 @@ internalColorSpec =
                     hslName =
                         Color.toHSLString (Color.fromHSL color)
                 in
-                expectTripleEquals color (operations color)
+                if l == 0 then
+                    -- This is black, which has more representations in HSL space
+                    -- than in RGB space.
+                    expectTripleEquals ( 0, 0, 0 ) (operations color)
+
+                else if l == 100 then
+                    -- This is white, which has more representations in HSL space
+                    -- than in RGB space.
+                    expectTripleEquals ( 0, 0, 100 ) (operations color)
+
+                else
+                    expectTripleEquals color (operations color)
         , fuzz (ColorFuzz.hexStringOfLength 6) "from Hex to RGB and back to Hex again" <|
             \c ->
                 case Internal.Color.fromHexString c of

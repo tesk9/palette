@@ -14,7 +14,7 @@ hslValues =
     -- and white.
     -- E.g., HSL(0,0,0) and HSL(230,0,0) will both be identically black.
     -- Converted to rgb, they're both (0,0,0)
-    triple (Fuzz.intRange 0 359) (Fuzz.intRange 1 100) (Fuzz.intRange 1 99)
+    triple (Fuzz.intRange 0 359) (Fuzz.intRange 1 100) (Fuzz.intRange 0 100)
 
 
 triple : Fuzzer Int -> Fuzzer Int -> Fuzzer Int -> Fuzzer ( Float, Float, Float )
