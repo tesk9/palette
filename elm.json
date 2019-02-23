@@ -9,6 +9,7 @@
         "Color.Blend",
         "Color.Contrast",
         "Color.Generator",
+        "Opacity",
         "Palette.X11",
         "Palette.Tango",
         "Palette.Cubehelix"
