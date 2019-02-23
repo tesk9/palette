@@ -24,8 +24,8 @@ type HSLValue
     = HSLValue Float Float Float
 
 
-type RGBValue
-    = RGBValue Float Float Float
+type alias RGBValue =
+    { red : Float, green : Float, blue : Float }
 
 
 fromHSL : ( Float, Float, Float ) -> Color
@@ -54,16 +54,20 @@ toHSL color =
                 |> toHSL
 
 
-fromRGB : ( Float, Float, Float ) -> Color
-fromRGB ( r, g, b ) =
-    RGB (RGBValue (clamp 0 255 r) (clamp 0 255 g) (clamp 0 255 b))
+fromRGB : RGBValue -> Color
+fromRGB { red, green, blue } =
+    RGB
+        { red = clamp 0 255 red
+        , green = clamp 0 255 green
+        , blue = clamp 0 255 blue
+        }
 
 
-toRGB : Color -> { red : Float, green : Float, blue : Float }
+toRGB : Color -> RGBValue
 toRGB color =
     case color of
-        RGB (RGBValue r g b) ->
-            { red = r, green = g, blue = b }
+        RGB values ->
+            values
 
         HSL hslValues ->
             convertHSLToRGB hslValues
@@ -76,10 +80,10 @@ toRGB color =
 
 {-| -}
 convertRGBToHSL : RGBValue -> Color
-convertRGBToHSL (RGBValue r255 g255 b255) =
+convertRGBToHSL { red, green, blue } =
     let
         ( r, g, b ) =
-            ( r255 / 255, g255 / 255, b255 / 255 )
+            ( red / 255, green / 255, blue / 255 )
 
         maximum =
             max (max r g) b
@@ -165,7 +169,7 @@ convertHSLToRGB (HSLValue hue360 saturationPercent lightnessPercent) =
             lightness - chroma / 2
     in
     fromRGB
-        ( (r + lightnessModifier) * 255
-        , (g + lightnessModifier) * 255
-        , (b + lightnessModifier) * 255
-        )
+        { red = (r + lightnessModifier) * 255
+        , green = (g + lightnessModifier) * 255
+        , blue = (b + lightnessModifier) * 255
+        }

@@ -16,30 +16,30 @@ internalColorSpec =
             [ describe "from RGB color"
                 [ test "black" <|
                     \_ ->
-                        Internal.Color.fromRGB ( 0, 0, 0 )
-                            |> Internal.Color.toHSL
+                        Color.fromRGB ( 0, 0, 0 )
+                            |> Color.toHSL
                             |> expectTripleEquals ( 0, 0, 0 )
                 , test "white" <|
                     \_ ->
-                        Internal.Color.fromRGB ( 255, 255, 255 )
-                            |> Internal.Color.toHSL
+                        Color.fromRGB ( 255, 255, 255 )
+                            |> Color.toHSL
                             |> expectTripleEquals ( 0, 0, 100 )
                 , test "red" <|
                     \_ ->
-                        Internal.Color.fromRGB ( 255, 0, 0 )
-                            |> Internal.Color.toHSL
+                        Color.fromRGB ( 255, 0, 0 )
+                            |> Color.toHSL
                             |> expectTripleEquals ( 0, 100, 50 )
                 , test "green" <|
                     \_ ->
-                        Internal.Color.fromRGB ( 0, 128, 0 )
-                            |> Internal.Color.toHSL
+                        Color.fromRGB ( 0, 128, 0 )
+                            |> Color.toHSL
                             |> expectTripleEquals ( 120, 100, 25 )
                 ]
             , describe "from HSL color"
                 [ test "black" <|
                     \_ ->
-                        Internal.Color.fromHSL ( 0, 0, 0 )
-                            |> Internal.Color.toHSL
+                        Color.fromHSL ( 0, 0, 0 )
+                            |> Color.toHSL
                             |> expectTripleEquals ( 0, 0, 0 )
                 ]
             ]
@@ -78,11 +78,10 @@ internalColorSpec =
             \color ->
                 let
                     operations =
-                        Internal.Color.fromRGB
-                            >> Internal.Color.toHSL
-                            >> Internal.Color.fromHSL
-                            >> Internal.Color.toRGB
-                            >> (\{ red, green, blue } -> ( red, green, blue ))
+                        Color.fromRGB
+                            >> Color.toHSL
+                            >> Color.fromHSL
+                            >> Color.toRGB
 
                     rgbName =
                         Color.toRGBString (Color.fromRGB color)
@@ -92,11 +91,10 @@ internalColorSpec =
             \(( _, s, l ) as color) ->
                 let
                     operations =
-                        Internal.Color.fromHSL
-                            >> Internal.Color.toRGB
-                            >> (\{ red, green, blue } -> ( red, green, blue ))
-                            >> Internal.Color.fromRGB
-                            >> Internal.Color.toHSL
+                        Color.fromHSL
+                            >> Color.toRGB
+                            >> Color.fromRGB
+                            >> Color.toHSL
 
                     hslName =
                         Color.toHSLString (Color.fromHSL color)

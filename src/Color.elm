@@ -210,14 +210,15 @@ This function clamps each rgb value between 0 and 255 (inclusive).
 
 -}
 fromRGB : ( Float, Float, Float ) -> Color
-fromRGB =
-    Internal.Color.fromRGB >> opaqueColor
+fromRGB ( red, green, blue ) =
+    Internal.Color.fromRGB { red = red, green = green, blue = blue }
+        |> opaqueColor
 
 
 {-| -}
 fromRGBA : { red : Float, green : Float, blue : Float, alpha : Opacity } -> Color
 fromRGBA { red, green, blue, alpha } =
-    Color (Internal.Color.fromRGB ( red, green, blue )) alpha
+    Color (Internal.Color.fromRGB { red = red, green = green, blue = blue }) alpha
 
 
 {-| Extract the red, green, blue values from an existing Color.
