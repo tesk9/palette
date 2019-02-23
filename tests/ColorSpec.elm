@@ -3,6 +3,7 @@ module ColorSpec exposing (colorSpec, luminanceSuite)
 import Color exposing (Color)
 import Expect exposing (Expectation)
 import Fuzz exposing (Fuzzer)
+import Internal.ColorFuzzer exposing (hexStringFuzzer)
 import Opacity
 import Palette.X11 exposing (..)
 import Test exposing (..)
@@ -159,16 +160,3 @@ expectHex expected colorResult =
 
         Err err ->
             Expect.fail ("Could not parse color string: \n" ++ err)
-
-
-hexStringFuzzer : Fuzzer String
-hexStringFuzzer =
-    Fuzz.list hexCharFuzzer
-        |> Fuzz.map (\charList -> "#" ++ String.fromList charList)
-
-
-hexCharFuzzer : Fuzzer Char
-hexCharFuzzer =
-    [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' ]
-        |> List.map Fuzz.constant
-        |> Fuzz.oneOf
