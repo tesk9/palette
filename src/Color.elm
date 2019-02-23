@@ -226,8 +226,7 @@ This function clamps each rgb value between 0 and 255 (inclusive).
 -}
 fromRGB : ( Float, Float, Float ) -> Color
 fromRGB ( red, green, blue ) =
-    Internal.Color.fromRGB { red = red, green = green, blue = blue }
-        |> Color Opacity.opaque
+    fromRGBA { red = red, green = green, blue = blue, alpha = Opacity.opaque }
 
 
 {-| -}
@@ -243,7 +242,7 @@ toRGB : Color -> ( Float, Float, Float )
 toRGB color =
     let
         { red, green, blue } =
-            Internal.Color.toRGB (internalColor color)
+            toRGBA color
     in
     ( red, green, blue )
 
@@ -274,8 +273,8 @@ toRGBA color =
 toRGBString : Color -> String
 toRGBString color =
     let
-        ( red, green, blue ) =
-            toRGB color
+        { red, green, blue } =
+            toRGBA color
     in
     "rgb("
         ++ String.fromFloat red
@@ -290,8 +289,8 @@ toRGBString color =
 toRGBAString : Color -> String
 toRGBAString color =
     let
-        { red, green, blue } =
-            Internal.Color.toRGB (internalColor color)
+        { red, green, blue, alpha } =
+            toRGBA color
     in
     "rgba("
         ++ String.fromFloat red
@@ -300,7 +299,7 @@ toRGBAString color =
         ++ ","
         ++ String.fromFloat blue
         ++ ","
-        ++ Opacity.toString (opacity color)
+        ++ Opacity.toString alpha
         ++ ")"
 
 
@@ -316,7 +315,14 @@ fromHexString : String -> Result String Color
 fromHexString colorString =
     case Internal.Hex.fromString colorString of
         Just { red, green, blue, alpha } ->
-            Ok (fromRGBA { red = red, green = green, blue = blue, alpha = Opacity.custom alpha })
+            Ok
+                (fromRGBA
+                    { red = red
+                    , green = green
+                    , blue = blue
+                    , alpha = Opacity.custom alpha
+                    }
+                )
 
         Nothing ->
             Err ("fromHexString could not convert " ++ colorString ++ " to a Color.")
@@ -347,17 +353,14 @@ github repo for this library.
 toHexString : Color -> String
 toHexString color =
     let
-        rgb =
-            Internal.Color.toRGB (internalColor color)
-
-        alpha =
-            Opacity.toFloat (opacity color)
+        ({ alpha } as rgb) =
+            toRGBA color
     in
-    if Opacity.opaque == opacity color then
+    if Opacity.opaque == alpha then
         Internal.Hex.toString rgb
 
     else
-        Internal.Hex.toStringWithOpacity rgb alpha
+        Internal.Hex.toStringWithOpacity rgb (Opacity.toFloat alpha)
 
 
 {-| Check two colors for equality.

@@ -39,6 +39,11 @@ hexWithAlpha :
     -> Maybe ( Int, Int )
     -> { red : Float, green : Float, blue : Float, alpha : Float }
 hexWithAlpha rs gs bs aa =
+    let
+        fromHex : ( Int, Int ) -> Float
+        fromHex ( a, b ) =
+            toFloat (a * 16 + b)
+    in
     { red = fromHex rs
     , green = fromHex gs
     , blue = fromHex bs
@@ -48,20 +53,15 @@ hexWithAlpha rs gs bs aa =
     }
 
 
-fromHex : ( Int, Int ) -> Float
-fromHex ( a, b ) =
-    toFloat (a * 16 + b)
-
-
 toString :
-    { red : Float, green : Float, blue : Float }
+    { a | red : Float, green : Float, blue : Float }
     -> String
 toString { red, green, blue } =
     "#" ++ decToHex red ++ decToHex green ++ decToHex blue
 
 
 toStringWithOpacity :
-    { red : Float, green : Float, blue : Float }
+    { a | red : Float, green : Float, blue : Float }
     -> Float
     -> String
 toStringWithOpacity { red, green, blue } alpha =
