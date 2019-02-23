@@ -35,6 +35,12 @@ colorSpec =
                     \_ ->
                         Color.fromHexString "#FFD700"
                             |> expectHex "#FFD700"
+                , fuzz (hexStringOfLength 4) "Short hex with transparency" <|
+                    \hex ->
+                        Expect.ok (Color.fromHexString hex)
+                , fuzz (hexStringOfLength 8) "Long hex with transparency" <|
+                    \hex ->
+                        Expect.ok (Color.fromHexString hex)
                 , fuzz (hexStringOfLength 3) "Short hex and long hex match" <|
                     \hex ->
                         let
