@@ -118,13 +118,14 @@ Lightness is a percentage value. It's clamped between 0 and 100 (inclusive).
 
 -}
 fromHSL : ( Float, Float, Float ) -> Color
-fromHSL =
-    Internal.Color.fromHSL >> opaqueColor
+fromHSL ( hue, saturation, lightness ) =
+    Internal.Color.fromHSL { hue = hue, saturation = saturation, lightness = lightness }
+        |> opaqueColor
 
 
 fromHSLA : { hue : Float, saturation : Float, lightness : Float, alpha : Opacity } -> Color
 fromHSLA { hue, saturation, lightness, alpha } =
-    Color (Internal.Color.fromHSL ( hue, saturation, lightness )) alpha
+    Color (Internal.Color.fromHSL { hue = hue, saturation = saturation, lightness = lightness }) alpha
 
 
 {-| Extract the hue, saturation, and lightness values from an existing Color.

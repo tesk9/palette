@@ -20,16 +20,16 @@ type Color
     | RGB RGBValue
 
 
-type HSLValue
-    = HSLValue Float Float Float
+type alias HSLValue =
+    { hue : Float, saturation : Float, lightness : Float }
 
 
 type alias RGBValue =
     { red : Float, green : Float, blue : Float }
 
 
-fromHSL : ( Float, Float, Float ) -> Color
-fromHSL ( hue, s, l ) =
+fromHSL : HSLValue -> Color
+fromHSL { hue, saturation, lightness } =
     let
         hueInt =
             floor hue
@@ -40,14 +40,18 @@ fromHSL ( hue, s, l ) =
         hue360 =
             toFloat (modBy 360 hueInt)
     in
-    HSL (HSLValue (hue360 + floatingHueValues) (clamp 0 100 s) (clamp 0 100 l))
+    HSL
+        { hue = hue360 + floatingHueValues
+        , saturation = clamp 0 100 saturation
+        , lightness = clamp 0 100 lightness
+        }
 
 
 toHSL : Color -> ( Float, Float, Float )
 toHSL color =
     case color of
-        HSL (HSLValue h s l) ->
-            ( h, s, l )
+        HSL { hue, saturation, lightness } ->
+            ( hue, saturation, lightness )
 
         RGB rgbValues ->
             convertRGBToHSL rgbValues
@@ -119,29 +123,29 @@ convertRGBToHSL { red, green, blue } =
                 chroma / (1 - abs (2 * lightness - 1))
     in
     fromHSL
-        ( hue
-        , saturation * 100
-        , lightness * 100
-        )
+        { hue = hue
+        , saturation = saturation * 100
+        , lightness = lightness * 100
+        }
 
 
 convertHSLToRGB : HSLValue -> Color
-convertHSLToRGB (HSLValue hue360 saturationPercent lightnessPercent) =
+convertHSLToRGB ({ hue } as hsl) =
     let
         saturation =
-            saturationPercent / 100
+            hsl.saturation / 100
 
         lightness =
-            lightnessPercent / 100
+            hsl.lightness / 100
 
         chroma =
             (1 - abs (2 * lightness - 1)) * saturation
 
         hueIsBetween lowerBound upperBound =
-            lowerBound <= hue360 && hue360 <= upperBound
+            lowerBound <= hue && hue <= upperBound
 
         zigUp xIntercept =
-            chroma * (hue360 - xIntercept) / 60
+            chroma * (hue - xIntercept) / 60
 
         zigDown xIntercept =
             -1 * zigUp xIntercept
