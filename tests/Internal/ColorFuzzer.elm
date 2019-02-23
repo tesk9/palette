@@ -16,29 +16,23 @@ hexString =
 
 
 hexStringOfLength : Int -> Fuzzer String
-hexStringOfLength l =
-    Fuzz.custom (hexGenerator l) Shrink.noShrink
+hexStringOfLength listLength =
+    let
+        getChar : Int -> Maybe Char
+        getChar index =
+            Dict.get index hexChars
 
-
-hexGenerator : Int -> Generator String
-hexGenerator listLength =
-    Random.list listLength (Random.int 0 15)
-        |> Random.map
-            (\l ->
-                "#" ++ String.join "" (List.filterMap getCharString l)
-            )
-
-
-hexCharFuzzer : Fuzzer Char
-hexCharFuzzer =
-    Dict.values hexChars
-        |> List.map Fuzz.constant
-        |> Fuzz.oneOf
-
-
-getCharString : Int -> Maybe String
-getCharString index =
-    Maybe.map String.fromChar (Dict.get index hexChars)
+        asString : List Int -> String
+        asString =
+            List.filterMap getChar
+                >> List.map String.fromChar
+                >> String.join ""
+    in
+    Fuzz.custom
+        (Random.list listLength (Random.int 0 15)
+            |> Random.map (\l -> "#" ++ asString l)
+        )
+        Shrink.noShrink
 
 
 hexChars : Dict Int Char
