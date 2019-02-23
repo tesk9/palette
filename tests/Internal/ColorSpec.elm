@@ -1,7 +1,8 @@
 module Internal.ColorSpec exposing (internalColorSpec)
 
-import Color exposing (Color)
+import Color
 import Expect exposing (Expectation)
+import Internal.Color exposing (Color)
 import Opacity
 import Test exposing (..)
 
@@ -23,19 +24,19 @@ internalColorSpec =
                 expectRGB ( 255, 255, 255 ) whiteHSL
         , test "from rgb red to hsl red" <|
             \_ ->
-                Color.fromRGB ( 255, 0, 0 )
+                Internal.Color.fromRGB ( 255, 0, 0 )
                     |> expectHSL ( 0, 100, 50 )
         , test "from hsl red to rgb red" <|
             \_ ->
-                Color.fromHSL ( 0, 100, 50 )
+                Internal.Color.fromHSL ( 0, 100, 50 )
                     |> expectRGB ( 255, 0, 0 )
         , test "from rgb green to hsl green" <|
             \_ ->
-                Color.fromRGB ( 0, 128, 0 )
+                Internal.Color.fromRGB ( 0, 128, 0 )
                     |> expectHSL ( 120, 100, 25 )
         , test "from hsl green to rgb green" <|
             \_ ->
-                Color.fromHSL ( 120, 100, 25 )
+                Internal.Color.fromHSL ( 120, 100, 25 )
                     |> expectRGB ( 0, 128, 0 )
         , describe "from RGB to HSL and back to RGB again"
             (List.indexedMap rgbToHSLToRGB
@@ -64,22 +65,37 @@ internalColorSpec =
 
 rgbToHSLToRGB : Int -> ( Float, Float, Float ) -> Test
 rgbToHSLToRGB index (( r, g, b ) as color) =
-    test (String.fromInt index ++ ": " ++ Color.toRGBString (Color.fromRGB color)) <|
+    test (String.fromInt index ++ ": " ++ printRGBName color) <|
         \_ ->
-            Color.fromRGB color
-                |> Color.toHSL
-                |> Color.fromHSL
+            Internal.Color.fromRGB color
+                |> Internal.Color.toHSL
+                |> Internal.Color.fromHSL
                 |> expectRGB ( round r, round g, round b )
 
 
 hslToRGBtoHSL : Int -> ( Float, Float, Float ) -> Test
 hslToRGBtoHSL index (( h, s, l ) as color) =
-    test (String.fromInt index ++ ": " ++ Color.toHSLString (Color.fromHSL color)) <|
+    test (nameTest index (printHSLName color)) <|
         \_ ->
-            Color.fromHSL color
-                |> Color.toRGB
-                |> Color.fromRGB
+            Internal.Color.fromHSL color
+                |> Internal.Color.toRGB
+                |> Internal.Color.fromRGB
                 |> expectHSL ( round h, round s, round l )
+
+
+nameTest : Int -> String -> String
+nameTest index color =
+    String.fromInt index ++ ": " ++ color
+
+
+printRGBName : ( Float, Float, Float ) -> String
+printRGBName =
+    Color.toRGBString << Color.fromRGB
+
+
+printHSLName : ( Float, Float, Float ) -> String
+printHSLName =
+    Color.toHSLString << Color.fromHSL
 
 
 {-| This exists mostly to make float equality checks nicer.
@@ -88,7 +104,7 @@ expectRGB : ( Int, Int, Int ) -> Color -> Expectation
 expectRGB expected color =
     let
         ( r, g, b ) =
-            Color.toRGB color
+            Internal.Color.toRGB color
     in
     Expect.equal ( round r, round g, round b ) expected
 
@@ -99,26 +115,26 @@ expectHSL : ( Int, Int, Int ) -> Color -> Expectation
 expectHSL expected color =
     let
         ( r, g, b ) =
-            Color.toHSL color
+            Internal.Color.toHSL color
     in
     Expect.equal ( round r, round g, round b ) expected
 
 
 whiteRGB : Color
 whiteRGB =
-    Color.fromRGB ( 255, 255, 255 )
+    Internal.Color.fromRGB ( 255, 255, 255 )
 
 
 whiteHSL : Color
 whiteHSL =
-    Color.fromHSL ( 0, 0, 100 )
+    Internal.Color.fromHSL ( 0, 0, 100 )
 
 
 blackRGB : Color
 blackRGB =
-    Color.fromRGB ( 0, 0, 0 )
+    Internal.Color.fromRGB ( 0, 0, 0 )
 
 
 blackHSL : Color
 blackHSL =
-    Color.fromHSL ( 0, 0, 0 )
+    Internal.Color.fromHSL ( 0, 0, 0 )
