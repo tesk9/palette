@@ -95,13 +95,8 @@ import Opacity exposing (Opacity)
 
 
 {-| -}
-type Color
-    = Color Internal.Color.Color
-
-
-opacity : Color -> Opacity
-opacity (Color color) =
-    Internal.Color.opacity color
+type alias Color =
+    Internal.Color.Color
 
 
 {-| Build a new color based on HSL values.
@@ -121,21 +116,17 @@ Lightness is a percentage value. It's clamped between 0 and 100 (inclusive).
 -}
 fromHSL : ( Float, Float, Float ) -> Color
 fromHSL ( hue, saturation, lightness ) =
-    let
-        hslValue =
-            { hue = hue
-            , saturation = saturation
-            , lightness = lightness
-            , alpha = Opacity.opaque
-            }
-    in
-    Internal.Color.fromHSLA hslValue
-        |> Color
+    Internal.Color.fromHSLA
+        { hue = hue
+        , saturation = saturation
+        , lightness = lightness
+        , alpha = Opacity.opaque
+        }
 
 
 fromHSLA : Internal.HSLA.Channels -> Color
 fromHSLA =
-    Internal.Color.fromHSLA >> Color
+    Internal.Color.fromHSLA
 
 
 {-| Extract the hue, saturation, and lightness values from an existing Color.
@@ -152,7 +143,7 @@ toHSL color =
 {-| Extract the hue, saturation, lightness, and alpha values from an existing Color.
 -}
 toHSLA : Color -> Internal.HSLA.Channels
-toHSLA (Color color) =
+toHSLA color =
     Internal.Color.toHSL color
 
 
@@ -197,7 +188,7 @@ toHSLAString color =
         ++ "%,"
         ++ String.fromFloat l
         ++ "%,"
-        ++ Opacity.toString (opacity color)
+        ++ Opacity.toString (Internal.Color.opacity color)
         ++ ")"
 
 
@@ -222,13 +213,18 @@ This function clamps each rgb value between 0 and 255 (inclusive).
 -}
 fromRGB : ( Float, Float, Float ) -> Color
 fromRGB ( red, green, blue ) =
-    fromRGBA { red = red, green = green, blue = blue, alpha = Opacity.opaque }
+    fromRGBA
+        { red = red
+        , green = green
+        , blue = blue
+        , alpha = Opacity.opaque
+        }
 
 
 {-| -}
 fromRGBA : Internal.RGBA.Channels -> Color
 fromRGBA =
-    Internal.Color.fromRGBA >> Color
+    Internal.Color.fromRGBA
 
 
 {-| Extract the red, green, blue values from an existing Color.
@@ -245,7 +241,7 @@ toRGB color =
 {-| Extract the red, green, blue, and alpha values from an existing Color.
 -}
 toRGBA : Color -> { red : Float, green : Float, blue : Float, alpha : Opacity }
-toRGBA (Color color) =
+toRGBA color =
     Internal.Color.toRGBA color
 
 
@@ -305,15 +301,8 @@ Supports lowercase and uppercase strings. Also supports transparencies.
 fromHexString : String -> Result String Color
 fromHexString colorString =
     case Internal.Hex.fromString colorString of
-        Just { red, green, blue, alpha } ->
-            Ok
-                (fromRGBA
-                    { red = red
-                    , green = green
-                    , blue = blue
-                    , alpha = alpha
-                    }
-                )
+        Just rgbChannelValues ->
+            Ok (fromRGBA rgbChannelValues)
 
         Nothing ->
             Err ("fromHexString could not convert " ++ colorString ++ " to a Color.")
