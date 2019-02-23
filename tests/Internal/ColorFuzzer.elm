@@ -1,10 +1,15 @@
-module Internal.ColorFuzzer exposing (hexStringOfLength, hslValues)
+module Internal.ColorFuzzer exposing (hexStringOfLength, hexValues, hslValues)
 
 import Dict exposing (Dict)
 import Fuzz exposing (Fuzzer)
 import Internal.Color exposing (Color)
 import Random exposing (Generator)
 import Shrink
+
+
+hexValues : Fuzzer ( Float, Float, Float )
+hexValues =
+    triple (Fuzz.intRange 0 255) (Fuzz.intRange 0 255) (Fuzz.intRange 0 255)
 
 
 hslValues : Fuzzer ( Float, Float, Float )

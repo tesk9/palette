@@ -73,16 +73,19 @@ internalColorSpec =
                             |> expectTripleEquals ( 0, 128, 0 )
                 ]
             ]
-        , describe "from RGB to HSL and back to RGB again"
-            (List.indexedMap testRGBToHSLToRGB
-                [ ( 255, 0, 0 )
-                , ( 255, 165, 0 )
-                , ( 255, 255, 0 )
-                , ( 0, 255, 0 )
-                , ( 0, 0, 255 )
-                , ( 128, 0, 128 )
-                ]
-            )
+        , fuzz ColorFuzz.hexValues "from RGB to HSL and back to RGB again" <|
+            \color ->
+                let
+                    operations =
+                        Internal.Color.fromRGB
+                            >> Internal.Color.toHSL
+                            >> Internal.Color.fromHSL
+                            >> Internal.Color.toRGB
+
+                    rgbName =
+                        Color.toRGBString (Color.fromRGB color)
+                in
+                expectTripleEquals color (operations color)
         , fuzz ColorFuzz.hslValues "from HSL to RGB and back to HSL again" <|
             \(( _, s, l ) as color) ->
                 let
@@ -126,33 +129,6 @@ internalColorSpec =
                     Nothing ->
                         Expect.fail ("Could not construct a color from " ++ c ++ ". Is something wrong in the fuzzer?")
         ]
-
-
-testRGBToHSLToRGB : Int -> ( Float, Float, Float ) -> Test
-testRGBToHSLToRGB index color =
-    let
-        operations =
-            Internal.Color.fromRGB
-                >> Internal.Color.toHSL
-                >> Internal.Color.fromHSL
-                >> Internal.Color.toRGB
-
-        rgbName =
-            Color.toRGBString (Color.fromRGB color)
-    in
-    testReversibleOperations (nameTest index rgbName) color operations
-
-
-testReversibleOperations : String -> ( Float, Float, Float ) -> (( Float, Float, Float ) -> ( Float, Float, Float )) -> Test
-testReversibleOperations testName color operations =
-    test testName <|
-        \_ ->
-            expectTripleEquals color (operations color)
-
-
-nameTest : Int -> String -> String
-nameTest index color =
-    String.fromInt index ++ ": " ++ color
 
 
 expectTripleEquals : ( Float, Float, Float ) -> ( Float, Float, Float ) -> Expectation
