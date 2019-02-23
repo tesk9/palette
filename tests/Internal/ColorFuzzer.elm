@@ -11,13 +11,13 @@ hexString : Fuzzer String
 hexString =
     Fuzz.oneOf
         [ hexStringOfLength 3
-        , hexStringOfLength 9
+        , hexStringOfLength 6
         ]
 
 
 hexStringOfLength : Int -> Fuzzer String
 hexStringOfLength l =
-    Fuzz.custom (hexGenerator l) Shrink.string
+    Fuzz.custom (hexGenerator l) Shrink.noShrink
 
 
 hexGenerator : Int -> Generator String
@@ -25,7 +25,7 @@ hexGenerator listLength =
     Random.list listLength (Random.int 0 15)
         |> Random.map
             (\l ->
-                "#" ++ String.join "" (List.map getCharString l)
+                "#" ++ String.join "" (List.filterMap getCharString l)
             )
 
 
@@ -36,10 +36,9 @@ hexCharFuzzer =
         |> Fuzz.oneOf
 
 
-getCharString : Int -> String
+getCharString : Int -> Maybe String
 getCharString index =
-    Maybe.withDefault '0' (Dict.get index hexChars)
-        |> String.fromChar
+    Maybe.map String.fromChar (Dict.get index hexChars)
 
 
 hexChars : Dict Int Char

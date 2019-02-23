@@ -3,7 +3,7 @@ module ColorSpec exposing (colorSpec, luminanceSuite)
 import Color exposing (Color)
 import Expect exposing (Expectation)
 import Fuzz exposing (Fuzzer)
-import Internal.ColorFuzzer exposing (hexString, hexStringOfLength)
+import Internal.ColorFuzzer exposing (hexStringOfLength)
 import Opacity
 import Palette.X11 exposing (..)
 import Test exposing (..)

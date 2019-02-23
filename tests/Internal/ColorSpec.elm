@@ -3,6 +3,7 @@ module Internal.ColorSpec exposing (internalColorSpec)
 import Color
 import Expect exposing (Expectation)
 import Internal.Color exposing (Color)
+import Internal.ColorFuzzer exposing (hexStringOfLength)
 import Opacity
 import Test exposing (..)
 
@@ -94,6 +95,19 @@ internalColorSpec =
                 , ( 280, 100, 50 )
                 ]
             )
+        , fuzz (hexStringOfLength 6) "from Hex to RGB and back to Hex again" <|
+            \c ->
+                case Internal.Color.fromHexString c of
+                    Just color ->
+                        color
+                            |> Internal.Color.toRGB
+                            |> Internal.Color.fromRGB
+                            |> Internal.Color.toHex
+                            |> (\( r, b, g ) -> "#" ++ r ++ b ++ g)
+                            |> Expect.equal c
+
+                    Nothing ->
+                        Expect.fail ("Could not construct a color from " ++ c ++ ". Is something wrong in the fuzzer?")
         ]
 
 
