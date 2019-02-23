@@ -64,13 +64,13 @@ internalColorSpec =
 
 
 rgbToHSLToRGB : Int -> ( Float, Float, Float ) -> Test
-rgbToHSLToRGB index (( r, g, b ) as color) =
+rgbToHSLToRGB index color =
     test (String.fromInt index ++ ": " ++ printRGBName color) <|
         \_ ->
             Internal.Color.fromRGB color
                 |> Internal.Color.toHSL
                 |> Internal.Color.fromHSL
-                |> expectRGB ( round r, round g, round b )
+                |> expectRGB color
 
 
 hslToRGBtoHSL : Int -> ( Float, Float, Float ) -> Test
@@ -80,7 +80,7 @@ hslToRGBtoHSL index (( h, s, l ) as color) =
             Internal.Color.fromHSL color
                 |> Internal.Color.toRGB
                 |> Internal.Color.fromRGB
-                |> expectHSL ( round h, round s, round l )
+                |> expectHSL color
 
 
 nameTest : Int -> String -> String
@@ -100,24 +100,26 @@ printHSLName =
 
 {-| This exists mostly to make float equality checks nicer.
 -}
-expectRGB : ( Int, Int, Int ) -> Color -> Expectation
+expectRGB : ( Float, Float, Float ) -> Color -> Expectation
 expectRGB expected color =
-    let
-        ( r, g, b ) =
-            Internal.Color.toRGB color
-    in
-    Expect.equal ( round r, round g, round b ) expected
+    expectTripleEquals (Internal.Color.toRGB color) expected
 
 
 {-| This exists mostly to make float equality checks nicer.
 -}
-expectHSL : ( Int, Int, Int ) -> Color -> Expectation
+expectHSL : ( Float, Float, Float ) -> Color -> Expectation
 expectHSL expected color =
-    let
-        ( r, g, b ) =
-            Internal.Color.toHSL color
-    in
-    Expect.equal ( round r, round g, round b ) expected
+    expectTripleEquals (Internal.Color.toHSL color) expected
+
+
+expectTripleEquals : ( Float, Float, Float ) -> ( Float, Float, Float ) -> Expectation
+expectTripleEquals actual expected =
+    Expect.equal (roundTriple actual) (roundTriple expected)
+
+
+roundTriple : ( Float, Float, Float ) -> ( Int, Int, Int )
+roundTriple ( a, b, c ) =
+    ( round a, round b, round c )
 
 
 whiteRGB : Color
