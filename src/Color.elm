@@ -1,6 +1,7 @@
 module Color exposing
     ( Color
     , fromHSL, toHSL, toHSLString
+    , fromHSLA, toHSLA, toHSLAString
     , fromRGB, toRGB, toRGBString
     , fromRGBA, toRGBA, toRGBAString
     , fromHexString, toHexString
@@ -37,6 +38,7 @@ If you change the saturation to 0%, you'll see gray.
 **Lightness** is brightness -- 100% is white and 0% is black.
 
 @docs fromHSL, toHSL, toHSLString
+@docs fromHSLA, toHSLA, toHSLAString
 
 
 ### RGB values
@@ -119,11 +121,27 @@ fromHSL =
     Internal.Color.fromHSL >> opaqueColor
 
 
+fromHSLA : { hue : Float, saturation : Float, lightness : Float, alpha : Opacity } -> Color
+fromHSLA { hue, saturation, lightness, alpha } =
+    Color (Internal.Color.fromHSL ( hue, saturation, lightness )) alpha
+
+
 {-| Extract the hue, saturation, and lightness values from an existing Color.
 -}
 toHSL : Color -> ( Float, Float, Float )
 toHSL (Color color _) =
     Internal.Color.toHSL color
+
+
+{-| Extract the hue, saturation, lightness, and alpha values from an existing Color.
+-}
+toHSLA : Color -> { hue : Float, saturation : Float, lightness : Float, alpha : Opacity }
+toHSLA (Color color opacity) =
+    let
+        ( hue, saturation, lightness ) =
+            Internal.Color.toHSL color
+    in
+    { hue = hue, saturation = saturation, lightness = lightness, alpha = opacity }
 
 
 {-| Get the HSL representation of a color as a `String`.
@@ -144,7 +162,31 @@ toHSLString color =
         ( h, s, l ) =
             toHSL color
     in
-    "hsl(" ++ String.fromFloat h ++ "," ++ String.fromFloat s ++ "%," ++ String.fromFloat l ++ "%)"
+    "hsl("
+        ++ String.fromFloat h
+        ++ ","
+        ++ String.fromFloat s
+        ++ "%,"
+        ++ String.fromFloat l
+        ++ "%)"
+
+
+{-| -}
+toHSLAString : Color -> String
+toHSLAString (Color color opacity) =
+    let
+        ( h, s, l ) =
+            Internal.Color.toHSL color
+    in
+    "hsla("
+        ++ String.fromFloat h
+        ++ ","
+        ++ String.fromFloat s
+        ++ "%,"
+        ++ String.fromFloat l
+        ++ "%,"
+        ++ Opacity.toString opacity
+        ++ ")"
 
 
 {-| Build a new color based on RGB values.
