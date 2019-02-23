@@ -13,19 +13,16 @@ module Internal.Color exposing
 -}
 
 import Dict
+import Internal.RGB as RGB
 
 
 type Color
     = HSL HSLValue
-    | RGB RGBValue
+    | RGB RGB.Color
 
 
 type alias HSLValue =
     { hue : Float, saturation : Float, lightness : Float }
-
-
-type alias RGBValue =
-    { red : Float, green : Float, blue : Float }
 
 
 fromHSL : HSLValue -> Color
@@ -58,24 +55,19 @@ toHSL color =
                 |> toHSL
 
 
-fromRGB : RGBValue -> Color
-fromRGB { red, green, blue } =
-    RGB
-        { red = clamp 0 255 red
-        , green = clamp 0 255 green
-        , blue = clamp 0 255 blue
-        }
+fromRGB : RGB.Channels -> Color
+fromRGB values =
+    RGB (RGB.fromChannels values)
 
 
-toRGB : Color -> RGBValue
+toRGB : Color -> RGB.Channels
 toRGB color =
     case color of
         RGB values ->
-            values
+            RGB.toChannels values
 
         HSL hslValues ->
-            convertHSLToRGB hslValues
-                |> toRGB
+            toRGB (convertHSLToRGB hslValues)
 
 
 
@@ -83,9 +75,12 @@ toRGB color =
 
 
 {-| -}
-convertRGBToHSL : RGBValue -> Color
-convertRGBToHSL { red, green, blue } =
+convertRGBToHSL : RGB.Color -> Color
+convertRGBToHSL value =
     let
+        { red, green, blue } =
+            RGB.toChannels value
+
         ( r, g, b ) =
             ( red / 255, green / 255, blue / 255 )
 
@@ -130,50 +125,5 @@ convertRGBToHSL { red, green, blue } =
 
 
 convertHSLToRGB : HSLValue -> Color
-convertHSLToRGB ({ hue } as hsl) =
-    let
-        saturation =
-            hsl.saturation / 100
-
-        lightness =
-            hsl.lightness / 100
-
-        chroma =
-            (1 - abs (2 * lightness - 1)) * saturation
-
-        hueIsBetween lowerBound upperBound =
-            lowerBound <= hue && hue <= upperBound
-
-        zigUp xIntercept =
-            chroma * (hue - xIntercept) / 60
-
-        zigDown xIntercept =
-            -1 * zigUp xIntercept
-
-        ( r, g, b ) =
-            if hueIsBetween 0 60 then
-                ( chroma, zigUp 0, 0 )
-
-            else if hueIsBetween 60 120 then
-                ( zigDown 120, chroma, 0 )
-
-            else if hueIsBetween 120 180 then
-                ( 0, chroma, zigUp 120 )
-
-            else if hueIsBetween 180 240 then
-                ( 0, zigDown 240, chroma )
-
-            else if hueIsBetween 240 300 then
-                ( zigUp 240, 0, chroma )
-
-            else
-                ( chroma, 0, zigDown 360 )
-
-        lightnessModifier =
-            lightness - chroma / 2
-    in
-    fromRGB
-        { red = (r + lightnessModifier) * 255
-        , green = (g + lightnessModifier) * 255
-        , blue = (b + lightnessModifier) * 255
-        }
+convertHSLToRGB value =
+    RGB (RGB.fromHSL value)
