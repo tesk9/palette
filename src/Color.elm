@@ -97,9 +97,14 @@ type Color
     = Color Opacity Internal.Color.Color
 
 
-opaqueColor : Internal.Color.Color -> Color
-opaqueColor =
-    Color Opacity.opaque
+opacity : Color -> Opacity
+opacity (Color o _) =
+    o
+
+
+internalColor : Color -> Internal.Color.Color
+internalColor (Color _ c) =
+    c
 
 
 {-| Build a new color based on HSL values.
@@ -119,32 +124,40 @@ Lightness is a percentage value. It's clamped between 0 and 100 (inclusive).
 -}
 fromHSL : ( Float, Float, Float ) -> Color
 fromHSL ( hue, saturation, lightness ) =
-    Internal.Color.fromHSL { hue = hue, saturation = saturation, lightness = lightness }
-        |> opaqueColor
+    let
+        hslValue =
+            { hue = hue, saturation = saturation, lightness = lightness }
+    in
+    Internal.Color.fromHSL hslValue
+        |> Color Opacity.opaque
 
 
 fromHSLA : { hue : Float, saturation : Float, lightness : Float, alpha : Opacity } -> Color
 fromHSLA { hue, saturation, lightness, alpha } =
-    Internal.Color.fromHSL { hue = hue, saturation = saturation, lightness = lightness }
+    let
+        hslValue =
+            { hue = hue, saturation = saturation, lightness = lightness }
+    in
+    Internal.Color.fromHSL hslValue
         |> Color alpha
 
 
 {-| Extract the hue, saturation, and lightness values from an existing Color.
 -}
 toHSL : Color -> ( Float, Float, Float )
-toHSL (Color _ color) =
-    Internal.Color.toHSL color
+toHSL color =
+    Internal.Color.toHSL (internalColor color)
 
 
 {-| Extract the hue, saturation, lightness, and alpha values from an existing Color.
 -}
 toHSLA : Color -> { hue : Float, saturation : Float, lightness : Float, alpha : Opacity }
-toHSLA (Color opacity color) =
+toHSLA color =
     let
         ( hue, saturation, lightness ) =
-            Internal.Color.toHSL color
+            Internal.Color.toHSL (internalColor color)
     in
-    { hue = hue, saturation = saturation, lightness = lightness, alpha = opacity }
+    { hue = hue, saturation = saturation, lightness = lightness, alpha = opacity color }
 
 
 {-| Get the HSL representation of a color as a `String`.
@@ -176,10 +189,10 @@ toHSLString color =
 
 {-| -}
 toHSLAString : Color -> String
-toHSLAString (Color opacity color) =
+toHSLAString color =
     let
         ( h, s, l ) =
-            Internal.Color.toHSL color
+            toHSL color
     in
     "hsla("
         ++ String.fromFloat h
@@ -188,7 +201,7 @@ toHSLAString (Color opacity color) =
         ++ "%,"
         ++ String.fromFloat l
         ++ "%,"
-        ++ Opacity.toString opacity
+        ++ Opacity.toString (opacity color)
         ++ ")"
 
 
@@ -214,7 +227,7 @@ This function clamps each rgb value between 0 and 255 (inclusive).
 fromRGB : ( Float, Float, Float ) -> Color
 fromRGB ( red, green, blue ) =
     Internal.Color.fromRGB { red = red, green = green, blue = blue }
-        |> opaqueColor
+        |> Color Opacity.opaque
 
 
 {-| -}
@@ -227,10 +240,10 @@ fromRGBA { red, green, blue, alpha } =
 {-| Extract the red, green, blue values from an existing Color.
 -}
 toRGB : Color -> ( Float, Float, Float )
-toRGB (Color _ color) =
+toRGB color =
     let
         { red, green, blue } =
-            Internal.Color.toRGB color
+            Internal.Color.toRGB (internalColor color)
     in
     ( red, green, blue )
 
@@ -238,12 +251,12 @@ toRGB (Color _ color) =
 {-| Extract the red, green, blue, and alpha values from an existing Color.
 -}
 toRGBA : Color -> { red : Float, green : Float, blue : Float, alpha : Opacity }
-toRGBA (Color opacity color) =
+toRGBA color =
     let
         { red, green, blue } =
-            Internal.Color.toRGB color
+            Internal.Color.toRGB (internalColor color)
     in
-    { red = red, green = green, blue = blue, alpha = opacity }
+    { red = red, green = green, blue = blue, alpha = opacity color }
 
 
 {-| Get the RGB representation of a color as a `String`.
@@ -275,10 +288,10 @@ toRGBString color =
 
 {-| -}
 toRGBAString : Color -> String
-toRGBAString (Color opacity color) =
+toRGBAString color =
     let
         { red, green, blue } =
-            Internal.Color.toRGB color
+            Internal.Color.toRGB (internalColor color)
     in
     "rgba("
         ++ String.fromFloat red
@@ -287,7 +300,7 @@ toRGBAString (Color opacity color) =
         ++ ","
         ++ String.fromFloat blue
         ++ ","
-        ++ Opacity.toString opacity
+        ++ Opacity.toString (opacity color)
         ++ ")"
 
 
@@ -332,15 +345,15 @@ github repo for this library.
 
 -}
 toHexString : Color -> String
-toHexString (Color opacity color) =
+toHexString color =
     let
         rgb =
-            Internal.Color.toRGB color
+            Internal.Color.toRGB (internalColor color)
 
         alpha =
-            Opacity.toFloat opacity
+            Opacity.toFloat (opacity color)
     in
-    if Opacity.opaque == opacity then
+    if Opacity.opaque == opacity color then
         Internal.Hex.toString rgb
 
     else
