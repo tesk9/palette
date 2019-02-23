@@ -4,6 +4,7 @@ import Color
 import Expect exposing (Expectation)
 import Internal.Color exposing (Color)
 import Internal.ColorFuzzer as ColorFuzz
+import Internal.Hex
 import Opacity
 import Test exposing (..)
 
@@ -46,30 +47,30 @@ internalColorSpec =
             [ describe "from RGB color"
                 [ test "black" <|
                     \_ ->
-                        Internal.Color.fromRGB ( 0, 0, 0 )
-                            |> Internal.Color.toRGB
+                        Color.fromRGB ( 0, 0, 0 )
+                            |> Color.toRGB
                             |> expectTripleEquals ( 0, 0, 0 )
                 ]
             , describe "from HSL color"
                 [ test "black" <|
                     \_ ->
-                        Internal.Color.fromHSL ( 0, 0, 0 )
-                            |> Internal.Color.toRGB
+                        Color.fromHSL ( 0, 0, 0 )
+                            |> Color.toRGB
                             |> expectTripleEquals ( 0, 0, 0 )
                 , test "white" <|
                     \_ ->
-                        Internal.Color.fromHSL ( 0, 0, 100 )
-                            |> Internal.Color.toRGB
+                        Color.fromHSL ( 0, 0, 100 )
+                            |> Color.toRGB
                             |> expectTripleEquals ( 255, 255, 255 )
                 , test "red" <|
                     \_ ->
-                        Internal.Color.fromHSL ( 0, 100, 50 )
-                            |> Internal.Color.toRGB
+                        Color.fromHSL ( 0, 100, 50 )
+                            |> Color.toRGB
                             |> expectTripleEquals ( 255, 0, 0 )
                 , test "green" <|
                     \_ ->
-                        Internal.Color.fromHSL ( 120, 100, 25 )
-                            |> Internal.Color.toRGB
+                        Color.fromHSL ( 120, 100, 25 )
+                            |> Color.toRGB
                             |> expectTripleEquals ( 0, 128, 0 )
                 ]
             ]
@@ -81,6 +82,7 @@ internalColorSpec =
                             >> Internal.Color.toHSL
                             >> Internal.Color.fromHSL
                             >> Internal.Color.toRGB
+                            >> (\{ red, green, blue } -> ( red, green, blue ))
 
                     rgbName =
                         Color.toRGBString (Color.fromRGB color)
@@ -92,6 +94,7 @@ internalColorSpec =
                     operations =
                         Internal.Color.fromHSL
                             >> Internal.Color.toRGB
+                            >> (\{ red, green, blue } -> ( red, green, blue ))
                             >> Internal.Color.fromRGB
                             >> Internal.Color.toHSL
 
@@ -117,7 +120,7 @@ internalColorSpec =
                     expectTripleEquals color (operations color)
         , fuzz (ColorFuzz.hexStringOfLength 6) "from Hex to RGB and back to Hex again" <|
             \c ->
-                case Internal.Color.fromHexString c of
+                case Internal.Hex.fromString c of
                     Just { red, green, blue } ->
                         ( red, green, blue )
                             |> Color.fromRGB

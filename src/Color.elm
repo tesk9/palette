@@ -88,6 +88,7 @@ You will need to use hex colors if you're working with an
 
 import Dict
 import Internal.Color
+import Internal.Hex
 import Opacity exposing (Opacity)
 
 
@@ -223,7 +224,11 @@ fromRGBA { red, green, blue, alpha } =
 -}
 toRGB : Color -> ( Float, Float, Float )
 toRGB (Color color _) =
-    Internal.Color.toRGB color
+    let
+        { red, green, blue } =
+            Internal.Color.toRGB color
+    in
+    ( red, green, blue )
 
 
 {-| Extract the red, green, blue, and alpha values from an existing Color.
@@ -231,7 +236,7 @@ toRGB (Color color _) =
 toRGBA : Color -> { red : Float, green : Float, blue : Float, alpha : Opacity }
 toRGBA (Color color opacity) =
     let
-        ( red, green, blue ) =
+        { red, green, blue } =
             Internal.Color.toRGB color
     in
     { red = red, green = green, blue = blue, alpha = opacity }
@@ -252,15 +257,15 @@ toRGBA (Color color opacity) =
 toRGBString : Color -> String
 toRGBString color =
     let
-        ( r, g, b ) =
+        ( red, green, blue ) =
             toRGB color
     in
     "rgb("
-        ++ String.fromFloat r
+        ++ String.fromFloat red
         ++ ","
-        ++ String.fromFloat g
+        ++ String.fromFloat green
         ++ ","
-        ++ String.fromFloat b
+        ++ String.fromFloat blue
         ++ ")"
 
 
@@ -268,15 +273,15 @@ toRGBString color =
 toRGBAString : Color -> String
 toRGBAString (Color color opacity) =
     let
-        ( r, g, b ) =
+        { red, green, blue } =
             Internal.Color.toRGB color
     in
     "rgba("
-        ++ String.fromFloat r
+        ++ String.fromFloat red
         ++ ","
-        ++ String.fromFloat g
+        ++ String.fromFloat green
         ++ ","
-        ++ String.fromFloat b
+        ++ String.fromFloat blue
         ++ ","
         ++ Opacity.toString opacity
         ++ ")"
@@ -292,7 +297,7 @@ Supports lowercase and uppercase strings. Also supports transparencies.
 -}
 fromHexString : String -> Result String Color
 fromHexString colorString =
-    case Internal.Color.fromHexString colorString of
+    case Internal.Hex.fromString colorString of
         Just { red, green, blue, alpha } ->
             Ok (fromRGBA { red = red, green = green, blue = blue, alpha = Opacity.custom alpha })
 
@@ -325,19 +330,17 @@ github repo for this library.
 toHexString : Color -> String
 toHexString (Color color opacity) =
     let
-        ( r, g, b ) =
-            Internal.Color.toHex color
+        rgb =
+            Internal.Color.toRGB color
 
         alpha =
             Opacity.toFloat opacity
-                * 255
-                |> Internal.Color.decToHex
     in
     if Opacity.opaque == opacity then
-        "#" ++ r ++ g ++ b
+        Internal.Hex.toString rgb
 
     else
-        "#" ++ r ++ g ++ b ++ alpha
+        Internal.Hex.toStringWithOpacity rgb alpha
 
 
 {-| Check two colors for equality.
