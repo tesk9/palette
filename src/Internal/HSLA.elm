@@ -1,4 +1,12 @@
-module Internal.HSLA exposing (Channels, Color, fromChannels, fromRGBA, toChannels)
+module Internal.HSLA exposing
+    ( Channels
+    , Color
+    , fromChannels
+    , fromRGBA
+    , toChannels
+    , toStringWithOpacity
+    , toStringWithoutOpacity
+    )
 
 import Opacity exposing (Opacity)
 
@@ -38,6 +46,30 @@ fromChannels { hue, saturation, lightness, alpha } =
 toChannels : Color -> Channels
 toChannels (Color values) =
     values
+
+
+toStringWithoutOpacity : Color -> String
+toStringWithoutOpacity (Color { hue, saturation, lightness }) =
+    "hsl("
+        ++ String.fromFloat hue
+        ++ ","
+        ++ String.fromFloat saturation
+        ++ "%,"
+        ++ String.fromFloat lightness
+        ++ "%)"
+
+
+toStringWithOpacity : Color -> String
+toStringWithOpacity (Color { hue, saturation, lightness, alpha }) =
+    "hsla("
+        ++ String.fromFloat hue
+        ++ ","
+        ++ String.fromFloat saturation
+        ++ "%,"
+        ++ String.fromFloat lightness
+        ++ "%,"
+        ++ Opacity.toString alpha
+        ++ ")"
 
 
 fromRGBA : { red : Float, green : Float, blue : Float, alpha : Opacity } -> Color

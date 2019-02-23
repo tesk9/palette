@@ -144,7 +144,7 @@ toHSL color =
 -}
 toHSLA : Color -> Internal.HSLA.Channels
 toHSLA color =
-    Internal.Color.toHSL color
+    Internal.HSLA.toChannels (Internal.Color.asHSLA color)
 
 
 {-| Get the HSL representation of a color as a `String`.
@@ -161,35 +161,13 @@ toHSLA color =
 -}
 toHSLString : Color -> String
 toHSLString color =
-    let
-        ( h, s, l ) =
-            toHSL color
-    in
-    "hsl("
-        ++ String.fromFloat h
-        ++ ","
-        ++ String.fromFloat s
-        ++ "%,"
-        ++ String.fromFloat l
-        ++ "%)"
+    Internal.HSLA.toStringWithoutOpacity (Internal.Color.asHSLA color)
 
 
 {-| -}
 toHSLAString : Color -> String
 toHSLAString color =
-    let
-        { hue, saturation, lightness, alpha } =
-            toHSLA color
-    in
-    "hsla("
-        ++ String.fromFloat hue
-        ++ ","
-        ++ String.fromFloat saturation
-        ++ "%,"
-        ++ String.fromFloat lightness
-        ++ "%,"
-        ++ Opacity.toString alpha
-        ++ ")"
+    Internal.HSLA.toStringWithOpacity (Internal.Color.asHSLA color)
 
 
 {-| Build a new color based on RGB values.

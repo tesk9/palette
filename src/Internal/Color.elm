@@ -1,13 +1,13 @@
 module Internal.Color exposing
     ( Color
-    , fromHSLA, toHSL
+    , fromHSLA, asHSLA
     , fromRGBA, toRGBA
     )
 
 {-|
 
 @docs Color
-@docs fromHSLA, toHSL
+@docs fromHSLA, asHSLA
 @docs fromRGBA, toRGBA
 
 -}
@@ -29,14 +29,14 @@ fromHSLA values =
     HSLA (HSLA.fromChannels values)
 
 
-toHSL : Color -> HSLA.Channels
-toHSL color =
+asHSLA : Color -> HSLA.Color
+asHSLA color =
     case color of
         HSLA values ->
-            HSLA.toChannels values
+            values
 
         RGBA rgbValues ->
-            toHSL (convertRGBAToHSL rgbValues)
+            asHSLA (convertRGBAToHSL rgbValues)
 
 
 fromRGBA : RGBA.Channels -> Color
