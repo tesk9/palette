@@ -178,17 +178,17 @@ toHSLString color =
 toHSLAString : Color -> String
 toHSLAString color =
     let
-        ( h, s, l ) =
-            toHSL color
+        { hue, saturation, lightness, alpha } =
+            toHSLA color
     in
     "hsla("
-        ++ String.fromFloat h
+        ++ String.fromFloat hue
         ++ ","
-        ++ String.fromFloat s
+        ++ String.fromFloat saturation
         ++ "%,"
-        ++ String.fromFloat l
+        ++ String.fromFloat lightness
         ++ "%,"
-        ++ Opacity.toString (Internal.Color.opacity color)
+        ++ Opacity.toString alpha
         ++ ")"
 
 
