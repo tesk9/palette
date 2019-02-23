@@ -282,17 +282,19 @@ toRGBAString (Color color opacity) =
         ++ ")"
 
 
-{-| Build a new color from a hex string. Supports lowercase or uppercase strings.
+{-| Build a new color from a hex string.
+Supports lowercase and uppercase strings. Also supports transparencies.
 
     (Color.fromHexString "#FFDD00" == Color.fromHexString "#FD0")
         && (Color.fromHexString "#FFDD00" == Color.fromHexString "#ffdd00")
+        && (Color.fromHexString "##ffdd00" == Color.fromHexString "#ffdd00ff")
 
 -}
 fromHexString : String -> Result String Color
 fromHexString colorString =
     case Internal.Color.fromHexString colorString of
-        Just color ->
-            Ok (opaqueColor color)
+        Just { red, green, blue, alpha } ->
+            Ok (fromRGBA { red = red, green = green, blue = blue, alpha = Opacity.custom alpha })
 
         Nothing ->
             Err ("fromHexString could not convert " ++ colorString ++ " to a Color.")

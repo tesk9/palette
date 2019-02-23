@@ -118,12 +118,10 @@ internalColorSpec =
         , fuzz (ColorFuzz.hexStringOfLength 6) "from Hex to RGB and back to Hex again" <|
             \c ->
                 case Internal.Color.fromHexString c of
-                    Just color ->
-                        color
-                            |> Internal.Color.toRGB
-                            |> Internal.Color.fromRGB
-                            |> Internal.Color.toHex
-                            |> (\( r, b, g ) -> "#" ++ r ++ b ++ g)
+                    Just { red, green, blue } ->
+                        ( red, green, blue )
+                            |> Color.fromRGB
+                            |> Color.toHexString
                             |> Expect.equal c
 
                     Nothing ->

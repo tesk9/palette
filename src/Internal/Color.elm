@@ -173,7 +173,7 @@ convertHSLToRGB (HSLValue hue360 saturationPercent lightnessPercent) =
         )
 
 
-fromHexString : String -> Maybe Color
+fromHexString : String -> Maybe { red : Float, green : Float, blue : Float, alpha : Float }
 fromHexString colorString =
     let
         colorList =
@@ -183,23 +183,28 @@ fromHexString colorString =
     in
     case colorList of
         r1 :: r0 :: g1 :: g0 :: b1 :: b0 :: [] ->
-            ( r1 * 16 + r0 |> toFloat
-            , g1 * 16 + g0 |> toFloat
-            , b1 * 16 + b0 |> toFloat
-            )
-                |> fromRGB
-                |> Just
+            Just
+                { red = fromHex r1 r0
+                , green = fromHex g1 g0
+                , blue = fromHex b1 b0
+                , alpha = 1
+                }
 
         r :: g :: b :: [] ->
-            ( r * 16 + r |> toFloat
-            , g * 16 + g |> toFloat
-            , b * 16 + b |> toFloat
-            )
-                |> fromRGB
-                |> Just
+            Just
+                { red = fromHex r r
+                , green = fromHex g g
+                , blue = fromHex b b
+                , alpha = 1
+                }
 
         _ ->
             Nothing
+
+
+fromHex : Int -> Int -> Float
+fromHex a b =
+    toFloat (a * 16 + b)
 
 
 toHex : Color -> ( String, String, String )
