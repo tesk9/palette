@@ -220,7 +220,7 @@ toRGB color =
 -}
 toRGBA : Color -> { red : Float, green : Float, blue : Float, alpha : Opacity }
 toRGBA color =
-    Internal.Color.toRGBA color
+    Internal.RGBA.toChannels (Internal.Color.asRGBA color)
 
 
 {-| Get the RGB representation of a color as a `String`.
@@ -237,35 +237,13 @@ toRGBA color =
 -}
 toRGBString : Color -> String
 toRGBString color =
-    let
-        { red, green, blue } =
-            toRGBA color
-    in
-    "rgb("
-        ++ String.fromFloat red
-        ++ ","
-        ++ String.fromFloat green
-        ++ ","
-        ++ String.fromFloat blue
-        ++ ")"
+    Internal.RGBA.toStringWithoutOpacity (Internal.Color.asRGBA color)
 
 
 {-| -}
 toRGBAString : Color -> String
 toRGBAString color =
-    let
-        { red, green, blue, alpha } =
-            toRGBA color
-    in
-    "rgba("
-        ++ String.fromFloat red
-        ++ ","
-        ++ String.fromFloat green
-        ++ ","
-        ++ String.fromFloat blue
-        ++ ","
-        ++ Opacity.toString alpha
-        ++ ")"
+    Internal.RGBA.toStringWithOpacity (Internal.Color.asRGBA color)
 
 
 {-| Build a new color from a hex string.

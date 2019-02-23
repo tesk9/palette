@@ -1,14 +1,14 @@
 module Internal.Color exposing
     ( Color
     , fromHSLA, asHSLA
-    , fromRGBA, toRGBA
+    , fromRGBA, asRGBA
     )
 
 {-|
 
 @docs Color
 @docs fromHSLA, asHSLA
-@docs fromRGBA, toRGBA
+@docs fromRGBA, asRGBA
 
 -}
 
@@ -44,14 +44,14 @@ fromRGBA values =
     RGBA (RGBA.fromChannels values)
 
 
-toRGBA : Color -> RGBA.Channels
-toRGBA color =
+asRGBA : Color -> RGBA.Color
+asRGBA color =
     case color of
         RGBA values ->
-            RGBA.toChannels values
+            values
 
         HSLA hslValues ->
-            toRGBA (convertHSLToRGBA hslValues)
+            asRGBA (convertHSLToRGBA hslValues)
 
 
 fromHexString : String -> Maybe Color

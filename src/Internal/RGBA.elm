@@ -1,4 +1,12 @@
-module Internal.RGBA exposing (Channels, Color, fromChannels, fromHSLA, toChannels)
+module Internal.RGBA exposing
+    ( Channels
+    , Color
+    , fromChannels
+    , fromHSLA
+    , toChannels
+    , toStringWithOpacity
+    , toStringWithoutOpacity
+    )
 
 import Opacity exposing (Opacity)
 
@@ -24,6 +32,30 @@ fromChannels { red, green, blue, alpha } =
 toChannels : Color -> Channels
 toChannels (Color values) =
     values
+
+
+toStringWithoutOpacity : Color -> String
+toStringWithoutOpacity (Color { red, green, blue }) =
+    "rgb("
+        ++ String.fromFloat red
+        ++ ","
+        ++ String.fromFloat green
+        ++ ","
+        ++ String.fromFloat blue
+        ++ ")"
+
+
+toStringWithOpacity : Color -> String
+toStringWithOpacity (Color { red, green, blue, alpha }) =
+    "rgba("
+        ++ String.fromFloat red
+        ++ ","
+        ++ String.fromFloat green
+        ++ ","
+        ++ String.fromFloat blue
+        ++ ","
+        ++ Opacity.toString alpha
+        ++ ")"
 
 
 fromHSLA : { hue : Float, saturation : Float, lightness : Float, alpha : Opacity } -> Color
