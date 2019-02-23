@@ -1,6 +1,7 @@
 module ColorSpec exposing (colorSpec, luminanceSuite)
 
 import Color exposing (Color)
+import Color.Generator
 import Expect exposing (Expectation)
 import Fuzz exposing (Fuzzer)
 import Internal.ColorFuzzer exposing (hexStringOfLength)
@@ -84,12 +85,13 @@ colorSpec =
             , test "toHexString" <|
                 \_ ->
                     transparentPink
+                        |> Color.Generator.setOpacity Opacity.opaque
                         |> Color.toHexString
                         |> Expect.equal "#FF00FF"
-            , test "toHexAString" <|
+            , test "toHexString with transparency" <|
                 \_ ->
                     transparentPink
-                        |> Color.toHexAString
+                        |> Color.toHexString
                         |> Expect.equal "#FF00FF80"
             ]
         , describe "equality and equivalence"

@@ -5,6 +5,7 @@ module Color.Generator exposing
     , shade, tint, tone
     , grayscale, invert
     , rotate, adjustSaturation, adjustLightness
+    , setOpacity
     )
 
 {-|
@@ -35,10 +36,12 @@ Generate a palette based on a starting color.
 @docs shade, tint, tone
 @docs grayscale, invert
 @docs rotate, adjustSaturation, adjustLightness
+@docs setOpacity
 
 -}
 
 import Color exposing (Color)
+import Opacity exposing (Opacity)
 
 
 {-| Rotate a color by degrees [0, 360).
@@ -271,3 +274,14 @@ adjustLightness percentage color =
     Color.toHSL color
         |> (\( h, s, l ) -> ( h, s, l + percentage ))
         |> Color.fromHSL
+
+
+{-| Set the opacity of a color.
+-}
+setOpacity : Opacity -> Color -> Color
+setOpacity alpha color =
+    let
+        values =
+            Color.toHSLA color
+    in
+    Color.fromHSLA { values | alpha = alpha }

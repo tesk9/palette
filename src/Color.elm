@@ -5,7 +5,6 @@ module Color exposing
     , fromRGB, toRGB, toRGBString
     , fromRGBA, toRGBA, toRGBAString
     , fromHexString, toHexString
-    , toHexAString
     , equals
     , luminance
     )
@@ -74,7 +73,6 @@ You will need to use hex colors if you're working with an
 [HTML input of type color](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color).
 
 @docs fromHexString, toHexString
-@docs toHexAString
 
 
 ## Equality
@@ -314,35 +312,30 @@ fromHexString colorString =
             ]
             []
 
-Note: this function will always return a string in the form "#RRGGBB". It will
-not return shortened values (e.g., "#RGB").
+Note: this function will always return a string in either the form "#RRGGBB"
+or the form "#RRGGBBAA".
+It will not return shortened values (i.e., "#RGB" and "#RGBA").
 
 If you want or need this functionality, please make an issue for it on the
 github repo for this library.
 
 -}
 toHexString : Color -> String
-toHexString (Color color _) =
-    let
-        ( r, g, b ) =
-            Internal.Color.toHex color
-    in
-    "#" ++ r ++ g ++ b
-
-
-{-| -}
-toHexAString : Color -> String
-toHexAString (Color color opacity) =
+toHexString (Color color opacity) =
     let
         ( r, g, b ) =
             Internal.Color.toHex color
 
         alpha =
             Opacity.toFloat opacity
-                * 256
+                * 255
                 |> Internal.Color.decToHex
     in
-    "#" ++ r ++ g ++ b ++ alpha
+    if Opacity.opaque == opacity then
+        "#" ++ r ++ g ++ b
+
+    else
+        "#" ++ r ++ g ++ b ++ alpha
 
 
 {-| Check two colors for equality.
