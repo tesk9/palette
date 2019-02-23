@@ -51,52 +51,46 @@ colorSpec =
                             |> expectHex hex
                 ]
             ]
-        , describe "to a String"
+        , describe "to a String" <|
+            let
+                transparentPink =
+                    Color.fromRGBA
+                        { red = 255
+                        , green = 0
+                        , blue = 255
+                        , alpha = Opacity.custom 0.5
+                        }
+            in
             [ test "toRGBString" <|
                 \_ ->
-                    Color.fromRGB ( -10, 123, 300 )
+                    transparentPink
                         |> Color.toRGBString
-                        |> Expect.equal "rgb(0,123,255)"
+                        |> Expect.equal "rgb(255,0,255)"
             , test "toRGBAString" <|
                 \_ ->
-                    Color.fromRGBA
-                        { red = -10
-                        , green = 123
-                        , blue = 300
-                        , alpha = Opacity.custom 0.5
-                        }
+                    transparentPink
                         |> Color.toRGBAString
-                        |> Expect.equal "rgba(0,123,255,0.5)"
+                        |> Expect.equal "rgba(255,0,255,0.5)"
             , test "toHSLString" <|
                 \_ ->
-                    Color.fromHSL ( 15, -13, 300 )
+                    transparentPink
                         |> Color.toHSLString
-                        |> Expect.equal "hsl(15,0%,100%)"
+                        |> Expect.equal "hsl(300,100%,50%)"
             , test "toHSLAString" <|
                 \_ ->
-                    Color.fromHSLA
-                        { hue = 15
-                        , saturation = -13
-                        , lightness = 300
-                        , alpha = Opacity.custom 0.5
-                        }
+                    transparentPink
                         |> Color.toHSLAString
-                        |> Expect.equal "hsla(15,0%,100%,0.5)"
+                        |> Expect.equal "hsla(300,100%,50%,0.5)"
             , test "toHexString" <|
                 \_ ->
-                    Color.fromRGB ( -10, 123, 300 )
+                    transparentPink
                         |> Color.toHexString
-                        |> Expect.equal "#007BFF"
+                        |> Expect.equal "#FF00FF"
             , test "toHexAString" <|
                 \_ ->
-                    Color.fromRGBA
-                        { red = -10
-                        , green = 123
-                        , blue = 300
-                        , alpha = Opacity.custom 0.5
-                        }
+                    transparentPink
                         |> Color.toHexAString
-                        |> Expect.equal "#007BFF80"
+                        |> Expect.equal "#FF00FF80"
             ]
         , describe "equality and equivalence"
             [ test "(==) does not properly compare color values" <|
