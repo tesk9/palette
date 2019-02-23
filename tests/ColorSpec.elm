@@ -34,26 +34,21 @@ colorSpec =
                     \_ ->
                         Color.fromHexString "#FFD700"
                             |> expectHex "#FFD700"
-                , fuzz hexString "fuzz Hex to Hex" <|
+                , fuzz (hexStringOfLength 3) "Short hex and long hex match" <|
                     \hex ->
-                        if String.length hex == 7 then
-                            Color.fromHexString hex
-                                |> expectHex hex
-
-                        else if String.length hex == 4 then
-                            let
-                                fullLengthHexString =
-                                    String.toList hex
-                                        |> List.concatMap (\v -> [ v, v ])
-                                        |> String.fromList
-                                        |> String.dropLeft 1
-                            in
-                            Color.fromHexString hex
-                                |> expectHex fullLengthHexString
-
-                        else
-                            Color.fromHexString hex
-                                |> Expect.err
+                        let
+                            fullLengthHexString =
+                                String.toList hex
+                                    |> List.concatMap (\v -> [ v, v ])
+                                    |> String.fromList
+                                    |> String.dropLeft 1
+                        in
+                        Color.fromHexString hex
+                            |> expectHex fullLengthHexString
+                , fuzz (hexStringOfLength 6) "Long hex succeeds" <|
+                    \hex ->
+                        Color.fromHexString hex
+                            |> expectHex hex
                 ]
             ]
         , describe "to a String"
