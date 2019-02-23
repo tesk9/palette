@@ -51,7 +51,7 @@ internalColorSpec =
                     |> Internal.Color.toRGB
                     |> expectTripleEquals ( 0, 128, 0 )
         , describe "from RGB to HSL and back to RGB again"
-            (List.indexedMap rgbToHSLToRGB
+            (List.indexedMap testRGBToHSLToRGB
                 [ ( 255, 0, 0 )
                 , ( 255, 165, 0 )
                 , ( 255, 255, 0 )
@@ -61,7 +61,7 @@ internalColorSpec =
                 ]
             )
         , describe "from HSL to RGB and back to HSL again"
-            (List.indexedMap hslToRGBtoHSL
+            (List.indexedMap testHSLToRGBtoHSL
                 [ ( 0, 100, 50 )
                 , ( 39, 100, 50 )
                 , ( 50, 100, 50 )
@@ -75,41 +75,46 @@ internalColorSpec =
         ]
 
 
-rgbToHSLToRGB : Int -> ( Float, Float, Float ) -> Test
-rgbToHSLToRGB index color =
-    test (String.fromInt index ++ ": " ++ printRGBName color) <|
-        \_ ->
-            Internal.Color.fromRGB color
-                |> Internal.Color.toHSL
-                |> Internal.Color.fromHSL
-                |> Internal.Color.toRGB
-                |> expectTripleEquals color
+testRGBToHSLToRGB : Int -> ( Float, Float, Float ) -> Test
+testRGBToHSLToRGB index color =
+    let
+        operations =
+            Internal.Color.fromRGB
+                >> Internal.Color.toHSL
+                >> Internal.Color.fromHSL
+                >> Internal.Color.toRGB
+
+        rgbName =
+            Color.toRGBString (Color.fromRGB color)
+    in
+    testReversibleOperations (nameTest index rgbName) color operations
 
 
-hslToRGBtoHSL : Int -> ( Float, Float, Float ) -> Test
-hslToRGBtoHSL index (( h, s, l ) as color) =
-    test (nameTest index (printHSLName color)) <|
+testHSLToRGBtoHSL : Int -> ( Float, Float, Float ) -> Test
+testHSLToRGBtoHSL index color =
+    let
+        operations =
+            Internal.Color.fromHSL
+                >> Internal.Color.toRGB
+                >> Internal.Color.fromRGB
+                >> Internal.Color.toHSL
+
+        hslName =
+            Color.toHSLString (Color.fromHSL color)
+    in
+    testReversibleOperations (nameTest index hslName) color operations
+
+
+testReversibleOperations : String -> ( Float, Float, Float ) -> (( Float, Float, Float ) -> ( Float, Float, Float )) -> Test
+testReversibleOperations testName color operations =
+    test testName <|
         \_ ->
-            Internal.Color.fromHSL color
-                |> Internal.Color.toRGB
-                |> Internal.Color.fromRGB
-                |> Internal.Color.toHSL
-                |> expectTripleEquals color
+            expectTripleEquals color (operations color)
 
 
 nameTest : Int -> String -> String
 nameTest index color =
     String.fromInt index ++ ": " ++ color
-
-
-printRGBName : ( Float, Float, Float ) -> String
-printRGBName =
-    Color.toRGBString << Color.fromRGB
-
-
-printHSLName : ( Float, Float, Float ) -> String
-printHSLName =
-    Color.toHSLString << Color.fromHSL
 
 
 expectTripleEquals : ( Float, Float, Float ) -> ( Float, Float, Float ) -> Expectation
