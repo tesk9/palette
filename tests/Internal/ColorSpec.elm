@@ -84,7 +84,7 @@ internalColorSpec =
                 ]
             )
         , fuzz ColorFuzz.hslValues "from HSL to RGB and back to HSL again" <|
-            \(( h, s, l ) as color) ->
+            \(( _, s, l ) as color) ->
                 let
                     operations =
                         Internal.Color.fromHSL
@@ -104,6 +104,11 @@ internalColorSpec =
                     -- This is white, which has more representations in HSL space
                     -- than in RGB space.
                     expectTripleEquals ( 0, 0, 100 ) (operations color)
+
+                else if s == 0 then
+                    -- This is a fully-desaturated gray. It also has more representations
+                    -- in HSL space than in RGB space.
+                    expectTripleEquals ( 0, 0, l ) (operations color)
 
                 else
                     expectTripleEquals color (operations color)
