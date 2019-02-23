@@ -1,10 +1,25 @@
-module Internal.ColorFuzzer exposing (hexStringOfLength)
+module Internal.ColorFuzzer exposing (hexStringOfLength, hslValues)
 
 import Dict exposing (Dict)
 import Fuzz exposing (Fuzzer)
 import Internal.Color exposing (Color)
 import Random exposing (Generator)
 import Shrink
+
+
+hslValues : Fuzzer ( Float, Float, Float )
+hslValues =
+    -- This fuzzer doesn't include all possible values for the saturation
+    -- and lightness. This is because things get slightly funky with black
+    -- and white.
+    -- E.g., HSL(0,0,0) and HSL(230,0,0) will both be identically black.
+    -- Converted to rgb, they're both (0,0,0)
+    triple (Fuzz.intRange 0 359) (Fuzz.intRange 1 100) (Fuzz.intRange 1 99)
+
+
+triple : Fuzzer Int -> Fuzzer Int -> Fuzzer Int -> Fuzzer ( Float, Float, Float )
+triple =
+    Fuzz.map3 (\a b c -> ( toFloat a, toFloat b, toFloat c ))
 
 
 hexStringOfLength : Int -> Fuzzer String

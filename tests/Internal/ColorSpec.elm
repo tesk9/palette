@@ -3,7 +3,7 @@ module Internal.ColorSpec exposing (internalColorSpec)
 import Color
 import Expect exposing (Expectation)
 import Internal.Color exposing (Color)
-import Internal.ColorFuzzer exposing (hexStringOfLength)
+import Internal.ColorFuzzer as ColorFuzz
 import Opacity
 import Test exposing (..)
 
@@ -83,19 +83,20 @@ internalColorSpec =
                 , ( 128, 0, 128 )
                 ]
             )
-        , describe "from HSL to RGB and back to HSL again"
-            (List.indexedMap testHSLToRGBtoHSL
-                [ ( 0, 100, 50 )
-                , ( 39, 100, 50 )
-                , ( 50, 100, 50 )
-                , ( 110, 100, 50 )
-                , ( 170, 100, 50 )
-                , ( 230, 100, 50 )
-                , ( 260, 100, 50 )
-                , ( 280, 100, 50 )
-                ]
-            )
-        , fuzz (hexStringOfLength 6) "from Hex to RGB and back to Hex again" <|
+        , fuzz ColorFuzz.hslValues "from HSL to RGB and back to HSL again" <|
+            \color ->
+                let
+                    operations =
+                        Internal.Color.fromHSL
+                            >> Internal.Color.toRGB
+                            >> Internal.Color.fromRGB
+                            >> Internal.Color.toHSL
+
+                    hslName =
+                        Color.toHSLString (Color.fromHSL color)
+                in
+                expectTripleEquals color (operations color)
+        , fuzz (ColorFuzz.hexStringOfLength 6) "from Hex to RGB and back to Hex again" <|
             \c ->
                 case Internal.Color.fromHexString c of
                     Just color ->
@@ -124,21 +125,6 @@ testRGBToHSLToRGB index color =
             Color.toRGBString (Color.fromRGB color)
     in
     testReversibleOperations (nameTest index rgbName) color operations
-
-
-testHSLToRGBtoHSL : Int -> ( Float, Float, Float ) -> Test
-testHSLToRGBtoHSL index color =
-    let
-        operations =
-            Internal.Color.fromHSL
-                >> Internal.Color.toRGB
-                >> Internal.Color.fromRGB
-                >> Internal.Color.toHSL
-
-        hslName =
-            Color.toHSLString (Color.fromHSL color)
-    in
-    testReversibleOperations (nameTest index hslName) color operations
 
 
 testReversibleOperations : String -> ( Float, Float, Float ) -> (( Float, Float, Float ) -> ( Float, Float, Float )) -> Test
