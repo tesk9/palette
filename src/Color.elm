@@ -205,30 +205,11 @@ toRGBString color =
 -}
 fromHexString : String -> Result String Color
 fromHexString colorString =
-    let
-        colorList =
-            String.dropLeft 1 colorString
-                |> String.toList
-                |> List.filterMap fromHexSymbol
-    in
-    case colorList of
-        r1 :: r0 :: g1 :: g0 :: b1 :: b0 :: [] ->
-            ( r1 * 16 + r0 |> toFloat
-            , g1 * 16 + g0 |> toFloat
-            , b1 * 16 + b0 |> toFloat
-            )
-                |> fromRGB
-                |> Ok
+    case Internal.Color.fromHexString colorString of
+        Just color ->
+            Ok (opaqueColor color)
 
-        r :: g :: b :: [] ->
-            ( r * 16 + r |> toFloat
-            , g * 16 + g |> toFloat
-            , b * 16 + b |> toFloat
-            )
-                |> fromRGB
-                |> Ok
-
-        _ ->
+        Nothing ->
             Err ("fromHexString could not convert " ++ colorString ++ " to a Color.")
 
 
@@ -254,12 +235,12 @@ github repo for this library.
 
 -}
 toHexString : Color -> String
-toHexString color =
+toHexString (Color color _) =
     let
         ( r, g, b ) =
-            toRGB color
+            Internal.Color.toHex color
     in
-    "#" ++ decToHex r ++ decToHex g ++ decToHex b
+    "#" ++ r ++ g ++ b
 
 
 {-| Check two colors for equality.
@@ -308,76 +289,3 @@ luminance color =
                 ((srgb + 0.055) / 1.055) ^ 2.4
     in
     (0.2126 * red) + (0.7152 * green) + (0.0722 * blue)
-
-
-
-{- Hex/Dec lookup tables -}
-
-
-decToHex : Float -> String
-decToHex c =
-    let
-        nextValue ( dec, hex ) =
-            if dec == 0 then
-                hex
-
-            else
-                nextValue
-                    ( dec // 16
-                    , getHexSymbol (remainderBy 16 dec) ++ hex
-                    )
-    in
-    String.padLeft 2 '0' (nextValue ( round c, "" ))
-
-
-fromHexSymbol : Char -> Maybe Int
-fromHexSymbol m =
-    let
-        decValues =
-            Dict.fromList
-                [ ( '0', 0 )
-                , ( '1', 1 )
-                , ( '2', 2 )
-                , ( '3', 3 )
-                , ( '4', 4 )
-                , ( '5', 5 )
-                , ( '6', 6 )
-                , ( '7', 7 )
-                , ( '8', 8 )
-                , ( '9', 9 )
-                , ( 'A', 10 )
-                , ( 'B', 11 )
-                , ( 'C', 12 )
-                , ( 'D', 13 )
-                , ( 'E', 14 )
-                , ( 'F', 15 )
-                ]
-    in
-    Dict.get (Char.toUpper m) decValues
-
-
-getHexSymbol : Int -> String
-getHexSymbol m =
-    let
-        hexValues =
-            Dict.fromList
-                [ ( 0, "0" )
-                , ( 1, "1" )
-                , ( 2, "2" )
-                , ( 3, "3" )
-                , ( 4, "4" )
-                , ( 5, "5" )
-                , ( 6, "6" )
-                , ( 7, "7" )
-                , ( 8, "8" )
-                , ( 9, "9" )
-                , ( 10, "A" )
-                , ( 11, "B" )
-                , ( 12, "C" )
-                , ( 13, "D" )
-                , ( 14, "E" )
-                , ( 15, "F" )
-                ]
-    in
-    Dict.get m hexValues
-        |> Maybe.withDefault "0"
