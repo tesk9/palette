@@ -83,34 +83,18 @@ You will need to use hex colors if you're working with an
 -}
 
 import Dict
+import Internal.Color
 import Opacity exposing (Opacity)
 
 
 {-| -}
 type Color
-    = Color InternalColor Opacity
+    = Color Internal.Color.Color Opacity
 
 
-opaqueColor : InternalColor -> Color
+opaqueColor : Internal.Color.Color -> Color
 opaqueColor color =
     Color color Opacity.opaque
-
-
-type InternalColor
-    = HSL HSLValue
-    | RGB RGBValue
-
-
-{-| Internal representation of HSL used to enforce type safety.
--}
-type HSLValue
-    = HSLValue Float Float Float
-
-
-{-| Internal representation of RGB used to enforce type safety.
--}
-type RGBValue
-    = RGBValue Float Float Float
 
 
 {-| Build a new color based on HSL values.
@@ -130,40 +114,14 @@ Lightness is a percentage value. It's clamped between 0 and 100 (inclusive).
 -}
 fromHSL : ( Float, Float, Float ) -> Color
 fromHSL =
-    fromHSLInternal >> opaqueColor
-
-
-fromHSLInternal : ( Float, Float, Float ) -> InternalColor
-fromHSLInternal ( hue, s, l ) =
-    let
-        hueInt =
-            floor hue
-
-        floatingHueValues =
-            hue - toFloat hueInt
-
-        hue360 =
-            toFloat (modBy 360 hueInt)
-    in
-    HSL (HSLValue (hue360 + floatingHueValues) (clamp 0 100 s) (clamp 0 100 l))
+    Internal.Color.fromHSL >> opaqueColor
 
 
 {-| Extract the hue, saturation, and lightness values from an existing Color.
 -}
 toHSL : Color -> ( Float, Float, Float )
 toHSL (Color color _) =
-    toHSLInternal color
-
-
-toHSLInternal : InternalColor -> ( Float, Float, Float )
-toHSLInternal color =
-    case color of
-        HSL (HSLValue h s l) ->
-            ( h, s, l )
-
-        RGB rgbValues ->
-            convertRGBToHSL rgbValues
-                |> toHSLInternal
+    Internal.Color.toHSL color
 
 
 {-| Get the HSL representation of a color as a `String`.
@@ -208,30 +166,14 @@ This function clamps each rgb value between 0 and 255 (inclusive).
 -}
 fromRGB : ( Float, Float, Float ) -> Color
 fromRGB =
-    fromRGBInternal >> opaqueColor
-
-
-fromRGBInternal : ( Float, Float, Float ) -> InternalColor
-fromRGBInternal ( r, g, b ) =
-    RGB (RGBValue (clamp 0 255 r) (clamp 0 255 g) (clamp 0 255 b))
+    Internal.Color.fromRGB >> opaqueColor
 
 
 {-| Extract the red, green, blue values from an existing Color.
 -}
 toRGB : Color -> ( Float, Float, Float )
 toRGB (Color color _) =
-    toRGBInternal color
-
-
-toRGBInternal : InternalColor -> ( Float, Float, Float )
-toRGBInternal color =
-    case color of
-        RGB (RGBValue r g b) ->
-            ( r, g, b )
-
-        HSL hslValues ->
-            convertHSLToRGB hslValues
-                |> toRGBInternal
+    Internal.Color.toRGB color
 
 
 {-| Get the RGB representation of a color as a `String`.
@@ -366,107 +308,6 @@ luminance color =
                 ((srgb + 0.055) / 1.055) ^ 2.4
     in
     (0.2126 * red) + (0.7152 * green) + (0.0722 * blue)
-
-
-
--- CONVERSIONS
-
-
-{-| -}
-convertRGBToHSL : RGBValue -> InternalColor
-convertRGBToHSL (RGBValue r255 g255 b255) =
-    let
-        ( r, g, b ) =
-            ( r255 / 255, g255 / 255, b255 / 255 )
-
-        maximum =
-            max (max r g) b
-
-        minimum =
-            min (min r g) b
-
-        chroma =
-            maximum - minimum
-
-        hue =
-            if chroma == 0 then
-                --Actually undefined, but this is a typical representation
-                0
-
-            else if maximum == r then
-                60 * (g - b) / chroma
-
-            else if maximum == g then
-                60 * ((b - r) / chroma + 2)
-
-            else
-                60 * ((r - g) / chroma + 4)
-
-        lightness =
-            (minimum + maximum) / 2
-
-        saturation =
-            if lightness == 1 || lightness == 0 then
-                0
-
-            else
-                chroma / (1 - abs (2 * lightness - 1))
-    in
-    fromHSLInternal
-        ( hue
-        , saturation * 100
-        , lightness * 100
-        )
-
-
-convertHSLToRGB : HSLValue -> InternalColor
-convertHSLToRGB (HSLValue hue360 saturationPercent lightnessPercent) =
-    let
-        saturation =
-            saturationPercent / 100
-
-        lightness =
-            lightnessPercent / 100
-
-        chroma =
-            (1 - abs (2 * lightness - 1)) * saturation
-
-        hueIsBetween lowerBound upperBound =
-            lowerBound <= hue360 && hue360 <= upperBound
-
-        zigUp xIntercept =
-            chroma * (hue360 - xIntercept) / 60
-
-        zigDown xIntercept =
-            -1 * zigUp xIntercept
-
-        ( r, g, b ) =
-            if hueIsBetween 0 60 then
-                ( chroma, zigUp 0, 0 )
-
-            else if hueIsBetween 60 120 then
-                ( zigDown 120, chroma, 0 )
-
-            else if hueIsBetween 120 180 then
-                ( 0, chroma, zigUp 120 )
-
-            else if hueIsBetween 180 240 then
-                ( 0, zigDown 240, chroma )
-
-            else if hueIsBetween 240 300 then
-                ( zigUp 240, 0, chroma )
-
-            else
-                ( chroma, 0, zigDown 360 )
-
-        lightnessModifier =
-            lightness - chroma / 2
-    in
-    fromRGBInternal
-        ( (r + lightnessModifier) * 255
-        , (g + lightnessModifier) * 255
-        , (b + lightnessModifier) * 255
-        )
 
 
 
