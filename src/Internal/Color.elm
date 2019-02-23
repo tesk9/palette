@@ -2,6 +2,7 @@ module Internal.Color exposing
     ( Color
     , fromHSLA, toHSL
     , fromRGBA, toRGBA
+    , opacity
     )
 
 {-|
@@ -9,6 +10,7 @@ module Internal.Color exposing
 @docs Color
 @docs fromHSLA, toHSL
 @docs fromRGBA, toRGBA
+@docs opacity
 
 -}
 
@@ -16,6 +18,7 @@ import Dict
 import Internal.HSLA as HSLA
 import Internal.Hex as Hex
 import Internal.RGBA as RGBA
+import Opacity exposing (Opacity)
 
 
 type Color
@@ -56,6 +59,16 @@ toRGBA color =
 fromHexString : String -> Maybe Color
 fromHexString str =
     Maybe.map (RGBA.fromChannels >> RGBA) (Hex.fromString str)
+
+
+opacity : Color -> Opacity
+opacity color =
+    case color of
+        HSLA values ->
+            .alpha (HSLA.toChannels values)
+
+        RGBA values ->
+            .alpha (RGBA.toChannels values)
 
 
 
