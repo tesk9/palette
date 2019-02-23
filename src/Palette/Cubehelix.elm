@@ -4,9 +4,11 @@ module Palette.Cubehelix exposing
     , AdvancedConfig, RotationDirection(..)
     )
 
-{-| Are you looking to generate a color scheme in which none of the colors "pop"? Then this may be the tool for you!
+{-| Cubehelix color palette.
+![](https://user-images.githubusercontent.com/8811312/52818779-82238080-305c-11e9-8084-9c0048f549a2.png)
+Play with an example [here](https://ellie-app.com/4K5qvPZNws5a1).
 
-![](https://user-images.githubusercontent.com/8811312/51517402-6c110000-1dcf-11e9-8b04-8e574d39d6d7.png)
+Use this palette generator when you want a color scheme in which none of the colors "pop."
 
 Professor Dave Green (whose name, given the context, makes me very happy! Please also see [these testimonials](http://davegreenfacts.soc.srcf.net/).)
 developed this method of generating even-intensity color schemes for use in astronomy. He called this method
@@ -26,17 +28,25 @@ helix?!) please read more about it [here](https://www.mrao.cam.ac.uk/~dag/CUBEHE
         -- This will generate 10 even-intensity colors
         Cubehelix.generate 10
 
+![](https://user-images.githubusercontent.com/8811312/52819054-37563880-305d-11e9-9cf3-a553c54f2c11.png)
+See this example on [Ellie](https://ellie-app.com/4K5FZFNYhmwa1).
+
 @docs generate
 
 
 ## Customize your palette
 
     import Color exposing (Color)
-    import Palette.Cubehelix as Cubehelix exposing (defaultConfig)
+    import Palette.Cubehelix as Cubehelix
 
     myPalette : List Color
     myPalette =
-        Cubehelix.generateAdvanced 10 defaultConfig
+        Cubehelix.generateAdvanced 27
+            { startingColor = Color.fromHSL ( 20, 100, 0 )
+            , rotationDirection = Cubehelix.BGR
+            , rotations = 1.2
+            , gamma = 0.9
+            }
 
 @docs generateAdvanced, defaultConfig
 @docs AdvancedConfig, RotationDirection
@@ -53,7 +63,7 @@ The lightness of the color that you pass in is not used.
 `rotationDirection` describes whether the helix moves towards red then green then blue, or
 blue then green then red. This is easiest to visualize if you think of a cube defined by three
 vectors, one each for red, green, and blue values. If that's not doing the trick,
-take a look at [<https://www.mrao.cam.ac.uk/~dag/CUBEHELIX/3d-default.png>][https://www.mrao.cam.ac.uk/~dag/CUBEHELIX/3d-default.png](this image).
+take a look at [this image](https://www.mrao.cam.ac.uk/~dag/CUBEHELIX/3d-default.png).
 
 `rotations` describes the number of rotations the helix should make as it moves from black (`Color.fromRGB (0, 0 0)`)
 to white `Color.fromRGB (255, 255, 255)`. `rotations` should be in [0, 1.5]. If it's not, it will be absolute-value-ified & clamped.
