@@ -1,18 +1,10 @@
-module Internal.ColorFuzzer exposing (hexString, hexStringOfLength)
+module Internal.ColorFuzzer exposing (hexStringOfLength)
 
 import Dict exposing (Dict)
 import Fuzz exposing (Fuzzer)
 import Internal.Color exposing (Color)
 import Random exposing (Generator)
 import Shrink
-
-
-hexString : Fuzzer String
-hexString =
-    Fuzz.oneOf
-        [ hexStringOfLength 3
-        , hexStringOfLength 6
-        ]
 
 
 hexStringOfLength : Int -> Fuzzer String
