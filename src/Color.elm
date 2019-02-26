@@ -124,6 +124,7 @@ fromHSL ( hue, saturation, lightness ) =
         }
 
 
+{-| -}
 fromHSLA : Internal.HSLA.Channels -> Color
 fromHSLA =
     Internal.Color.fromHSLA
