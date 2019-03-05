@@ -44,45 +44,45 @@ import Opacity exposing (Opacity)
 
 
 {-| -}
-type alias ColorWithOpacity =
-    Internal.Color.Color
+type ColorWithOpacity
+    = ColorWithOpacity Internal.Color.Color
 
 
 {-| -}
 fromHSLA : Internal.HSLA.Channels -> ColorWithOpacity
 fromHSLA =
-    Internal.Color.fromHSLA
+    Internal.Color.fromHSLA >> ColorWithOpacity
 
 
 {-| Extract the hue, saturation, lightness, and alpha values from an existing Color.
 -}
 toHSLA : ColorWithOpacity -> Internal.HSLA.Channels
-toHSLA color =
+toHSLA (ColorWithOpacity color) =
     Internal.HSLA.toChannels (Internal.Color.asHSLA color)
 
 
 {-| -}
 toHSLAString : ColorWithOpacity -> String
-toHSLAString color =
+toHSLAString (ColorWithOpacity color) =
     Internal.HSLA.toStringWithOpacity (Internal.Color.asHSLA color)
 
 
 {-| -}
 fromRGBA : Internal.RGBA.Channels -> ColorWithOpacity
 fromRGBA =
-    Internal.Color.fromRGBA
+    Internal.Color.fromRGBA >> ColorWithOpacity
 
 
 {-| Extract the red, green, blue, and alpha values from an existing Color.
 -}
 toRGBA : ColorWithOpacity -> { red : Float, green : Float, blue : Float, alpha : Opacity }
-toRGBA color =
+toRGBA (ColorWithOpacity color) =
     Internal.RGBA.toChannels (Internal.Color.asRGBA color)
 
 
 {-| -}
 toRGBAString : ColorWithOpacity -> String
-toRGBAString color =
+toRGBAString (ColorWithOpacity color) =
     Internal.RGBA.toStringWithOpacity (Internal.Color.asRGBA color)
 
 
@@ -101,7 +101,7 @@ fromHexAString colorString =
             Ok (fromRGBA rgbChannelValues)
 
         Nothing ->
-            Err ("fromHexString could not convert " ++ colorString ++ " to a Color.")
+            Err ("fromHexString could not convert " ++ colorString ++ " to a ColorWithOpacity.")
 
 
 {-| Get the Hex representation of a color as a `String`.
