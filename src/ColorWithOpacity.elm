@@ -33,8 +33,14 @@ If not, read more about each color space in `Color`.
 
 @docs equals
 
+
+## Mapping values
+
+@docs mapColor, mapOpacity
+
 -}
 
+import Color
 import Dict
 import Internal.Color
 import Internal.HSLA
@@ -136,3 +142,24 @@ toHexAString color =
 equals : ColorWithOpacity -> ColorWithOpacity -> Bool
 equals a b =
     toRGBA a == toRGBA b
+
+
+{-| -}
+mapColor : (Color.Color -> Color.Color) -> ColorWithOpacity -> ColorWithOpacity
+mapColor f (ColorWithOpacity color) =
+    ColorWithOpacity (f color)
+
+
+{-| -}
+mapOpacity : (Opacity -> Opacity) -> ColorWithOpacity -> ColorWithOpacity
+mapOpacity f color =
+    let
+        { red, green, blue, alpha } =
+            toRGBA color
+    in
+    fromRGBA
+        { red = red
+        , green = green
+        , blue = blue
+        , alpha = f alpha
+        }
