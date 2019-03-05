@@ -1,8 +1,10 @@
 module ColorWithOpacity exposing
     ( ColorWithOpacity
+    , fromColor
     , fromHSLA, toHSLA, toHSLAString
     , fromRGBA, toRGBA, toRGBAString
     , fromHexAString, toHexAString
+    , getOpacity
     , equals
     , mapColor, mapOpacity, map
     )
@@ -13,6 +15,8 @@ These docs assume that you're familiar with the color space you're looking at.
 If not, read more about each color space in `Color`.
 
 @docs ColorWithOpacity
+
+@docs fromColor
 
 
 ## HSL values
@@ -28,6 +32,11 @@ If not, read more about each color space in `Color`.
 ## Hex values
 
 @docs fromHexAString, toHexAString
+
+
+## Opacity
+
+@docs getOpacity
 
 
 ## Equality
@@ -143,6 +152,33 @@ toHexAString color =
 equals : ColorWithOpacity -> ColorWithOpacity -> Bool
 equals a b =
     toRGBA a == toRGBA b
+
+
+{-| Specify the opacity for a color without opacity.
+
+    import Color exposing (Color)
+    import ColorWithOpacity exposing (ColorWithOpacity)
+    import Opacity
+
+    myRed : Color
+    myRed =
+        Color.fromRGB ( 255, 0, 0 )
+
+    myTransparentRed : ColorWithOpacity
+    myTransparentRed =
+        ColorWithOpacity.fromColor (Opacity.custom 0.5) myRed
+
+-}
+fromColor : Opacity -> Color.Color -> ColorWithOpacity
+fromColor opacity color =
+    ColorWithOpacity (Internal.Color.setOpacity color opacity)
+
+
+{-| Extract just the opacity from the color.
+-}
+getOpacity : ColorWithOpacity -> Opacity
+getOpacity (ColorWithOpacity c) =
+    Internal.Color.getOpacity c
 
 
 {-| -}

@@ -2,11 +2,10 @@ module ColorWithOpacitySpec exposing (colorWithOpacitySuite)
 
 import ColorFuzzer as ColorFuzz exposing (hexStringOfLength)
 import ColorWithOpacity
+import ColorWithOpacityFuzzer
 import Expect exposing (Expectation)
 import Fuzz exposing (Fuzzer)
 import Opacity
-import OpacityFuzzer exposing (opacityValue)
-import Palette.X11 exposing (..)
 import Test exposing (..)
 
 
@@ -49,4 +48,20 @@ colorWithOpacitySuite =
                     |> ColorWithOpacity.mapOpacity (\_ -> Opacity.opaque)
                     |> ColorWithOpacity.equals startingColor
                     |> Expect.false "Calling `equals` on different opacities failed"
+        , describe "ColorWithOpacity.mapOpacity"
+            [ fuzz (Fuzz.tuple ( ColorWithOpacityFuzzer.colorWithOpacity, Fuzz.float )) "can map opacity" <|
+                \( colorWithOpacity, multiplier ) ->
+                    let
+                        expectedResult : Opacity.Opacity
+                        expectedResult =
+                            f (ColorWithOpacity.getOpacity colorWithOpacity)
+
+                        f =
+                            Opacity.toFloat >> (*) multiplier >> Opacity.custom
+                    in
+                    colorWithOpacity
+                        |> ColorWithOpacity.mapOpacity f
+                        |> ColorWithOpacity.getOpacity
+                        |> Expect.equal expectedResult
+            ]
         ]
