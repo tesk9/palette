@@ -1,15 +1,31 @@
-module Internal.ColorFuzzer exposing (hexStringOfLength, hexValues, hslValues)
+module ColorFuzzer exposing
+    ( hexStringOfLength
+    , hslColor
+    , hslValues
+    , rgbColor
+    , rgbValues
+    )
 
+import Color exposing (Color)
 import Dict exposing (Dict)
 import Fuzz exposing (Fuzzer)
-import Internal.Color exposing (Color)
 import Random exposing (Generator)
 import Shrink
 
 
-hexValues : Fuzzer ( Float, Float, Float )
-hexValues =
+rgbColor : Fuzzer Color
+rgbColor =
+    Fuzz.map Color.fromRGB rgbValues
+
+
+rgbValues : Fuzzer ( Float, Float, Float )
+rgbValues =
     triple (Fuzz.intRange 0 255) (Fuzz.intRange 0 255) (Fuzz.intRange 0 255)
+
+
+hslColor : Fuzzer Color
+hslColor =
+    Fuzz.map Color.fromHSL hslValues
 
 
 hslValues : Fuzzer ( Float, Float, Float )

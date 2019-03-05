@@ -1,10 +1,11 @@
 module ColorWithOpacitySpec exposing (colorWithOpacitySuite)
 
+import ColorFuzzer as ColorFuzz exposing (hexStringOfLength)
 import ColorWithOpacity
 import Expect exposing (Expectation)
 import Fuzz exposing (Fuzzer)
-import Internal.ColorFuzzer as ColorFuzz exposing (hexStringOfLength)
 import Opacity
+import OpacityFuzzer exposing (opacityValue)
 import Palette.X11 exposing (..)
 import Test exposing (..)
 

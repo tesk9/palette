@@ -2,9 +2,9 @@ module ColorSpec exposing (colorSpec, conversionsSpec, luminanceSuite)
 
 import Color exposing (Color)
 import Color.Generator
+import ColorFuzzer as ColorFuzz exposing (hexStringOfLength)
 import Expect exposing (Expectation)
 import Fuzz exposing (Fuzzer)
-import Internal.ColorFuzzer as ColorFuzz exposing (hexStringOfLength)
 import Opacity
 import Palette.X11 exposing (..)
 import Test exposing (..)
@@ -230,7 +230,7 @@ conversionsSpec =
                             |> expectTripleEquals ( 0, 128, 0 )
                 ]
             ]
-        , fuzz ColorFuzz.hexValues "from RGB to HSL and back to RGB again" <|
+        , fuzz ColorFuzz.rgbValues "from RGB to HSL and back to RGB again" <|
             \color ->
                 let
                     operations =
