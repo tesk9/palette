@@ -1,12 +1,22 @@
 module Internal.RGBA exposing
-    ( Channels
-    , Color
-    , fromChannels
+    ( Color
+    , Channels
+    , fromChannels, toChannels
     , fromHSLA
-    , toChannels
-    , toStringWithOpacity
-    , toStringWithoutOpacity
+    , toStringWithoutOpacity, toStringWithOpacity
+    , getOpacity, setOpacity
     )
+
+{-|
+
+@docs Color
+@docs Channels
+@docs fromChannels, toChannels
+@docs fromHSLA
+@docs toStringWithoutOpacity, toStringWithOpacity
+@docs getOpacity, setOpacity
+
+-}
 
 import Opacity exposing (Opacity)
 
@@ -36,6 +46,16 @@ fromChannels { red, green, blue, alpha } =
 toChannels : Color -> Channels
 toChannels (Color values) =
     values
+
+
+getOpacity : Color -> Opacity
+getOpacity (Color { alpha }) =
+    alpha
+
+
+setOpacity : Opacity -> Color -> Color
+setOpacity alpha (Color channels) =
+    Color { channels | alpha = alpha }
 
 
 toStringWithoutOpacity : Color -> String

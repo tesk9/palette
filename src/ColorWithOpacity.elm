@@ -4,6 +4,7 @@ module ColorWithOpacity exposing
     , fromRGBA, toRGBA, toRGBAString
     , fromHexAString, toHexAString
     , equals
+    , mapColor, mapOpacity, map
     )
 
 {-| This module provides helpers for working with colors that are not fully opaque.
@@ -36,7 +37,7 @@ If not, read more about each color space in `Color`.
 
 ## Mapping values
 
-@docs mapColor, mapOpacity
+@docs mapColor, mapOpacity, map
 
 -}
 
@@ -146,20 +147,19 @@ equals a b =
 
 {-| -}
 mapColor : (Color.Color -> Color.Color) -> ColorWithOpacity -> ColorWithOpacity
-mapColor f (ColorWithOpacity color) =
-    ColorWithOpacity (f color)
+mapColor f =
+    map identity f
 
 
 {-| -}
 mapOpacity : (Opacity -> Opacity) -> ColorWithOpacity -> ColorWithOpacity
-mapOpacity f color =
-    let
-        { red, green, blue, alpha } =
-            toRGBA color
-    in
-    fromRGBA
-        { red = red
-        , green = green
-        , blue = blue
-        , alpha = f alpha
-        }
+mapOpacity f =
+    map f identity
+
+
+{-| -}
+map : (Opacity -> Opacity) -> (Color.Color -> Color.Color) -> ColorWithOpacity -> ColorWithOpacity
+map fo fc (ColorWithOpacity color) =
+    fo (Internal.Color.getOpacity color)
+        |> Internal.Color.setOpacity (fc color)
+        |> ColorWithOpacity

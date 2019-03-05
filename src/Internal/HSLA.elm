@@ -1,12 +1,22 @@
 module Internal.HSLA exposing
-    ( Channels
-    , Color
-    , fromChannels
+    ( Color
+    , Channels
+    , fromChannels, toChannels
     , fromRGBA
-    , toChannels
-    , toStringWithOpacity
-    , toStringWithoutOpacity
+    , toStringWithoutOpacity, toStringWithOpacity
+    , getOpacity, setOpacity
     )
+
+{-|
+
+@docs Color
+@docs Channels
+@docs fromChannels, toChannels
+@docs fromRGBA
+@docs toStringWithoutOpacity, toStringWithOpacity
+@docs getOpacity, setOpacity
+
+-}
 
 import Opacity exposing (Opacity)
 
@@ -21,6 +31,16 @@ type alias Channels =
     , lightness : Float
     , alpha : Opacity
     }
+
+
+getOpacity : Color -> Opacity
+getOpacity (Color { alpha }) =
+    alpha
+
+
+setOpacity : Opacity -> Color -> Color
+setOpacity alpha (Color channels) =
+    Color { channels | alpha = alpha }
 
 
 fromChannels : Channels -> Color

@@ -41,10 +41,11 @@ colorWithOpacitySuite =
         , test "when opacity differs, colors are not identical" <|
             \_ ->
                 let
-                    values =
-                        { red = 0, green = 0, blue = 0, alpha = Opacity.transparent }
+                    startingColor =
+                        ColorWithOpacity.fromRGBA { red = 0, green = 0, blue = 0, alpha = Opacity.transparent }
                 in
-                ColorWithOpacity.fromRGBA values
-                    |> ColorWithOpacity.equals (ColorWithOpacity.fromRGBA { values | alpha = Opacity.opaque })
+                startingColor
+                    |> ColorWithOpacity.mapOpacity (\_ -> Opacity.opaque)
+                    |> ColorWithOpacity.equals startingColor
                     |> Expect.false "Calling `equals` on different opacities failed"
         ]
