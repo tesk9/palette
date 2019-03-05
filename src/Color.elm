@@ -1,9 +1,7 @@
 module Color exposing
     ( Color
     , fromHSL, toHSL, toHSLString
-    , fromHSLA, toHSLA, toHSLAString
     , fromRGB, toRGB, toRGBString
-    , fromRGBA, toRGBA, toRGBAString
     , fromHexString, toHexString
     , equals
     , luminance
@@ -38,7 +36,6 @@ If you change the saturation to 0%, you'll see gray.
 **Lightness** is brightness -- 100% is white and 0% is black.
 
 @docs fromHSL, toHSL, toHSLString
-@docs fromHSLA, toHSLA, toHSLAString
 
 
 ### RGB values
@@ -61,7 +58,6 @@ Paint, where you're mixing pigments together, is a **subtractive**
 color space. Printing (CMYK color space) is also subtractive.
 
 @docs fromRGB, toRGB, toRGBString
-@docs fromRGBA, toRGBA, toRGBAString
 
 
 ## Hex values
@@ -124,28 +120,15 @@ fromHSL ( hue, saturation, lightness ) =
         }
 
 
-{-| -}
-fromHSLA : Internal.HSLA.Channels -> Color
-fromHSLA =
-    Internal.Color.fromHSLA
-
-
 {-| Extract the hue, saturation, and lightness values from an existing Color.
 -}
 toHSL : Color -> ( Float, Float, Float )
 toHSL color =
     let
         { hue, saturation, lightness } =
-            toHSLA color
+            Internal.HSLA.toChannels (Internal.Color.asHSLA color)
     in
     ( hue, saturation, lightness )
-
-
-{-| Extract the hue, saturation, lightness, and alpha values from an existing Color.
--}
-toHSLA : Color -> Internal.HSLA.Channels
-toHSLA color =
-    Internal.HSLA.toChannels (Internal.Color.asHSLA color)
 
 
 {-| Get the HSL representation of a color as a `String`.
@@ -162,13 +145,8 @@ toHSLA color =
 -}
 toHSLString : Color -> String
 toHSLString color =
-    Internal.HSLA.toStringWithoutOpacity (Internal.Color.asHSLA color)
-
-
-{-| -}
-toHSLAString : Color -> String
-toHSLAString color =
-    Internal.HSLA.toStringWithOpacity (Internal.Color.asHSLA color)
+    Internal.HSLA.toStringWithoutOpacity
+        (Internal.Color.asHSLA color)
 
 
 {-| Build a new color based on RGB values.
@@ -192,18 +170,12 @@ This function clamps each rgb value between 0 and 255 (inclusive).
 -}
 fromRGB : ( Float, Float, Float ) -> Color
 fromRGB ( red, green, blue ) =
-    fromRGBA
+    Internal.Color.fromRGBA
         { red = red
         , green = green
         , blue = blue
         , alpha = Opacity.opaque
         }
-
-
-{-| -}
-fromRGBA : Internal.RGBA.Channels -> Color
-fromRGBA =
-    Internal.Color.fromRGBA
 
 
 {-| Extract the red, green, blue values from an existing Color.
@@ -212,16 +184,9 @@ toRGB : Color -> ( Float, Float, Float )
 toRGB color =
     let
         { red, green, blue } =
-            toRGBA color
+            Internal.RGBA.toChannels (Internal.Color.asRGBA color)
     in
     ( red, green, blue )
-
-
-{-| Extract the red, green, blue, and alpha values from an existing Color.
--}
-toRGBA : Color -> { red : Float, green : Float, blue : Float, alpha : Opacity }
-toRGBA color =
-    Internal.RGBA.toChannels (Internal.Color.asRGBA color)
 
 
 {-| Get the RGB representation of a color as a `String`.
@@ -241,25 +206,20 @@ toRGBString color =
     Internal.RGBA.toStringWithoutOpacity (Internal.Color.asRGBA color)
 
 
-{-| -}
-toRGBAString : Color -> String
-toRGBAString color =
-    Internal.RGBA.toStringWithOpacity (Internal.Color.asRGBA color)
-
-
 {-| Build a new color from a hex string.
-Supports lowercase and uppercase strings. Also supports transparencies.
+Supports lowercase and uppercase strings.
 
     (Color.fromHexString "#FFDD00" == Color.fromHexString "#FD0")
         && (Color.fromHexString "#FFDD00" == Color.fromHexString "#ffdd00")
-        && (Color.fromHexString "##ffdd00" == Color.fromHexString "#ffdd00ff")
+
+Note: this helper will ignore transparency values.
 
 -}
 fromHexString : String -> Result String Color
 fromHexString colorString =
     case Internal.Hex.fromString colorString of
-        Just rgbChannelValues ->
-            Ok (fromRGBA rgbChannelValues)
+        Just { red, green, blue } ->
+            Ok (fromRGB ( red, green, blue ))
 
         Nothing ->
             Err ("fromHexString could not convert " ++ colorString ++ " to a Color.")
@@ -279,9 +239,8 @@ fromHexString colorString =
             ]
             []
 
-Note: this function will always return a string in either the form "#RRGGBB"
-or the form "#RRGGBBAA".
-It will not return shortened values (i.e., "#RGB" and "#RGBA").
+Note: this function will always return a string in either the form "#RRGGBB".
+It will not return shortened values (i.e., "#RGB").
 
 If you want or need this functionality, please make an issue for it on the
 github repo for this library.
@@ -289,14 +248,23 @@ github repo for this library.
 -}
 toHexString : Color -> String
 toHexString color =
-    Internal.Hex.toString (toRGBA color)
+    let
+        ( red, green, blue ) =
+            toRGB color
+    in
+    Internal.Hex.toString
+        { red = red
+        , green = green
+        , blue = blue
+        , alpha = Opacity.opaque
+        }
 
 
 {-| Check two colors for equality.
 -}
 equals : Color -> Color -> Bool
 equals a b =
-    toRGBA a == toRGBA b
+    toRGB a == toRGB b
 
 
 {-| Luminance calculation adopted from <https://www.w3.org/TR/WCAG20-TECHS/G17.html>

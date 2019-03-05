@@ -61,44 +61,23 @@ colorSpec =
         , describe "to a String" <|
             let
                 transparentPink =
-                    Color.fromRGBA
-                        { red = 255
-                        , green = 0
-                        , blue = 255
-                        , alpha = Opacity.custom 0.5
-                        }
+                    Color.fromRGB ( 255, 0, 255 )
             in
             [ test "toRGBString" <|
                 \_ ->
                     transparentPink
                         |> Color.toRGBString
                         |> Expect.equal "rgb(255,0,255)"
-            , test "toRGBAString" <|
-                \_ ->
-                    transparentPink
-                        |> Color.toRGBAString
-                        |> Expect.equal "rgba(255,0,255,0.5)"
             , test "toHSLString" <|
                 \_ ->
                     transparentPink
                         |> Color.toHSLString
                         |> Expect.equal "hsl(300,100%,50%)"
-            , test "toHSLAString" <|
-                \_ ->
-                    transparentPink
-                        |> Color.toHSLAString
-                        |> Expect.equal "hsla(300,100%,50%,0.5)"
             , test "toHexString" <|
                 \_ ->
                     transparentPink
-                        |> Color.Generator.setOpacity Opacity.opaque
                         |> Color.toHexString
                         |> Expect.equal "#FF00FF"
-            , test "toHexString with transparency" <|
-                \_ ->
-                    transparentPink
-                        |> Color.toHexString
-                        |> Expect.equal "#FF00FF80"
             ]
         , describe "equality and equivalence"
             [ test "(==) does not properly compare color values across color spaces" <|
@@ -123,15 +102,6 @@ colorSpec =
                         Color.fromHSL ( 0, 100, 51 )
                             |> Color.equals (Color.fromRGB ( 255, 0, 0 ))
                             |> Expect.false "Calling `equals` on disparate colors failed"
-                , test "when opacity differs, colors are not identical" <|
-                    \_ ->
-                        let
-                            values =
-                                { red = 0, green = 0, blue = 0, alpha = Opacity.transparent }
-                        in
-                        Color.fromRGBA values
-                            |> Color.equals (Color.fromRGBA { values | alpha = Opacity.opaque })
-                            |> Expect.false "Calling `equals` on different opacities failed"
                 ]
             ]
         ]
@@ -305,13 +275,8 @@ conversionsSpec =
         , fuzz (ColorFuzz.hexStringOfLength 6) "from Hex to RGB and back to Hex again" <|
             \c ->
                 Color.fromHexString c
-                    |> Result.map Color.toRGBA
-                    |> Result.map
-                        (\{ red, green, blue } ->
-                            ( red, green, blue )
-                                |> Color.fromRGB
-                                |> Color.toHexString
-                        )
+                    |> Result.map Color.toRGB
+                    |> Result.map (Color.fromRGB >> Color.toHexString)
                     |> Expect.equal (Ok c)
         ]
 

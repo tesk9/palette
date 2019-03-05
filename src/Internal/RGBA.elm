@@ -16,7 +16,11 @@ type Color
 
 
 type alias Channels =
-    { red : Float, green : Float, blue : Float, alpha : Opacity }
+    { red : Float
+    , green : Float
+    , blue : Float
+    , alpha : Opacity
+    }
 
 
 fromChannels : Channels -> Color
