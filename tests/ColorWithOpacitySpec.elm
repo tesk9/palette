@@ -1,5 +1,7 @@
 module ColorWithOpacitySpec exposing (colorWithOpacitySuite)
 
+import Color
+import Color.Generator
 import ColorFuzzer as ColorFuzz exposing (hexStringOfLength)
 import ColorWithOpacity
 import ColorWithOpacityFuzzer
@@ -48,8 +50,11 @@ colorWithOpacitySuite =
                     |> ColorWithOpacity.mapOpacity (\_ -> Opacity.opaque)
                     |> ColorWithOpacity.equals startingColor
                     |> Expect.false "Calling `equals` on different opacities failed"
-        , describe "ColorWithOpacity.mapOpacity"
-            [ fuzz (Fuzz.tuple ( ColorWithOpacityFuzzer.colorWithOpacity, Fuzz.float )) "can map opacity" <|
+        , describe "ColorWithOpacity mapping"
+            [ fuzz
+                (Fuzz.tuple ( ColorWithOpacityFuzzer.colorWithOpacity, Fuzz.float ))
+                "mapOpacity"
+              <|
                 \( colorWithOpacity, multiplier ) ->
                     let
                         expectedResult : Opacity.Opacity
@@ -63,5 +68,23 @@ colorWithOpacitySuite =
                         |> ColorWithOpacity.mapOpacity f
                         |> ColorWithOpacity.getOpacity
                         |> Expect.equal expectedResult
+            , fuzz
+                (Fuzz.tuple ( ColorWithOpacityFuzzer.colorWithOpacity, Fuzz.float ))
+                "mapColor"
+              <|
+                \( colorWithOpacity, percent ) ->
+                    let
+                        expectedResult : Color.Color
+                        expectedResult =
+                            f (ColorWithOpacity.toColor colorWithOpacity)
+
+                        f =
+                            Color.Generator.adjustSaturation percent
+                    in
+                    colorWithOpacity
+                        |> ColorWithOpacity.mapColor f
+                        |> ColorWithOpacity.toColor
+                        |> Color.equals expectedResult
+                        |> Expect.true "`mapColor f >> toColor` should be equivalent to `toColor >> f`"
             ]
         ]

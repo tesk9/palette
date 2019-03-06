@@ -1,6 +1,6 @@
 module ColorWithOpacity exposing
     ( ColorWithOpacity
-    , fromColor
+    , fromColor, toColor
     , fromHSLA, toHSLA, toHSLAString
     , fromRGBA, toRGBA, toRGBAString
     , fromHexAString, toHexAString
@@ -16,7 +16,7 @@ If not, read more about each color space in `Color`.
 
 @docs ColorWithOpacity
 
-@docs fromColor
+@docs fromColor, toColor
 
 
 ## HSL values
@@ -172,6 +172,14 @@ equals a b =
 fromColor : Opacity -> Color.Color -> ColorWithOpacity
 fromColor opacity color =
     ColorWithOpacity (Internal.Color.setOpacity color opacity)
+
+
+{-| If you decide you don't care about the transparency anymore, you can
+drop this information and work with just the color values.
+-}
+toColor : ColorWithOpacity -> Color.Color
+toColor (ColorWithOpacity color) =
+    Internal.Color.setOpacity color Opacity.opaque
 
 
 {-| Extract just the opacity from the color.
