@@ -177,13 +177,36 @@ getOpacity (ColorWithOpacity c) =
     Internal.Color.getOpacity c
 
 
-{-| -}
+{-|
+
+    import Color.Generator exposing (rotate)
+    import ColorWithOpacity exposing (ColorWithOpacity)
+
+    nextColor : ColorWithOpacity -> ColorWithOpacity
+    nextColor color =
+        ColorWithOpacity.mapColor (rotate 10) color
+
+-}
 mapColor : (Color.Color -> Color.Color) -> ColorWithOpacity -> ColorWithOpacity
 mapColor f =
     map identity f
 
 
-{-| -}
+{-|
+
+    import ColorWithOpacity exposing (ColorWithOpacity)
+    import Opacity exposing (Opacity)
+    import SomeCustomStylesheet exposing (red)
+
+    myTransparentRed : ColorWithOpacity
+    myTransparentRed =
+        ColorWithOpacity.mapOpacity halveOpacity red
+
+    halveOpacity : Opacity -> Opacity
+    halveOpacity =
+        Opacity.map (\current -> current / 2)
+
+-}
 mapOpacity : (Opacity -> Opacity) -> ColorWithOpacity -> ColorWithOpacity
 mapOpacity f =
     map f identity
