@@ -23,16 +23,24 @@ type Opacity
     = Opacity Float
 
 
-{-| -}
+{-| Provided for convenience. Equivalent to doing:
+
+    Opacity.custom 0
+
+-}
 transparent : Opacity
 transparent =
-    Opacity 0
+    custom 0
 
 
-{-| -}
+{-| Provided for convenience. Equivalent to doing:
+
+    Opacity.custom 1.0
+
+-}
 opaque : Opacity
 opaque =
-    Opacity 1.0
+    custom 1.0
 
 
 {-| Pass in a value in [0, 1.0]. The value passed in will be clamped within these bounds.
