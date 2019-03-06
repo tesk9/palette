@@ -86,5 +86,32 @@ colorWithOpacitySuite =
                         |> ColorWithOpacity.toColor
                         |> Color.equals expectedResult
                         |> Expect.true "`mapColor f >> toColor` should be equivalent to `toColor >> f`"
+            , fuzz
+                ColorWithOpacityFuzzer.colorWithOpacity
+                "map"
+              <|
+                \colorWithOpacity ->
+                    let
+                        { hue, saturation, lightness, alpha } =
+                            ColorWithOpacity.toHSLA colorWithOpacity
+
+                        expectedResult : ColorWithOpacity.ColorWithOpacity
+                        expectedResult =
+                            Color.fromHSL ( hue, saturation, lightness )
+                                |> fColor
+                                |> ColorWithOpacity.fromColor (fOpacity alpha)
+
+                        fColor : Color.Color -> Color.Color
+                        fColor =
+                            Color.Generator.complementary
+
+                        fOpacity : Opacity.Opacity -> Opacity.Opacity
+                        fOpacity =
+                            Opacity.toFloat >> (-) 0.3 >> Opacity.custom
+                    in
+                    colorWithOpacity
+                        |> ColorWithOpacity.map fOpacity fColor
+                        |> ColorWithOpacity.equals expectedResult
+                        |> Expect.true "`map fo fc >> toColor` should match deconstructing and reconstructing result"
             ]
         ]
