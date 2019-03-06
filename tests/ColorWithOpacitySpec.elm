@@ -62,7 +62,7 @@ colorWithOpacitySuite =
                             f (ColorWithOpacity.getOpacity colorWithOpacity)
 
                         f =
-                            Opacity.toFloat >> (*) multiplier >> Opacity.custom
+                            Opacity.map ((*) multiplier)
                     in
                     colorWithOpacity
                         |> ColorWithOpacity.mapOpacity f
@@ -107,7 +107,7 @@ colorWithOpacitySuite =
 
                         fOpacity : Opacity.Opacity -> Opacity.Opacity
                         fOpacity =
-                            Opacity.toFloat >> (-) 0.3 >> Opacity.custom
+                            Opacity.map ((-) 0.3)
                     in
                     colorWithOpacity
                         |> ColorWithOpacity.map fOpacity fColor

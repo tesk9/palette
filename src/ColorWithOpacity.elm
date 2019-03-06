@@ -1,12 +1,12 @@
 module ColorWithOpacity exposing
     ( ColorWithOpacity
     , fromColor, toColor
+    , getOpacity
+    , mapColor, mapOpacity, map
+    , equals
     , fromHSLA, toHSLA, toHSLAString
     , fromRGBA, toRGBA, toRGBAString
     , fromHexAString, toHexAString
-    , getOpacity
-    , equals
-    , mapColor, mapOpacity, map
     )
 
 {-| This module provides helpers for working with colors that are not fully opaque.
@@ -17,6 +17,9 @@ If not, read more about each color space in `Color`.
 @docs ColorWithOpacity
 
 @docs fromColor, toColor
+@docs getOpacity
+@docs mapColor, mapOpacity, map
+@docs equals
 
 
 ## HSL values
@@ -32,21 +35,6 @@ If not, read more about each color space in `Color`.
 ## Hex values
 
 @docs fromHexAString, toHexAString
-
-
-## Opacity
-
-@docs getOpacity
-
-
-## Equality
-
-@docs equals
-
-
-## Mapping values
-
-@docs mapColor, mapOpacity, map
 
 -}
 
@@ -201,7 +189,19 @@ mapOpacity f =
     map f identity
 
 
-{-| -}
+{-|
+
+    import Color.Generator exposing (rotate)
+    import ColorWithOpacity exposing (ColorWithOpacity)
+    import Opacity
+
+    rotateAndMakeMoreTransparent : ColorWithOpacity -> ColorWithOpacity
+    rotateAndMakeMoreTransparent =
+        ColorWithOpacity.map
+            (Opacity.map (\num -> num - 0.1))
+            (rotate 10)
+
+-}
 map : (Opacity -> Opacity) -> (Color.Color -> Color.Color) -> ColorWithOpacity -> ColorWithOpacity
 map fo fc (ColorWithOpacity color) =
     fo (Internal.Color.getOpacity color)

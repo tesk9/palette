@@ -1,6 +1,7 @@
 module Opacity exposing
     ( Opacity
     , transparent, opaque, custom
+    , map
     , toString, toFloat
     )
 
@@ -9,6 +10,8 @@ module Opacity exposing
 @docs Opacity
 
 @docs transparent, opaque, custom
+
+@docs map
 
 @docs toString, toFloat
 
@@ -37,6 +40,13 @@ opaque =
 custom : Float -> Opacity
 custom =
     Opacity << clamp 0 1.0
+
+
+{-| Note: results from the function you pass in will be clamped in [0, 1.0].
+-}
+map : (Float -> Float) -> Opacity -> Opacity
+map f =
+    toFloat >> f >> custom
 
 
 {-| -}
