@@ -1,5 +1,5 @@
-module ColorWithOpacity exposing
-    ( ColorWithOpacity
+module TransparentColor exposing
+    ( TransparentColor
     , fromColor, toColor
     , getOpacity
     , mapColor, mapOpacity, map
@@ -14,7 +14,7 @@ module ColorWithOpacity exposing
 These docs assume that you're familiar with the color space you're looking at.
 If not, read more about each color space in `Color`.
 
-@docs ColorWithOpacity
+@docs TransparentColor
 
 @docs fromColor, toColor
 @docs getOpacity
@@ -48,45 +48,45 @@ import Opacity exposing (Opacity)
 
 
 {-| -}
-type ColorWithOpacity
-    = ColorWithOpacity Internal.Color.Color
+type TransparentColor
+    = TransparentColor Internal.Color.Color
 
 
 {-| -}
-fromHSLA : Internal.HSLA.Channels -> ColorWithOpacity
+fromHSLA : Internal.HSLA.Channels -> TransparentColor
 fromHSLA =
-    Internal.Color.fromHSLA >> ColorWithOpacity
+    Internal.Color.fromHSLA >> TransparentColor
 
 
 {-| Extract the hue, saturation, lightness, and alpha values from an existing Color.
 -}
-toHSLA : ColorWithOpacity -> Internal.HSLA.Channels
-toHSLA (ColorWithOpacity color) =
+toHSLA : TransparentColor -> Internal.HSLA.Channels
+toHSLA (TransparentColor color) =
     Internal.HSLA.toChannels (Internal.Color.asHSLA color)
 
 
 {-| -}
-toHSLAString : ColorWithOpacity -> String
-toHSLAString (ColorWithOpacity color) =
+toHSLAString : TransparentColor -> String
+toHSLAString (TransparentColor color) =
     Color.toHSLAString color
 
 
 {-| -}
-fromRGBA : Internal.RGBA.Channels -> ColorWithOpacity
+fromRGBA : Internal.RGBA.Channels -> TransparentColor
 fromRGBA =
-    Internal.Color.fromRGBA >> ColorWithOpacity
+    Internal.Color.fromRGBA >> TransparentColor
 
 
 {-| Extract the red, green, blue, and alpha values from an existing Color.
 -}
-toRGBA : ColorWithOpacity -> { red : Float, green : Float, blue : Float, alpha : Opacity }
-toRGBA (ColorWithOpacity color) =
+toRGBA : TransparentColor -> { red : Float, green : Float, blue : Float, alpha : Opacity }
+toRGBA (TransparentColor color) =
     Internal.RGBA.toChannels (Internal.Color.asRGBA color)
 
 
 {-| -}
-toRGBAString : ColorWithOpacity -> String
-toRGBAString (ColorWithOpacity color) =
+toRGBAString : TransparentColor -> String
+toRGBAString (TransparentColor color) =
     Color.toRGBAString color
 
 
@@ -98,25 +98,25 @@ Supports lowercase and uppercase strings.
         && (Color.fromHexAString "##ffdd00" == Color.fromHexAString "#ffdd00ff")
 
 -}
-fromHexAString : String -> Result String ColorWithOpacity
+fromHexAString : String -> Result String TransparentColor
 fromHexAString colorString =
     case Internal.Hex.fromString colorString of
         Just rgbChannelValues ->
             Ok (fromRGBA rgbChannelValues)
 
         Nothing ->
-            Err ("fromHexString could not convert " ++ colorString ++ " to a ColorWithOpacity.")
+            Err ("fromHexString could not convert " ++ colorString ++ " to a TransparentColor.")
 
 
 {-| -}
-toHexAString : ColorWithOpacity -> String
-toHexAString (ColorWithOpacity color) =
+toHexAString : TransparentColor -> String
+toHexAString (TransparentColor color) =
     Color.toHexAString color
 
 
 {-| Check two colors for equality.
 -}
-equals : ColorWithOpacity -> ColorWithOpacity -> Bool
+equals : TransparentColor -> TransparentColor -> Bool
 equals a b =
     toRGBA a == toRGBA b
 
@@ -124,69 +124,69 @@ equals a b =
 {-| Specify the opacity for a color without opacity.
 
     import Color exposing (Color)
-    import ColorWithOpacity exposing (ColorWithOpacity)
     import Opacity
+    import TransparentColor exposing (TransparentColor)
 
     myRed : Color
     myRed =
         Color.fromRGB ( 255, 0, 0 )
 
-    myTransparentRed : ColorWithOpacity
+    myTransparentRed : TransparentColor
     myTransparentRed =
-        ColorWithOpacity.fromColor (Opacity.custom 0.5) myRed
+        TransparentColor.fromColor (Opacity.custom 0.5) myRed
 
 -}
-fromColor : Opacity -> Color.Color -> ColorWithOpacity
+fromColor : Opacity -> Color.Color -> TransparentColor
 fromColor opacity color =
-    ColorWithOpacity (Internal.Color.setOpacity color opacity)
+    TransparentColor (Internal.Color.setOpacity color opacity)
 
 
 {-| If you decide you don't care about the transparency anymore, you can
 drop this information and work with just the color values.
 -}
-toColor : ColorWithOpacity -> Color.Color
-toColor (ColorWithOpacity color) =
+toColor : TransparentColor -> Color.Color
+toColor (TransparentColor color) =
     Internal.Color.setOpacity color Opacity.opaque
 
 
 {-| Extract just the opacity from the color.
 -}
-getOpacity : ColorWithOpacity -> Opacity
-getOpacity (ColorWithOpacity c) =
+getOpacity : TransparentColor -> Opacity
+getOpacity (TransparentColor c) =
     Internal.Color.getOpacity c
 
 
 {-|
 
     import Color.Generator exposing (rotate)
-    import ColorWithOpacity exposing (ColorWithOpacity)
+    import TransparentColor exposing (TransparentColor)
 
-    nextColor : ColorWithOpacity -> ColorWithOpacity
+    nextColor : TransparentColor -> TransparentColor
     nextColor color =
-        ColorWithOpacity.mapColor (rotate 10) color
+        TransparentColor.mapColor (rotate 10) color
 
 -}
-mapColor : (Color.Color -> Color.Color) -> ColorWithOpacity -> ColorWithOpacity
+mapColor : (Color.Color -> Color.Color) -> TransparentColor -> TransparentColor
 mapColor f =
     map identity f
 
 
 {-|
 
-    import ColorWithOpacity exposing (ColorWithOpacity)
     import Opacity exposing (Opacity)
     import SomeCustomStylesheet exposing (red)
+    import TransparentColor exposing (TransparentColor)
 
-    myTransparentRed : ColorWithOpacity
+    myTransparentRed : TransparentColor
     myTransparentRed =
-        ColorWithOpacity.mapOpacity halveOpacity red
+        TransparentColor.mapOpacity halveOpacity red
 
     halveOpacity : Opacity -> Opacity
     halveOpacity =
         Opacity.map (\current -> current / 2)
 
 -}
-mapOpacity : (Opacity -> Opacity) -> ColorWithOpacity -> ColorWithOpacity
+mapOpacity : (Opacity -> Opacity) -> TransparentColor -> TransparentColor
 mapOpacity f =
     map f identity
 
@@ -194,18 +194,18 @@ mapOpacity f =
 {-|
 
     import Color.Generator exposing (rotate)
-    import ColorWithOpacity exposing (ColorWithOpacity)
     import Opacity
+    import TransparentColor exposing (TransparentColor)
 
-    rotateAndMakeMoreTransparent : ColorWithOpacity -> ColorWithOpacity
+    rotateAndMakeMoreTransparent : TransparentColor -> TransparentColor
     rotateAndMakeMoreTransparent =
-        ColorWithOpacity.map
+        TransparentColor.map
             (Opacity.map (\num -> num - 0.1))
             (rotate 10)
 
 -}
-map : (Opacity -> Opacity) -> (Color.Color -> Color.Color) -> ColorWithOpacity -> ColorWithOpacity
-map fo fc (ColorWithOpacity color) =
+map : (Opacity -> Opacity) -> (Color.Color -> Color.Color) -> TransparentColor -> TransparentColor
+map fo fc (TransparentColor color) =
     fo (Internal.Color.getOpacity color)
         |> Internal.Color.setOpacity (fc color)
-        |> ColorWithOpacity
+        |> TransparentColor
