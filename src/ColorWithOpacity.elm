@@ -68,7 +68,7 @@ toHSLA (ColorWithOpacity color) =
 {-| -}
 toHSLAString : ColorWithOpacity -> String
 toHSLAString (ColorWithOpacity color) =
-    Internal.HSLA.toStringWithOpacity (Internal.Color.asHSLA color)
+    Color.toHSLAString color
 
 
 {-| -}
@@ -87,7 +87,7 @@ toRGBA (ColorWithOpacity color) =
 {-| -}
 toRGBAString : ColorWithOpacity -> String
 toRGBAString (ColorWithOpacity color) =
-    Internal.RGBA.toStringWithOpacity (Internal.Color.asRGBA color)
+    Color.toRGBAString color
 
 
 {-| Build a new color from a hex string that might include transparencies.
@@ -108,31 +108,10 @@ fromHexAString colorString =
             Err ("fromHexString could not convert " ++ colorString ++ " to a ColorWithOpacity.")
 
 
-{-| Get the Hex representation of a color as a `String`.
-
-    import Color exposing (toHexString)
-    import Html exposing (p, text)
-    import Html.Attributes exposing (type_, value)
-    import Palette.X11 exposing (red)
-
-    view =
-        Html.input
-            [ type_ "color"
-            , value (toHexAString red)
-            ]
-            []
-
-Note: this function will always return a string in either the form "#RRGGBB"
-or the form "#RRGGBBAA".
-It will not return shortened values (i.e., "#RGB" and "#RGBA").
-
-If you want or need this functionality, please make an issue for it on the
-github repo for this library.
-
--}
+{-| -}
 toHexAString : ColorWithOpacity -> String
-toHexAString color =
-    Internal.Hex.toString (toRGBA color)
+toHexAString (ColorWithOpacity color) =
+    Color.toHexAString color
 
 
 {-| Check two colors for equality.

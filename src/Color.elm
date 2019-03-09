@@ -1,8 +1,8 @@
 module Color exposing
     ( Color
-    , fromHSL, toHSL, toHSLString
-    , fromRGB, toRGB, toRGBString
-    , fromHexString, toHexString
+    , fromHSL, toHSL, toHSLString, toHSLAString
+    , fromRGB, toRGB, toRGBString, toRGBAString
+    , fromHexString, toHexString, toHexAString
     , equals
     , luminance
     )
@@ -35,7 +35,7 @@ If you change the saturation to 0%, you'll see gray.
 
 **Lightness** is brightness -- 100% is white and 0% is black.
 
-@docs fromHSL, toHSL, toHSLString
+@docs fromHSL, toHSL, toHSLString, toHSLAString
 
 
 ### RGB values
@@ -57,7 +57,7 @@ This is different than what you may remember from painting in elementary school.
 Paint, where you're mixing pigments together, is a **subtractive**
 color space. Printing (CMYK color space) is also subtractive.
 
-@docs fromRGB, toRGB, toRGBString
+@docs fromRGB, toRGB, toRGBString, toRGBAString
 
 
 ## Hex values
@@ -68,7 +68,7 @@ between the two systems is in the base: RGB colors are base 10 and hex colors ar
 You will need to use hex colors if you're working with an
 [HTML input of type color](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color).
 
-@docs fromHexString, toHexString
+@docs fromHexString, toHexString, toHexAString
 
 
 ## Equality
@@ -149,6 +149,12 @@ toHSLString color =
         (Internal.Color.asHSLA color)
 
 
+{-| -}
+toHSLAString : Color -> String
+toHSLAString color =
+    Internal.HSLA.toStringWithOpacity (Internal.Color.asHSLA color)
+
+
 {-| Build a new color based on RGB values.
 
     import Color exposing (Color)
@@ -206,6 +212,12 @@ toRGBString color =
     Internal.RGBA.toStringWithoutOpacity (Internal.Color.asRGBA color)
 
 
+{-| -}
+toRGBAString : Color -> String
+toRGBAString color =
+    Internal.RGBA.toStringWithOpacity (Internal.Color.asRGBA color)
+
+
 {-| Build a new color from a hex string.
 Supports lowercase and uppercase strings.
 
@@ -258,6 +270,33 @@ toHexString color =
         , blue = blue
         , alpha = Opacity.opaque
         }
+
+
+{-| Get the Hex representation of a color as a `String`.
+
+    import Color exposing (toHexString)
+    import Html exposing (p, text)
+    import Html.Attributes exposing (type_, value)
+    import Palette.X11 exposing (red)
+
+    view =
+        Html.input
+            [ type_ "color"
+            , value (toHexAString red)
+            ]
+            []
+
+Note: this function will always return a string in either the form "#RRGGBB"
+or the form "#RRGGBBAA".
+It will not return shortened values (i.e., "#RGB" and "#RGBA").
+
+If you want or need this functionality, please make an issue for it on the
+github repo for this library.
+
+-}
+toHexAString : Color -> String
+toHexAString color =
+    Internal.Hex.toString (Internal.Color.asHex color)
 
 
 {-| Check two colors for equality.

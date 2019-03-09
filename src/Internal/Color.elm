@@ -2,6 +2,7 @@ module Internal.Color exposing
     ( Color
     , fromHSLA, asHSLA
     , fromRGBA, asRGBA
+    , asHex
     , getOpacity, setOpacity
     )
 
@@ -10,6 +11,7 @@ module Internal.Color exposing
 @docs Color
 @docs fromHSLA, asHSLA
 @docs fromRGBA, asRGBA
+@docs asHex
 @docs getOpacity, setOpacity
 
 -}
@@ -59,6 +61,17 @@ asRGBA color =
 
         HSLA hslValues ->
             asRGBA (convertHSLToRGBA hslValues)
+
+
+{-| -}
+asHex : Color -> Hex.Color
+asHex color =
+    case color of
+        RGBA values ->
+            RGBA.toChannels values
+
+        HSLA hslValues ->
+            asHex (convertHSLToRGBA hslValues)
 
 
 {-| -}

@@ -1,11 +1,20 @@
-module Internal.Hex exposing (fromString, toString)
+module Internal.Hex exposing (Color, fromString, toString)
 
 import Dict
+import Internal.RGBA
 import Opacity exposing (Opacity)
 
 
+type alias Color =
+    Channels
+
+
 type alias Channels =
-    { red : Float, green : Float, blue : Float, alpha : Opacity }
+    { red : Float
+    , green : Float
+    , blue : Float
+    , alpha : Opacity
+    }
 
 
 fromString : String -> Maybe Channels
