@@ -1,14 +1,13 @@
 [![Build Status](https://travis-ci.org/tesk9/palette.svg?branch=master)](https://travis-ci.org/tesk9/palette)
 
-Work with Colors in Elm.
-
-This package makes working with colors easy, accessible, and safe.
+Work with colors safely  and accessibly.
 
 - Calculate color contrasts
 - Use common web-color palettes
 - Generate beautiful palettes programmatically.
 - Blend and transform colors
 - Use RGB, HSL, and hex colors interchangeably
+- Modify opacity
 
 ## Getting started
 
@@ -81,15 +80,27 @@ If you've used Photoshop, you may be familiar with color blending with functions
 like `multiply`. If not, I recommend taking a lot at the examples & playing until
 you get a feel for what the functions do.
 
+
+### Transparent colors
+
+Why is `TransparentColor` separate from `Color`? Why isn't `Color` simply modeled
+as an RGBA color value?
+
+This is because transparency fundamentally involves stacking contexts on render:
+transparency only makes sense to talk about if there is a color behind our item
+to blend with our item's color.
+
+As soon as we know that our color may be transparent, we can no longer make claims about contrast or luminance.
+
+`TransparentColor` exists in order to try to keep functions like `Color.luminance`
+and `Color.Contrast.sufficientContrast` safe and reliable, while also providing
+full-featured support for working with alpha channel values.
+
+
 ## Developing & Contributing
 
-Currently, `tesk9/palette` does not provide first-class alpha channel support (transparency).
-
-Long term, I'm interested in exploring generating accessible palettes and validating
-the accessibility of existing palettes.
-
-Issues, bugs, and enhancement suggestions very welcome on the github repo.
-
+Contributions welcome!
+https://github.com/tesk9/palette
 
 ### Examples
 
