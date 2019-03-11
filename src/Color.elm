@@ -38,7 +38,7 @@ If you change the saturation to 0%, you'll see gray.
 @docs fromHSL, toHSL, toHSLString, toHSLAString
 
 
-### RGB values
+## RGB values
 
 RGB is short for red-green-blue. This representation of color specifies how much
 red, green, and blue are in the color.

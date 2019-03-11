@@ -42,7 +42,7 @@ If not, read more about each color space in `Color`.
 @docs fromHSLA, toHSLA, toHSLAString
 
 
-### RGB values
+## RGB values
 
 @docs fromRGBA, toRGBA, toRGBAString
 
