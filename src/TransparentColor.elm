@@ -11,6 +11,21 @@ module TransparentColor exposing
 
 {-| This module provides helpers for working with colors that are not fully opaque.
 
+Why is `TransparentColor` separate from `Color`? Why isn't `Color` simply modeled
+as an RGBA color value?
+
+Transparency fundamentally involves stacking contexts on render; transparency
+is really a shortcut for saying "blend my color with whatever is behind it."
+
+As soon as we know that our color may be transparent, we can no longer make
+claims about contrast or luminance. Black text on a white background provides
+high contrast, but transparent black text on a white background may not be high
+contrast.
+
+`TransparentColor` exists in order to try to keep functions like `Color.luminance`
+and `Color.Contrast.sufficientContrast` safe and reliable, while also providing
+full-featured support for working with alpha channel values.
+
 These docs assume that you're familiar with the color space you're looking at.
 If not, read more about each color space in `Color`.
 

@@ -39,7 +39,7 @@ myHex =
 
 Use `Color.Contrast` to verify that your font size, boldness, and colors meet accessibility standards.
 
-### Palettes
+### Use static palettes
 
 Use [X11](https://en.wikipedia.org/wiki/X11_color_names) and [Tango](http://tango.freedesktop.org/Tango_Icon_Theme_Guidelines#Color_Palette) colors by name:
 
@@ -58,7 +58,7 @@ allTheButter =
     [ butter1, butter2, butter3 ]
 ```
 
-#### Generating palettes
+### Generate palettes
 
 Generate a customized cubehelix color scheme using `Palette.Cubehelix`.
 These schemes are a good choice for charts & graphs because the produced colors have quite even visual intensity.
@@ -83,19 +83,7 @@ you get a feel for what the functions do.
 
 ### Transparent colors
 
-Why is `TransparentColor` separate from `Color`? Why isn't `Color` simply modeled
-as an RGBA color value?
-
-This is because transparency fundamentally involves stacking contexts on render:
-transparency only makes sense to talk about if there is a color behind our item
-to blend with our item's color.
-
-As soon as we know that our color may be transparent, we can no longer make claims about contrast or luminance.
-
-`TransparentColor` exists in order to try to keep functions like `Color.luminance`
-and `Color.Contrast.sufficientContrast` safe and reliable, while also providing
-full-featured support for working with alpha channel values.
-
+Work with alpha channel values/transparency/opacity.
 
 ## Developing & Contributing
 
