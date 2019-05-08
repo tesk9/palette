@@ -68,14 +68,27 @@ type TransparentColor
 
 
 {-| -}
-fromHSLA : Internal.HSLA.Channels -> TransparentColor
+fromHSLA :
+    { hue : Float
+    , saturation : Float
+    , lightness : Float
+    , alpha : Opacity
+    }
+    -> TransparentColor
 fromHSLA =
     Internal.Color.fromHSLA >> TransparentColor
 
 
 {-| Extract the hue, saturation, lightness, and alpha values from an existing Color.
 -}
-toHSLA : TransparentColor -> Internal.HSLA.Channels
+toHSLA :
+    TransparentColor
+    ->
+        { hue : Float
+        , saturation : Float
+        , lightness : Float
+        , alpha : Opacity
+        }
 toHSLA (TransparentColor color) =
     Internal.HSLA.toChannels (Internal.Color.asHSLA color)
 
@@ -87,14 +100,27 @@ toHSLAString (TransparentColor color) =
 
 
 {-| -}
-fromRGBA : Internal.RGBA.Channels -> TransparentColor
+fromRGBA :
+    { red : Float
+    , green : Float
+    , blue : Float
+    , alpha : Opacity
+    }
+    -> TransparentColor
 fromRGBA =
     Internal.Color.fromRGBA >> TransparentColor
 
 
 {-| Extract the red, green, blue, and alpha values from an existing Color.
 -}
-toRGBA : TransparentColor -> { red : Float, green : Float, blue : Float, alpha : Opacity }
+toRGBA :
+    TransparentColor
+    ->
+        { red : Float
+        , green : Float
+        , blue : Float
+        , alpha : Opacity
+        }
 toRGBA (TransparentColor color) =
     Internal.RGBA.toChannels (Internal.Color.asRGBA color)
 
@@ -194,7 +220,10 @@ getOpacity (TransparentColor c) =
         TransparentColor.mapColor (rotate 10) color
 
 -}
-mapColor : (Color.Color -> Color.Color) -> TransparentColor -> TransparentColor
+mapColor :
+    (Color.Color -> Color.Color)
+    -> TransparentColor
+    -> TransparentColor
 mapColor f =
     map identity f
 
@@ -214,7 +243,10 @@ mapColor f =
         Opacity.map (\current -> current / 2)
 
 -}
-mapOpacity : (Opacity -> Opacity) -> TransparentColor -> TransparentColor
+mapOpacity :
+    (Opacity -> Opacity)
+    -> TransparentColor
+    -> TransparentColor
 mapOpacity f =
     map f identity
 
@@ -232,6 +264,10 @@ mapOpacity f =
             (rotate 10)
 
 -}
-map : (Opacity -> Opacity) -> (Color.Color -> Color.Color) -> TransparentColor -> TransparentColor
+map :
+    (Opacity -> Opacity)
+    -> (Color.Color -> Color.Color)
+    -> TransparentColor
+    -> TransparentColor
 map fo fc color =
     fromColor (fo (getOpacity color)) (fc (toColor color))
