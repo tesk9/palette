@@ -133,11 +133,6 @@ toRGBAString (TransparentColor color) =
 
 {-| Build a new color from a hex string that might include transparencies.
 Supports lowercase and uppercase strings.
-
-    (Color.fromHexAString "#FFDD00" == Color.fromHexAString "#FD0")
-        && (Color.fromHexAString "#FFDD00" == Color.fromHexAString "#ffdd00")
-        && (Color.fromHexAString "##ffdd00" == Color.fromHexAString "#ffdd00ff")
-
 -}
 fromHexAString : String -> Result String TransparentColor
 fromHexAString colorString =
