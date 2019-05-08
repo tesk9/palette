@@ -91,8 +91,8 @@ import Opacity exposing (Opacity)
 
 
 {-| -}
-type alias Color =
-    Internal.Color.Color
+type Color
+    = Color Internal.Color.Color
 
 
 {-| Build a new color based on HSL values.
@@ -112,18 +112,20 @@ Lightness is a percentage value. It's clamped between 0 and 100 (inclusive).
 -}
 fromHSL : ( Float, Float, Float ) -> Color
 fromHSL ( hue, saturation, lightness ) =
-    Internal.Color.fromHSLA
-        { hue = hue
-        , saturation = saturation
-        , lightness = lightness
-        , alpha = Opacity.opaque
-        }
+    Color
+        (Internal.Color.fromHSLA
+            { hue = hue
+            , saturation = saturation
+            , lightness = lightness
+            , alpha = Opacity.opaque
+            }
+        )
 
 
 {-| Extract the hue, saturation, and lightness values from an existing Color.
 -}
 toHSL : Color -> ( Float, Float, Float )
-toHSL color =
+toHSL (Color color) =
     let
         { hue, saturation, lightness } =
             Internal.HSLA.toChannels (Internal.Color.asHSLA color)
@@ -144,14 +146,14 @@ toHSL color =
 
 -}
 toHSLString : Color -> String
-toHSLString color =
+toHSLString (Color color) =
     Internal.HSLA.toStringWithoutOpacity
         (Internal.Color.asHSLA color)
 
 
 {-| -}
 toHSLAString : Color -> String
-toHSLAString color =
+toHSLAString (Color color) =
     Internal.HSLA.toStringWithOpacity (Internal.Color.asHSLA color)
 
 
@@ -176,18 +178,20 @@ This function clamps each rgb value between 0 and 255 (inclusive).
 -}
 fromRGB : ( Float, Float, Float ) -> Color
 fromRGB ( red, green, blue ) =
-    Internal.Color.fromRGBA
-        { red = red
-        , green = green
-        , blue = blue
-        , alpha = Opacity.opaque
-        }
+    Color
+        (Internal.Color.fromRGBA
+            { red = red
+            , green = green
+            , blue = blue
+            , alpha = Opacity.opaque
+            }
+        )
 
 
 {-| Extract the red, green, blue values from an existing Color.
 -}
 toRGB : Color -> ( Float, Float, Float )
-toRGB color =
+toRGB (Color color) =
     let
         { red, green, blue } =
             Internal.RGBA.toChannels (Internal.Color.asRGBA color)
@@ -208,13 +212,13 @@ toRGB color =
 
 -}
 toRGBString : Color -> String
-toRGBString color =
+toRGBString (Color color) =
     Internal.RGBA.toStringWithoutOpacity (Internal.Color.asRGBA color)
 
 
 {-| -}
 toRGBAString : Color -> String
-toRGBAString color =
+toRGBAString (Color color) =
     Internal.RGBA.toStringWithOpacity (Internal.Color.asRGBA color)
 
 
@@ -295,7 +299,7 @@ github repo for this library.
 
 -}
 toHexAString : Color -> String
-toHexAString color =
+toHexAString (Color color) =
     Internal.Hex.toString (Internal.Color.asHex color)
 
 

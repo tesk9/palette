@@ -3,7 +3,7 @@ module Internal.Color exposing
     , fromHSLA, asHSLA
     , fromRGBA, asRGBA
     , asHex
-    , getOpacity, setOpacity
+    , getOpacity
     )
 
 {-|
@@ -12,7 +12,7 @@ module Internal.Color exposing
 @docs fromHSLA, asHSLA
 @docs fromRGBA, asRGBA
 @docs asHex
-@docs getOpacity, setOpacity
+@docs getOpacity
 
 -}
 
@@ -89,17 +89,6 @@ getOpacity color =
 
         HSLA values ->
             HSLA.getOpacity values
-
-
-{-| -}
-setOpacity : Color -> Opacity -> Color
-setOpacity color opacity =
-    case color of
-        RGBA values ->
-            RGBA (RGBA.setOpacity opacity values)
-
-        HSLA values ->
-            HSLA (HSLA.setOpacity opacity values)
 
 
 
