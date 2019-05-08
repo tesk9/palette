@@ -83,7 +83,7 @@ toHSLA (TransparentColor color) =
 {-| -}
 toHSLAString : TransparentColor -> String
 toHSLAString (TransparentColor color) =
-    Color.toHSLAString color
+    Internal.HSLA.toStringWithOpacity (Internal.Color.asHSLA color)
 
 
 {-| -}
@@ -102,7 +102,7 @@ toRGBA (TransparentColor color) =
 {-| -}
 toRGBAString : TransparentColor -> String
 toRGBAString (TransparentColor color) =
-    Color.toRGBAString color
+    Internal.RGBA.toStringWithOpacity (Internal.Color.asRGBA color)
 
 
 {-| Build a new color from a hex string that might include transparencies.
@@ -126,7 +126,7 @@ fromHexAString colorString =
 {-| -}
 toHexAString : TransparentColor -> String
 toHexAString (TransparentColor color) =
-    Color.toHexAString color
+    Internal.Hex.toString (Internal.Color.asHex color)
 
 
 {-| Check two colors for equality.
@@ -153,15 +153,28 @@ equals a b =
 -}
 fromColor : Opacity -> Color.Color -> TransparentColor
 fromColor opacity color =
-    TransparentColor (Internal.Color.setOpacity color opacity)
+    let
+        ( r, g, b ) =
+            Color.toRGB color
+    in
+    fromRGBA
+        { red = r
+        , green = g
+        , blue = b
+        , alpha = opacity
+        }
 
 
 {-| If you decide you don't care about the transparency anymore, you can
 drop this information and work with just the color values.
 -}
 toColor : TransparentColor -> Color.Color
-toColor (TransparentColor color) =
-    Internal.Color.setOpacity color Opacity.opaque
+toColor color =
+    let
+        { red, green, blue } =
+            toRGBA color
+    in
+    Color.fromRGB ( red, green, blue )
 
 
 {-| Extract just the opacity from the color.
@@ -220,7 +233,5 @@ mapOpacity f =
 
 -}
 map : (Opacity -> Opacity) -> (Color.Color -> Color.Color) -> TransparentColor -> TransparentColor
-map fo fc (TransparentColor color) =
-    fo (Internal.Color.getOpacity color)
-        |> Internal.Color.setOpacity (fc color)
-        |> TransparentColor
+map fo fc color =
+    fromColor (fo (getOpacity color)) (fc (toColor color))
