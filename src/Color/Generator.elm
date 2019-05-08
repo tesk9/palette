@@ -39,6 +39,7 @@ Generate a palette based on a starting color.
 -}
 
 import Color exposing (Color)
+import Opacity exposing (Opacity)
 
 
 {-| Rotate a color by degrees [0, 360).

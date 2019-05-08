@@ -17,6 +17,7 @@ import PaletteExamples.Tango
 import PaletteExamples.X11
 import Platform
 import Preview
+import TransparentColorExamples
 import Url exposing (Url)
 import Url.Parser exposing ((</>), Parser, int, map, oneOf, s, string)
 
@@ -151,6 +152,8 @@ view model =
                 , PaletteExamples.Cubehelix.examples
                 ]
             )
+        , Example.section "Transparent Colors"
+            TransparentColorExamples.view
         ]
 
 

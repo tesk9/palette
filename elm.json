@@ -6,9 +6,11 @@
     "version": "1.3.0",
     "exposed-modules": [
         "Color",
+        "TransparentColor",
         "Color.Blend",
         "Color.Contrast",
         "Color.Generator",
+        "Opacity",
         "Palette.X11",
         "Palette.Tango",
         "Palette.Cubehelix"

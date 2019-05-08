@@ -1,8 +1,8 @@
 module Color exposing
     ( Color
-    , fromHSL, toHSL, toHSLString
-    , fromRGB, toRGB, toRGBString
-    , fromHexString, toHexString
+    , fromHSL, toHSL, toHSLString, toHSLAString
+    , fromRGB, toRGB, toRGBString, toRGBAString
+    , fromHexString, toHexString, toHexAString
     , equals
     , luminance
     )
@@ -35,10 +35,10 @@ If you change the saturation to 0%, you'll see gray.
 
 **Lightness** is brightness -- 100% is white and 0% is black.
 
-@docs fromHSL, toHSL, toHSLString
+@docs fromHSL, toHSL, toHSLString, toHSLAString
 
 
-### RGB values
+## RGB values
 
 RGB is short for red-green-blue. This representation of color specifies how much
 red, green, and blue are in the color.
@@ -57,7 +57,7 @@ This is different than what you may remember from painting in elementary school.
 Paint, where you're mixing pigments together, is a **subtractive**
 color space. Printing (CMYK color space) is also subtractive.
 
-@docs fromRGB, toRGB, toRGBString
+@docs fromRGB, toRGB, toRGBString, toRGBAString
 
 
 ## Hex values
@@ -68,7 +68,7 @@ between the two systems is in the base: RGB colors are base 10 and hex colors ar
 You will need to use hex colors if you're working with an
 [HTML input of type color](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color).
 
-@docs fromHexString, toHexString
+@docs fromHexString, toHexString, toHexAString
 
 
 ## Equality
@@ -83,26 +83,16 @@ You will need to use hex colors if you're working with an
 -}
 
 import Dict
+import Internal.Color
+import Internal.HSLA
+import Internal.Hex
+import Internal.RGBA
+import Opacity exposing (Opacity)
 
 
 {-| -}
-type
-    Color
-    -- TODO: other models! conversions! as necessary.
-    = HSL HSLValue
-    | RGB RGBValue
-
-
-{-| Internal representation of HSL used to enforce type safety.
--}
-type HSLValue
-    = HSLValue Float Float Float
-
-
-{-| Internal representation of RGB used to enforce type safety.
--}
-type RGBValue
-    = RGBValue Float Float Float
+type alias Color =
+    Internal.Color.Color
 
 
 {-| Build a new color based on HSL values.
@@ -121,31 +111,24 @@ Lightness is a percentage value. It's clamped between 0 and 100 (inclusive).
 
 -}
 fromHSL : ( Float, Float, Float ) -> Color
-fromHSL ( hue, s, l ) =
-    let
-        hueInt =
-            floor hue
-
-        floatingHueValues =
-            hue - toFloat hueInt
-
-        hue360 =
-            toFloat (modBy 360 hueInt)
-    in
-    HSL (HSLValue (hue360 + floatingHueValues) (clamp 0 100 s) (clamp 0 100 l))
+fromHSL ( hue, saturation, lightness ) =
+    Internal.Color.fromHSLA
+        { hue = hue
+        , saturation = saturation
+        , lightness = lightness
+        , alpha = Opacity.opaque
+        }
 
 
 {-| Extract the hue, saturation, and lightness values from an existing Color.
 -}
 toHSL : Color -> ( Float, Float, Float )
 toHSL color =
-    case color of
-        HSL (HSLValue h s l) ->
-            ( h, s, l )
-
-        RGB rgbValues ->
-            convertRGBToHSL rgbValues
-                |> toHSL
+    let
+        { hue, saturation, lightness } =
+            Internal.HSLA.toChannels (Internal.Color.asHSLA color)
+    in
+    ( hue, saturation, lightness )
 
 
 {-| Get the HSL representation of a color as a `String`.
@@ -162,11 +145,14 @@ toHSL color =
 -}
 toHSLString : Color -> String
 toHSLString color =
-    let
-        ( h, s, l ) =
-            toHSL color
-    in
-    "hsl(" ++ String.fromFloat h ++ "," ++ String.fromFloat s ++ "%," ++ String.fromFloat l ++ "%)"
+    Internal.HSLA.toStringWithoutOpacity
+        (Internal.Color.asHSLA color)
+
+
+{-| -}
+toHSLAString : Color -> String
+toHSLAString color =
+    Internal.HSLA.toStringWithOpacity (Internal.Color.asHSLA color)
 
 
 {-| Build a new color based on RGB values.
@@ -189,21 +175,24 @@ This function clamps each rgb value between 0 and 255 (inclusive).
 
 -}
 fromRGB : ( Float, Float, Float ) -> Color
-fromRGB ( r, g, b ) =
-    RGB (RGBValue (clamp 0 255 r) (clamp 0 255 g) (clamp 0 255 b))
+fromRGB ( red, green, blue ) =
+    Internal.Color.fromRGBA
+        { red = red
+        , green = green
+        , blue = blue
+        , alpha = Opacity.opaque
+        }
 
 
 {-| Extract the red, green, blue values from an existing Color.
 -}
 toRGB : Color -> ( Float, Float, Float )
 toRGB color =
-    case color of
-        RGB (RGBValue r g b) ->
-            ( r, g, b )
-
-        HSL hslValues ->
-            convertHSLToRGB hslValues
-                |> toRGB
+    let
+        { red, green, blue } =
+            Internal.RGBA.toChannels (Internal.Color.asRGBA color)
+    in
+    ( red, green, blue )
 
 
 {-| Get the RGB representation of a color as a `String`.
@@ -220,45 +209,31 @@ toRGB color =
 -}
 toRGBString : Color -> String
 toRGBString color =
-    let
-        ( r, g, b ) =
-            toRGB color
-    in
-    "rgb(" ++ String.fromFloat r ++ "," ++ String.fromFloat g ++ "," ++ String.fromFloat b ++ ")"
+    Internal.RGBA.toStringWithoutOpacity (Internal.Color.asRGBA color)
 
 
-{-| Build a new color from a hex string. Supports lowercase or uppercase strings.
+{-| -}
+toRGBAString : Color -> String
+toRGBAString color =
+    Internal.RGBA.toStringWithOpacity (Internal.Color.asRGBA color)
+
+
+{-| Build a new color from a hex string.
+Supports lowercase and uppercase strings.
 
     (Color.fromHexString "#FFDD00" == Color.fromHexString "#FD0")
         && (Color.fromHexString "#FFDD00" == Color.fromHexString "#ffdd00")
 
+Note: this helper will ignore transparency values.
+
 -}
 fromHexString : String -> Result String Color
 fromHexString colorString =
-    let
-        colorList =
-            String.dropLeft 1 colorString
-                |> String.toList
-                |> List.filterMap fromHexSymbol
-    in
-    case colorList of
-        r1 :: r0 :: g1 :: g0 :: b1 :: b0 :: [] ->
-            ( r1 * 16 + r0 |> toFloat
-            , g1 * 16 + g0 |> toFloat
-            , b1 * 16 + b0 |> toFloat
-            )
-                |> fromRGB
-                |> Ok
+    case Internal.Hex.fromString colorString of
+        Just { red, green, blue } ->
+            Ok (fromRGB ( red, green, blue ))
 
-        r :: g :: b :: [] ->
-            ( r * 16 + r |> toFloat
-            , g * 16 + g |> toFloat
-            , b * 16 + b |> toFloat
-            )
-                |> fromRGB
-                |> Ok
-
-        _ ->
+        Nothing ->
             Err ("fromHexString could not convert " ++ colorString ++ " to a Color.")
 
 
@@ -276,8 +251,8 @@ fromHexString colorString =
             ]
             []
 
-Note: this function will always return a string in the form "#RRGGBB". It will
-not return shortened values (e.g., "#RGB").
+Note: this function will always return a string in either the form "#RRGGBB".
+It will not return shortened values (i.e., "#RGB").
 
 If you want or need this functionality, please make an issue for it on the
 github repo for this library.
@@ -286,10 +261,42 @@ github repo for this library.
 toHexString : Color -> String
 toHexString color =
     let
-        ( r, g, b ) =
+        ( red, green, blue ) =
             toRGB color
     in
-    "#" ++ decToHex r ++ decToHex g ++ decToHex b
+    Internal.Hex.toString
+        { red = red
+        , green = green
+        , blue = blue
+        , alpha = Opacity.opaque
+        }
+
+
+{-| Get the Hex representation of a color as a `String`.
+
+    import Color exposing (toHexString)
+    import Html exposing (p, text)
+    import Html.Attributes exposing (type_, value)
+    import Palette.X11 exposing (red)
+
+    view =
+        Html.input
+            [ type_ "color"
+            , value (toHexAString red)
+            ]
+            []
+
+Note: this function will always return a string in either the form "#RRGGBB"
+or the form "#RRGGBBAA".
+It will not return shortened values (i.e., "#RGB" and "#RGBA").
+
+If you want or need this functionality, please make an issue for it on the
+github repo for this library.
+
+-}
+toHexAString : Color -> String
+toHexAString color =
+    Internal.Hex.toString (Internal.Color.asHex color)
 
 
 {-| Check two colors for equality.
@@ -338,177 +345,3 @@ luminance color =
                 ((srgb + 0.055) / 1.055) ^ 2.4
     in
     (0.2126 * red) + (0.7152 * green) + (0.0722 * blue)
-
-
-
--- CONVERSIONS
-
-
-{-| -}
-convertRGBToHSL : RGBValue -> Color
-convertRGBToHSL (RGBValue r255 g255 b255) =
-    let
-        ( r, g, b ) =
-            ( r255 / 255, g255 / 255, b255 / 255 )
-
-        maximum =
-            max (max r g) b
-
-        minimum =
-            min (min r g) b
-
-        chroma =
-            maximum - minimum
-
-        hue =
-            if chroma == 0 then
-                --Actually undefined, but this is a typical representation
-                0
-
-            else if maximum == r then
-                60 * (g - b) / chroma
-
-            else if maximum == g then
-                60 * ((b - r) / chroma + 2)
-
-            else
-                60 * ((r - g) / chroma + 4)
-
-        lightness =
-            (minimum + maximum) / 2
-
-        saturation =
-            if lightness == 1 || lightness == 0 then
-                0
-
-            else
-                chroma / (1 - abs (2 * lightness - 1))
-    in
-    fromHSL
-        ( hue
-        , saturation * 100
-        , lightness * 100
-        )
-
-
-convertHSLToRGB : HSLValue -> Color
-convertHSLToRGB (HSLValue hue360 saturationPercent lightnessPercent) =
-    let
-        saturation =
-            saturationPercent / 100
-
-        lightness =
-            lightnessPercent / 100
-
-        chroma =
-            (1 - abs (2 * lightness - 1)) * saturation
-
-        hueIsBetween lowerBound upperBound =
-            lowerBound <= hue360 && hue360 <= upperBound
-
-        zigUp xIntercept =
-            chroma * (hue360 - xIntercept) / 60
-
-        zigDown xIntercept =
-            -1 * zigUp xIntercept
-
-        ( r, g, b ) =
-            if hueIsBetween 0 60 then
-                ( chroma, zigUp 0, 0 )
-
-            else if hueIsBetween 60 120 then
-                ( zigDown 120, chroma, 0 )
-
-            else if hueIsBetween 120 180 then
-                ( 0, chroma, zigUp 120 )
-
-            else if hueIsBetween 180 240 then
-                ( 0, zigDown 240, chroma )
-
-            else if hueIsBetween 240 300 then
-                ( zigUp 240, 0, chroma )
-
-            else
-                ( chroma, 0, zigDown 360 )
-
-        lightnessModifier =
-            lightness - chroma / 2
-    in
-    fromRGB
-        ( (r + lightnessModifier) * 255
-        , (g + lightnessModifier) * 255
-        , (b + lightnessModifier) * 255
-        )
-
-
-
-{- Hex/Dec lookup tables -}
-
-
-decToHex : Float -> String
-decToHex c =
-    let
-        nextValue ( dec, hex ) =
-            if dec == 0 then
-                hex
-
-            else
-                nextValue
-                    ( dec // 16
-                    , getHexSymbol (remainderBy 16 dec) ++ hex
-                    )
-    in
-    String.padLeft 2 '0' (nextValue ( round c, "" ))
-
-
-fromHexSymbol : Char -> Maybe Int
-fromHexSymbol m =
-    let
-        decValues =
-            Dict.fromList
-                [ ( '0', 0 )
-                , ( '1', 1 )
-                , ( '2', 2 )
-                , ( '3', 3 )
-                , ( '4', 4 )
-                , ( '5', 5 )
-                , ( '6', 6 )
-                , ( '7', 7 )
-                , ( '8', 8 )
-                , ( '9', 9 )
-                , ( 'A', 10 )
-                , ( 'B', 11 )
-                , ( 'C', 12 )
-                , ( 'D', 13 )
-                , ( 'E', 14 )
-                , ( 'F', 15 )
-                ]
-    in
-    Dict.get (Char.toUpper m) decValues
-
-
-getHexSymbol : Int -> String
-getHexSymbol m =
-    let
-        hexValues =
-            Dict.fromList
-                [ ( 0, "0" )
-                , ( 1, "1" )
-                , ( 2, "2" )
-                , ( 3, "3" )
-                , ( 4, "4" )
-                , ( 5, "5" )
-                , ( 6, "6" )
-                , ( 7, "7" )
-                , ( 8, "8" )
-                , ( 9, "9" )
-                , ( 10, "A" )
-                , ( 11, "B" )
-                , ( 12, "C" )
-                , ( 13, "D" )
-                , ( 14, "E" )
-                , ( 15, "F" )
-                ]
-    in
-    Dict.get m hexValues
-        |> Maybe.withDefault "0"
