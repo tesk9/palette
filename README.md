@@ -16,44 +16,44 @@ Work with colors safely  and accessibly.
 Create colors from RGB, HSL, and hex values.
 
 ```
-import Color exposing (Color)
+import OpaqueColor exposing (OpaqueColor)
 
 
-myOrangeyRed : Color
+myOrangeyRed : OpaqueColor
 myOrangeyRed =
-    Color.fromRGB ( 255, 80, 0 )
+    OpaqueColor.fromRGB ( 255, 80, 0 )
 
 
-myTurquoiseIsh : Color
+myTurquoiseIsh : OpaqueColor
 myTurquoiseIsh =
-    Color.fromHSL (127, 50, 50)
+    OpaqueColor.fromHSL (127, 50, 50)
 
 
-myHex : Result String Color
+myHex : Result String OpaqueColor
 myHex =
-    Color.fromHexString "#ff9800"
+    OpaqueColor.fromHexString "#ff9800"
 
 ```
 
 ### Accessibility
 
-Use `Color.Contrast` to verify that your font size, boldness, and colors meet accessibility standards.
+Use `OpaqueColor.Contrast` to verify that your font size, boldness, and colors meet accessibility standards.
 
 ### Use static palettes
 
 Use [X11](https://en.wikipedia.org/wiki/X11_color_names) and [Tango](http://tango.freedesktop.org/Tango_Icon_Theme_Guidelines#Color_Palette) colors by name:
 
 ```
-import Color exposing (Color)
+import OpaqueColor exposing (OpaqueColor)
 import Palette.X11 as X11 exposing (orangeRed, tomato, coral, darkOrange, orange)
 import Palette.Tango as Tango exposing (butter1, butter2, butter3)
 
-orangyReds : List Color
+orangyReds : List OpaqueColor
 orangyReds =
     [ orangeRed, tomato, coral, darkOrange, orange ]
 
 
-allTheButter : List Color
+allTheButter : List OpaqueColor
 allTheButter =
     [ butter1, butter2, butter3 ]
 ```
@@ -69,7 +69,7 @@ Designers often approach color not by picking one color at a time, but by descri
 the colors, e.g., "I want 4 colors that are equally spaced on the color wheel," or, "I want 10 colors that
 are all of the same hue but with different lightnesses."
 
-If you approach color like this, then you'll be interested in using `Color.Generator`, which has
+If you approach color like this, then you'll be interested in using `OpaqueColor.Generator`, which has
 helpers like `square` (generates 4 evenly-spaced colors) and `monochromatic` (generates lovely
 single-hue lists of colors).
 

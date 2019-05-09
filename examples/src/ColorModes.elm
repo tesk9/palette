@@ -1,13 +1,13 @@
 module ColorModes exposing (Model, Msg, init, update, view)
 
 import Browser
-import Color exposing (Color)
-import Color.Blend
-import Color.Contrast
-import Color.Generator
 import Html exposing (Html)
 import Html.Attributes exposing (style)
 import Html.Events
+import OpaqueColor exposing (OpaqueColor)
+import OpaqueColor.Blend
+import OpaqueColor.Contrast
+import OpaqueColor.Generator
 import Palette.X11 exposing (..)
 import Platform
 
@@ -22,13 +22,13 @@ init =
 
 
 type alias Palette =
-    { primary : Color
-    , secondary : Color
-    , backgroundColors : ( Color, Color )
+    { primary : OpaqueColor
+    , secondary : OpaqueColor
+    , backgroundColors : ( OpaqueColor, OpaqueColor )
     }
 
 
-mapPalette : (Color -> Color) -> Palette -> Palette
+mapPalette : (OpaqueColor -> OpaqueColor) -> Palette -> Palette
 mapPalette map palette =
     { primary = map palette.primary
     , secondary = map palette.secondary
@@ -65,7 +65,7 @@ colorPreferenceToPalette colorPreference =
         standardPalette =
             { primary = dimGray
             , secondary = lightSalmon
-            , backgroundColors = ( lavenderBlush, Color.Generator.complementary lavenderBlush )
+            , backgroundColors = ( lavenderBlush, OpaqueColor.Generator.complementary lavenderBlush )
             }
 
         highContrastPalette =
@@ -79,13 +79,13 @@ colorPreferenceToPalette colorPreference =
             standardPalette
 
         InvertStandard ->
-            mapPalette Color.Generator.invert standardPalette
+            mapPalette OpaqueColor.Generator.invert standardPalette
 
         HighContrast ->
             highContrastPalette
 
         InvertHighContrast ->
-            mapPalette Color.Generator.invert highContrastPalette
+            mapPalette OpaqueColor.Generator.invert highContrastPalette
 
 
 type Msg
@@ -119,10 +119,10 @@ view colorPreference =
             |> Html.div []
         , viewContent palette
             [ Html.h3
-                [ style "color" (Color.toRGBString palette.secondary) ]
+                [ style "color" (OpaqueColor.toRGBString palette.secondary) ]
                 [ Html.text (colorPreferenceToString colorPreference) ]
             , Html.div
-                [ style "color" (Color.toRGBString palette.primary) ]
+                [ style "color" (OpaqueColor.toRGBString palette.primary) ]
                 [ Html.text "Try changing the color scheme using the buttons." ]
             ]
         ]
@@ -132,10 +132,10 @@ viewContent : Palette -> List (Html msg) -> Html msg
 viewContent palette content =
     let
         linearGradient ( top, bottom ) =
-            "linear-gradient(" ++ Color.toRGBString top ++ "," ++ Color.toRGBString bottom ++ ")"
+            "linear-gradient(" ++ OpaqueColor.toRGBString top ++ "," ++ OpaqueColor.toRGBString bottom ++ ")"
     in
     Html.div
-        [ style "background-color" (Color.toRGBString (Tuple.first palette.backgroundColors))
+        [ style "background-color" (OpaqueColor.toRGBString (Tuple.first palette.backgroundColors))
         , style "padding" "8px"
         ]
         [ Html.div
@@ -144,7 +144,7 @@ viewContent palette content =
             --Positioning
             , style "margin" "20px"
             , style "padding" "8px"
-            , style "border" ("1px dashed " ++ Color.toRGBString palette.secondary)
+            , style "border" ("1px dashed " ++ OpaqueColor.toRGBString palette.secondary)
             ]
             content
         ]

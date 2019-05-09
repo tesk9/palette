@@ -1,4 +1,4 @@
-module Color.Blend exposing (add, subtract, multiply, divide)
+module OpaqueColor.Blend exposing (add, subtract, multiply, divide)
 
 {-| Operations that combine colors.
 
@@ -6,7 +6,7 @@ module Color.Blend exposing (add, subtract, multiply, divide)
 
 -}
 
-import Color exposing (Color)
+import OpaqueColor exposing (OpaqueColor)
 
 
 {-| Blends two colors together by adding the values in each channel.
@@ -16,16 +16,16 @@ That is, `rgb(10, 20, 30) + rgb(10, 10, 10) = rgb(20, 30, 40)`.
 Play with an example in Ellie here: <https://ellie-app.com/3yLdpDs9NBya1>.
 
 -}
-add : Color -> Color -> Color
+add : OpaqueColor -> OpaqueColor -> OpaqueColor
 add a c =
     let
         ( r1, g1, b1 ) =
-            Color.toRGB a
+            OpaqueColor.toRGB a
 
         ( r2, g2, b2 ) =
-            Color.toRGB c
+            OpaqueColor.toRGB c
     in
-    Color.fromRGB
+    OpaqueColor.fromRGB
         ( r1 + r2
         , g1 + g2
         , b1 + b2
@@ -40,16 +40,16 @@ That is, `rgb(10, 20, 30) - rgb(10, 10, 10) = rgb(0, 10, 20)`.
 Play with an example in Ellie here: <https://ellie-app.com/3yLftQKkL6Ga1>.
 
 -}
-subtract : Color -> Color -> Color
+subtract : OpaqueColor -> OpaqueColor -> OpaqueColor
 subtract a c =
     let
         ( r1, g1, b1 ) =
-            Color.toRGB a
+            OpaqueColor.toRGB a
 
         ( r2, g2, b2 ) =
-            Color.toRGB c
+            OpaqueColor.toRGB c
     in
-    Color.fromRGB
+    OpaqueColor.fromRGB
         ( r1 - r2
         , g1 - g2
         , b1 - b2
@@ -65,16 +65,16 @@ Any color multiplied by white will result in the color.
 Play with an example in Ellie here: <https://ellie-app.com/3yLgG6JQCgHa1>.
 
 -}
-multiply : Color -> Color -> Color
+multiply : OpaqueColor -> OpaqueColor -> OpaqueColor
 multiply a c =
     let
         ( r1, g1, b1 ) =
-            Color.toRGB a
+            OpaqueColor.toRGB a
 
         ( r2, g2, b2 ) =
-            Color.toRGB c
+            OpaqueColor.toRGB c
     in
-    Color.fromRGB
+    OpaqueColor.fromRGB
         ( r1 * r2 / 255
         , g1 * g2 / 255
         , b1 * b2 / 255
@@ -88,14 +88,14 @@ Use this function to strip out tones & change them to white.
 Play with an example in Ellie here: <https://ellie-app.com/3yLhRLkJPwTa1>
 
 -}
-divide : Color -> Color -> Color
+divide : OpaqueColor -> OpaqueColor -> OpaqueColor
 divide a c =
     let
         ( r1, g1, b1 ) =
-            Color.toRGB a
+            OpaqueColor.toRGB a
 
         ( r2, g2, b2 ) =
-            Color.toRGB c
+            OpaqueColor.toRGB c
 
         safeDivide num denom =
             if denom == 0 then
@@ -104,7 +104,7 @@ divide a c =
             else
                 255 * (num / denom)
     in
-    Color.fromRGB
+    OpaqueColor.fromRGB
         ( safeDivide r1 r2
         , safeDivide g1 g2
         , safeDivide b1 b2

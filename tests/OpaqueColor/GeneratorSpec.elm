@@ -1,10 +1,10 @@
-module Color.GeneratorSpec exposing (highContrastSuite, invertSuite)
+module OpaqueColor.GeneratorSpec exposing (highContrastSuite, invertSuite)
 
-import Color exposing (Color)
-import Color.Contrast as Contrast
-import Color.Generator as Generator
 import Expect exposing (Expectation)
 import Fuzz exposing (Fuzzer, int, list, string)
+import OpaqueColor exposing (OpaqueColor)
+import OpaqueColor.Contrast as Contrast
+import OpaqueColor.Generator as Generator
 import Palette.X11 exposing (..)
 import Test exposing (..)
 
@@ -35,7 +35,7 @@ highContrastSuite =
         ]
 
 
-grays : List ( Color, String )
+grays : List ( OpaqueColor, String )
 grays =
     [ ( gainsboro, "gainsboro" )
     , ( lightGray, "lightGray" )
@@ -64,6 +64,6 @@ invertSuite =
         ]
 
 
-expectColorsEqual : Color -> Color -> Expectation
+expectColorsEqual : OpaqueColor -> OpaqueColor -> Expectation
 expectColorsEqual a b =
-    Expect.equal (Color.toRGBString a) (Color.toRGBString b)
+    Expect.equal (OpaqueColor.toRGBString a) (OpaqueColor.toRGBString b)

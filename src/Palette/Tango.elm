@@ -56,166 +56,166 @@ Play with all the Tango colors on [ellie](https://ellie-app.com/4wzXbjyK6Nta1).
 
 -}
 
-import Color exposing (Color)
+import OpaqueColor exposing (OpaqueColor)
 
 
 {-| -}
-butter1 : Color
+butter1 : OpaqueColor
 butter1 =
-    Color.fromRGB ( 252, 233, 79 )
+    OpaqueColor.fromRGB ( 252, 233, 79 )
 
 
 {-| -}
-butter2 : Color
+butter2 : OpaqueColor
 butter2 =
-    Color.fromRGB ( 237, 212, 0 )
+    OpaqueColor.fromRGB ( 237, 212, 0 )
 
 
 {-| -}
-butter3 : Color
+butter3 : OpaqueColor
 butter3 =
-    Color.fromRGB ( 196, 160, 0 )
+    OpaqueColor.fromRGB ( 196, 160, 0 )
 
 
 {-| -}
-orange1 : Color
+orange1 : OpaqueColor
 orange1 =
-    Color.fromRGB ( 252, 175, 62 )
+    OpaqueColor.fromRGB ( 252, 175, 62 )
 
 
 {-| -}
-orange2 : Color
+orange2 : OpaqueColor
 orange2 =
-    Color.fromRGB ( 245, 121, 0 )
+    OpaqueColor.fromRGB ( 245, 121, 0 )
 
 
 {-| -}
-orange3 : Color
+orange3 : OpaqueColor
 orange3 =
-    Color.fromRGB ( 206, 92, 0 )
+    OpaqueColor.fromRGB ( 206, 92, 0 )
 
 
 {-| -}
-chocolate1 : Color
+chocolate1 : OpaqueColor
 chocolate1 =
-    Color.fromRGB ( 233, 185, 110 )
+    OpaqueColor.fromRGB ( 233, 185, 110 )
 
 
 {-| -}
-chocolate2 : Color
+chocolate2 : OpaqueColor
 chocolate2 =
-    Color.fromRGB ( 193, 125, 17 )
+    OpaqueColor.fromRGB ( 193, 125, 17 )
 
 
 {-| -}
-chocolate3 : Color
+chocolate3 : OpaqueColor
 chocolate3 =
-    Color.fromRGB ( 143, 89, 2 )
+    OpaqueColor.fromRGB ( 143, 89, 2 )
 
 
 {-| -}
-chameleon1 : Color
+chameleon1 : OpaqueColor
 chameleon1 =
-    Color.fromRGB ( 138, 226, 52 )
+    OpaqueColor.fromRGB ( 138, 226, 52 )
 
 
 {-| -}
-chameleon2 : Color
+chameleon2 : OpaqueColor
 chameleon2 =
-    Color.fromRGB ( 115, 210, 22 )
+    OpaqueColor.fromRGB ( 115, 210, 22 )
 
 
 {-| -}
-chameleon3 : Color
+chameleon3 : OpaqueColor
 chameleon3 =
-    Color.fromRGB ( 78, 154, 6 )
+    OpaqueColor.fromRGB ( 78, 154, 6 )
 
 
 {-| -}
-skyBlue1 : Color
+skyBlue1 : OpaqueColor
 skyBlue1 =
-    Color.fromRGB ( 114, 159, 207 )
+    OpaqueColor.fromRGB ( 114, 159, 207 )
 
 
 {-| -}
-skyBlue2 : Color
+skyBlue2 : OpaqueColor
 skyBlue2 =
-    Color.fromRGB ( 52, 101, 164 )
+    OpaqueColor.fromRGB ( 52, 101, 164 )
 
 
 {-| -}
-skyBlue3 : Color
+skyBlue3 : OpaqueColor
 skyBlue3 =
-    Color.fromRGB ( 32, 74, 135 )
+    OpaqueColor.fromRGB ( 32, 74, 135 )
 
 
 {-| -}
-plum1 : Color
+plum1 : OpaqueColor
 plum1 =
-    Color.fromRGB ( 173, 127, 168 )
+    OpaqueColor.fromRGB ( 173, 127, 168 )
 
 
 {-| -}
-plum2 : Color
+plum2 : OpaqueColor
 plum2 =
-    Color.fromRGB ( 117, 80, 123 )
+    OpaqueColor.fromRGB ( 117, 80, 123 )
 
 
 {-| -}
-plum3 : Color
+plum3 : OpaqueColor
 plum3 =
-    Color.fromRGB ( 92, 53, 102 )
+    OpaqueColor.fromRGB ( 92, 53, 102 )
 
 
 {-| -}
-scarletRed1 : Color
+scarletRed1 : OpaqueColor
 scarletRed1 =
-    Color.fromRGB ( 239, 41, 41 )
+    OpaqueColor.fromRGB ( 239, 41, 41 )
 
 
 {-| -}
-scarletRed2 : Color
+scarletRed2 : OpaqueColor
 scarletRed2 =
-    Color.fromRGB ( 204, 0, 0 )
+    OpaqueColor.fromRGB ( 204, 0, 0 )
 
 
 {-| -}
-scarletRed3 : Color
+scarletRed3 : OpaqueColor
 scarletRed3 =
-    Color.fromRGB ( 164, 0, 0 )
+    OpaqueColor.fromRGB ( 164, 0, 0 )
 
 
 {-| -}
-aluminum1 : Color
+aluminum1 : OpaqueColor
 aluminum1 =
-    Color.fromRGB ( 238, 238, 236 )
+    OpaqueColor.fromRGB ( 238, 238, 236 )
 
 
 {-| -}
-aluminum2 : Color
+aluminum2 : OpaqueColor
 aluminum2 =
-    Color.fromRGB ( 211, 215, 207 )
+    OpaqueColor.fromRGB ( 211, 215, 207 )
 
 
 {-| -}
-aluminum3 : Color
+aluminum3 : OpaqueColor
 aluminum3 =
-    Color.fromRGB ( 186, 189, 182 )
+    OpaqueColor.fromRGB ( 186, 189, 182 )
 
 
 {-| -}
-aluminum4 : Color
+aluminum4 : OpaqueColor
 aluminum4 =
-    Color.fromRGB ( 136, 138, 133 )
+    OpaqueColor.fromRGB ( 136, 138, 133 )
 
 
 {-| -}
-aluminum5 : Color
+aluminum5 : OpaqueColor
 aluminum5 =
-    Color.fromRGB ( 85, 87, 83 )
+    OpaqueColor.fromRGB ( 85, 87, 83 )
 
 
 {-| -}
-aluminum6 : Color
+aluminum6 : OpaqueColor
 aluminum6 =
-    Color.fromRGB ( 46, 52, 54 )
+    OpaqueColor.fromRGB ( 46, 52, 54 )

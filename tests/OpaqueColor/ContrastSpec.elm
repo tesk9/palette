@@ -1,9 +1,9 @@
-module Color.ContrastSpec exposing (contrastSuite, sufficientContrastSuite)
+module OpaqueColor.ContrastSpec exposing (contrastSuite, sufficientContrastSuite)
 
-import Color exposing (Color)
-import Color.Contrast as Contrast
 import Expect exposing (Expectation)
 import Fuzz exposing (Fuzzer, int, list, string)
+import OpaqueColor exposing (OpaqueColor)
+import OpaqueColor.Contrast as Contrast
 import Palette.X11 exposing (..)
 import Test exposing (..)
 
@@ -114,6 +114,6 @@ floatEqual =
     Expect.within (Expect.Absolute 0.1)
 
 
-gray : Color
+gray : OpaqueColor
 gray =
-    Color.fromRGB ( 118, 118, 118 )
+    OpaqueColor.fromRGB ( 118, 118, 118 )

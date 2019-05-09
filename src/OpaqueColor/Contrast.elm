@@ -1,4 +1,4 @@
-module Color.Contrast exposing (WCAGLevel(..), sufficientContrast, contrast)
+module OpaqueColor.Contrast exposing (WCAGLevel(..), sufficientContrast, contrast)
 
 {-| Use this module to determine whether colors may be used together.
 
@@ -6,7 +6,7 @@ module Color.Contrast exposing (WCAGLevel(..), sufficientContrast, contrast)
 
 -}
 
-import Color exposing (Color)
+import OpaqueColor exposing (OpaqueColor)
 
 
 {-| Read more about levels of conformance at [WCAG](https://www.w3.org/TR/UNDERSTANDING-WCAG20/conformance.html#uc-levels-head).
@@ -31,7 +31,7 @@ TODO (consider this a headsup on likely API changes!):
 See an example here: <https://ellie-app.com/3CgJZNMyxw3a1>.
 
 -}
-sufficientContrast : WCAGLevel -> { fontSize : Float, fontWeight : Int } -> Color -> Color -> Bool
+sufficientContrast : WCAGLevel -> { fontSize : Float, fontWeight : Int } -> OpaqueColor -> OpaqueColor -> Bool
 sufficientContrast wcagLevel { fontSize, fontWeight } color1 color2 =
     let
         colorContrast =
@@ -58,14 +58,14 @@ sufficientContrast wcagLevel { fontSize, fontWeight } color1 color2 =
 See an example here: <https://ellie-app.com/3CgJZNMyxw3a1>.
 
 -}
-contrast : Color -> Color -> Float
+contrast : OpaqueColor -> OpaqueColor -> Float
 contrast color1 color2 =
     let
         luminance1 =
-            Color.luminance color1
+            OpaqueColor.luminance color1
 
         luminance2 =
-            Color.luminance color2
+            OpaqueColor.luminance color2
     in
     if luminance1 > luminance2 then
         (luminance1 + 0.05) / (luminance2 + 0.05)

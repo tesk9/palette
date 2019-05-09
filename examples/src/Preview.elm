@@ -1,12 +1,12 @@
 module Preview exposing (Model, Msg, init, update, view)
 
-import Color exposing (Color)
-import Color.Generator as Generator
 import Comparison
 import Html exposing (Html)
 import Html.Attributes exposing (style)
 import Html.Events
 import Json.Decode
+import OpaqueColor exposing (OpaqueColor)
+import OpaqueColor.Generator as Generator
 
 
 type alias Model =
@@ -18,12 +18,12 @@ type alias Model =
 type Generator
     = Generator
         { name : String
-        , generate : Color -> List Color
+        , generate : OpaqueColor -> List OpaqueColor
         }
     | GeneratorWith
         { name : String
         , unit : Unit
-        , generate : Float -> Color -> List Color
+        , generate : Float -> OpaqueColor -> List OpaqueColor
         , editable : Maybe Float
         }
 
@@ -144,7 +144,7 @@ init =
     }
 
 
-view : Color -> Model -> Html Msg
+view : OpaqueColor -> Model -> Html Msg
 view selectedColor model =
     Html.div [ style "margin-top" "4px" ]
         [ generatorOptions model
@@ -169,7 +169,7 @@ generatorOptions : Model -> Html Msg
 generatorOptions model =
     Html.div [ style "margin-bottom" "8px" ]
         [ Html.label [ Html.Attributes.for "generator-select" ]
-            [ Html.text "Color.Generator." ]
+            [ Html.text "OpaqueColor.Generator." ]
         , Html.select
             [ Html.Attributes.id "generator-select"
             , Html.Events.onInput
@@ -215,8 +215,8 @@ customValueEditor unit currentValue =
 
 
 viewEditablePalette :
-    Color
-    -> { a | name : String, generate : Float -> Color -> List Color, editable : Maybe Float }
+    OpaqueColor
+    -> { a | name : String, generate : Float -> OpaqueColor -> List OpaqueColor, editable : Maybe Float }
     -> Html msg
 viewEditablePalette selectedColor { name, generate, editable } =
     case editable of
@@ -227,18 +227,18 @@ viewEditablePalette selectedColor { name, generate, editable } =
             Html.text ""
 
 
-viewPalette : Color -> String -> (Color -> List Color) -> Html msg
+viewPalette : OpaqueColor -> String -> (OpaqueColor -> List OpaqueColor) -> Html msg
 viewPalette selectedColor name generate =
     let
         ( r, g, b ) =
-            Color.toRGB selectedColor
+            OpaqueColor.toRGB selectedColor
     in
     Html.div []
         [ Html.code []
             [ Html.text
-                ("Color.Generator."
+                ("OpaqueColor.Generator."
                     ++ name
-                    ++ " <| Color.fromRGB ( "
+                    ++ " <| OpaqueColor.fromRGB ( "
                     ++ String.fromFloat r
                     ++ ", "
                     ++ String.fromFloat g
@@ -247,7 +247,7 @@ viewPalette selectedColor name generate =
                     ++ " ) == "
                 )
             ]
-        , Comparison.viewPalette (Color.fromRGB ( 255, 255, 255 )) (generate selectedColor)
+        , Comparison.viewPalette (OpaqueColor.fromRGB ( 255, 255, 255 )) (generate selectedColor)
         ]
 
 

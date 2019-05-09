@@ -53,13 +53,13 @@ If not, read more about each color space in `Color`.
 
 -}
 
-import Color
 import Dict
 import Internal.Color
 import Internal.HSLA
 import Internal.Hex
 import Internal.RGBA
 import Opacity exposing (Opacity)
+import OpaqueColor
 
 
 {-| -}
@@ -159,24 +159,24 @@ equals a b =
 
 {-| Specify the opacity for a color without opacity.
 
-    import Color exposing (Color)
     import Opacity
+    import OpaqueColor exposing (OpaqueColor)
     import TransparentColor exposing (TransparentColor)
 
-    myRed : Color
+    myRed : OpaqueColor
     myRed =
-        Color.fromRGB ( 255, 0, 0 )
+        OpaqueColor.fromRGB ( 255, 0, 0 )
 
     myTransparentRed : TransparentColor
     myTransparentRed =
         TransparentColor.fromColor (Opacity.custom 0.5) myRed
 
 -}
-fromColor : Opacity -> Color.Color -> TransparentColor
+fromColor : Opacity -> OpaqueColor.OpaqueColor -> TransparentColor
 fromColor opacity color =
     let
         ( r, g, b ) =
-            Color.toRGB color
+            OpaqueColor.toRGB color
     in
     fromRGBA
         { red = r
@@ -189,13 +189,13 @@ fromColor opacity color =
 {-| If you decide you don't care about the transparency anymore, you can
 drop this information and work with just the color values.
 -}
-toColor : TransparentColor -> Color.Color
+toColor : TransparentColor -> OpaqueColor.OpaqueColor
 toColor color =
     let
         { red, green, blue } =
             toRGBA color
     in
-    Color.fromRGB ( red, green, blue )
+    OpaqueColor.fromRGB ( red, green, blue )
 
 
 {-| Extract just the opacity from the color.
@@ -207,7 +207,7 @@ getOpacity (TransparentColor c) =
 
 {-|
 
-    import Color.Generator exposing (rotate)
+    import OpaqueColor.Generator exposing (rotate)
     import TransparentColor exposing (TransparentColor)
 
     nextColor : TransparentColor -> TransparentColor
@@ -216,7 +216,7 @@ getOpacity (TransparentColor c) =
 
 -}
 mapColor :
-    (Color.Color -> Color.Color)
+    (OpaqueColor.OpaqueColor -> OpaqueColor.OpaqueColor)
     -> TransparentColor
     -> TransparentColor
 mapColor f =
@@ -248,8 +248,8 @@ mapOpacity f =
 
 {-|
 
-    import Color.Generator exposing (rotate)
     import Opacity
+    import OpaqueColor.Generator exposing (rotate)
     import TransparentColor exposing (TransparentColor)
 
     rotateAndMakeMoreTransparent : TransparentColor -> TransparentColor
@@ -261,7 +261,7 @@ mapOpacity f =
 -}
 map :
     (Opacity -> Opacity)
-    -> (Color.Color -> Color.Color)
+    -> (OpaqueColor.OpaqueColor -> OpaqueColor.OpaqueColor)
     -> TransparentColor
     -> TransparentColor
 map fo fc color =

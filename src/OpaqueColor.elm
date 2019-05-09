@@ -1,5 +1,5 @@
-module Color exposing
-    ( Color
+module OpaqueColor exposing
+    ( OpaqueColor
     , fromHSL, toHSL, toHSLString, toHSLAString
     , fromRGB, toRGB, toRGBString, toRGBAString
     , fromHexString, toHexString, toHexAString
@@ -9,7 +9,7 @@ module Color exposing
 
 {-|
 
-@docs Color
+@docs OpaqueColor
 
 
 ## HSL values
@@ -76,7 +76,7 @@ You will need to use hex colors if you're working with an
 @docs equals
 
 
-## Color properties
+## OpaqueColor properties
 
 @docs luminance
 
@@ -91,17 +91,17 @@ import Opacity exposing (Opacity)
 
 
 {-| -}
-type Color
-    = Color Internal.Color.Color
+type OpaqueColor
+    = OpaqueColor Internal.Color.Color
 
 
 {-| Build a new color based on HSL values.
 
-    import Color exposing (Color)
+    import OpaqueColor exposing (OpaqueColor)
 
-    red : Color
+    red : OpaqueColor
     red =
-        Color.fromHSL ( 0, 100, 50 )
+        OpaqueColor.fromHSL ( 0, 100, 50 )
 
 The hue is specified in degrees, and uses modular arithmetic such that whether you
 pass in `0`, `360`, or `-360`, you'll still end up with a red hue.
@@ -110,9 +110,9 @@ Saturation is a percentage value. It's clamped between 0 and 100 (inclusive).
 Lightness is a percentage value. It's clamped between 0 and 100 (inclusive).
 
 -}
-fromHSL : ( Float, Float, Float ) -> Color
+fromHSL : ( Float, Float, Float ) -> OpaqueColor
 fromHSL ( hue, saturation, lightness ) =
-    Color
+    OpaqueColor
         (Internal.Color.fromHSLA
             { hue = hue
             , saturation = saturation
@@ -122,10 +122,10 @@ fromHSL ( hue, saturation, lightness ) =
         )
 
 
-{-| Extract the hue, saturation, and lightness values from an existing Color.
+{-| Extract the hue, saturation, and lightness values from an existing OpaqueColor.
 -}
-toHSL : Color -> ( Float, Float, Float )
-toHSL (Color color) =
+toHSL : OpaqueColor -> ( Float, Float, Float )
+toHSL (OpaqueColor color) =
     let
         { hue, saturation, lightness } =
             Internal.HSLA.toChannels (Internal.Color.asHSLA color)
@@ -135,9 +135,9 @@ toHSL (Color color) =
 
 {-| Get the HSL representation of a color as a `String`.
 
-    import Color exposing (toHSLString)
     import Html exposing (p, text)
     import Html.Attributes exposing (style)
+    import OpaqueColor exposing (toHSLString)
     import Palette.X11 exposing (red)
 
     view =
@@ -145,40 +145,40 @@ toHSL (Color color) =
             [ text "Wow! This sure looks red!" ]
 
 -}
-toHSLString : Color -> String
-toHSLString (Color color) =
+toHSLString : OpaqueColor -> String
+toHSLString (OpaqueColor color) =
     Internal.HSLA.toStringWithoutOpacity
         (Internal.Color.asHSLA color)
 
 
 {-| -}
-toHSLAString : Color -> String
-toHSLAString (Color color) =
+toHSLAString : OpaqueColor -> String
+toHSLAString (OpaqueColor color) =
     Internal.HSLA.toStringWithOpacity (Internal.Color.asHSLA color)
 
 
 {-| Build a new color based on RGB values.
 
-    import Color exposing (Color)
+    import OpaqueColor exposing (OpaqueColor)
 
-    red : Color
+    red : OpaqueColor
     red =
-        Color.fromRGB ( 255, 0, 0 )
+        OpaqueColor.fromRGB ( 255, 0, 0 )
 
-    green : Color
+    green : OpaqueColor
     green =
-        Color.fromRGB ( 0, 255, 0 )
+        OpaqueColor.fromRGB ( 0, 255, 0 )
 
-    blue : Color
+    blue : OpaqueColor
     blue =
-        Color.fromRGB ( 0, 0, 255 )
+        OpaqueColor.fromRGB ( 0, 0, 255 )
 
 This function clamps each rgb value between 0 and 255 (inclusive).
 
 -}
-fromRGB : ( Float, Float, Float ) -> Color
+fromRGB : ( Float, Float, Float ) -> OpaqueColor
 fromRGB ( red, green, blue ) =
-    Color
+    OpaqueColor
         (Internal.Color.fromRGBA
             { red = red
             , green = green
@@ -188,10 +188,10 @@ fromRGB ( red, green, blue ) =
         )
 
 
-{-| Extract the red, green, blue values from an existing Color.
+{-| Extract the red, green, blue values from an existing OpaqueColor.
 -}
-toRGB : Color -> ( Float, Float, Float )
-toRGB (Color color) =
+toRGB : OpaqueColor -> ( Float, Float, Float )
+toRGB (OpaqueColor color) =
     let
         { red, green, blue } =
             Internal.RGBA.toChannels (Internal.Color.asRGBA color)
@@ -201,9 +201,9 @@ toRGB (Color color) =
 
 {-| Get the RGB representation of a color as a `String`.
 
-    import Color exposing (toRGBString)
     import Html exposing (p, text)
     import Html.Attributes exposing (style)
+    import OpaqueColor exposing (toRGBString)
     import Palette.X11 exposing (red)
 
     view =
@@ -211,41 +211,41 @@ toRGB (Color color) =
             [ text "Wow! This sure looks red!" ]
 
 -}
-toRGBString : Color -> String
-toRGBString (Color color) =
+toRGBString : OpaqueColor -> String
+toRGBString (OpaqueColor color) =
     Internal.RGBA.toStringWithoutOpacity (Internal.Color.asRGBA color)
 
 
 {-| -}
-toRGBAString : Color -> String
-toRGBAString (Color color) =
+toRGBAString : OpaqueColor -> String
+toRGBAString (OpaqueColor color) =
     Internal.RGBA.toStringWithOpacity (Internal.Color.asRGBA color)
 
 
 {-| Build a new color from a hex string.
 Supports lowercase and uppercase strings.
 
-    (Color.fromHexString "#FFDD00" == Color.fromHexString "#FD0")
-        && (Color.fromHexString "#FFDD00" == Color.fromHexString "#ffdd00")
+    (OpaqueColor.fromHexString "#FFDD00" == OpaqueColor.fromHexString "#FD0")
+        && (OpaqueColor.fromHexString "#FFDD00" == OpaqueColor.fromHexString "#ffdd00")
 
 Note: this helper will ignore transparency values.
 
 -}
-fromHexString : String -> Result String Color
+fromHexString : String -> Result String OpaqueColor
 fromHexString colorString =
     case Internal.Hex.fromString colorString of
         Just { red, green, blue } ->
             Ok (fromRGB ( red, green, blue ))
 
         Nothing ->
-            Err ("fromHexString could not convert " ++ colorString ++ " to a Color.")
+            Err ("fromHexString could not convert " ++ colorString ++ " to a OpaqueColor.")
 
 
 {-| Get the Hex representation of a color as a `String`.
 
-    import Color exposing (toHexString)
     import Html exposing (p, text)
     import Html.Attributes exposing (type_, value)
+    import OpaqueColor exposing (toHexString)
     import Palette.X11 exposing (red)
 
     view =
@@ -262,7 +262,7 @@ If you want or need this functionality, please make an issue for it on the
 github repo for this library.
 
 -}
-toHexString : Color -> String
+toHexString : OpaqueColor -> String
 toHexString color =
     let
         ( red, green, blue ) =
@@ -278,9 +278,9 @@ toHexString color =
 
 {-| Get the Hex representation of a color as a `String`.
 
-    import Color exposing (toHexString)
     import Html exposing (p, text)
     import Html.Attributes exposing (type_, value)
+    import OpaqueColor exposing (toHexString)
     import Palette.X11 exposing (red)
 
     view =
@@ -298,14 +298,14 @@ If you want or need this functionality, please make an issue for it on the
 github repo for this library.
 
 -}
-toHexAString : Color -> String
-toHexAString (Color color) =
+toHexAString : OpaqueColor -> String
+toHexAString (OpaqueColor color) =
     Internal.Hex.toString (Internal.Color.asHex color)
 
 
 {-| Check two colors for equality.
 -}
-equals : Color -> Color -> Bool
+equals : OpaqueColor -> OpaqueColor -> Bool
 equals a b =
     toRGB a == toRGB b
 
@@ -313,11 +313,11 @@ equals a b =
 {-| Luminance calculation adopted from <https://www.w3.org/TR/WCAG20-TECHS/G17.html>
 
 Luminance describes the perceived brightness of a color. You're unlikely to need
-to use this function directly. Maybe something in `Color.Contrast` or `Color.Generator`
+to use this function directly. Maybe something in `OpaqueColor.Contrast` or `OpaqueColor.Generator`
 meets your needs instead?
 
 -}
-luminance : Color -> Float
+luminance : OpaqueColor -> Float
 luminance color =
     let
         ( rRaw, gRaw, bRaw ) =
