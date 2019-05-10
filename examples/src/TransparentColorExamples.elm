@@ -4,7 +4,6 @@ import Html exposing (..)
 import Html.Attributes exposing (style)
 import Opacity
 import OpaqueColor exposing (OpaqueColor)
-import OpaqueColor.Blend
 import TransparentColor exposing (TransparentColor)
 
 

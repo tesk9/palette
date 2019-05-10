@@ -7,7 +7,6 @@ import Comparison
 import ExampleHelpers as Example
 import Html exposing (Html)
 import OpaqueColor exposing (OpaqueColor)
-import OpaqueColor.Blend
 import OpaqueColor.Contrast
 import OpaqueColor.Generator
 import Palette.Tango as Tango
@@ -131,16 +130,16 @@ view model =
                     (Html.div []
                         [ Html.h4 [] [ Html.text "Add" ]
                         , Example.list (List.map (\color -> ( color, X11.lightSeaGreen )) rainbow)
-                            (Comparison.viewOverlapping OpaqueColor.Blend.add)
+                            (Comparison.viewOverlapping OpaqueColor.add)
                         , Html.h4 [] [ Html.text "Subtract" ]
                         , Example.list (List.map (\color -> ( color, X11.lightSeaGreen )) rainbow)
-                            (Comparison.viewOverlapping OpaqueColor.Blend.subtract)
+                            (Comparison.viewOverlapping OpaqueColor.subtract)
                         , Html.h4 [] [ Html.text "Multiply" ]
                         , Example.list (List.map (\color -> ( color, X11.lightSeaGreen )) rainbow)
-                            (Comparison.viewOverlapping OpaqueColor.Blend.multiply)
+                            (Comparison.viewOverlapping OpaqueColor.multiply)
                         , Html.h4 [] [ Html.text "Divide" ]
                         , Example.list (List.map (\color -> ( color, X11.lightSeaGreen )) rainbow)
-                            (Comparison.viewOverlapping OpaqueColor.Blend.divide)
+                            (Comparison.viewOverlapping OpaqueColor.divide)
                         ]
                     )
                 ]
