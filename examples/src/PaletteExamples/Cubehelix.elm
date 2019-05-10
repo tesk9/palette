@@ -5,7 +5,6 @@ import ExampleHelpers as Example
 import Html exposing (Html)
 import Html.Attributes exposing (style)
 import OpaqueColor
-import OpaqueColor.Generator exposing (adjustSaturation)
 import Palette.Cubehelix as Cubehelix exposing (defaultConfig)
 
 

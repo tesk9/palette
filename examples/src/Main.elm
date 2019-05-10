@@ -157,12 +157,12 @@ view model =
 
 viewGrayscale : OpaqueColor -> Html msg
 viewGrayscale color =
-    Comparison.viewPalette color [ OpaqueColor.Generator.grayscale color ]
+    Comparison.viewPalette color [ OpaqueColor.grayscale color ]
 
 
 viewInverse : OpaqueColor -> Html msg
 viewInverse color =
-    Comparison.viewPalette color [ OpaqueColor.Generator.invert color ]
+    Comparison.viewPalette color [ OpaqueColor.invert color ]
 
 
 viewComplementary : OpaqueColor -> Html msg
@@ -209,32 +209,32 @@ viewRectangle ( degree, color ) =
 viewMonochromaticShades : OpaqueColor -> Html msg
 viewMonochromaticShades color =
     Comparison.viewPalette color
-        [ OpaqueColor.Generator.shade 10 color
-        , OpaqueColor.Generator.shade 20 color
-        , OpaqueColor.Generator.shade 30 color
-        , OpaqueColor.Generator.shade 40 color
+        [ OpaqueColor.shade 10 color
+        , OpaqueColor.shade 20 color
+        , OpaqueColor.shade 30 color
+        , OpaqueColor.shade 40 color
         ]
 
 
 viewMonochromaticTints : OpaqueColor -> Html msg
 viewMonochromaticTints color =
     Comparison.viewPalette color
-        [ OpaqueColor.Generator.tint 10 color
-        , OpaqueColor.Generator.tint 20 color
-        , OpaqueColor.Generator.tint 30 color
-        , OpaqueColor.Generator.tint 40 color
-        , OpaqueColor.Generator.tint 50 color
+        [ OpaqueColor.tint 10 color
+        , OpaqueColor.tint 20 color
+        , OpaqueColor.tint 30 color
+        , OpaqueColor.tint 40 color
+        , OpaqueColor.tint 50 color
         ]
 
 
 viewMonochromaticTones : OpaqueColor -> Html msg
 viewMonochromaticTones color =
     Comparison.viewPalette color
-        [ OpaqueColor.Generator.tone -100 color
-        , OpaqueColor.Generator.tone -80 color
-        , OpaqueColor.Generator.tone -60 color
-        , OpaqueColor.Generator.tone -40 color
-        , OpaqueColor.Generator.tone -20 color
+        [ OpaqueColor.tone -100 color
+        , OpaqueColor.tone -80 color
+        , OpaqueColor.tone -60 color
+        , OpaqueColor.tone -40 color
+        , OpaqueColor.tone -20 color
         ]
 
 

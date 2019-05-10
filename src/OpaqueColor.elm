@@ -7,6 +7,11 @@ module OpaqueColor exposing
     , equals
     , WCAGLevel(..), sufficientContrast, contrast
     , luminance
+    , rotate
+    , highContrast
+    , shade, tint, tone
+    , grayscale, invert
+    , adjustSaturation, adjustLightness
     )
 
 {-|
@@ -87,6 +92,15 @@ You will need to use hex colors if you're working with an
 
 @docs WCAGLevel, sufficientContrast, contrast
 @docs luminance
+
+
+## Modify an OpaqueColor
+
+@docs rotate
+@docs highContrast
+@docs shade, tint, tone
+@docs grayscale, invert
+@docs rotate, adjustSaturation, adjustLightness
 
 -}
 
@@ -488,8 +502,7 @@ contrast color1 color2 =
 {-| Luminance calculation adopted from <https://www.w3.org/TR/WCAG20-TECHS/G17.html>
 
 Luminance describes the perceived brightness of a color. You're unlikely to need
-to use this function directly. Maybe something in `OpaqueColor.Contrast` or `OpaqueColor.Generator`
-meets your needs instead?
+to use this function directly
 
 -}
 luminance : OpaqueColor -> Float
@@ -524,3 +537,120 @@ luminance color =
                 ((srgb + 0.055) / 1.055) ^ 2.4
     in
     (0.2126 * red) + (0.7152 * green) + (0.0722 * blue)
+
+
+{-| Rotate a color by degrees [0, 360).
+
+Picture the color wheel. Suppose you want to find 8 evenly-spaced colors from a starting color.
+You might do something like this:
+
+    import OpaqueColor
+
+    eightEvenColors : OpaqueColor -> List OpaqueColor
+    eightEvenColors color =
+        List.range 0 7
+            |> List.map (\i -> OpaqueColor.rotate (toFloat i * 360 / 8) color)
+
+Check out this code on Ellie here: <https://ellie-app.com/3CRfDs2HLvGa1>.
+
+-}
+rotate : Float -> OpaqueColor -> OpaqueColor
+rotate degrees color =
+    toHSL color
+        |> (\( h, s, l ) -> ( h + degrees, s, l ))
+        |> fromHSL
+
+
+{-| Use this function to produce a new shade of the OpaqueColor.
+Note: shades will be darker than the starting color. If you want a lighter color,
+please see `tint`.
+
+Pass in the percentage value by which you want to darken the color.
+
+-}
+shade : Float -> OpaqueColor -> OpaqueColor
+shade percentage color =
+    adjustLightness (0 - abs percentage) color
+
+
+{-| Use this function to produce a new tint of the OpaqueColor.
+Note: tints will be lighter than the starting color. If you want a darker color,
+please see `shade`.
+
+Pass in the percentage value by which you want to lighten the color.
+
+-}
+tint : Float -> OpaqueColor -> OpaqueColor
+tint percentage color =
+    adjustLightness (abs percentage) color
+
+
+{-| Use this function to produce a new tone of the OpaqueColor.
+
+Essentially this means adding grays to the color you pass in. It's implemented,
+though, by adjusting the saturation of the color. You can pass in a positive or
+negative percentage value.
+
+-}
+tone : Float -> OpaqueColor -> OpaqueColor
+tone percentage color =
+    adjustSaturation percentage color
+
+
+{-| Modify the saturation of a color (see notes on HSL color space).
+-}
+adjustSaturation : Float -> OpaqueColor -> OpaqueColor
+adjustSaturation percentage color =
+    toHSL color
+        |> (\( h, s, l ) -> ( h, s + percentage, l ))
+        |> fromHSL
+
+
+{-| Modify the lightness of a color (see notes on HSL color space).
+-}
+adjustLightness : Float -> OpaqueColor -> OpaqueColor
+adjustLightness percentage color =
+    toHSL color
+        |> (\( h, s, l ) -> ( h, s, l + percentage ))
+        |> fromHSL
+
+
+{-| Find a high contrast color to use in concert with the passed-in color.
+This funciton will return either black or white, whichever will be higher contrast
+given the starter color.
+
+This is most useful when working with styleguide colors. It will not produce
+particularly visually pleasing results, but they will be consistent and readable.
+
+-}
+highContrast : OpaqueColor -> OpaqueColor
+highContrast starting =
+    if luminance starting < 0.1791 then
+        adjustLightness 100 starting
+
+    else
+        adjustLightness (0 - 100) starting
+
+
+{-| Use this function to invert a color. E.g., black inverted is white, white inverted is black....
+-}
+invert : OpaqueColor -> OpaqueColor
+invert color =
+    let
+        ( r, g, b ) =
+            toRGB color
+    in
+    fromRGB ( 255 - r, 255 - g, 255 - b )
+
+
+{-| Convert the color you pass in to a grayscale version. Essentially this uses the
+luminance of the color you pass in to make a corresponding white <-> black value.
+-}
+grayscale : OpaqueColor -> OpaqueColor
+grayscale color =
+    let
+        fromLuminance =
+            luminance color * 255
+    in
+    ( fromLuminance, fromLuminance, fromLuminance )
+        |> fromRGB

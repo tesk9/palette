@@ -2,15 +2,15 @@ module OpaqueColorSpec exposing
     ( colorSpec
     , contrastSuite
     , conversionsSpec
+    , highContrastSuite
+    , invertSuite
     , luminanceSuite
     , sufficientContrastSuite
     )
 
 import Expect exposing (Expectation)
-import Fuzz exposing (Fuzzer)
 import Opacity
 import OpaqueColor exposing (OpaqueColor)
-import OpaqueColor.Generator
 import OpaqueColorFuzzer exposing (hexStringOfLength)
 import Palette.X11 exposing (..)
 import Test exposing (..)
@@ -351,6 +351,61 @@ luminanceSuite =
         ]
 
 
+highContrastSuite : Test
+highContrastSuite =
+    let
+        grays : List ( OpaqueColor, String )
+        grays =
+            [ ( gainsboro, "gainsboro" )
+            , ( lightGray, "lightGray" )
+            , ( silver, "silver" )
+            , ( darkGray, "darkGray" )
+            , ( gray, "gray" )
+            , ( dimGray, "dimGray" )
+            , ( lightSlateGray, "lightSlateGray" )
+            , ( slateGray, "slateGray" )
+            , ( darkSlateGray, "darkSlateGray" )
+            , ( black, "black" )
+            ]
+    in
+    describe "highContrast"
+        [ describe "black and white"
+            [ test "highContrast black == white" <|
+                \_ ->
+                    expectColorsEqual (OpaqueColor.highContrast black) white
+            , test "highContrast white == black" <|
+                \_ ->
+                    expectColorsEqual (OpaqueColor.highContrast white) black
+            , describe "highContrast grays"
+                (List.map
+                    (\( color, name ) ->
+                        test name <|
+                            \_ ->
+                                color
+                                    |> OpaqueColor.highContrast
+                                    |> OpaqueColor.contrast color
+                                    |> Expect.greaterThan 4.5
+                    )
+                    grays
+                )
+            ]
+        ]
+
+
+invertSuite : Test
+invertSuite =
+    describe "invert"
+        [ describe "black and white"
+            [ test "invert black == white" <|
+                \_ ->
+                    expectColorsEqual (OpaqueColor.invert black) white
+            , test "invert white == black" <|
+                \_ ->
+                    expectColorsEqual (OpaqueColor.invert white) black
+            ]
+        ]
+
+
 
 --Test helpers
 
@@ -395,6 +450,11 @@ expectHex expected colorResult =
 
         Err err ->
             Expect.fail ("Could not parse color string: \n" ++ err)
+
+
+expectColorsEqual : OpaqueColor -> OpaqueColor -> Expectation
+expectColorsEqual a b =
+    Expect.equal (OpaqueColor.toRGBString a) (OpaqueColor.toRGBString b)
 
 
 expectTripleEquals : ( Float, Float, Float ) -> ( Float, Float, Float ) -> Expectation

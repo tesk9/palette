@@ -78,7 +78,7 @@ colorWithOpacitySuite =
                             f (TransparentColor.toColor colorWithOpacity)
 
                         f =
-                            OpaqueColor.Generator.adjustSaturation percent
+                            OpaqueColor.adjustSaturation percent
                     in
                     colorWithOpacity
                         |> TransparentColor.mapColor f

@@ -77,13 +77,13 @@ colorPreferenceToPalette colorPreference =
             standardPalette
 
         InvertStandard ->
-            mapPalette OpaqueColor.Generator.invert standardPalette
+            mapPalette OpaqueColor.invert standardPalette
 
         HighContrast ->
             highContrastPalette
 
         InvertHighContrast ->
-            mapPalette OpaqueColor.Generator.invert highContrastPalette
+            mapPalette OpaqueColor.invert highContrastPalette
 
 
 type Msg

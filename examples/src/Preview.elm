@@ -95,33 +95,33 @@ generatorList =
             }
       , Generator
             { name = "highContrast"
-            , generate = Generator.highContrast >> List.singleton
+            , generate = OpaqueColor.highContrast >> List.singleton
             }
       , GeneratorWith
             { name = "shade"
             , unit = Percentage
-            , generate = apply Generator.shade List.singleton
+            , generate = apply OpaqueColor.shade List.singleton
             , editable = Nothing
             }
       , GeneratorWith
             { name = "tint"
             , unit = Percentage
-            , generate = apply Generator.tint List.singleton
+            , generate = apply OpaqueColor.tint List.singleton
             , editable = Nothing
             }
       , GeneratorWith
             { name = "tone"
             , unit = Percentage
-            , generate = apply Generator.tone List.singleton
+            , generate = apply OpaqueColor.tone List.singleton
             , editable = Nothing
             }
       , Generator
             { name = "grayscale"
-            , generate = Generator.grayscale >> List.singleton
+            , generate = OpaqueColor.grayscale >> List.singleton
             }
       , Generator
             { name = "invert"
-            , generate = Generator.invert >> List.singleton
+            , generate = OpaqueColor.invert >> List.singleton
             }
       ]
     )
