@@ -69,7 +69,7 @@ Designers often approach color not by picking one color at a time, but by descri
 the colors, e.g., "I want 4 colors that are equally spaced on the color wheel," or, "I want 10 colors that
 are all of the same hue but with different lightnesses."
 
-If you approach color like this, then you'll be interested in using `OpaqueColor.Generator`, which has
+If you approach color like this, then you'll be interested in using `Palette.Generative`, which has
 helpers like `square` (generates 4 evenly-spaced colors) and `monochromatic` (generates lovely
 single-hue lists of colors).
 

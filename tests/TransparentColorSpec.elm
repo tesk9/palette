@@ -4,7 +4,7 @@ import Expect exposing (Expectation)
 import Fuzz exposing (Fuzzer)
 import Opacity
 import OpaqueColor
-import OpaqueColor.Generator
+import Palette.Generative
 import Test exposing (..)
 import TransparentColor
 import TransparentColorFuzzer
@@ -102,7 +102,7 @@ colorWithOpacitySuite =
 
                         fColor : OpaqueColor.OpaqueColor -> OpaqueColor.OpaqueColor
                         fColor =
-                            OpaqueColor.Generator.complementary
+                            Palette.Generative.complementary
 
                         fOpacity : Opacity.Opacity -> Opacity.Opacity
                         fOpacity =

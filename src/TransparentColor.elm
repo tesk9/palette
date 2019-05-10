@@ -207,7 +207,7 @@ getOpacity (TransparentColor c) =
 
 {-|
 
-    import OpaqueColor.Generator exposing (rotate)
+    import Palette.Generative exposing (rotate)
     import TransparentColor exposing (TransparentColor)
 
     nextColor : TransparentColor -> TransparentColor
@@ -249,7 +249,7 @@ mapOpacity f =
 {-|
 
     import Opacity
-    import OpaqueColor.Generator exposing (rotate)
+    import Palette.Generative exposing (rotate)
     import TransparentColor exposing (TransparentColor)
 
     rotateAndMakeMoreTransparent : TransparentColor -> TransparentColor

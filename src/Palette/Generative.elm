@@ -1,4 +1,4 @@
-module OpaqueColor.Generator exposing
+module Palette.Generative exposing
     ( complementary, triadic, splitComplementary, square, tetratic
     , monochromatic
     )
@@ -17,7 +17,6 @@ module OpaqueColor.Generator exposing
 
 -}
 
-import Opacity exposing (Opacity)
 import OpaqueColor exposing (OpaqueColor)
 
 

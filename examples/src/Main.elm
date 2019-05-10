@@ -7,7 +7,7 @@ import Comparison
 import ExampleHelpers as Example
 import Html exposing (Html)
 import OpaqueColor exposing (OpaqueColor)
-import OpaqueColor.Generator
+import Palette.Generative
 import Palette.Tango as Tango
 import Palette.X11 as X11
 import PaletteExamples.Cubehelix
@@ -167,14 +167,14 @@ viewInverse color =
 
 viewComplementary : OpaqueColor -> Html msg
 viewComplementary color =
-    Comparison.viewPalette color [ OpaqueColor.Generator.complementary color ]
+    Comparison.viewPalette color [ Palette.Generative.complementary color ]
 
 
 viewTriadic : OpaqueColor -> Html msg
 viewTriadic color =
     let
         ( one, two ) =
-            OpaqueColor.Generator.triadic color
+            Palette.Generative.triadic color
     in
     Comparison.viewPalette color [ one, two ]
 
@@ -183,7 +183,7 @@ viewSplitComplementary : ( Float, OpaqueColor ) -> Html msg
 viewSplitComplementary ( degree, color ) =
     let
         ( one, two ) =
-            OpaqueColor.Generator.splitComplementary degree color
+            Palette.Generative.splitComplementary degree color
     in
     Comparison.viewPalette color [ one, two ]
 
@@ -192,7 +192,7 @@ viewSquare : OpaqueColor -> Html msg
 viewSquare color =
     let
         ( one, two, three ) =
-            OpaqueColor.Generator.square color
+            Palette.Generative.square color
     in
     Comparison.viewPalette color [ one, two, three ]
 
@@ -201,7 +201,7 @@ viewRectangle : ( Float, OpaqueColor ) -> Html msg
 viewRectangle ( degree, color ) =
     let
         ( one, two, three ) =
-            OpaqueColor.Generator.tetratic degree color
+            Palette.Generative.tetratic degree color
     in
     Comparison.viewPalette color [ one, two, three ]
 
@@ -241,7 +241,7 @@ viewMonochromaticTones color =
 viewMonochromaticGenerator : ( Float, OpaqueColor ) -> Html msg
 viewMonochromaticGenerator ( stepSize, color ) =
     Comparison.viewPalette color
-        (OpaqueColor.Generator.monochromatic stepSize color)
+        (Palette.Generative.monochromatic stepSize color)
 
 
 

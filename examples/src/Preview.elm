@@ -6,7 +6,7 @@ import Html.Attributes exposing (style)
 import Html.Events
 import Json.Decode
 import OpaqueColor exposing (OpaqueColor)
-import OpaqueColor.Generator as Generator
+import Palette.Generative as Generator
 
 
 type alias Model =
@@ -169,7 +169,7 @@ generatorOptions : Model -> Html Msg
 generatorOptions model =
     Html.div [ style "margin-bottom" "8px" ]
         [ Html.label [ Html.Attributes.for "generator-select" ]
-            [ Html.text "OpaqueColor.Generator." ]
+            [ Html.text "Palette.Generative." ]
         , Html.select
             [ Html.Attributes.id "generator-select"
             , Html.Events.onInput
@@ -236,7 +236,7 @@ viewPalette selectedColor name generate =
     Html.div []
         [ Html.code []
             [ Html.text
-                ("OpaqueColor.Generator."
+                ("Palette.Generative."
                     ++ name
                     ++ " <| OpaqueColor.fromRGB ( "
                     ++ String.fromFloat r

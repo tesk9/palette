@@ -5,7 +5,7 @@ import Html exposing (Html)
 import Html.Attributes exposing (style)
 import Html.Events
 import OpaqueColor exposing (OpaqueColor)
-import OpaqueColor.Generator
+import Palette.Generative
 import Palette.X11 exposing (..)
 import Platform
 
@@ -63,7 +63,7 @@ colorPreferenceToPalette colorPreference =
         standardPalette =
             { primary = dimGray
             , secondary = lightSalmon
-            , backgroundColors = ( lavenderBlush, OpaqueColor.Generator.complementary lavenderBlush )
+            , backgroundColors = ( lavenderBlush, Palette.Generative.complementary lavenderBlush )
             }
 
         highContrastPalette =
