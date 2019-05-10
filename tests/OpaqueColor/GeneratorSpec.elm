@@ -3,7 +3,6 @@ module OpaqueColor.GeneratorSpec exposing (highContrastSuite, invertSuite)
 import Expect exposing (Expectation)
 import Fuzz exposing (Fuzzer, int, list, string)
 import OpaqueColor exposing (OpaqueColor)
-import OpaqueColor.Contrast as Contrast
 import OpaqueColor.Generator as Generator
 import Palette.X11 exposing (..)
 import Test exposing (..)
@@ -26,7 +25,7 @@ highContrastSuite =
                             \_ ->
                                 color
                                     |> Generator.highContrast
-                                    |> Contrast.contrast color
+                                    |> OpaqueColor.contrast color
                                     |> Expect.greaterThan 4.5
                     )
                     grays

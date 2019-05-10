@@ -1,4 +1,10 @@
-module OpaqueColorSpec exposing (colorSpec, conversionsSpec, luminanceSuite)
+module OpaqueColorSpec exposing
+    ( colorSpec
+    , contrastSuite
+    , conversionsSpec
+    , luminanceSuite
+    , sufficientContrastSuite
+    )
 
 import Expect exposing (Expectation)
 import Fuzz exposing (Fuzzer)
@@ -105,64 +111,6 @@ colorSpec =
                 ]
             ]
         ]
-
-
-luminanceSuite : Test
-luminanceSuite =
-    describe "luminance"
-        [ test "white is very bright" <|
-            \_ ->
-                white
-                    |> OpaqueColor.luminance
-                    |> floatEqual 1
-        , test "gray is middlingly bright" <|
-            \_ ->
-                gray
-                    |> OpaqueColor.luminance
-                    |> floatEqual 0.215
-        , test "black is not very bright" <|
-            \_ ->
-                black
-                    |> OpaqueColor.luminance
-                    |> floatEqual 0
-        ]
-
-
-floatEqual : Float -> Float -> Expectation
-floatEqual =
-    Expect.within (Expect.Absolute 0.01)
-
-
-{-| This exists mostly to make float equality checks nicer.
--}
-expectRGB : ( Int, Int, Int ) -> OpaqueColor -> Expectation
-expectRGB expected color =
-    let
-        ( r, g, b ) =
-            OpaqueColor.toRGB color
-    in
-    Expect.equal ( round r, round g, round b ) expected
-
-
-{-| This exists mostly to make float equality checks nicer.
--}
-expectHSL : ( Int, Int, Int ) -> OpaqueColor -> Expectation
-expectHSL expected color =
-    let
-        ( r, g, b ) =
-            OpaqueColor.toHSL color
-    in
-    Expect.equal ( round r, round g, round b ) expected
-
-
-expectHex : String -> Result String OpaqueColor -> Expectation
-expectHex expected colorResult =
-    case colorResult of
-        Ok got ->
-            Expect.equal expected (OpaqueColor.toHexString got)
-
-        Err err ->
-            Expect.fail ("Could not parse color string: \n" ++ err)
 
 
 conversionsSpec : Test
@@ -279,6 +227,174 @@ conversionsSpec =
                     |> Result.map (OpaqueColor.fromRGB >> OpaqueColor.toHexString)
                     |> Expect.equal (Ok c)
         ]
+
+
+contrastSuite : Test
+contrastSuite =
+    describe "contrast"
+        [ describe "black and white"
+            [ test "contrast black white == contrast white black" <|
+                \_ ->
+                    Expect.equal (OpaqueColor.contrast black white) (OpaqueColor.contrast white black)
+            , test "contrast black white" <|
+                \_ ->
+                    OpaqueColor.contrast black white
+                        |> floatEqual 21
+            , test "contrast white gray" <|
+                \_ ->
+                    OpaqueColor.contrast white gray
+                        |> floatEqual (4.5 / 1)
+            , test "contrast white white" <|
+                \_ ->
+                    OpaqueColor.contrast white white
+                        |> floatEqual 1
+            , test "contrast black black" <|
+                \_ ->
+                    OpaqueColor.contrast black black
+                        |> floatEqual 1
+            ]
+        ]
+
+
+sufficientContrastSuite : Test
+sufficientContrastSuite =
+    describe "sufficientContrast"
+        [ describe "Regular sized text" <|
+            let
+                font =
+                    { fontSize = 12, fontWeight = 300 }
+            in
+            [ describe "WCAG AA" <|
+                let
+                    subject =
+                        OpaqueColor.sufficientContrast OpaqueColor.AA font
+                in
+                [ test "black and white has sufficient contrast" <|
+                    \_ ->
+                        subject white black
+                            |> Expect.true "Expected black and white to have sufficient contrast."
+                , test "gray and white do not have sufficient contrast" <|
+                    \_ ->
+                        subject white gray
+                            |> Expect.true "Expected gray and white to have sufficient contrast."
+                ]
+            , describe "WCAG AAA" <|
+                let
+                    subject =
+                        OpaqueColor.sufficientContrast OpaqueColor.AAA font
+                in
+                [ test "black and white has sufficient contrast" <|
+                    \_ ->
+                        subject white black
+                            |> Expect.true "Expected black and white to have sufficient contrast."
+                , test "gray and white do not have sufficient contrast" <|
+                    \_ ->
+                        subject white gray
+                            |> Expect.false "Expected gray and white not to have sufficient contrast."
+                ]
+            ]
+        , describe "Large text" <|
+            let
+                font =
+                    { fontSize = 19, fontWeight = 300 }
+            in
+            [ describe "WCAG AA" <|
+                let
+                    subject =
+                        OpaqueColor.sufficientContrast OpaqueColor.AA font
+                in
+                [ test "black and white has sufficient contrast" <|
+                    \_ ->
+                        subject white black
+                            |> Expect.true "Expected black and white to have sufficient contrast."
+                , test "gray and white has sufficient contrast" <|
+                    \_ ->
+                        subject white gray
+                            |> Expect.true "Expected gray and white to have sufficient contrast."
+                ]
+            , describe "WCAG AAA" <|
+                let
+                    subject =
+                        OpaqueColor.sufficientContrast OpaqueColor.AAA font
+                in
+                [ test "black and white has sufficient contrast" <|
+                    \_ ->
+                        subject white black
+                            |> Expect.true "Expected black and white to have sufficient contrast."
+                , test "gray and white to have sufficient contrast" <|
+                    \_ ->
+                        subject white gray
+                            |> Expect.true "Expected gray and white to have sufficient contrast."
+                ]
+            ]
+        ]
+
+
+luminanceSuite : Test
+luminanceSuite =
+    describe "luminance"
+        [ test "white is very bright" <|
+            \_ ->
+                white
+                    |> OpaqueColor.luminance
+                    |> floatEqual 1
+        , test "gray is middlingly bright" <|
+            \_ ->
+                gray
+                    |> OpaqueColor.luminance
+                    |> floatEqual 0.215
+        , test "black is not very bright" <|
+            \_ ->
+                black
+                    |> OpaqueColor.luminance
+                    |> floatEqual 0
+        ]
+
+
+
+--Test helpers
+
+
+floatEqual : Float -> Float -> Expectation
+floatEqual =
+    Expect.within (Expect.Absolute 0.1)
+
+
+gray : OpaqueColor
+gray =
+    OpaqueColor.fromRGB ( 118, 118, 118 )
+
+
+{-| This exists mostly to make float equality checks nicer.
+-}
+expectRGB : ( Int, Int, Int ) -> OpaqueColor -> Expectation
+expectRGB expected color =
+    let
+        ( r, g, b ) =
+            OpaqueColor.toRGB color
+    in
+    Expect.equal ( round r, round g, round b ) expected
+
+
+{-| This exists mostly to make float equality checks nicer.
+-}
+expectHSL : ( Int, Int, Int ) -> OpaqueColor -> Expectation
+expectHSL expected color =
+    let
+        ( r, g, b ) =
+            OpaqueColor.toHSL color
+    in
+    Expect.equal ( round r, round g, round b ) expected
+
+
+expectHex : String -> Result String OpaqueColor -> Expectation
+expectHex expected colorResult =
+    case colorResult of
+        Ok got ->
+            Expect.equal expected (OpaqueColor.toHexString got)
+
+        Err err ->
+            Expect.fail ("Could not parse color string: \n" ++ err)
 
 
 expectTripleEquals : ( Float, Float, Float ) -> ( Float, Float, Float ) -> Expectation

@@ -7,7 +7,6 @@ import Comparison
 import ExampleHelpers as Example
 import Html exposing (Html)
 import OpaqueColor exposing (OpaqueColor)
-import OpaqueColor.Contrast
 import OpaqueColor.Generator
 import Palette.Tango as Tango
 import Palette.X11 as X11

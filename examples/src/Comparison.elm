@@ -6,7 +6,6 @@ import Html exposing (Html)
 import Html.Attributes exposing (style)
 import Html.Events
 import OpaqueColor exposing (OpaqueColor)
-import OpaqueColor.Contrast
 import OpaqueColor.Generator
 import Palette.X11 exposing (..)
 import Platform

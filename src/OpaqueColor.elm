@@ -5,6 +5,7 @@ module OpaqueColor exposing
     , fromHexString, toHexString, toHexAString
     , add, subtract, multiply, divide
     , equals
+    , WCAGLevel(..), sufficientContrast, contrast
     , luminance
     )
 
@@ -82,8 +83,9 @@ You will need to use hex colors if you're working with an
 @docs equals
 
 
-## OpaqueColor properties
+## Contrast, Luminance, and Accessibility
 
+@docs WCAGLevel, sufficientContrast, contrast
 @docs luminance
 
 -}
@@ -316,47 +318,6 @@ equals a b =
     toRGB a == toRGB b
 
 
-{-| Luminance calculation adopted from <https://www.w3.org/TR/WCAG20-TECHS/G17.html>
-
-Luminance describes the perceived brightness of a color. You're unlikely to need
-to use this function directly. Maybe something in `OpaqueColor.Contrast` or `OpaqueColor.Generator`
-meets your needs instead?
-
--}
-luminance : OpaqueColor -> Float
-luminance color =
-    let
-        ( rRaw, gRaw, bRaw ) =
-            toRGB color
-
-        red =
-            rRaw
-                |> toSRBG
-                |> fromSRGB
-
-        green =
-            gRaw
-                |> toSRBG
-                |> fromSRGB
-
-        blue =
-            bRaw
-                |> toSRBG
-                |> fromSRGB
-
-        toSRBG rgb8bit =
-            rgb8bit / 255
-
-        fromSRGB srgb =
-            if srgb <= 0.03928 then
-                srgb / 12.92
-
-            else
-                ((srgb + 0.055) / 1.055) ^ 2.4
-    in
-    (0.2126 * red) + (0.7152 * green) + (0.0722 * blue)
-
-
 {-| Blends two colors together by adding the values in each channel.
 
 That is, `rgb(10, 20, 30) + rgb(10, 10, 10) = rgb(20, 30, 40)`.
@@ -457,3 +418,109 @@ divide a c =
         , safeDivide g1 g2
         , safeDivide b1 b2
         )
+
+
+{-| Read more about levels of conformance at [WCAG](https://www.w3.org/TR/UNDERSTANDING-WCAG20/conformance.html#uc-levels-head).
+-}
+type WCAGLevel
+    = AA
+    | AAA
+
+
+{-| For a given WCAG level, calculate whether two colors have enough contrast
+with each other to be used together (e.g., as a background and text color combination).
+
+To meet AA level sufficiently, [follow these standards](https://www.w3.org/WAI/WCAG21/quickref/?versions=2.0&showtechniques=143%2C146#contrast-minimum).
+To meet AAA level sufficiently, [follow these standards](https://www.w3.org/WAI/WCAG21/quickref/?versions=2.0&showtechniques=143%2C146#contrast-enhanced).
+
+TODO (consider this a headsup on likely API changes!):
+
+  - Use named fontweights rather than numbers
+  - Wrap fontsize with some constructors
+  - Cassowary constraint solving..?
+
+See an example here: <https://ellie-app.com/3CgJZNMyxw3a1>.
+
+-}
+sufficientContrast : WCAGLevel -> { fontSize : Float, fontWeight : Int } -> OpaqueColor -> OpaqueColor -> Bool
+sufficientContrast wcagLevel { fontSize, fontWeight } color1 color2 =
+    let
+        colorContrast =
+            contrast color1 color2
+    in
+    case wcagLevel of
+        AA ->
+            if (fontSize > 14 && fontWeight >= 700) || fontSize > 18 then
+                colorContrast >= 3
+
+            else
+                colorContrast >= 4.5
+
+        AAA ->
+            if (fontSize > 14 && fontWeight >= 700) || fontSize > 18 then
+                colorContrast >= 4.5
+
+            else
+                colorContrast >= 7
+
+
+{-| Calculate the contrast between two colors.
+
+See an example here: <https://ellie-app.com/3CgJZNMyxw3a1>.
+
+-}
+contrast : OpaqueColor -> OpaqueColor -> Float
+contrast color1 color2 =
+    let
+        luminance1 =
+            luminance color1
+
+        luminance2 =
+            luminance color2
+    in
+    if luminance1 > luminance2 then
+        (luminance1 + 0.05) / (luminance2 + 0.05)
+
+    else
+        (luminance2 + 0.05) / (luminance1 + 0.05)
+
+
+{-| Luminance calculation adopted from <https://www.w3.org/TR/WCAG20-TECHS/G17.html>
+
+Luminance describes the perceived brightness of a color. You're unlikely to need
+to use this function directly. Maybe something in `OpaqueColor.Contrast` or `OpaqueColor.Generator`
+meets your needs instead?
+
+-}
+luminance : OpaqueColor -> Float
+luminance color =
+    let
+        ( rRaw, gRaw, bRaw ) =
+            toRGB color
+
+        red =
+            rRaw
+                |> toSRBG
+                |> fromSRGB
+
+        green =
+            gRaw
+                |> toSRBG
+                |> fromSRGB
+
+        blue =
+            bRaw
+                |> toSRBG
+                |> fromSRGB
+
+        toSRBG rgb8bit =
+            rgb8bit / 255
+
+        fromSRGB srgb =
+            if srgb <= 0.03928 then
+                srgb / 12.92
+
+            else
+                ((srgb + 0.055) / 1.055) ^ 2.4
+    in
+    (0.2126 * red) + (0.7152 * green) + (0.0722 * blue)
