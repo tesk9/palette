@@ -8,7 +8,6 @@ import ExampleHelpers as Example
 import Html exposing (Html)
 import OpaqueColor exposing (OpaqueColor)
 import Palette.Generative
-import Palette.Tango as Tango
 import Palette.X11 as X11
 import PaletteExamples.Cubehelix
 import PaletteExamples.Tango
