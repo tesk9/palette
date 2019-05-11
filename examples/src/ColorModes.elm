@@ -104,24 +104,34 @@ view colorPreference =
             colorPreferenceToPalette colorPreference
     in
     Html.div []
-        [ [ Standard, InvertStandard, HighContrast, InvertHighContrast ]
-            |> List.map
-                (\mode ->
-                    if mode == colorPreference then
-                        Html.text ""
-
-                    else
-                        button (ChangePreference mode)
-                            ("Change to " ++ colorPreferenceToString mode)
+        [ Html.div []
+            (List.map
+                (\i ->
+                    Html.div []
+                        [ Html.input
+                            [ Html.Attributes.name "ColorPreference"
+                            , Html.Attributes.type_ "radio"
+                            , Html.Attributes.id (colorPreferenceToString i)
+                            , Html.Attributes.value (colorPreferenceToString i)
+                            , Html.Attributes.checked (colorPreference == i)
+                            , Html.Events.onCheck (\_ -> ChangePreference i)
+                            ]
+                            []
+                        , Html.label
+                            [ Html.Attributes.for (colorPreferenceToString i)
+                            ]
+                            [ Html.text (colorPreferenceToString i) ]
+                        ]
                 )
-            |> Html.div []
+                [ Standard, InvertStandard, HighContrast, InvertHighContrast ]
+            )
         , viewContent palette
             [ Html.h3
                 [ style "color" (OpaqueColor.toRGBString palette.secondary) ]
                 [ Html.text (colorPreferenceToString colorPreference) ]
             , Html.div
                 [ style "color" (OpaqueColor.toRGBString palette.primary) ]
-                [ Html.text "Try changing the color scheme using the buttons." ]
+                [ Html.text "I'm some text." ]
             ]
         ]
 
