@@ -64,63 +64,63 @@ generatorList =
             normalize (generator a b)
     in
     ( Generator
-        { name = "complementary"
+        { name = "Palette.Generative.complementary"
         , generate = Generator.complementary >> List.singleton
         }
     , [ Generator
-            { name = "triadic"
+            { name = "Palette.Generative.triadic"
             , generate = Generator.triadic >> tupleToList
             }
       , GeneratorWith
-            { name = "splitComplementary"
+            { name = "Palette.Generative.splitComplementary"
             , unit = Degrees
             , generate = apply Generator.splitComplementary tupleToList
             , editable = Nothing
             }
       , Generator
-            { name = "square"
+            { name = "Palette.Generative.square"
             , generate = Generator.square >> tripleToList
             }
       , GeneratorWith
-            { name = "tetratic"
+            { name = "Palette.Generative.tetratic"
             , unit = Degrees
             , generate = apply Generator.tetratic tripleToList
             , editable = Nothing
             }
       , GeneratorWith
-            { name = "monochromatic"
+            { name = "Palette.Generative.monochromatic"
             , unit = Degrees
             , generate = Generator.monochromatic
             , editable = Nothing
             }
       , Generator
-            { name = "highContrast"
+            { name = "OpaqueColor.highContrast"
             , generate = OpaqueColor.highContrast >> List.singleton
             }
       , GeneratorWith
-            { name = "shade"
+            { name = "OpaqueColor.shade"
             , unit = Percentage
             , generate = apply OpaqueColor.shade List.singleton
             , editable = Nothing
             }
       , GeneratorWith
-            { name = "tint"
+            { name = "OpaqueColor.tint"
             , unit = Percentage
             , generate = apply OpaqueColor.tint List.singleton
             , editable = Nothing
             }
       , GeneratorWith
-            { name = "tone"
+            { name = "OpaqueColor.tone"
             , unit = Percentage
             , generate = apply OpaqueColor.tone List.singleton
             , editable = Nothing
             }
       , Generator
-            { name = "grayscale"
+            { name = "OpaqueColor.grayscale"
             , generate = OpaqueColor.grayscale >> List.singleton
             }
       , Generator
-            { name = "invert"
+            { name = "OpaqueColor.invert"
             , generate = OpaqueColor.invert >> List.singleton
             }
       ]
@@ -169,7 +169,7 @@ generatorOptions : Model -> Html Msg
 generatorOptions model =
     Html.div [ style "margin-bottom" "8px" ]
         [ Html.label [ Html.Attributes.for "generator-select" ]
-            [ Html.text "Palette.Generative." ]
+            [ Html.text "Modify/generate new colors with:" ]
         , Html.select
             [ Html.Attributes.id "generator-select"
             , Html.Events.onInput
@@ -236,8 +236,7 @@ viewPalette selectedColor name generate =
     Html.div []
         [ Html.code []
             [ Html.text
-                ("Palette.Generative."
-                    ++ name
+                (name
                     ++ " <| OpaqueColor.fromRGB ( "
                     ++ String.fromFloat r
                     ++ ", "
