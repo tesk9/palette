@@ -100,7 +100,7 @@ You will need to use hex colors if you're working with an
 @docs highContrast
 @docs shade, tint, tone
 @docs grayscale, invert
-@docs rotate, adjustSaturation, adjustLightness
+@docs adjustSaturation, adjustLightness
 
 -}
 
