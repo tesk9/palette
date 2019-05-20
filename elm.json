@@ -8,6 +8,7 @@
         "OpaqueColor",
         "TransparentColor",
         "Opacity",
+        "Palette.Generative",
         "Palette.X11",
         "Palette.Tango",
         "Palette.Cubehelix"
