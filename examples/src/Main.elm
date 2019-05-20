@@ -79,21 +79,17 @@ view : Model -> Html Msg
 view model =
     Html.main_ []
         [ Html.h1 [] [ Html.text "Examples" ]
-        , Example.section "API"
+        , Example.section "OpaqueColor"
             (Html.div []
-                [ ColorPicker.view model.colorPickerModel
-                    |> Html.map ColorPickerMsg
-                , Preview.view model.selectedColor model.previewModel
-                    |> Html.map PreviewMsg
-                ]
-            )
-        , Example.section "Contrast"
-            (ColorModes.view model.colorModesModel
-                |> Html.map ColorModesMsg
-            )
-        , Example.section "OpaqueColor Schemes"
-            (Html.div []
-                [ Example.subsection "Complementary"
+                [ Example.subsection "API"
+                    (Html.div []
+                        [ ColorPicker.view model.colorPickerModel
+                            |> Html.map ColorPickerMsg
+                        , Preview.view model.selectedColor model.previewModel
+                            |> Html.map PreviewMsg
+                        ]
+                    )
+                , Example.subsection "Complementary"
                     (Example.list rainbow viewComplementary)
                 , Example.subsection "Triadic"
                     (Example.list rainbow viewTriadic)
@@ -140,17 +136,16 @@ view model =
                             (Comparison.viewOverlapping OpaqueColor.divide)
                         ]
                     )
+                , Example.subsection "Contrast"
+                    (ColorModes.view model.colorModesModel
+                        |> Html.map ColorModesMsg
+                    )
                 ]
             )
-        , Example.section "Palette"
-            (Html.div []
-                [ PaletteExamples.Tango.examples
-                , PaletteExamples.X11.examples
-                , PaletteExamples.Cubehelix.examples
-                ]
-            )
-        , Example.section "Transparent Colors"
-            TransparentColorExamples.view
+        , Example.section "TransparentColor" TransparentColorExamples.view
+        , Example.section "Palette.Cubehelix" PaletteExamples.Cubehelix.examples
+        , Example.section "Palette.Tango" PaletteExamples.Tango.examples
+        , Example.section "Palette.X11" PaletteExamples.X11.examples
         ]
 
 

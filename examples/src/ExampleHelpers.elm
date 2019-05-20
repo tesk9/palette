@@ -7,8 +7,16 @@ import Html.Attributes exposing (style)
 section : String -> Html msg -> Html msg
 section heading examples =
     Html.section []
-        [ Html.h2 [] [ Html.text heading ]
-        , examples
+        [ Html.details []
+            [ Html.summary []
+                [ Html.h2
+                    [ style "margin" "0"
+                    , style "display" "inline-block"
+                    ]
+                    [ Html.text heading ]
+                ]
+            , examples
+            ]
         ]
 
 
