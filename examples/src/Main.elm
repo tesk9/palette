@@ -89,30 +89,13 @@ view model =
                             |> Html.map PreviewMsg
                         ]
                     )
-                , Example.subsection "Complementary"
-                    (Example.list rainbow viewComplementary)
-                , Example.subsection "Triadic"
-                    (Example.list rainbow viewTriadic)
-                , Example.subsection "Split Complementary"
-                    (Example.list (List.map (\color -> ( 30, color )) rainbow)
-                        viewSplitComplementary
-                    )
-                , Example.subsection "Square"
-                    (Example.list rainbow viewSquare)
-                , Example.subsection "Tetratic"
-                    (Example.list (List.map (\color -> ( 30, color )) rainbow)
-                        viewRectangle
-                    )
                 , Example.subsection "Grayscale"
                     (Example.list rainbow viewGrayscale)
                 , Example.subsection "Invert"
                     (Example.list rainbow viewInverse)
                 , Example.subsection "Monochromatic"
                     (Html.div []
-                        [ Html.h4 [] [ Html.text "Monochromatic Palette" ]
-                        , Example.list (List.map (\color -> ( 10, color )) rainbow)
-                            viewMonochromaticGenerator
-                        , Html.h4 [] [ Html.text "Shades" ]
+                        [ Html.h4 [] [ Html.text "Shades" ]
                         , Example.list rainbow viewMonochromaticShades
                         , Html.h4 [] [ Html.text "Tints" ]
                         , Example.list rainbow viewMonochromaticTints
@@ -146,6 +129,29 @@ view model =
         , Example.section "Palette.Cubehelix" PaletteExamples.Cubehelix.examples
         , Example.section "Palette.Tango" PaletteExamples.Tango.examples
         , Example.section "Palette.X11" PaletteExamples.X11.examples
+        , Example.section "Palette.Generative"
+            (Html.div
+                []
+                [ Example.subsection "Complementary"
+                    (Example.list rainbow viewComplementary)
+                , Example.subsection "Triadic"
+                    (Example.list rainbow viewTriadic)
+                , Example.subsection "Split Complementary"
+                    (Example.list (List.map (\color -> ( 30, color )) rainbow)
+                        viewSplitComplementary
+                    )
+                , Example.subsection "Square"
+                    (Example.list rainbow viewSquare)
+                , Example.subsection "Tetratic"
+                    (Example.list (List.map (\color -> ( 30, color )) rainbow)
+                        viewRectangle
+                    )
+                , Example.subsection "Monochromatic"
+                    (Example.list (List.map (\color -> ( 10, color )) rainbow)
+                        viewMonochromaticGenerator
+                    )
+                ]
+            )
         ]
 
 

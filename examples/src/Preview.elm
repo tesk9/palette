@@ -64,40 +64,10 @@ generatorList =
             normalize (generator a b)
     in
     ( Generator
-        { name = "Palette.Generative.complementary"
-        , generate = Generator.complementary >> List.singleton
+        { name = "OpaqueColor.highContrast"
+        , generate = OpaqueColor.highContrast >> List.singleton
         }
-    , [ Generator
-            { name = "Palette.Generative.triadic"
-            , generate = Generator.triadic >> tupleToList
-            }
-      , GeneratorWith
-            { name = "Palette.Generative.splitComplementary"
-            , unit = Degrees
-            , generate = apply Generator.splitComplementary tupleToList
-            , editable = Nothing
-            }
-      , Generator
-            { name = "Palette.Generative.square"
-            , generate = Generator.square >> tripleToList
-            }
-      , GeneratorWith
-            { name = "Palette.Generative.tetratic"
-            , unit = Degrees
-            , generate = apply Generator.tetratic tripleToList
-            , editable = Nothing
-            }
-      , GeneratorWith
-            { name = "Palette.Generative.monochromatic"
-            , unit = Degrees
-            , generate = Generator.monochromatic
-            , editable = Nothing
-            }
-      , Generator
-            { name = "OpaqueColor.highContrast"
-            , generate = OpaqueColor.highContrast >> List.singleton
-            }
-      , GeneratorWith
+    , [ GeneratorWith
             { name = "OpaqueColor.shade"
             , unit = Percentage
             , generate = apply OpaqueColor.shade List.singleton
