@@ -19,8 +19,8 @@ module Internal.Color exposing
 import Dict
 import Internal.HSLA as HSLA
 import Internal.Hex as Hex
+import Internal.Opacity as Opacity
 import Internal.RGBA as RGBA
-import Opacity exposing (Opacity)
 
 
 {-| -}
@@ -81,7 +81,7 @@ fromHexString str =
 
 
 {-| -}
-getOpacity : Color -> Opacity
+getOpacity : Color -> Opacity.Opacity
 getOpacity color =
     case color of
         RGBA values ->

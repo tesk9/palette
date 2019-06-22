@@ -9,7 +9,6 @@ module Colour exposing
     , toRGB, toHSL
     , luminance
     , equals
-    , toHSLAString, toHexAString, toRGBAString
     )
 
 {-|
@@ -104,8 +103,8 @@ import Dict
 import Internal.Color
 import Internal.HSLA
 import Internal.Hex
+import Internal.Opacity
 import Internal.RGBA
-import Opacity exposing (Opacity)
 
 
 {-| -}
@@ -135,7 +134,7 @@ fromHSL ( hue, saturation, lightness ) =
             { hue = hue
             , saturation = saturation
             , lightness = lightness
-            , alpha = Opacity.opaque
+            , alpha = Internal.Opacity.opaque
             }
         )
 
@@ -169,12 +168,6 @@ toHSLString (Colour color) =
         (Internal.Color.asHSLA color)
 
 
-{-| -}
-toHSLAString : Colour -> String
-toHSLAString (Colour color) =
-    Internal.HSLA.toStringWithOpacity (Internal.Color.asHSLA color)
-
-
 {-| Build a new color based on RGB values.
 
     import Colour exposing (Colour)
@@ -201,7 +194,7 @@ fromRGB ( red, green, blue ) =
             { red = red
             , green = green
             , blue = blue
-            , alpha = Opacity.opaque
+            , alpha = Internal.Opacity.opaque
             }
         )
 
@@ -232,12 +225,6 @@ toRGB (Colour color) =
 toRGBString : Colour -> String
 toRGBString (Colour color) =
     Internal.RGBA.toStringWithoutOpacity (Internal.Color.asRGBA color)
-
-
-{-| -}
-toRGBAString : Colour -> String
-toRGBAString (Colour color) =
-    Internal.RGBA.toStringWithOpacity (Internal.Color.asRGBA color)
 
 
 {-| Build a new color from a hex string.
@@ -290,35 +277,8 @@ toHexString color =
         { red = red
         , green = green
         , blue = blue
-        , alpha = Opacity.opaque
+        , alpha = Internal.Opacity.opaque
         }
-
-
-{-| Get the Hex representation of a color as a `String`.
-
-    import Colour exposing (toHexString)
-    import Html exposing (p, text)
-    import Html.Attributes exposing (type_, value)
-    import Palette.X11 exposing (red)
-
-    view =
-        Html.input
-            [ type_ "color"
-            , value (toHexAString red)
-            ]
-            []
-
-Note: this function will always return a string in either the form "#RRGGBB"
-or the form "#RRGGBBAA".
-It will not return shortened values (i.e., "#RGB" and "#RGBA").
-
-If you want or need this functionality, please make an issue for it on the
-github repo for this library.
-
--}
-toHexAString : Colour -> String
-toHexAString (Colour color) =
-    Internal.Hex.toString (Internal.Color.asHex color)
 
 
 {-| Check two colors for equality.

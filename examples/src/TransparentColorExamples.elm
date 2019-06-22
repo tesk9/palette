@@ -1,10 +1,9 @@
 module TransparentColorExamples exposing (view)
 
 import Colour
-import Colour.Transparent exposing (Colour)
+import Colour.Transparent exposing (Colour, customOpacity)
 import Html exposing (..)
 import Html.Attributes exposing (style)
-import Opacity
 
 
 screen : Colour
@@ -13,7 +12,7 @@ screen =
         { red = 255
         , green = 200
         , blue = 200
-        , alpha = Opacity.custom 0.8
+        , alpha = customOpacity 0.8
         }
 
 
@@ -28,7 +27,7 @@ view =
         ]
         [ span
             [ style "background-color" (Colour.Transparent.toRGBAString screen)
-            , style "color" (Colour.toRGBAString (Colour.fromRGB ( 255, 0, 0 )))
+            , style "color" (Colour.toRGBString (Colour.fromRGB ( 255, 0, 0 )))
             , style "border" <|
                 "1px solid "
                     ++ Colour.toRGBString (Colour.Transparent.toColor screen)

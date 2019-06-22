@@ -10,7 +10,6 @@ import Colour exposing (Colour)
 import Colour.Accessibility
 import ColourFuzzer exposing (hexStringOfLength)
 import Expect exposing (Expectation)
-import Opacity
 import Palette.X11 exposing (..)
 import Test exposing (..)
 

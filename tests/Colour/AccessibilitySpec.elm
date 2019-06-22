@@ -8,7 +8,6 @@ import Colour exposing (Colour)
 import Colour.Accessibility exposing (..)
 import ColourFuzzer exposing (hexStringOfLength)
 import Expect exposing (Expectation)
-import Opacity
 import Palette.X11 exposing (black, white)
 import Test exposing (..)
 

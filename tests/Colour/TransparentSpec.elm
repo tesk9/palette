@@ -1,11 +1,10 @@
-module Colour.TransparentSpec exposing (colorWithOpacitySuite)
+module Colour.TransparentSpec exposing (colorWithOpacitySuite, opacitySuite)
 
 import Colour
 import Colour.Transparent
 import Colour.TransparentFuzzer
 import Expect exposing (Expectation)
 import Fuzz exposing (Fuzzer)
-import Opacity
 import Palette.Generative
 import Test exposing (..)
 
@@ -20,7 +19,7 @@ colorWithOpacitySuite =
                         { red = 255
                         , green = 0
                         , blue = 255
-                        , alpha = Opacity.custom 0.5
+                        , alpha = Colour.Transparent.customOpacity 0.5
                         }
             in
             [ test "toRGBAString" <|
@@ -42,75 +41,48 @@ colorWithOpacitySuite =
         , test "when opacity differs, colors are not identical" <|
             \_ ->
                 let
-                    startingColor =
-                        Colour.Transparent.fromRGBA { red = 0, green = 0, blue = 0, alpha = Opacity.transparent }
+                    colora =
+                        Colour.Transparent.fromRGBA
+                            { red = 0
+                            , green = 0
+                            , blue = 0
+                            , alpha = Colour.Transparent.transparent
+                            }
+
+                    colorb =
+                        Colour.Transparent.fromRGBA
+                            { red = 0
+                            , green = 0
+                            , blue = 0
+                            , alpha = Colour.Transparent.opaque
+                            }
                 in
-                startingColor
-                    |> Colour.Transparent.mapOpacity (\_ -> Opacity.opaque)
-                    |> Colour.Transparent.equals startingColor
+                colora
+                    |> Colour.Transparent.equals colorb
                     |> Expect.false "Calling `equals` on different opacities failed"
-        , describe "Colour.Transparent mapping"
-            [ fuzz
-                (Fuzz.tuple ( Colour.TransparentFuzzer.colorWithOpacity, Fuzz.float ))
-                "mapOpacity"
-              <|
-                \( colorWithOpacity, multiplier ) ->
-                    let
-                        expectedResult : Opacity.Opacity
-                        expectedResult =
-                            f (Colour.Transparent.getOpacity colorWithOpacity)
+        ]
 
-                        f =
-                            Opacity.map ((*) multiplier)
-                    in
-                    colorWithOpacity
-                        |> Colour.Transparent.mapOpacity f
-                        |> Colour.Transparent.getOpacity
-                        |> Expect.equal expectedResult
-            , fuzz
-                (Fuzz.tuple ( Colour.TransparentFuzzer.colorWithOpacity, Fuzz.float ))
-                "mapColor"
-              <|
-                \( colorWithOpacity, percent ) ->
-                    let
-                        expectedResult : Colour.Colour
-                        expectedResult =
-                            f (Colour.Transparent.toColor colorWithOpacity)
 
-                        f =
-                            Colour.addSaturation percent
-                    in
-                    colorWithOpacity
-                        |> Colour.Transparent.mapColor f
-                        |> Colour.Transparent.toColor
-                        |> Colour.equals expectedResult
-                        |> Expect.true "`mapColor f >> toColor` should be equivalent to `toColor >> f`"
-            , fuzz
-                Colour.TransparentFuzzer.colorWithOpacity
-                "map"
-              <|
-                \colorWithOpacity ->
-                    let
-                        { hue, saturation, lightness, alpha } =
-                            Colour.Transparent.toHSLA colorWithOpacity
-
-                        expectedResult : Colour.Transparent.Colour
-                        expectedResult =
-                            Colour.fromHSL ( hue, saturation, lightness )
-                                |> fColor
-                                |> Colour.Transparent.fromColor (fOpacity alpha)
-
-                        fColor : Colour.Colour -> Colour.Colour
-                        fColor =
-                            Palette.Generative.complementary
-
-                        fOpacity : Opacity.Opacity -> Opacity.Opacity
-                        fOpacity =
-                            Opacity.map ((-) 0.3)
-                    in
-                    colorWithOpacity
-                        |> Colour.Transparent.map fOpacity fColor
-                        |> Colour.Transparent.equals expectedResult
-                        |> Expect.true "`map fo fc >> toColor` should match deconstructing and reconstructing result"
-            ]
+opacitySuite : Test
+opacitySuite =
+    describe "Opacity"
+        [ test "custom bottom bound" <|
+            \_ ->
+                Expect.equal
+                    (Colour.Transparent.customOpacity -0.2)
+                    Colour.Transparent.transparent
+        , test "custom upper bound" <|
+            \_ ->
+                Expect.equal
+                    (Colour.Transparent.customOpacity 1.2)
+                    Colour.Transparent.opaque
+        , test "toFloat and toString" <|
+            \_ ->
+                let
+                    opacity =
+                        Colour.Transparent.customOpacity 0.392408
+                in
+                Expect.equal
+                    (Colour.Transparent.opacityToFloat opacity |> String.fromFloat)
+                    (Colour.Transparent.opacityToString opacity)
         ]

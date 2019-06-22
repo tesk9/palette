@@ -18,7 +18,7 @@ module Internal.RGBA exposing
 
 -}
 
-import Opacity exposing (Opacity)
+import Internal.Opacity as Opacity exposing (Opacity)
 
 
 type Color

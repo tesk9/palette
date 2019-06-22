@@ -1,4 +1,4 @@
-module Opacity exposing
+module Internal.Opacity exposing
     ( Opacity
     , transparent, opaque, custom
     , map

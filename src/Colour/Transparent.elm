@@ -1,11 +1,14 @@
 module Colour.Transparent exposing
-    ( Colour
+    ( Opacity
+    , transparent, opaque, customOpacity
+    , opacityToString, opacityToFloat
+    , Colour
     , fromColor
     , fromRGBA, fromHSLA, fromHexAString
     , toColor
     , toRGBAString, toHSLAString, toHexAString
     , toRGBA, toHSLA
-    , equals, getOpacity, map, mapColor, mapOpacity
+    , equals, getOpacity
     )
 
 {-| This module provides helpers for working with colors that are not fully opaque.
@@ -29,14 +32,21 @@ These docs assume that you're familiar with the color space you're looking at.
 If not, read more about each color space in `Color`.
 
 
-## Colour.Transparent
+## Opacity
+
+@docs Opacity
+@docs transparent, opaque, customOpacity
+@docs opacityToString, opacityToFloat
+
+
+## Colour
 
 @docs Colour
 @docs fromColor
 @docs fromRGBA, fromHSLA, fromHexAString
 
 
-## Use Colour.Transparents
+## Use Colours
 
 @docs toColor
 @docs toRGBAString, toHSLAString, toHexAString
@@ -53,8 +63,8 @@ import Dict
 import Internal.Color
 import Internal.HSLA
 import Internal.Hex
+import Internal.Opacity
 import Internal.RGBA
-import Opacity exposing (Opacity)
 
 
 {-| -}
@@ -154,16 +164,16 @@ equals a b =
 
 {-| Specify the opacity for a color without opacity.
 
-    import Colour exposing (Colour)
-    import Opacity
+    import Colour
+    import Colour.Transparent
 
-    myRed : Colour
+    myRed : Colour.Colour
     myRed =
         Colour.fromRGB ( 255, 0, 0 )
 
-    myTransparentRed : Colour
+    myTransparentRed : Colour.Transparent.Colour
     myTransparentRed =
-        Colour.fromColor (Opacity.custom 0.5) myRed
+        Colour.fromColor (Colour.Transparent.Colour.customOpacity 0.5) myRed
 
 -}
 fromColor : Opacity -> Colour.Colour -> Colour
@@ -199,64 +209,49 @@ getOpacity (Colour c) =
     Internal.Color.getOpacity c
 
 
-{-|
 
-    import Colour exposing (Colour)
-    import Palette.Generative exposing (rotateHue)
-
-    nextColor : Colour -> Colour
-    nextColor color =
-        Colour.mapColor (rotateHue 10) color
-
--}
-mapColor :
-    (Colour.Colour -> Colour.Colour)
-    -> Colour
-    -> Colour
-mapColor f =
-    map identity f
+-- OPACITY
 
 
-{-|
+{-| -}
+type alias Opacity =
+    Internal.Opacity.Opacity
 
-    import Colour exposing (Colour)
-    import Opacity exposing (Opacity)
-    import SomeCustomStylesheet exposing (red)
 
-    myTransparentRed : Colour
-    myTransparentRed =
-        Colour.mapOpacity halveOpacity red
+{-| Provided for convenience. Equivalent to doing:
 
-    halveOpacity : Opacity -> Opacity
-    halveOpacity =
-        Opacity.map (\current -> current / 2)
+    Opacity.customOpacity 0
 
 -}
-mapOpacity :
-    (Opacity -> Opacity)
-    -> Colour
-    -> Colour
-mapOpacity f =
-    map f identity
+transparent : Opacity
+transparent =
+    Internal.Opacity.transparent
 
 
-{-|
+{-| Provided for convenience. Equivalent to doing:
 
-    import Colour.Transparent exposing (Colour)
-    import Opacity
-    import Palette.Generative exposing (rotateHue)
-
-    rotateAndMakeMoreTransparent : Colour -> Colour
-    rotateAndMakeMoreTransparent =
-        Colour.map
-            (Opacity.map (\num -> num - 0.1))
-            (rotateHue 10)
+    Opacity.customOpacity 1.0
 
 -}
-map :
-    (Opacity -> Opacity)
-    -> (Colour.Colour -> Colour.Colour)
-    -> Colour
-    -> Colour
-map fo fc color =
-    fromColor (fo (getOpacity color)) (fc (toColor color))
+opaque : Opacity
+opaque =
+    Internal.Opacity.opaque
+
+
+{-| Pass in a value in [0, 1.0]. The value passed in will be clamped within these bounds.
+-}
+customOpacity : Float -> Opacity
+customOpacity =
+    Internal.Opacity.custom
+
+
+{-| -}
+opacityToFloat : Opacity -> Float
+opacityToFloat =
+    Internal.Opacity.toFloat
+
+
+{-| -}
+opacityToString : Opacity -> String
+opacityToString =
+    String.fromFloat << opacityToFloat

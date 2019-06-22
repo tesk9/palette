@@ -1,14 +1,13 @@
 module Colour.TransparentFuzzer exposing
     ( colorWithOpacity
     , hslColor
+    , opacityValue
     , rgbColor
     )
 
-import Colour.Transparent exposing (Colour)
+import Colour.Transparent exposing (Colour, Opacity)
 import ColourFuzzer
 import Fuzz exposing (Fuzzer)
-import Opacity exposing (Opacity)
-import OpacityFuzzer exposing (opacityValue)
 
 
 colorWithOpacity : Fuzzer Colour
@@ -28,3 +27,8 @@ hslColor =
     Fuzz.map2 Colour.Transparent.fromColor
         opacityValue
         ColourFuzzer.hslColor
+
+
+opacityValue : Fuzzer Opacity
+opacityValue =
+    Fuzz.map Colour.Transparent.customOpacity (Fuzz.floatRange 0 1.0)
