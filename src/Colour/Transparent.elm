@@ -7,6 +7,9 @@ module Colour.Transparent exposing
     , fromRGBA, fromHSLA, fromHexA
     , toColor
     , toRGBAString, toHSLAString
+    , invert
+    , blacken, whiten, greyen
+    , rotateHue, addSaturation, addLightness
     , toRGBA, toHSLA, toHexA
     , equals, getOpacity
     )
@@ -50,6 +53,13 @@ If not, read more about each color space in `Color`.
 
 @docs toColor
 @docs toRGBAString, toHSLAString
+
+
+## Customize Colours
+
+@docs invert
+@docs blacken, whiten, greyen
+@docs rotateHue, addSaturation, addLightness
 
 
 ## Helpers
@@ -255,3 +265,101 @@ opacityToFloat =
 opacityToString : Opacity -> String
 opacityToString =
     String.fromFloat << opacityToFloat
+
+
+{-| Use this function to produce a new shade of the Colour.
+Note: shades will be darker than the starting color. If you want a lighter color,
+please see `tint`.
+
+Pass in the percentage value by which you want to darken the color.
+
+-}
+blacken : Float -> Colour -> Colour
+blacken percentage color =
+    addLightness (0 - abs percentage) color
+
+
+{-| Use this function to produce a new tint of the Colour.
+Note: tints will be lighter than the starting color. If you want a darker color,
+please see `blacken`.
+
+Pass in the percentage value by which you want to lighten the color.
+
+-}
+whiten : Float -> Colour -> Colour
+whiten percentage color =
+    addLightness (abs percentage) color
+
+
+{-| Use this function to produce a new tone of the Colour.
+
+Essentially this means adding grays to the color you pass in. It's implemented,
+though, by adjusting the saturation of the color. You can pass in a positive or
+negative percentage value.
+
+-}
+greyen : Float -> Colour -> Colour
+greyen percentage color =
+    addSaturation percentage color
+
+
+{-| Rotate a color by degrees [0, 360).
+
+Picture the color wheel. Suppose you want to find 8 evenly-spaced colors from a starting color.
+You might do something like this:
+
+    import Colour
+
+    eightEvenColors : Colour -> List Colour
+    eightEvenColors color =
+        List.range 0 7
+            |> List.map (\i -> Colour.rotateHue (toFloat i * 360 / 8) color)
+
+Check out this code on Ellie here: <https://ellie-app.com/3CRfDs2HLvGa1>.
+
+-}
+rotateHue : Float -> Colour -> Colour
+rotateHue degrees color =
+    let
+        ({ hue } as hsla) =
+            toHSLA color
+    in
+    fromHSLA { hsla | hue = hue + degrees }
+
+
+{-| Modify the saturation of a color (see notes on HSL color space).
+-}
+addSaturation : Float -> Colour -> Colour
+addSaturation percentage color =
+    let
+        ({ saturation } as hsla) =
+            toHSLA color
+    in
+    fromHSLA { hsla | saturation = saturation + percentage }
+
+
+{-| Modify the lightness of a color (see notes on HSL color space).
+-}
+addLightness : Float -> Colour -> Colour
+addLightness percentage color =
+    let
+        ({ lightness } as hsla) =
+            toHSLA color
+    in
+    fromHSLA { hsla | lightness = lightness + percentage }
+
+
+{-| Use this function to invert a color. E.g., black inverted is white, white inverted is black....
+-}
+invert : Colour -> Colour
+invert color =
+    let
+        { red, green, blue, alpha } =
+            toRGBA color
+    in
+    fromRGBA
+        { red = 255 - red
+        , green = 255 - green
+        , blue = 255 - blue
+        , alpha = alpha
+        }
