@@ -9,79 +9,76 @@ Work with colors safely  and accessibly.
 - Use RGB, HSL, and hex colors interchangeably
 - Modify opacity
 
-## Getting started
-
-### Creating colors
+## Creating colors
 
 Create colors from RGB, HSL, and hex values.
 
 ```
-import Color exposing (Color)
+import OpaqueColor exposing (OpaqueColor)
 
 
-myOrangeyRed : Color
+myOrangeyRed : OpaqueColor
 myOrangeyRed =
-    Color.fromRGB ( 255, 80, 0 )
+    OpaqueColor.fromRGB ( 255, 80, 0 )
 
 
-myTurquoiseIsh : Color
+myTurquoiseIsh : OpaqueColor
 myTurquoiseIsh =
-    Color.fromHSL (127, 50, 50)
+    OpaqueColor.fromHSL (127, 50, 50)
 
 
-myHex : Result String Color
+myHex : Result String OpaqueColor
 myHex =
-    Color.fromHexString "#ff9800"
+    OpaqueColor.fromHexString "#ff9800"
 
 ```
 
-### Accessibility
+## Accessibility
 
-Use `Color.Contrast` to verify that your font size, boldness, and colors meet accessibility standards.
+Use helpers like `contrast` and `sufficientContrast` to verify that your font size, boldness, and colors meet accessibility standards.
 
-### Use static palettes
+## Use static palettes
 
 Use [X11](https://en.wikipedia.org/wiki/X11_color_names) and [Tango](http://tango.freedesktop.org/Tango_Icon_Theme_Guidelines#Color_Palette) colors by name:
 
 ```
-import Color exposing (Color)
+import OpaqueColor exposing (OpaqueColor)
 import Palette.X11 as X11 exposing (orangeRed, tomato, coral, darkOrange, orange)
 import Palette.Tango as Tango exposing (butter1, butter2, butter3)
 
-orangyReds : List Color
+orangyReds : List OpaqueColor
 orangyReds =
     [ orangeRed, tomato, coral, darkOrange, orange ]
 
 
-allTheButter : List Color
+allTheButter : List OpaqueColor
 allTheButter =
     [ butter1, butter2, butter3 ]
 ```
 
-### Generate palettes
+## Generate palettes
 
-Generate a customized cubehelix color scheme using `Palette.Cubehelix`.
-These schemes are a good choice for charts & graphs because the produced colors have quite even visual intensity.
+Generate a customized cubehelix color scheme using `Palette.Cubehelix` and `Palette.Generative`.
 
-Alternatively, generate a palette with colors that pop:
+`Palette.Cubehelix` is a good choice for charts & graphs because the produced colors have quite even visual intensity.
 
 Designers often approach color not by picking one color at a time, but by describing the relationships between
 the colors, e.g., "I want 4 colors that are equally spaced on the color wheel," or, "I want 10 colors that
 are all of the same hue but with different lightnesses."
 
-If you approach color like this, then you'll be interested in using `Color.Generator`, which has
+If you approach color like this, then you'll be interested in using `Palette.Generative`, which has
 helpers like `square` (generates 4 evenly-spaced colors) and `monochromatic` (generates lovely
 single-hue lists of colors).
 
 
-### Mixing colors together
+## Mixing colors together
 
 If you've used Photoshop, you may be familiar with color blending with functions
 like `multiply`. If not, I recommend taking a lot at the examples & playing until
 you get a feel for what the functions do.
 
 
-### Transparent colors
+## Transparent colors
 
 Work with alpha channel values/transparency/opacity.
 

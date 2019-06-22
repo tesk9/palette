@@ -1,17 +1,17 @@
 module ColorPicker exposing (Model, Msg, init, update, view)
 
-import Color exposing (Color)
 import Html exposing (Html)
 import Html.Attributes exposing (attribute, id, style)
 import Html.Events
+import OpaqueColor exposing (OpaqueColor)
 
 
 type alias Model =
-    { selectedColor : Color
+    { selectedColor : OpaqueColor
     }
 
 
-init : Color -> Model
+init : OpaqueColor -> Model
 init color =
     Model color
 
@@ -21,7 +21,7 @@ view model =
     Html.label []
         [ Html.input
             [ Html.Attributes.type_ "color"
-            , Color.toHexString model.selectedColor
+            , OpaqueColor.toHexString model.selectedColor
                 |> Html.Attributes.value
             , Html.Events.onInput SetHexColor
             ]
@@ -34,13 +34,13 @@ type Msg
     = SetHexColor String
 
 
-update : Msg -> Model -> ( Model, Maybe Color )
+update : Msg -> Model -> ( Model, Maybe OpaqueColor )
 update msg { selectedColor } =
     case msg of
         SetHexColor colorString ->
             let
                 newColor =
-                    Color.fromHexString colorString
+                    OpaqueColor.fromHexString colorString
                         |> Result.withDefault selectedColor
             in
             ( Model newColor, Just newColor )

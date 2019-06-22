@@ -73,7 +73,7 @@ Play with this example on [ellie](https://ellie-app.com/4wBgLmNppNHa1).
 
 -}
 
-import Color exposing (Color)
+import OpaqueColor exposing (OpaqueColor)
 
 
 
@@ -81,39 +81,39 @@ import Color exposing (Color)
 
 
 {-| -}
-pink : Color
+pink : OpaqueColor
 pink =
-    Color.fromRGB ( 255, 192, 203 )
+    OpaqueColor.fromRGB ( 255, 192, 203 )
 
 
 {-| -}
-lightPink : Color
+lightPink : OpaqueColor
 lightPink =
-    Color.fromRGB ( 255, 182, 193 )
+    OpaqueColor.fromRGB ( 255, 182, 193 )
 
 
 {-| -}
-hotPink : Color
+hotPink : OpaqueColor
 hotPink =
-    Color.fromRGB ( 255, 105, 180 )
+    OpaqueColor.fromRGB ( 255, 105, 180 )
 
 
 {-| -}
-deepPink : Color
+deepPink : OpaqueColor
 deepPink =
-    Color.fromRGB ( 255, 20, 147 )
+    OpaqueColor.fromRGB ( 255, 20, 147 )
 
 
 {-| -}
-paleVioletRed : Color
+paleVioletRed : OpaqueColor
 paleVioletRed =
-    Color.fromRGB ( 219, 112, 147 )
+    OpaqueColor.fromRGB ( 219, 112, 147 )
 
 
 {-| -}
-mediumVioletRed : Color
+mediumVioletRed : OpaqueColor
 mediumVioletRed =
-    Color.fromRGB ( 199, 21, 133 )
+    OpaqueColor.fromRGB ( 199, 21, 133 )
 
 
 
@@ -121,57 +121,57 @@ mediumVioletRed =
 
 
 {-| -}
-lightSalmon : Color
+lightSalmon : OpaqueColor
 lightSalmon =
-    Color.fromRGB ( 255, 160, 122 )
+    OpaqueColor.fromRGB ( 255, 160, 122 )
 
 
 {-| -}
-salmon : Color
+salmon : OpaqueColor
 salmon =
-    Color.fromRGB ( 250, 128, 114 )
+    OpaqueColor.fromRGB ( 250, 128, 114 )
 
 
 {-| -}
-darkSalmon : Color
+darkSalmon : OpaqueColor
 darkSalmon =
-    Color.fromRGB ( 233, 150, 122 )
+    OpaqueColor.fromRGB ( 233, 150, 122 )
 
 
 {-| -}
-lightCoral : Color
+lightCoral : OpaqueColor
 lightCoral =
-    Color.fromRGB ( 240, 128, 128 )
+    OpaqueColor.fromRGB ( 240, 128, 128 )
 
 
 {-| -}
-indianRed : Color
+indianRed : OpaqueColor
 indianRed =
-    Color.fromRGB ( 205, 92, 92 )
+    OpaqueColor.fromRGB ( 205, 92, 92 )
 
 
 {-| -}
-crimson : Color
+crimson : OpaqueColor
 crimson =
-    Color.fromRGB ( 220, 20, 60 )
+    OpaqueColor.fromRGB ( 220, 20, 60 )
 
 
 {-| -}
-firebrick : Color
+firebrick : OpaqueColor
 firebrick =
-    Color.fromRGB ( 178, 34, 34 )
+    OpaqueColor.fromRGB ( 178, 34, 34 )
 
 
 {-| -}
-darkRed : Color
+darkRed : OpaqueColor
 darkRed =
-    Color.fromRGB ( 139, 0, 0 )
+    OpaqueColor.fromRGB ( 139, 0, 0 )
 
 
 {-| -}
-red : Color
+red : OpaqueColor
 red =
-    Color.fromRGB ( 255, 0, 0 )
+    OpaqueColor.fromRGB ( 255, 0, 0 )
 
 
 
@@ -179,33 +179,33 @@ red =
 
 
 {-| -}
-orangeRed : Color
+orangeRed : OpaqueColor
 orangeRed =
-    Color.fromRGB ( 255, 69, 0 )
+    OpaqueColor.fromRGB ( 255, 69, 0 )
 
 
 {-| -}
-tomato : Color
+tomato : OpaqueColor
 tomato =
-    Color.fromRGB ( 255, 99, 71 )
+    OpaqueColor.fromRGB ( 255, 99, 71 )
 
 
 {-| -}
-coral : Color
+coral : OpaqueColor
 coral =
-    Color.fromRGB ( 255, 127, 80 )
+    OpaqueColor.fromRGB ( 255, 127, 80 )
 
 
 {-| -}
-darkOrange : Color
+darkOrange : OpaqueColor
 darkOrange =
-    Color.fromRGB ( 255, 140, 0 )
+    OpaqueColor.fromRGB ( 255, 140, 0 )
 
 
 {-| -}
-orange : Color
+orange : OpaqueColor
 orange =
-    Color.fromRGB ( 255, 165, 0 )
+    OpaqueColor.fromRGB ( 255, 165, 0 )
 
 
 
@@ -213,69 +213,69 @@ orange =
 
 
 {-| -}
-yellow : Color
+yellow : OpaqueColor
 yellow =
-    Color.fromRGB ( 255, 255, 0 )
+    OpaqueColor.fromRGB ( 255, 255, 0 )
 
 
 {-| -}
-lightYellow : Color
+lightYellow : OpaqueColor
 lightYellow =
-    Color.fromRGB ( 255, 255, 224 )
+    OpaqueColor.fromRGB ( 255, 255, 224 )
 
 
 {-| -}
-lemonChiffon : Color
+lemonChiffon : OpaqueColor
 lemonChiffon =
-    Color.fromRGB ( 255, 250, 205 )
+    OpaqueColor.fromRGB ( 255, 250, 205 )
 
 
 {-| -}
-lightGoldenrodYellow : Color
+lightGoldenrodYellow : OpaqueColor
 lightGoldenrodYellow =
-    Color.fromRGB ( 250, 250, 210 )
+    OpaqueColor.fromRGB ( 250, 250, 210 )
 
 
 {-| -}
-papayaWhip : Color
+papayaWhip : OpaqueColor
 papayaWhip =
-    Color.fromRGB ( 255, 239, 213 )
+    OpaqueColor.fromRGB ( 255, 239, 213 )
 
 
 {-| -}
-moccasin : Color
+moccasin : OpaqueColor
 moccasin =
-    Color.fromRGB ( 255, 228, 181 )
+    OpaqueColor.fromRGB ( 255, 228, 181 )
 
 
 {-| -}
-peachPuff : Color
+peachPuff : OpaqueColor
 peachPuff =
-    Color.fromRGB ( 255, 218, 185 )
+    OpaqueColor.fromRGB ( 255, 218, 185 )
 
 
 {-| -}
-paleGoldenrod : Color
+paleGoldenrod : OpaqueColor
 paleGoldenrod =
-    Color.fromRGB ( 238, 232, 170 )
+    OpaqueColor.fromRGB ( 238, 232, 170 )
 
 
 {-| -}
-khaki : Color
+khaki : OpaqueColor
 khaki =
-    Color.fromRGB ( 240, 230, 140 )
+    OpaqueColor.fromRGB ( 240, 230, 140 )
 
 
 {-| -}
-darkKhaki : Color
+darkKhaki : OpaqueColor
 darkKhaki =
-    Color.fromRGB ( 189, 183, 107 )
+    OpaqueColor.fromRGB ( 189, 183, 107 )
 
 
 {-| -}
-gold : Color
+gold : OpaqueColor
 gold =
-    Color.fromRGB ( 255, 215, 0 )
+    OpaqueColor.fromRGB ( 255, 215, 0 )
 
 
 
@@ -283,105 +283,105 @@ gold =
 
 
 {-| -}
-cornsilk : Color
+cornsilk : OpaqueColor
 cornsilk =
-    Color.fromRGB ( 255, 248, 220 )
+    OpaqueColor.fromRGB ( 255, 248, 220 )
 
 
 {-| -}
-blanchedAlmond : Color
+blanchedAlmond : OpaqueColor
 blanchedAlmond =
-    Color.fromRGB ( 255, 235, 205 )
+    OpaqueColor.fromRGB ( 255, 235, 205 )
 
 
 {-| -}
-bisque : Color
+bisque : OpaqueColor
 bisque =
-    Color.fromRGB ( 255, 228, 196 )
+    OpaqueColor.fromRGB ( 255, 228, 196 )
 
 
 {-| -}
-navajoWhite : Color
+navajoWhite : OpaqueColor
 navajoWhite =
-    Color.fromRGB ( 255, 222, 173 )
+    OpaqueColor.fromRGB ( 255, 222, 173 )
 
 
 {-| -}
-wheat : Color
+wheat : OpaqueColor
 wheat =
-    Color.fromRGB ( 245, 222, 179 )
+    OpaqueColor.fromRGB ( 245, 222, 179 )
 
 
 {-| -}
-burlywood : Color
+burlywood : OpaqueColor
 burlywood =
-    Color.fromRGB ( 222, 184, 135 )
+    OpaqueColor.fromRGB ( 222, 184, 135 )
 
 
 {-| -}
-tan : Color
+tan : OpaqueColor
 tan =
-    Color.fromRGB ( 210, 180, 140 )
+    OpaqueColor.fromRGB ( 210, 180, 140 )
 
 
 {-| -}
-rosyBrown : Color
+rosyBrown : OpaqueColor
 rosyBrown =
-    Color.fromRGB ( 188, 143, 143 )
+    OpaqueColor.fromRGB ( 188, 143, 143 )
 
 
 {-| -}
-sandyBrown : Color
+sandyBrown : OpaqueColor
 sandyBrown =
-    Color.fromRGB ( 244, 164, 96 )
+    OpaqueColor.fromRGB ( 244, 164, 96 )
 
 
 {-| -}
-goldenrod : Color
+goldenrod : OpaqueColor
 goldenrod =
-    Color.fromRGB ( 218, 165, 32 )
+    OpaqueColor.fromRGB ( 218, 165, 32 )
 
 
 {-| -}
-darkGoldenrod : Color
+darkGoldenrod : OpaqueColor
 darkGoldenrod =
-    Color.fromRGB ( 184, 134, 11 )
+    OpaqueColor.fromRGB ( 184, 134, 11 )
 
 
 {-| -}
-peru : Color
+peru : OpaqueColor
 peru =
-    Color.fromRGB ( 205, 133, 63 )
+    OpaqueColor.fromRGB ( 205, 133, 63 )
 
 
 {-| -}
-chocolate : Color
+chocolate : OpaqueColor
 chocolate =
-    Color.fromRGB ( 210, 105, 30 )
+    OpaqueColor.fromRGB ( 210, 105, 30 )
 
 
 {-| -}
-saddleBrown : Color
+saddleBrown : OpaqueColor
 saddleBrown =
-    Color.fromRGB ( 139, 69, 19 )
+    OpaqueColor.fromRGB ( 139, 69, 19 )
 
 
 {-| -}
-sienna : Color
+sienna : OpaqueColor
 sienna =
-    Color.fromRGB ( 160, 82, 45 )
+    OpaqueColor.fromRGB ( 160, 82, 45 )
 
 
 {-| -}
-brown : Color
+brown : OpaqueColor
 brown =
-    Color.fromRGB ( 165, 42, 42 )
+    OpaqueColor.fromRGB ( 165, 42, 42 )
 
 
 {-| -}
-maroon : Color
+maroon : OpaqueColor
 maroon =
-    Color.fromRGB ( 128, 0, 0 )
+    OpaqueColor.fromRGB ( 128, 0, 0 )
 
 
 
@@ -389,123 +389,123 @@ maroon =
 
 
 {-| -}
-darkOliveGreen : Color
+darkOliveGreen : OpaqueColor
 darkOliveGreen =
-    Color.fromRGB ( 85, 107, 47 )
+    OpaqueColor.fromRGB ( 85, 107, 47 )
 
 
 {-| -}
-olive : Color
+olive : OpaqueColor
 olive =
-    Color.fromRGB ( 128, 128, 0 )
+    OpaqueColor.fromRGB ( 128, 128, 0 )
 
 
 {-| -}
-oliveDrab : Color
+oliveDrab : OpaqueColor
 oliveDrab =
-    Color.fromRGB ( 107, 142, 35 )
+    OpaqueColor.fromRGB ( 107, 142, 35 )
 
 
 {-| -}
-yellowGreen : Color
+yellowGreen : OpaqueColor
 yellowGreen =
-    Color.fromRGB ( 154, 205, 50 )
+    OpaqueColor.fromRGB ( 154, 205, 50 )
 
 
 {-| -}
-limeGreen : Color
+limeGreen : OpaqueColor
 limeGreen =
-    Color.fromRGB ( 50, 205, 50 )
+    OpaqueColor.fromRGB ( 50, 205, 50 )
 
 
 {-| -}
-lime : Color
+lime : OpaqueColor
 lime =
-    Color.fromRGB ( 0, 255, 0 )
+    OpaqueColor.fromRGB ( 0, 255, 0 )
 
 
 {-| -}
-lawnGreen : Color
+lawnGreen : OpaqueColor
 lawnGreen =
-    Color.fromRGB ( 124, 252, 0 )
+    OpaqueColor.fromRGB ( 124, 252, 0 )
 
 
 {-| -}
-chartreuse : Color
+chartreuse : OpaqueColor
 chartreuse =
-    Color.fromRGB ( 127, 255, 0 )
+    OpaqueColor.fromRGB ( 127, 255, 0 )
 
 
 {-| -}
-greenYellow : Color
+greenYellow : OpaqueColor
 greenYellow =
-    Color.fromRGB ( 173, 255, 47 )
+    OpaqueColor.fromRGB ( 173, 255, 47 )
 
 
 {-| -}
-springGreen : Color
+springGreen : OpaqueColor
 springGreen =
-    Color.fromRGB ( 0, 255, 127 )
+    OpaqueColor.fromRGB ( 0, 255, 127 )
 
 
 {-| -}
-mediumSpringGreen : Color
+mediumSpringGreen : OpaqueColor
 mediumSpringGreen =
-    Color.fromRGB ( 0, 250, 154 )
+    OpaqueColor.fromRGB ( 0, 250, 154 )
 
 
 {-| -}
-lightGreen : Color
+lightGreen : OpaqueColor
 lightGreen =
-    Color.fromRGB ( 144, 238, 144 )
+    OpaqueColor.fromRGB ( 144, 238, 144 )
 
 
 {-| -}
-paleGreen : Color
+paleGreen : OpaqueColor
 paleGreen =
-    Color.fromRGB ( 152, 251, 152 )
+    OpaqueColor.fromRGB ( 152, 251, 152 )
 
 
 {-| -}
-darkSeaGreen : Color
+darkSeaGreen : OpaqueColor
 darkSeaGreen =
-    Color.fromRGB ( 143, 188, 143 )
+    OpaqueColor.fromRGB ( 143, 188, 143 )
 
 
 {-| -}
-mediumAquamarine : Color
+mediumAquamarine : OpaqueColor
 mediumAquamarine =
-    Color.fromRGB ( 102, 205, 170 )
+    OpaqueColor.fromRGB ( 102, 205, 170 )
 
 
 {-| -}
-mediumSeaGreen : Color
+mediumSeaGreen : OpaqueColor
 mediumSeaGreen =
-    Color.fromRGB ( 60, 179, 113 )
+    OpaqueColor.fromRGB ( 60, 179, 113 )
 
 
 {-| -}
-seaGreen : Color
+seaGreen : OpaqueColor
 seaGreen =
-    Color.fromRGB ( 46, 139, 87 )
+    OpaqueColor.fromRGB ( 46, 139, 87 )
 
 
 {-| -}
-forestGreen : Color
+forestGreen : OpaqueColor
 forestGreen =
-    Color.fromRGB ( 34, 139, 34 )
+    OpaqueColor.fromRGB ( 34, 139, 34 )
 
 
 {-| -}
-green : Color
+green : OpaqueColor
 green =
-    Color.fromRGB ( 0, 128, 0 )
+    OpaqueColor.fromRGB ( 0, 128, 0 )
 
 
 {-| -}
-darkGreen : Color
+darkGreen : OpaqueColor
 darkGreen =
-    Color.fromRGB ( 0, 100, 0 )
+    OpaqueColor.fromRGB ( 0, 100, 0 )
 
 
 
@@ -513,75 +513,75 @@ darkGreen =
 
 
 {-| -}
-aqua : Color
+aqua : OpaqueColor
 aqua =
-    Color.fromRGB ( 0, 255, 255 )
+    OpaqueColor.fromRGB ( 0, 255, 255 )
 
 
 {-| -}
-cyan : Color
+cyan : OpaqueColor
 cyan =
-    Color.fromRGB ( 0, 255, 255 )
+    OpaqueColor.fromRGB ( 0, 255, 255 )
 
 
 {-| -}
-lightCyan : Color
+lightCyan : OpaqueColor
 lightCyan =
-    Color.fromRGB ( 224, 255, 255 )
+    OpaqueColor.fromRGB ( 224, 255, 255 )
 
 
 {-| -}
-paleTurquoise : Color
+paleTurquoise : OpaqueColor
 paleTurquoise =
-    Color.fromRGB ( 175, 238, 238 )
+    OpaqueColor.fromRGB ( 175, 238, 238 )
 
 
 {-| -}
-aquamarine : Color
+aquamarine : OpaqueColor
 aquamarine =
-    Color.fromRGB ( 127, 255, 212 )
+    OpaqueColor.fromRGB ( 127, 255, 212 )
 
 
 {-| -}
-turquoise : Color
+turquoise : OpaqueColor
 turquoise =
-    Color.fromRGB ( 64, 224, 208 )
+    OpaqueColor.fromRGB ( 64, 224, 208 )
 
 
 {-| -}
-mediumTurquoise : Color
+mediumTurquoise : OpaqueColor
 mediumTurquoise =
-    Color.fromRGB ( 72, 209, 204 )
+    OpaqueColor.fromRGB ( 72, 209, 204 )
 
 
 {-| -}
-darkTurquoise : Color
+darkTurquoise : OpaqueColor
 darkTurquoise =
-    Color.fromRGB ( 0, 206, 209 )
+    OpaqueColor.fromRGB ( 0, 206, 209 )
 
 
 {-| -}
-lightSeaGreen : Color
+lightSeaGreen : OpaqueColor
 lightSeaGreen =
-    Color.fromRGB ( 32, 178, 170 )
+    OpaqueColor.fromRGB ( 32, 178, 170 )
 
 
 {-| -}
-cadetBlue : Color
+cadetBlue : OpaqueColor
 cadetBlue =
-    Color.fromRGB ( 95, 158, 160 )
+    OpaqueColor.fromRGB ( 95, 158, 160 )
 
 
 {-| -}
-darkCyan : Color
+darkCyan : OpaqueColor
 darkCyan =
-    Color.fromRGB ( 0, 139, 139 )
+    OpaqueColor.fromRGB ( 0, 139, 139 )
 
 
 {-| -}
-teal : Color
+teal : OpaqueColor
 teal =
-    Color.fromRGB ( 0, 128, 128 )
+    OpaqueColor.fromRGB ( 0, 128, 128 )
 
 
 
@@ -589,93 +589,93 @@ teal =
 
 
 {-| -}
-lightSteelBlue : Color
+lightSteelBlue : OpaqueColor
 lightSteelBlue =
-    Color.fromRGB ( 176, 196, 222 )
+    OpaqueColor.fromRGB ( 176, 196, 222 )
 
 
 {-| -}
-powderBlue : Color
+powderBlue : OpaqueColor
 powderBlue =
-    Color.fromRGB ( 176, 224, 230 )
+    OpaqueColor.fromRGB ( 176, 224, 230 )
 
 
 {-| -}
-lightBlue : Color
+lightBlue : OpaqueColor
 lightBlue =
-    Color.fromRGB ( 173, 216, 230 )
+    OpaqueColor.fromRGB ( 173, 216, 230 )
 
 
 {-| -}
-skyBlue : Color
+skyBlue : OpaqueColor
 skyBlue =
-    Color.fromRGB ( 135, 206, 235 )
+    OpaqueColor.fromRGB ( 135, 206, 235 )
 
 
 {-| -}
-lightSkyBlue : Color
+lightSkyBlue : OpaqueColor
 lightSkyBlue =
-    Color.fromRGB ( 135, 206, 250 )
+    OpaqueColor.fromRGB ( 135, 206, 250 )
 
 
 {-| -}
-deepSkyBlue : Color
+deepSkyBlue : OpaqueColor
 deepSkyBlue =
-    Color.fromRGB ( 0, 191, 255 )
+    OpaqueColor.fromRGB ( 0, 191, 255 )
 
 
 {-| -}
-dodgerBlue : Color
+dodgerBlue : OpaqueColor
 dodgerBlue =
-    Color.fromRGB ( 30, 144, 255 )
+    OpaqueColor.fromRGB ( 30, 144, 255 )
 
 
 {-| -}
-cornflowerBlue : Color
+cornflowerBlue : OpaqueColor
 cornflowerBlue =
-    Color.fromRGB ( 100, 149, 237 )
+    OpaqueColor.fromRGB ( 100, 149, 237 )
 
 
 {-| -}
-steelBlue : Color
+steelBlue : OpaqueColor
 steelBlue =
-    Color.fromRGB ( 70, 130, 180 )
+    OpaqueColor.fromRGB ( 70, 130, 180 )
 
 
 {-| -}
-royalBlue : Color
+royalBlue : OpaqueColor
 royalBlue =
-    Color.fromRGB ( 65, 105, 225 )
+    OpaqueColor.fromRGB ( 65, 105, 225 )
 
 
 {-| -}
-blue : Color
+blue : OpaqueColor
 blue =
-    Color.fromRGB ( 0, 0, 255 )
+    OpaqueColor.fromRGB ( 0, 0, 255 )
 
 
 {-| -}
-mediumBlue : Color
+mediumBlue : OpaqueColor
 mediumBlue =
-    Color.fromRGB ( 0, 0, 205 )
+    OpaqueColor.fromRGB ( 0, 0, 205 )
 
 
 {-| -}
-darkBlue : Color
+darkBlue : OpaqueColor
 darkBlue =
-    Color.fromRGB ( 0, 0, 139 )
+    OpaqueColor.fromRGB ( 0, 0, 139 )
 
 
 {-| -}
-navy : Color
+navy : OpaqueColor
 navy =
-    Color.fromRGB ( 0, 0, 128 )
+    OpaqueColor.fromRGB ( 0, 0, 128 )
 
 
 {-| -}
-midnightBlue : Color
+midnightBlue : OpaqueColor
 midnightBlue =
-    Color.fromRGB ( 25, 25, 112 )
+    OpaqueColor.fromRGB ( 25, 25, 112 )
 
 
 
@@ -683,111 +683,111 @@ midnightBlue =
 
 
 {-| -}
-lavender : Color
+lavender : OpaqueColor
 lavender =
-    Color.fromRGB ( 230, 230, 250 )
+    OpaqueColor.fromRGB ( 230, 230, 250 )
 
 
 {-| -}
-thistle : Color
+thistle : OpaqueColor
 thistle =
-    Color.fromRGB ( 216, 191, 216 )
+    OpaqueColor.fromRGB ( 216, 191, 216 )
 
 
 {-| -}
-plum : Color
+plum : OpaqueColor
 plum =
-    Color.fromRGB ( 221, 160, 221 )
+    OpaqueColor.fromRGB ( 221, 160, 221 )
 
 
 {-| -}
-violet : Color
+violet : OpaqueColor
 violet =
-    Color.fromRGB ( 238, 130, 238 )
+    OpaqueColor.fromRGB ( 238, 130, 238 )
 
 
 {-| -}
-orchid : Color
+orchid : OpaqueColor
 orchid =
-    Color.fromRGB ( 218, 112, 214 )
+    OpaqueColor.fromRGB ( 218, 112, 214 )
 
 
 {-| -}
-fuchsia : Color
+fuchsia : OpaqueColor
 fuchsia =
-    Color.fromRGB ( 255, 0, 255 )
+    OpaqueColor.fromRGB ( 255, 0, 255 )
 
 
 {-| -}
-magenta : Color
+magenta : OpaqueColor
 magenta =
-    Color.fromRGB ( 255, 0, 255 )
+    OpaqueColor.fromRGB ( 255, 0, 255 )
 
 
 {-| -}
-mediumOrchid : Color
+mediumOrchid : OpaqueColor
 mediumOrchid =
-    Color.fromRGB ( 186, 85, 211 )
+    OpaqueColor.fromRGB ( 186, 85, 211 )
 
 
 {-| -}
-mediumPurple : Color
+mediumPurple : OpaqueColor
 mediumPurple =
-    Color.fromRGB ( 147, 112, 219 )
+    OpaqueColor.fromRGB ( 147, 112, 219 )
 
 
 {-| -}
-blueViolet : Color
+blueViolet : OpaqueColor
 blueViolet =
-    Color.fromRGB ( 138, 43, 226 )
+    OpaqueColor.fromRGB ( 138, 43, 226 )
 
 
 {-| -}
-darkViolet : Color
+darkViolet : OpaqueColor
 darkViolet =
-    Color.fromRGB ( 148, 0, 211 )
+    OpaqueColor.fromRGB ( 148, 0, 211 )
 
 
 {-| -}
-darkOrchid : Color
+darkOrchid : OpaqueColor
 darkOrchid =
-    Color.fromRGB ( 153, 50, 204 )
+    OpaqueColor.fromRGB ( 153, 50, 204 )
 
 
 {-| -}
-darkMagenta : Color
+darkMagenta : OpaqueColor
 darkMagenta =
-    Color.fromRGB ( 139, 0, 139 )
+    OpaqueColor.fromRGB ( 139, 0, 139 )
 
 
 {-| -}
-purple : Color
+purple : OpaqueColor
 purple =
-    Color.fromRGB ( 128, 0, 128 )
+    OpaqueColor.fromRGB ( 128, 0, 128 )
 
 
 {-| -}
-indigo : Color
+indigo : OpaqueColor
 indigo =
-    Color.fromRGB ( 75, 0, 130 )
+    OpaqueColor.fromRGB ( 75, 0, 130 )
 
 
 {-| -}
-darkSlateBlue : Color
+darkSlateBlue : OpaqueColor
 darkSlateBlue =
-    Color.fromRGB ( 72, 61, 139 )
+    OpaqueColor.fromRGB ( 72, 61, 139 )
 
 
 {-| -}
-slateBlue : Color
+slateBlue : OpaqueColor
 slateBlue =
-    Color.fromRGB ( 106, 90, 205 )
+    OpaqueColor.fromRGB ( 106, 90, 205 )
 
 
 {-| -}
-mediumSlateBlue : Color
+mediumSlateBlue : OpaqueColor
 mediumSlateBlue =
-    Color.fromRGB ( 123, 104, 238 )
+    OpaqueColor.fromRGB ( 123, 104, 238 )
 
 
 
@@ -795,105 +795,105 @@ mediumSlateBlue =
 
 
 {-| -}
-white : Color
+white : OpaqueColor
 white =
-    Color.fromRGB ( 255, 255, 255 )
+    OpaqueColor.fromRGB ( 255, 255, 255 )
 
 
 {-| -}
-snow : Color
+snow : OpaqueColor
 snow =
-    Color.fromRGB ( 255, 250, 250 )
+    OpaqueColor.fromRGB ( 255, 250, 250 )
 
 
 {-| -}
-honeydew : Color
+honeydew : OpaqueColor
 honeydew =
-    Color.fromRGB ( 240, 255, 240 )
+    OpaqueColor.fromRGB ( 240, 255, 240 )
 
 
 {-| -}
-mintCream : Color
+mintCream : OpaqueColor
 mintCream =
-    Color.fromRGB ( 245, 255, 250 )
+    OpaqueColor.fromRGB ( 245, 255, 250 )
 
 
 {-| -}
-azure : Color
+azure : OpaqueColor
 azure =
-    Color.fromRGB ( 240, 255, 255 )
+    OpaqueColor.fromRGB ( 240, 255, 255 )
 
 
 {-| -}
-aliceBlue : Color
+aliceBlue : OpaqueColor
 aliceBlue =
-    Color.fromRGB ( 240, 248, 255 )
+    OpaqueColor.fromRGB ( 240, 248, 255 )
 
 
 {-| -}
-ghostWhite : Color
+ghostWhite : OpaqueColor
 ghostWhite =
-    Color.fromRGB ( 248, 248, 255 )
+    OpaqueColor.fromRGB ( 248, 248, 255 )
 
 
 {-| -}
-whiteSmoke : Color
+whiteSmoke : OpaqueColor
 whiteSmoke =
-    Color.fromRGB ( 245, 245, 245 )
+    OpaqueColor.fromRGB ( 245, 245, 245 )
 
 
 {-| -}
-seashell : Color
+seashell : OpaqueColor
 seashell =
-    Color.fromRGB ( 255, 245, 238 )
+    OpaqueColor.fromRGB ( 255, 245, 238 )
 
 
 {-| -}
-beige : Color
+beige : OpaqueColor
 beige =
-    Color.fromRGB ( 245, 245, 220 )
+    OpaqueColor.fromRGB ( 245, 245, 220 )
 
 
 {-| -}
-oldLace : Color
+oldLace : OpaqueColor
 oldLace =
-    Color.fromRGB ( 253, 245, 230 )
+    OpaqueColor.fromRGB ( 253, 245, 230 )
 
 
 {-| -}
-floralWhite : Color
+floralWhite : OpaqueColor
 floralWhite =
-    Color.fromRGB ( 255, 250, 240 )
+    OpaqueColor.fromRGB ( 255, 250, 240 )
 
 
 {-| -}
-ivory : Color
+ivory : OpaqueColor
 ivory =
-    Color.fromRGB ( 255, 255, 240 )
+    OpaqueColor.fromRGB ( 255, 255, 240 )
 
 
 {-| -}
-antiqueWhite : Color
+antiqueWhite : OpaqueColor
 antiqueWhite =
-    Color.fromRGB ( 250, 235, 215 )
+    OpaqueColor.fromRGB ( 250, 235, 215 )
 
 
 {-| -}
-linen : Color
+linen : OpaqueColor
 linen =
-    Color.fromRGB ( 250, 240, 230 )
+    OpaqueColor.fromRGB ( 250, 240, 230 )
 
 
 {-| -}
-lavenderBlush : Color
+lavenderBlush : OpaqueColor
 lavenderBlush =
-    Color.fromRGB ( 255, 240, 245 )
+    OpaqueColor.fromRGB ( 255, 240, 245 )
 
 
 {-| -}
-mistyRose : Color
+mistyRose : OpaqueColor
 mistyRose =
-    Color.fromRGB ( 255, 228, 225 )
+    OpaqueColor.fromRGB ( 255, 228, 225 )
 
 
 
@@ -901,60 +901,60 @@ mistyRose =
 
 
 {-| -}
-gainsboro : Color
+gainsboro : OpaqueColor
 gainsboro =
-    Color.fromRGB ( 220, 220, 220 )
+    OpaqueColor.fromRGB ( 220, 220, 220 )
 
 
 {-| -}
-lightGray : Color
+lightGray : OpaqueColor
 lightGray =
-    Color.fromRGB ( 211, 211, 211 )
+    OpaqueColor.fromRGB ( 211, 211, 211 )
 
 
 {-| -}
-silver : Color
+silver : OpaqueColor
 silver =
-    Color.fromRGB ( 192, 192, 192 )
+    OpaqueColor.fromRGB ( 192, 192, 192 )
 
 
 {-| -}
-darkGray : Color
+darkGray : OpaqueColor
 darkGray =
-    Color.fromRGB ( 169, 169, 169 )
+    OpaqueColor.fromRGB ( 169, 169, 169 )
 
 
 {-| -}
-gray : Color
+gray : OpaqueColor
 gray =
-    Color.fromRGB ( 128, 128, 128 )
+    OpaqueColor.fromRGB ( 128, 128, 128 )
 
 
 {-| -}
-dimGray : Color
+dimGray : OpaqueColor
 dimGray =
-    Color.fromRGB ( 105, 105, 105 )
+    OpaqueColor.fromRGB ( 105, 105, 105 )
 
 
 {-| -}
-lightSlateGray : Color
+lightSlateGray : OpaqueColor
 lightSlateGray =
-    Color.fromRGB ( 119, 136, 153 )
+    OpaqueColor.fromRGB ( 119, 136, 153 )
 
 
 {-| -}
-slateGray : Color
+slateGray : OpaqueColor
 slateGray =
-    Color.fromRGB ( 112, 128, 144 )
+    OpaqueColor.fromRGB ( 112, 128, 144 )
 
 
 {-| -}
-darkSlateGray : Color
+darkSlateGray : OpaqueColor
 darkSlateGray =
-    Color.fromRGB ( 47, 79, 79 )
+    OpaqueColor.fromRGB ( 47, 79, 79 )
 
 
 {-| -}
-black : Color
+black : OpaqueColor
 black =
-    Color.fromRGB ( 0, 0, 0 )
+    OpaqueColor.fromRGB ( 0, 0, 0 )

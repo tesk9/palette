@@ -1,12 +1,12 @@
 module Preview exposing (Model, Msg, init, update, view)
 
-import Color exposing (Color)
-import Color.Generator as Generator
 import Comparison
 import Html exposing (Html)
 import Html.Attributes exposing (style)
 import Html.Events
 import Json.Decode
+import OpaqueColor exposing (OpaqueColor)
+import Palette.Generative as Generator
 
 
 type alias Model =
@@ -18,12 +18,12 @@ type alias Model =
 type Generator
     = Generator
         { name : String
-        , generate : Color -> List Color
+        , generate : OpaqueColor -> List OpaqueColor
         }
     | GeneratorWith
         { name : String
         , unit : Unit
-        , generate : Float -> Color -> List Color
+        , generate : Float -> OpaqueColor -> List OpaqueColor
         , editable : Maybe Float
         }
 
@@ -64,64 +64,34 @@ generatorList =
             normalize (generator a b)
     in
     ( Generator
-        { name = "complementary"
-        , generate = Generator.complementary >> List.singleton
+        { name = "OpaqueColor.highContrast"
+        , generate = OpaqueColor.highContrast >> List.singleton
         }
-    , [ Generator
-            { name = "triadic"
-            , generate = Generator.triadic >> tupleToList
-            }
-      , GeneratorWith
-            { name = "splitComplementary"
-            , unit = Degrees
-            , generate = apply Generator.splitComplementary tupleToList
-            , editable = Nothing
-            }
-      , Generator
-            { name = "square"
-            , generate = Generator.square >> tripleToList
-            }
-      , GeneratorWith
-            { name = "tetratic"
-            , unit = Degrees
-            , generate = apply Generator.tetratic tripleToList
-            , editable = Nothing
-            }
-      , GeneratorWith
-            { name = "monochromatic"
-            , unit = Degrees
-            , generate = Generator.monochromatic
-            , editable = Nothing
-            }
-      , Generator
-            { name = "highContrast"
-            , generate = Generator.highContrast >> List.singleton
-            }
-      , GeneratorWith
-            { name = "shade"
+    , [ GeneratorWith
+            { name = "OpaqueColor.shade"
             , unit = Percentage
-            , generate = apply Generator.shade List.singleton
+            , generate = apply OpaqueColor.shade List.singleton
             , editable = Nothing
             }
       , GeneratorWith
-            { name = "tint"
+            { name = "OpaqueColor.tint"
             , unit = Percentage
-            , generate = apply Generator.tint List.singleton
+            , generate = apply OpaqueColor.tint List.singleton
             , editable = Nothing
             }
       , GeneratorWith
-            { name = "tone"
+            { name = "OpaqueColor.tone"
             , unit = Percentage
-            , generate = apply Generator.tone List.singleton
+            , generate = apply OpaqueColor.tone List.singleton
             , editable = Nothing
             }
       , Generator
-            { name = "grayscale"
-            , generate = Generator.grayscale >> List.singleton
+            { name = "OpaqueColor.grayscale"
+            , generate = OpaqueColor.grayscale >> List.singleton
             }
       , Generator
-            { name = "invert"
-            , generate = Generator.invert >> List.singleton
+            { name = "OpaqueColor.invert"
+            , generate = OpaqueColor.invert >> List.singleton
             }
       ]
     )
@@ -144,7 +114,7 @@ init =
     }
 
 
-view : Color -> Model -> Html Msg
+view : OpaqueColor -> Model -> Html Msg
 view selectedColor model =
     Html.div [ style "margin-top" "4px" ]
         [ generatorOptions model
@@ -169,7 +139,7 @@ generatorOptions : Model -> Html Msg
 generatorOptions model =
     Html.div [ style "margin-bottom" "8px" ]
         [ Html.label [ Html.Attributes.for "generator-select" ]
-            [ Html.text "Color.Generator." ]
+            [ Html.text "Modify/generate new colors with:" ]
         , Html.select
             [ Html.Attributes.id "generator-select"
             , Html.Events.onInput
@@ -215,8 +185,8 @@ customValueEditor unit currentValue =
 
 
 viewEditablePalette :
-    Color
-    -> { a | name : String, generate : Float -> Color -> List Color, editable : Maybe Float }
+    OpaqueColor
+    -> { a | name : String, generate : Float -> OpaqueColor -> List OpaqueColor, editable : Maybe Float }
     -> Html msg
 viewEditablePalette selectedColor { name, generate, editable } =
     case editable of
@@ -227,18 +197,17 @@ viewEditablePalette selectedColor { name, generate, editable } =
             Html.text ""
 
 
-viewPalette : Color -> String -> (Color -> List Color) -> Html msg
+viewPalette : OpaqueColor -> String -> (OpaqueColor -> List OpaqueColor) -> Html msg
 viewPalette selectedColor name generate =
     let
         ( r, g, b ) =
-            Color.toRGB selectedColor
+            OpaqueColor.toRGB selectedColor
     in
     Html.div []
         [ Html.code []
             [ Html.text
-                ("Color.Generator."
-                    ++ name
-                    ++ " <| Color.fromRGB ( "
+                (name
+                    ++ " <| OpaqueColor.fromRGB ( "
                     ++ String.fromFloat r
                     ++ ", "
                     ++ String.fromFloat g
@@ -247,7 +216,7 @@ viewPalette selectedColor name generate =
                     ++ " ) == "
                 )
             ]
-        , Comparison.viewPalette (Color.fromRGB ( 255, 255, 255 )) (generate selectedColor)
+        , Comparison.viewPalette (OpaqueColor.fromRGB ( 255, 255, 255 )) (generate selectedColor)
         ]
 
 

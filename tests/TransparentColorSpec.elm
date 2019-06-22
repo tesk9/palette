@@ -1,11 +1,10 @@
 module TransparentColorSpec exposing (colorWithOpacitySuite)
 
-import Color
-import Color.Generator
-import ColorFuzzer as ColorFuzz exposing (hexStringOfLength)
 import Expect exposing (Expectation)
 import Fuzz exposing (Fuzzer)
 import Opacity
+import OpaqueColor
+import Palette.Generative
 import Test exposing (..)
 import TransparentColor
 import TransparentColorFuzzer
@@ -74,17 +73,17 @@ colorWithOpacitySuite =
               <|
                 \( colorWithOpacity, percent ) ->
                     let
-                        expectedResult : Color.Color
+                        expectedResult : OpaqueColor.OpaqueColor
                         expectedResult =
                             f (TransparentColor.toColor colorWithOpacity)
 
                         f =
-                            Color.Generator.adjustSaturation percent
+                            OpaqueColor.adjustSaturation percent
                     in
                     colorWithOpacity
                         |> TransparentColor.mapColor f
                         |> TransparentColor.toColor
-                        |> Color.equals expectedResult
+                        |> OpaqueColor.equals expectedResult
                         |> Expect.true "`mapColor f >> toColor` should be equivalent to `toColor >> f`"
             , fuzz
                 TransparentColorFuzzer.colorWithOpacity
@@ -97,13 +96,13 @@ colorWithOpacitySuite =
 
                         expectedResult : TransparentColor.TransparentColor
                         expectedResult =
-                            Color.fromHSL ( hue, saturation, lightness )
+                            OpaqueColor.fromHSL ( hue, saturation, lightness )
                                 |> fColor
                                 |> TransparentColor.fromColor (fOpacity alpha)
 
-                        fColor : Color.Color -> Color.Color
+                        fColor : OpaqueColor.OpaqueColor -> OpaqueColor.OpaqueColor
                         fColor =
-                            Color.Generator.complementary
+                            Palette.Generative.complementary
 
                         fOpacity : Opacity.Opacity -> Opacity.Opacity
                         fOpacity =

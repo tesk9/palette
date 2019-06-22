@@ -1,6 +1,5 @@
 module PaletteExamples.Tango exposing (examples)
 
-import Color
 import Comparison
 import ExampleHelpers as Example
 import Html exposing (Html)

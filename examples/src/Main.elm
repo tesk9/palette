@@ -1,16 +1,13 @@
 module Main exposing (main)
 
 import Browser
-import Color exposing (Color)
-import Color.Blend
-import Color.Contrast
-import Color.Generator
 import ColorModes
 import ColorPicker
 import Comparison
 import ExampleHelpers as Example
 import Html exposing (Html)
-import Palette.Tango as Tango
+import OpaqueColor exposing (OpaqueColor)
+import Palette.Generative
 import Palette.X11 as X11
 import PaletteExamples.Cubehelix
 import PaletteExamples.Tango
@@ -35,7 +32,7 @@ init : Model
 init =
     let
         selectedColor =
-            Color.fromHSL ( 0, 100, 50 )
+            OpaqueColor.fromHSL ( 0, 100, 50 )
     in
     { colorModesModel = ColorModes.init
     , colorPickerModel = ColorPicker.init selectedColor
@@ -48,7 +45,7 @@ type alias Model =
     { colorModesModel : ColorModes.Model
     , colorPickerModel : ColorPicker.Model
     , previewModel : Preview.Model
-    , selectedColor : Color
+    , selectedColor : OpaqueColor
     }
 
 
@@ -82,20 +79,59 @@ view : Model -> Html Msg
 view model =
     Html.main_ []
         [ Html.h1 [] [ Html.text "Examples" ]
-        , Example.section "API"
+        , Example.section "OpaqueColor"
             (Html.div []
-                [ ColorPicker.view model.colorPickerModel
-                    |> Html.map ColorPickerMsg
-                , Preview.view model.selectedColor model.previewModel
-                    |> Html.map PreviewMsg
+                [ Example.subsection "API"
+                    (Html.div []
+                        [ ColorPicker.view model.colorPickerModel
+                            |> Html.map ColorPickerMsg
+                        , Preview.view model.selectedColor model.previewModel
+                            |> Html.map PreviewMsg
+                        ]
+                    )
+                , Example.subsection "Grayscale"
+                    (Example.list rainbow viewGrayscale)
+                , Example.subsection "Invert"
+                    (Example.list rainbow viewInverse)
+                , Example.subsection "Monochromatic"
+                    (Html.div []
+                        [ Html.h4 [] [ Html.text "Shades" ]
+                        , Example.list rainbow viewMonochromaticShades
+                        , Html.h4 [] [ Html.text "Tints" ]
+                        , Example.list rainbow viewMonochromaticTints
+                        , Html.h4 [] [ Html.text "Tones" ]
+                        , Example.list rainbow viewMonochromaticTones
+                        ]
+                    )
+                , Example.subsection "Blending"
+                    (Html.div []
+                        [ Html.h4 [] [ Html.text "Add" ]
+                        , Example.list (List.map (\color -> ( color, X11.lightSeaGreen )) rainbow)
+                            (Comparison.viewOverlapping OpaqueColor.add)
+                        , Html.h4 [] [ Html.text "Subtract" ]
+                        , Example.list (List.map (\color -> ( color, X11.lightSeaGreen )) rainbow)
+                            (Comparison.viewOverlapping OpaqueColor.subtract)
+                        , Html.h4 [] [ Html.text "Multiply" ]
+                        , Example.list (List.map (\color -> ( color, X11.lightSeaGreen )) rainbow)
+                            (Comparison.viewOverlapping OpaqueColor.multiply)
+                        , Html.h4 [] [ Html.text "Divide" ]
+                        , Example.list (List.map (\color -> ( color, X11.lightSeaGreen )) rainbow)
+                            (Comparison.viewOverlapping OpaqueColor.divide)
+                        ]
+                    )
+                , Example.subsection "Contrast"
+                    (ColorModes.view model.colorModesModel
+                        |> Html.map ColorModesMsg
+                    )
                 ]
             )
-        , Example.section "Contrast"
-            (ColorModes.view model.colorModesModel
-                |> Html.map ColorModesMsg
-            )
-        , Example.section "Color Schemes"
-            (Html.div []
+        , Example.section "TransparentColor" TransparentColorExamples.view
+        , Example.section "Palette.Cubehelix" PaletteExamples.Cubehelix.examples
+        , Example.section "Palette.Tango" PaletteExamples.Tango.examples
+        , Example.section "Palette.X11" PaletteExamples.X11.examples
+        , Example.section "Palette.Generative"
+            (Html.div
+                []
                 [ Example.subsection "Complementary"
                     (Example.list rainbow viewComplementary)
                 , Example.subsection "Triadic"
@@ -110,147 +146,109 @@ view model =
                     (Example.list (List.map (\color -> ( 30, color )) rainbow)
                         viewRectangle
                     )
-                , Example.subsection "Grayscale"
-                    (Example.list rainbow viewGrayscale)
-                , Example.subsection "Invert"
-                    (Example.list rainbow viewInverse)
                 , Example.subsection "Monochromatic"
-                    (Html.div []
-                        [ Html.h4 [] [ Html.text "Monochromatic Palette" ]
-                        , Example.list (List.map (\color -> ( 10, color )) rainbow)
-                            viewMonochromaticGenerator
-                        , Html.h4 [] [ Html.text "Shades" ]
-                        , Example.list rainbow viewMonochromaticShades
-                        , Html.h4 [] [ Html.text "Tints" ]
-                        , Example.list rainbow viewMonochromaticTints
-                        , Html.h4 [] [ Html.text "Tones" ]
-                        , Example.list rainbow viewMonochromaticTones
-                        ]
-                    )
-                , Example.subsection "Blending"
-                    (Html.div []
-                        [ Html.h4 [] [ Html.text "Add" ]
-                        , Example.list (List.map (\color -> ( color, X11.lightSeaGreen )) rainbow)
-                            (Comparison.viewOverlapping Color.Blend.add)
-                        , Html.h4 [] [ Html.text "Subtract" ]
-                        , Example.list (List.map (\color -> ( color, X11.lightSeaGreen )) rainbow)
-                            (Comparison.viewOverlapping Color.Blend.subtract)
-                        , Html.h4 [] [ Html.text "Multiply" ]
-                        , Example.list (List.map (\color -> ( color, X11.lightSeaGreen )) rainbow)
-                            (Comparison.viewOverlapping Color.Blend.multiply)
-                        , Html.h4 [] [ Html.text "Divide" ]
-                        , Example.list (List.map (\color -> ( color, X11.lightSeaGreen )) rainbow)
-                            (Comparison.viewOverlapping Color.Blend.divide)
-                        ]
+                    (Example.list (List.map (\color -> ( 10, color )) rainbow)
+                        viewMonochromaticGenerator
                     )
                 ]
             )
-        , Example.section "Palette"
-            (Html.div []
-                [ PaletteExamples.Tango.examples
-                , PaletteExamples.X11.examples
-                , PaletteExamples.Cubehelix.examples
-                ]
-            )
-        , Example.section "Transparent Colors"
-            TransparentColorExamples.view
         ]
 
 
-viewGrayscale : Color -> Html msg
+viewGrayscale : OpaqueColor -> Html msg
 viewGrayscale color =
-    Comparison.viewPalette color [ Color.Generator.grayscale color ]
+    Comparison.viewPalette color [ OpaqueColor.grayscale color ]
 
 
-viewInverse : Color -> Html msg
+viewInverse : OpaqueColor -> Html msg
 viewInverse color =
-    Comparison.viewPalette color [ Color.Generator.invert color ]
+    Comparison.viewPalette color [ OpaqueColor.invert color ]
 
 
-viewComplementary : Color -> Html msg
+viewComplementary : OpaqueColor -> Html msg
 viewComplementary color =
-    Comparison.viewPalette color [ Color.Generator.complementary color ]
+    Comparison.viewPalette color [ Palette.Generative.complementary color ]
 
 
-viewTriadic : Color -> Html msg
+viewTriadic : OpaqueColor -> Html msg
 viewTriadic color =
     let
         ( one, two ) =
-            Color.Generator.triadic color
+            Palette.Generative.triadic color
     in
     Comparison.viewPalette color [ one, two ]
 
 
-viewSplitComplementary : ( Float, Color ) -> Html msg
+viewSplitComplementary : ( Float, OpaqueColor ) -> Html msg
 viewSplitComplementary ( degree, color ) =
     let
         ( one, two ) =
-            Color.Generator.splitComplementary degree color
+            Palette.Generative.splitComplementary degree color
     in
     Comparison.viewPalette color [ one, two ]
 
 
-viewSquare : Color -> Html msg
+viewSquare : OpaqueColor -> Html msg
 viewSquare color =
     let
         ( one, two, three ) =
-            Color.Generator.square color
+            Palette.Generative.square color
     in
     Comparison.viewPalette color [ one, two, three ]
 
 
-viewRectangle : ( Float, Color ) -> Html msg
+viewRectangle : ( Float, OpaqueColor ) -> Html msg
 viewRectangle ( degree, color ) =
     let
         ( one, two, three ) =
-            Color.Generator.tetratic degree color
+            Palette.Generative.tetratic degree color
     in
     Comparison.viewPalette color [ one, two, three ]
 
 
-viewMonochromaticShades : Color -> Html msg
+viewMonochromaticShades : OpaqueColor -> Html msg
 viewMonochromaticShades color =
     Comparison.viewPalette color
-        [ Color.Generator.shade 10 color
-        , Color.Generator.shade 20 color
-        , Color.Generator.shade 30 color
-        , Color.Generator.shade 40 color
+        [ OpaqueColor.shade 10 color
+        , OpaqueColor.shade 20 color
+        , OpaqueColor.shade 30 color
+        , OpaqueColor.shade 40 color
         ]
 
 
-viewMonochromaticTints : Color -> Html msg
+viewMonochromaticTints : OpaqueColor -> Html msg
 viewMonochromaticTints color =
     Comparison.viewPalette color
-        [ Color.Generator.tint 10 color
-        , Color.Generator.tint 20 color
-        , Color.Generator.tint 30 color
-        , Color.Generator.tint 40 color
-        , Color.Generator.tint 50 color
+        [ OpaqueColor.tint 10 color
+        , OpaqueColor.tint 20 color
+        , OpaqueColor.tint 30 color
+        , OpaqueColor.tint 40 color
+        , OpaqueColor.tint 50 color
         ]
 
 
-viewMonochromaticTones : Color -> Html msg
+viewMonochromaticTones : OpaqueColor -> Html msg
 viewMonochromaticTones color =
     Comparison.viewPalette color
-        [ Color.Generator.tone -100 color
-        , Color.Generator.tone -80 color
-        , Color.Generator.tone -60 color
-        , Color.Generator.tone -40 color
-        , Color.Generator.tone -20 color
+        [ OpaqueColor.tone -100 color
+        , OpaqueColor.tone -80 color
+        , OpaqueColor.tone -60 color
+        , OpaqueColor.tone -40 color
+        , OpaqueColor.tone -20 color
         ]
 
 
-viewMonochromaticGenerator : ( Float, Color ) -> Html msg
+viewMonochromaticGenerator : ( Float, OpaqueColor ) -> Html msg
 viewMonochromaticGenerator ( stepSize, color ) =
     Comparison.viewPalette color
-        (Color.Generator.monochromatic stepSize color)
+        (Palette.Generative.monochromatic stepSize color)
 
 
 
 -- SUPER CONVENIENT COLORS
 
 
-rainbow : List Color
+rainbow : List OpaqueColor
 rainbow =
     [ X11.coral
     , X11.olive
