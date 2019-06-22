@@ -1,13 +1,12 @@
 module OpaqueColorSpec exposing
     ( colorSpec
-    , contrastSuite
     , conversionsSpec
     , highContrastSuite
     , invertSuite
     , luminanceSuite
-    , sufficientContrastSuite
     )
 
+import Colour.Accessibility
 import Expect exposing (Expectation)
 import Opacity
 import OpaqueColor exposing (OpaqueColor)
@@ -229,107 +228,6 @@ conversionsSpec =
         ]
 
 
-contrastSuite : Test
-contrastSuite =
-    describe "contrast"
-        [ describe "black and white"
-            [ test "contrast black white == contrast white black" <|
-                \_ ->
-                    Expect.equal (OpaqueColor.contrast black white) (OpaqueColor.contrast white black)
-            , test "contrast black white" <|
-                \_ ->
-                    OpaqueColor.contrast black white
-                        |> floatEqual 21
-            , test "contrast white gray" <|
-                \_ ->
-                    OpaqueColor.contrast white gray
-                        |> floatEqual (4.5 / 1)
-            , test "contrast white white" <|
-                \_ ->
-                    OpaqueColor.contrast white white
-                        |> floatEqual 1
-            , test "contrast black black" <|
-                \_ ->
-                    OpaqueColor.contrast black black
-                        |> floatEqual 1
-            ]
-        ]
-
-
-sufficientContrastSuite : Test
-sufficientContrastSuite =
-    describe "sufficientContrast"
-        [ describe "Regular sized text" <|
-            let
-                font =
-                    { fontSize = 12, fontWeight = 300 }
-            in
-            [ describe "WCAG AA" <|
-                let
-                    subject =
-                        OpaqueColor.sufficientContrast OpaqueColor.AA font
-                in
-                [ test "black and white has sufficient contrast" <|
-                    \_ ->
-                        subject white black
-                            |> Expect.true "Expected black and white to have sufficient contrast."
-                , test "gray and white do not have sufficient contrast" <|
-                    \_ ->
-                        subject white gray
-                            |> Expect.true "Expected gray and white to have sufficient contrast."
-                ]
-            , describe "WCAG AAA" <|
-                let
-                    subject =
-                        OpaqueColor.sufficientContrast OpaqueColor.AAA font
-                in
-                [ test "black and white has sufficient contrast" <|
-                    \_ ->
-                        subject white black
-                            |> Expect.true "Expected black and white to have sufficient contrast."
-                , test "gray and white do not have sufficient contrast" <|
-                    \_ ->
-                        subject white gray
-                            |> Expect.false "Expected gray and white not to have sufficient contrast."
-                ]
-            ]
-        , describe "Large text" <|
-            let
-                font =
-                    { fontSize = 19, fontWeight = 300 }
-            in
-            [ describe "WCAG AA" <|
-                let
-                    subject =
-                        OpaqueColor.sufficientContrast OpaqueColor.AA font
-                in
-                [ test "black and white has sufficient contrast" <|
-                    \_ ->
-                        subject white black
-                            |> Expect.true "Expected black and white to have sufficient contrast."
-                , test "gray and white has sufficient contrast" <|
-                    \_ ->
-                        subject white gray
-                            |> Expect.true "Expected gray and white to have sufficient contrast."
-                ]
-            , describe "WCAG AAA" <|
-                let
-                    subject =
-                        OpaqueColor.sufficientContrast OpaqueColor.AAA font
-                in
-                [ test "black and white has sufficient contrast" <|
-                    \_ ->
-                        subject white black
-                            |> Expect.true "Expected black and white to have sufficient contrast."
-                , test "gray and white to have sufficient contrast" <|
-                    \_ ->
-                        subject white gray
-                            |> Expect.true "Expected gray and white to have sufficient contrast."
-                ]
-            ]
-        ]
-
-
 luminanceSuite : Test
 luminanceSuite =
     describe "luminance"
@@ -383,7 +281,7 @@ highContrastSuite =
                             \_ ->
                                 color
                                     |> OpaqueColor.highContrast
-                                    |> OpaqueColor.contrast color
+                                    |> Colour.Accessibility.contrast color
                                     |> Expect.greaterThan 4.5
                     )
                     grays
