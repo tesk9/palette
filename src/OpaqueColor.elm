@@ -4,7 +4,7 @@ module OpaqueColor exposing
     , toRGBString, toHSLString, toHexString
     , grayscale, invert, highContrast
     , shade, tint, tone
-    , rotateHue, adjustSaturation, adjustLightness
+    , rotateHue, addSaturation, addLightness
     , toRGB, toHSL
     , luminance
     , add, subtract, multiply, divide
@@ -30,7 +30,7 @@ module OpaqueColor exposing
 
 @docs grayscale, invert, highContrast
 @docs shade, tint, tone
-@docs rotateHue, adjustSaturation, adjustLightness
+@docs rotateHue, addSaturation, addLightness
 
 
 ## Helpers
@@ -505,7 +505,7 @@ Pass in the percentage value by which you want to darken the color.
 -}
 shade : Float -> OpaqueColor -> OpaqueColor
 shade percentage color =
-    adjustLightness (0 - abs percentage) color
+    addLightness (0 - abs percentage) color
 
 
 {-| Use this function to produce a new tint of the OpaqueColor.
@@ -517,7 +517,7 @@ Pass in the percentage value by which you want to lighten the color.
 -}
 tint : Float -> OpaqueColor -> OpaqueColor
 tint percentage color =
-    adjustLightness (abs percentage) color
+    addLightness (abs percentage) color
 
 
 {-| Use this function to produce a new tone of the OpaqueColor.
@@ -529,13 +529,13 @@ negative percentage value.
 -}
 tone : Float -> OpaqueColor -> OpaqueColor
 tone percentage color =
-    adjustSaturation percentage color
+    addSaturation percentage color
 
 
 {-| Modify the saturation of a color (see notes on HSL color space).
 -}
-adjustSaturation : Float -> OpaqueColor -> OpaqueColor
-adjustSaturation percentage color =
+addSaturation : Float -> OpaqueColor -> OpaqueColor
+addSaturation percentage color =
     toHSL color
         |> (\( h, s, l ) -> ( h, s + percentage, l ))
         |> fromHSL
@@ -543,8 +543,8 @@ adjustSaturation percentage color =
 
 {-| Modify the lightness of a color (see notes on HSL color space).
 -}
-adjustLightness : Float -> OpaqueColor -> OpaqueColor
-adjustLightness percentage color =
+addLightness : Float -> OpaqueColor -> OpaqueColor
+addLightness percentage color =
     toHSL color
         |> (\( h, s, l ) -> ( h, s, l + percentage ))
         |> fromHSL
@@ -561,10 +561,10 @@ particularly visually pleasing results, but they will be consistent and readable
 highContrast : OpaqueColor -> OpaqueColor
 highContrast starting =
     if luminance starting < 0.1791 then
-        adjustLightness 100 starting
+        addLightness 100 starting
 
     else
-        adjustLightness (0 - 100) starting
+        addLightness (0 - 100) starting
 
 
 {-| Use this function to invert a color. E.g., black inverted is white, white inverted is black....

@@ -127,7 +127,7 @@ monochromatic stepSize color =
                 lastColor :: colors
 
             else
-                getNextStep adjustment (OpaqueColor.adjustLightness adjustment lastColor) (lastColor :: colors)
+                getNextStep adjustment (OpaqueColor.addLightness adjustment lastColor) (lastColor :: colors)
     in
     case List.reverse (getNextStep stepSize color []) of
         startingColor :: tints ->
