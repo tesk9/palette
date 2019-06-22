@@ -1,12 +1,11 @@
 module TransparentColor exposing
     ( TransparentColor
-    , fromColor, toColor
-    , getOpacity
-    , mapColor, mapOpacity, map
-    , equals
-    , fromHSLA, toHSLA, toHSLAString
-    , fromRGBA, toRGBA, toRGBAString
-    , fromHexAString, toHexAString
+    , fromColor
+    , fromRGBA, fromHSLA, fromHexAString
+    , toColor
+    , toRGBAString, toHSLAString, toHexAString
+    , toRGBA, toHSLA
+    , equals, getOpacity, map, mapColor, mapOpacity
     )
 
 {-| This module provides helpers for working with colors that are not fully opaque.
@@ -29,27 +28,23 @@ full-featured support for working with alpha channel values.
 These docs assume that you're familiar with the color space you're looking at.
 If not, read more about each color space in `Color`.
 
+
+## TransparentColor
+
 @docs TransparentColor
-
-@docs fromColor, toColor
-@docs getOpacity
-@docs mapColor, mapOpacity, map
-@docs equals
+@docs fromColor
+@docs fromRGBA, fromHSLA, fromHexAString
 
 
-## HSL values
+## Use TransparentColors
 
-@docs fromHSLA, toHSLA, toHSLAString
-
-
-## RGB values
-
-@docs fromRGBA, toRGBA, toRGBAString
+@docs toColor
+@docs toRGBAString, toHSLAString, toHexAString
 
 
-## Hex values
+## Helpers
 
-@docs fromHexAString, toHexAString
+@docs toRGBA, toHSLA
 
 -}
 
