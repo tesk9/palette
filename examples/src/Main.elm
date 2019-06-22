@@ -209,32 +209,32 @@ viewRectangle ( degree, color ) =
 viewMonochromaticShades : OpaqueColor -> Html msg
 viewMonochromaticShades color =
     Comparison.viewPalette color
-        [ OpaqueColor.shade 10 color
-        , OpaqueColor.shade 20 color
-        , OpaqueColor.shade 30 color
-        , OpaqueColor.shade 40 color
+        [ OpaqueColor.blacken 10 color
+        , OpaqueColor.blacken 20 color
+        , OpaqueColor.blacken 30 color
+        , OpaqueColor.blacken 40 color
         ]
 
 
 viewMonochromaticTints : OpaqueColor -> Html msg
 viewMonochromaticTints color =
     Comparison.viewPalette color
-        [ OpaqueColor.tint 10 color
-        , OpaqueColor.tint 20 color
-        , OpaqueColor.tint 30 color
-        , OpaqueColor.tint 40 color
-        , OpaqueColor.tint 50 color
+        [ OpaqueColor.whiten 10 color
+        , OpaqueColor.whiten 20 color
+        , OpaqueColor.whiten 30 color
+        , OpaqueColor.whiten 40 color
+        , OpaqueColor.whiten 50 color
         ]
 
 
 viewMonochromaticTones : OpaqueColor -> Html msg
 viewMonochromaticTones color =
     Comparison.viewPalette color
-        [ OpaqueColor.tone -100 color
-        , OpaqueColor.tone -80 color
-        , OpaqueColor.tone -60 color
-        , OpaqueColor.tone -40 color
-        , OpaqueColor.tone -20 color
+        [ OpaqueColor.greyen -100 color
+        , OpaqueColor.greyen -80 color
+        , OpaqueColor.greyen -60 color
+        , OpaqueColor.greyen -40 color
+        , OpaqueColor.greyen -20 color
         ]
 
 

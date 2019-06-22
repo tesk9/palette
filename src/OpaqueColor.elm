@@ -3,7 +3,7 @@ module OpaqueColor exposing
     , fromRGB, fromHSL, fromHexString
     , toRGBString, toHSLString, toHexString
     , grayscale, invert, highContrast
-    , shade, tint, tone
+    , blacken, whiten, greyen
     , rotateHue, addSaturation, addLightness
     , toRGB, toHSL
     , luminance
@@ -29,7 +29,7 @@ module OpaqueColor exposing
 ## Customize OpaqueColors
 
 @docs grayscale, invert, highContrast
-@docs shade, tint, tone
+@docs blacken, whiten, greyen
 @docs rotateHue, addSaturation, addLightness
 
 
@@ -503,20 +503,20 @@ please see `tint`.
 Pass in the percentage value by which you want to darken the color.
 
 -}
-shade : Float -> OpaqueColor -> OpaqueColor
-shade percentage color =
+blacken : Float -> OpaqueColor -> OpaqueColor
+blacken percentage color =
     addLightness (0 - abs percentage) color
 
 
 {-| Use this function to produce a new tint of the OpaqueColor.
 Note: tints will be lighter than the starting color. If you want a darker color,
-please see `shade`.
+please see `blacken`.
 
 Pass in the percentage value by which you want to lighten the color.
 
 -}
-tint : Float -> OpaqueColor -> OpaqueColor
-tint percentage color =
+whiten : Float -> OpaqueColor -> OpaqueColor
+whiten percentage color =
     addLightness (abs percentage) color
 
 
@@ -527,8 +527,8 @@ though, by adjusting the saturation of the color. You can pass in a positive or
 negative percentage value.
 
 -}
-tone : Float -> OpaqueColor -> OpaqueColor
-tone percentage color =
+greyen : Float -> OpaqueColor -> OpaqueColor
+greyen percentage color =
     addSaturation percentage color
 
 

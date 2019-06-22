@@ -68,21 +68,21 @@ generatorList =
         , generate = OpaqueColor.highContrast >> List.singleton
         }
     , [ GeneratorWith
-            { name = "OpaqueColor.shade"
+            { name = "OpaqueColor.blacken"
             , unit = Percentage
-            , generate = apply OpaqueColor.shade List.singleton
+            , generate = apply OpaqueColor.blacken List.singleton
             , editable = Nothing
             }
       , GeneratorWith
-            { name = "OpaqueColor.tint"
+            { name = "OpaqueColor.whiten"
             , unit = Percentage
-            , generate = apply OpaqueColor.tint List.singleton
+            , generate = apply OpaqueColor.whiten List.singleton
             , editable = Nothing
             }
       , GeneratorWith
-            { name = "OpaqueColor.tone"
+            { name = "OpaqueColor.greyen"
             , unit = Percentage
-            , generate = apply OpaqueColor.tone List.singleton
+            , generate = apply OpaqueColor.greyen List.singleton
             , editable = Nothing
             }
       , Generator
