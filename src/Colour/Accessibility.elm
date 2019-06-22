@@ -1,13 +1,10 @@
 module Colour.Accessibility exposing
-    ( WCAGLevel(..)
-    , Rating(..), meetsAA, meetsAAA
+    ( Rating(..), meetsAA, meetsAAA
     , checkContrast
     , contrast
     )
 
 {-|
-
-@docs WCAGLevel
 
 @docs Rating, meetsAA, meetsAAA
 @docs checkContrast
@@ -16,11 +13,6 @@ module Colour.Accessibility exposing
 -}
 
 import OpaqueColor exposing (OpaqueColor)
-
-
-type WCAGLevel
-    = AA_
-    | AAA_
 
 
 {-| Read more about levels of conformance at [WCAG](https://www.w3.org/TR/UNDERSTANDING-WCAG20/conformance.html#uc-levels-head).
@@ -80,6 +72,11 @@ checkContrast font color1 color2 =
 
     else
         Inaccessible
+
+
+type WCAGLevel
+    = AA_
+    | AAA_
 
 
 {-| For a given WCAG level, calculate whether two colors have enough contrast
