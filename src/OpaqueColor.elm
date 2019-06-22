@@ -5,9 +5,9 @@ module OpaqueColor exposing
     , grayscale, invert, highContrast
     , blacken, whiten, greyen
     , rotateHue, addSaturation, addLightness
+    , add, subtract, multiply, divide
     , toRGB, toHSL
     , luminance
-    , add, subtract, multiply, divide
     , equals
     , toHSLAString, toHexAString, toRGBAString
     )
@@ -31,6 +31,7 @@ module OpaqueColor exposing
 @docs grayscale, invert, highContrast
 @docs blacken, whiten, greyen
 @docs rotateHue, addSaturation, addLightness
+@docs add, subtract, multiply, divide
 
 
 ## Helpers
@@ -91,11 +92,6 @@ between the two systems is in the base: RGB colors are base 10 and hex colors ar
 
 You will need to use hex colors if you're working with an
 [HTML input of type color](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color).
-
-
-## OpaqueColor blending
-
-@docs add, subtract, multiply, divide
 
 
 ## Equality
