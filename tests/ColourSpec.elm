@@ -29,22 +29,22 @@ colorSpec =
             , describe "Hex"
                 [ test "from Hex with bad values" <|
                     \_ ->
-                        Colour.fromHexString "#FFDG00"
+                        Colour.fromHex "#FFDG00"
                             |> Expect.err
                 , test "from lowercase Hex to Hex" <|
                     \_ ->
-                        Colour.fromHexString "#d3e700"
+                        Colour.fromHex "#d3e700"
                             |> expectHex "#D3E700"
                 , test "from Hex to Hex" <|
                     \_ ->
-                        Colour.fromHexString "#FFD700"
+                        Colour.fromHex "#FFD700"
                             |> expectHex "#FFD700"
                 , fuzz (hexStringOfLength 4) "Short hex with transparency" <|
                     \hex ->
-                        Expect.ok (Colour.fromHexString hex)
+                        Expect.ok (Colour.fromHex hex)
                 , fuzz (hexStringOfLength 8) "Long hex with transparency" <|
                     \hex ->
-                        Expect.ok (Colour.fromHexString hex)
+                        Expect.ok (Colour.fromHex hex)
                 , fuzz (hexStringOfLength 3) "Short hex and long hex match" <|
                     \hex ->
                         let
@@ -54,11 +54,11 @@ colorSpec =
                                     |> String.fromList
                                     |> String.dropLeft 1
                         in
-                        Colour.fromHexString hex
+                        Colour.fromHex hex
                             |> expectHex fullLengthHexString
                 , fuzz (hexStringOfLength 6) "Long hex succeeds" <|
                     \hex ->
-                        Colour.fromHexString hex
+                        Colour.fromHex hex
                             |> expectHex hex
                 ]
             ]
@@ -77,10 +77,10 @@ colorSpec =
                     transparentPink
                         |> Colour.toHSLString
                         |> Expect.equal "hsl(300,100%,50%)"
-            , test "toHexString" <|
+            , test "toHex" <|
                 \_ ->
                     transparentPink
-                        |> Colour.toHexString
+                        |> Colour.toHex
                         |> Expect.equal "#FF00FF"
             ]
         , describe "equality and equivalence"
@@ -220,9 +220,9 @@ conversionsSpec =
                     expectTripleEquals color (operations color)
         , fuzz (ColourFuzzer.hexStringOfLength 6) "from Hex to RGB and back to Hex again" <|
             \c ->
-                Colour.fromHexString c
+                Colour.fromHex c
                     |> Result.map Colour.toRGB
-                    |> Result.map (Colour.fromRGB >> Colour.toHexString)
+                    |> Result.map (Colour.fromRGB >> Colour.toHex)
                     |> Expect.equal (Ok c)
         ]
 
@@ -343,7 +343,7 @@ expectHex : String -> Result String Colour -> Expectation
 expectHex expected colorResult =
     case colorResult of
         Ok got ->
-            Expect.equal expected (Colour.toHexString got)
+            Expect.equal expected (Colour.toHex got)
 
         Err err ->
             Expect.fail ("Could not parse color string: \n" ++ err)

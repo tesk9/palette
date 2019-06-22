@@ -32,10 +32,10 @@ colorWithOpacitySuite =
                     transparentPink
                         |> Colour.Transparent.toHSLAString
                         |> Expect.equal "hsla(300,100%,50%,0.5)"
-            , test "toHexString with transparency" <|
+            , test "toHex with transparency" <|
                 \_ ->
                     transparentPink
-                        |> Colour.Transparent.toHexAString
+                        |> Colour.Transparent.toHexA
                         |> Expect.equal "#FF00FF80"
             ]
         , test "when opacity differs, colors are not identical" <|

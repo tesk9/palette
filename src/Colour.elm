@@ -1,12 +1,12 @@
 module Colour exposing
     ( Colour
-    , fromRGB, fromHSL, fromHexString
-    , toRGBString, toHSLString, toHexString
+    , fromRGB, fromHSL, fromHex
+    , toRGBString, toHSLString
     , grayscale, invert, highContrast
     , blacken, whiten, greyen
     , rotateHue, addSaturation, addLightness
     , add, subtract, multiply, divide
-    , toRGB, toHSL
+    , toRGB, toHSL, toHex
     , luminance
     , equals
     )
@@ -17,12 +17,12 @@ module Colour exposing
 ## Colours
 
 @docs Colour
-@docs fromRGB, fromHSL, fromHexString
+@docs fromRGB, fromHSL, fromHex
 
 
 ## Use Colours
 
-@docs toRGBString, toHSLString, toHexString
+@docs toRGBString, toHSLString
 
 
 ## Customize Colours
@@ -35,7 +35,7 @@ module Colour exposing
 
 ## Helpers
 
-@docs toRGB, toHSL
+@docs toRGB, toHSL, toHex
 
 @docs luminance
 
@@ -230,25 +230,25 @@ toRGBString (Colour color) =
 {-| Build a new color from a hex string.
 Supports lowercase and uppercase strings.
 
-    (Colour.fromHexString "#FFDD00" == Colour.fromHexString "#FD0")
-        && (Colour.fromHexString "#FFDD00" == Colour.fromHexString "#ffdd00")
+    (Colour.fromHex "#FFDD00" == Colour.fromHex "#FD0")
+        && (Colour.fromHex "#FFDD00" == Colour.fromHex "#ffdd00")
 
 Note: this helper will ignore transparency values.
 
 -}
-fromHexString : String -> Result String Colour
-fromHexString colorString =
+fromHex : String -> Result String Colour
+fromHex colorString =
     case Internal.Hex.fromString colorString of
         Just { red, green, blue } ->
             Ok (fromRGB ( red, green, blue ))
 
         Nothing ->
-            Err ("fromHexString could not convert " ++ colorString ++ " to a Colour.")
+            Err ("fromHex could not convert " ++ colorString ++ " to a Colour.")
 
 
 {-| Get the Hex representation of a color as a `String`.
 
-    import Colour exposing (toHexString)
+    import Colour exposing (toHex)
     import Html exposing (p, text)
     import Html.Attributes exposing (type_, value)
     import Palette.X11 exposing (red)
@@ -256,7 +256,7 @@ fromHexString colorString =
     view =
         Html.input
             [ type_ "color"
-            , value (toHexString red)
+            , value (toHex red)
             ]
             []
 
@@ -267,8 +267,8 @@ If you want or need this functionality, please make an issue for it on the
 github repo for this library.
 
 -}
-toHexString : Colour -> String
-toHexString color =
+toHex : Colour -> String
+toHex color =
     let
         ( red, green, blue ) =
             toRGB color

@@ -4,10 +4,10 @@ module Colour.Transparent exposing
     , opacityToString, opacityToFloat
     , Colour
     , fromColor
-    , fromRGBA, fromHSLA, fromHexAString
+    , fromRGBA, fromHSLA, fromHexA
     , toColor
-    , toRGBAString, toHSLAString, toHexAString
-    , toRGBA, toHSLA
+    , toRGBAString, toHSLAString
+    , toRGBA, toHSLA, toHexA
     , equals, getOpacity
     )
 
@@ -43,18 +43,18 @@ If not, read more about each color space in `Color`.
 
 @docs Colour
 @docs fromColor
-@docs fromRGBA, fromHSLA, fromHexAString
+@docs fromRGBA, fromHSLA, fromHexA
 
 
 ## Use Colours
 
 @docs toColor
-@docs toRGBAString, toHSLAString, toHexAString
+@docs toRGBAString, toHSLAString
 
 
 ## Helpers
 
-@docs toRGBA, toHSLA
+@docs toRGBA, toHSLA, toHexA
 
 -}
 
@@ -139,19 +139,19 @@ toRGBAString (Colour color) =
 {-| Build a new color from a hex string that might include transparencies.
 Supports lowercase and uppercase strings.
 -}
-fromHexAString : String -> Result String Colour
-fromHexAString colorString =
+fromHexA : String -> Result String Colour
+fromHexA colorString =
     case Internal.Hex.fromString colorString of
         Just rgbChannelValues ->
             Ok (fromRGBA rgbChannelValues)
 
         Nothing ->
-            Err ("fromHexString could not convert " ++ colorString ++ " to a Colour.")
+            Err ("fromHex could not convert " ++ colorString ++ " to a Colour.")
 
 
 {-| -}
-toHexAString : Colour -> String
-toHexAString (Colour color) =
+toHexA : Colour -> String
+toHexA (Colour color) =
     Internal.Hex.toString (Internal.Color.asHex color)
 
 

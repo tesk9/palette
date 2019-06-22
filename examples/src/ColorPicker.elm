@@ -21,7 +21,7 @@ view model =
     Html.label []
         [ Html.input
             [ Html.Attributes.type_ "color"
-            , Colour.toHexString model.selectedColor
+            , Colour.toHex model.selectedColor
                 |> Html.Attributes.value
             , Html.Events.onInput SetHexColor
             ]
@@ -40,7 +40,7 @@ update msg { selectedColor } =
         SetHexColor colorString ->
             let
                 newColor =
-                    Colour.fromHexString colorString
+                    Colour.fromHex colorString
                         |> Result.withDefault selectedColor
             in
             ( Model newColor, Just newColor )

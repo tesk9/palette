@@ -75,8 +75,8 @@ asHex color =
 
 
 {-| -}
-fromHexString : String -> Maybe Color
-fromHexString str =
+fromHex : String -> Maybe Color
+fromHex str =
     Maybe.map (RGBA.fromChannels >> RGBA) (Hex.fromString str)
 
 
