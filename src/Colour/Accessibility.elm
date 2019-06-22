@@ -1,19 +1,58 @@
-module Colour.Accessibility exposing (WCAGLevel(..), sufficientContrast, contrast)
+module Colour.Accessibility exposing
+    ( WCAGLevel(..), sufficientContrast, contrast
+    , Rating(..), meetsAA, meetsAAA
+    )
 
 {-|
 
 @docs WCAGLevel, sufficientContrast, contrast
+
+@docs Rating, meetsAA, meetsAAA
 
 -}
 
 import OpaqueColor exposing (OpaqueColor)
 
 
+type WCAGLevel
+    = AA_
+    | AAA_
+
+
 {-| Read more about levels of conformance at [WCAG](https://www.w3.org/TR/UNDERSTANDING-WCAG20/conformance.html#uc-levels-head).
 -}
-type WCAGLevel
-    = AA
+type Rating
+    = Inaccessible
+    | AA
     | AAA
+
+
+{-| -}
+meetsAA : Rating -> Bool
+meetsAA rating =
+    case rating of
+        Inaccessible ->
+            False
+
+        AA ->
+            True
+
+        AAA ->
+            True
+
+
+{-| -}
+meetsAAA : Rating -> Bool
+meetsAAA rating =
+    case rating of
+        Inaccessible ->
+            False
+
+        AA ->
+            False
+
+        AAA ->
+            True
 
 
 {-| For a given WCAG level, calculate whether two colors have enough contrast
@@ -38,14 +77,14 @@ sufficientContrast wcagLevel { fontSize, fontWeight } color1 color2 =
             contrast color1 color2
     in
     case wcagLevel of
-        AA ->
+        AA_ ->
             if (fontSize > 14 && fontWeight >= 700) || fontSize > 18 then
                 colorContrast >= 3
 
             else
                 colorContrast >= 4.5
 
-        AAA ->
+        AAA_ ->
             if (fontSize > 14 && fontWeight >= 700) || fontSize > 18 then
                 colorContrast >= 4.5
 

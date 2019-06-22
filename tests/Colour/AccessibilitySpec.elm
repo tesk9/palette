@@ -3,7 +3,7 @@ module Colour.AccessibilitySpec exposing
     , sufficientContrastSuite
     )
 
-import Colour.Accessibility
+import Colour.Accessibility exposing (..)
 import Expect exposing (Expectation)
 import Opacity
 import OpaqueColor exposing (OpaqueColor)
@@ -24,23 +24,23 @@ contrastSuite =
             [ test "contrast black white == contrast white black" <|
                 \_ ->
                     Expect.equal
-                        (Colour.Accessibility.contrast black white)
-                        (Colour.Accessibility.contrast white black)
+                        (contrast black white)
+                        (contrast white black)
             , test "contrast black white" <|
                 \_ ->
-                    Colour.Accessibility.contrast black white
+                    contrast black white
                         |> floatEqual 21
             , test "contrast white gray" <|
                 \_ ->
-                    Colour.Accessibility.contrast white gray
+                    contrast white gray
                         |> floatEqual (4.5 / 1)
             , test "contrast white white" <|
                 \_ ->
-                    Colour.Accessibility.contrast white white
+                    contrast white white
                         |> floatEqual 1
             , test "contrast black black" <|
                 \_ ->
-                    Colour.Accessibility.contrast black black
+                    contrast black black
                         |> floatEqual 1
             ]
         ]
@@ -57,8 +57,8 @@ sufficientContrastSuite =
             [ describe "WCAG AA" <|
                 let
                     subject =
-                        Colour.Accessibility.sufficientContrast
-                            Colour.Accessibility.AA
+                        sufficientContrast
+                            AA_
                             font
                 in
                 [ test "black and white has sufficient contrast" <|
@@ -73,8 +73,8 @@ sufficientContrastSuite =
             , describe "WCAG AAA" <|
                 let
                     subject =
-                        Colour.Accessibility.sufficientContrast
-                            Colour.Accessibility.AAA
+                        sufficientContrast
+                            AAA_
                             font
                 in
                 [ test "black and white has sufficient contrast" <|
@@ -95,8 +95,8 @@ sufficientContrastSuite =
             [ describe "WCAG AA" <|
                 let
                     subject =
-                        Colour.Accessibility.sufficientContrast
-                            Colour.Accessibility.AA
+                        sufficientContrast
+                            AA_
                             font
                 in
                 [ test "black and white has sufficient contrast" <|
@@ -111,8 +111,8 @@ sufficientContrastSuite =
             , describe "WCAG AAA" <|
                 let
                     subject =
-                        Colour.Accessibility.sufficientContrast
-                            Colour.Accessibility.AAA
+                        sufficientContrast
+                            AAA_
                             font
                 in
                 [ test "black and white has sufficient contrast" <|
@@ -124,6 +124,34 @@ sufficientContrastSuite =
                         subject white gray
                             |> Expect.true "Expected gray and white to have sufficient contrast."
                 ]
+            ]
+        ]
+
+
+ratingSpec : Test
+ratingSpec =
+    describe "Rating"
+        [ describe "meetsAA"
+            [ test "Inaccessible" <|
+                \_ ->
+                    Expect.equal False (meetsAA Inaccessible)
+            , test "AA" <|
+                \_ ->
+                    Expect.equal True (meetsAA AA)
+            , test "AAA" <|
+                \_ ->
+                    Expect.equal True (meetsAA AAA)
+            ]
+        , describe "meetsAAA"
+            [ test "Inaccessible" <|
+                \_ ->
+                    Expect.equal False (meetsAAA Inaccessible)
+            , test "AA" <|
+                \_ ->
+                    Expect.equal False (meetsAAA AA)
+            , test "AAA" <|
+                \_ ->
+                    Expect.equal True (meetsAAA AAA)
             ]
         ]
 
