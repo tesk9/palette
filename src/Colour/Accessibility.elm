@@ -1,6 +1,7 @@
 module Colour.Accessibility exposing
     ( WCAGLevel(..), sufficientContrast, contrast
     , Rating(..), meetsAA, meetsAAA
+    , checkContrast
     )
 
 {-|
@@ -8,6 +9,7 @@ module Colour.Accessibility exposing
 @docs WCAGLevel, sufficientContrast, contrast
 
 @docs Rating, meetsAA, meetsAAA
+@docs checkContrast
 
 -}
 
@@ -53,6 +55,29 @@ meetsAAA rating =
 
         AAA ->
             True
+
+
+{-| Checks whether two colors have enough contrast with each other to be used together
+(e.g., as a background and text color combination). Returns the WCAG Rating level.
+
+To meet AA level sufficiently, [follow these standards](https://www.w3.org/WAI/WCAG21/quickref/?versions=2.0&showtechniques=143%2C146#contrast-minimum).
+To meet AAA level sufficiently, [follow these standards](https://www.w3.org/WAI/WCAG21/quickref/?versions=2.0&showtechniques=143%2C146#contrast-enhanced).
+
+-}
+checkContrast :
+    { fontSize : Float, fontWeight : Int }
+    -> OpaqueColor
+    -> OpaqueColor
+    -> Rating
+checkContrast font color1 color2 =
+    if sufficientContrast AAA_ font color1 color2 then
+        AAA
+
+    else if sufficientContrast AA_ font color1 color2 then
+        AA
+
+    else
+        Inaccessible
 
 
 {-| For a given WCAG level, calculate whether two colors have enough contrast
