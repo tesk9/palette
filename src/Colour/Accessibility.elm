@@ -1,15 +1,17 @@
 module Colour.Accessibility exposing
-    ( WCAGLevel(..), sufficientContrast, contrast
+    ( WCAGLevel(..)
     , Rating(..), meetsAA, meetsAAA
     , checkContrast
+    , contrast
     )
 
 {-|
 
-@docs WCAGLevel, sufficientContrast, contrast
+@docs WCAGLevel
 
 @docs Rating, meetsAA, meetsAAA
 @docs checkContrast
+@docs contrast
 
 -}
 

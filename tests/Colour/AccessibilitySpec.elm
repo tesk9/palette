@@ -1,6 +1,7 @@
 module Colour.AccessibilitySpec exposing
-    ( contrastSuite
-    , sufficientContrastSuite
+    ( checkContrastSuite
+    , contrastSuite
+    , ratingSuite
     )
 
 import Colour.Accessibility exposing (..)
@@ -104,90 +105,8 @@ checkContrastSuite =
         ]
 
 
-sufficientContrastSuite : Test
-sufficientContrastSuite =
-    describe "sufficientContrast"
-        [ describe "Regular sized text" <|
-            let
-                font =
-                    { fontSize = 12, fontWeight = 300 }
-            in
-            [ describe "WCAG AA" <|
-                let
-                    subject =
-                        sufficientContrast
-                            AA_
-                            font
-                in
-                [ test "black and white has sufficient contrast" <|
-                    \_ ->
-                        subject white black
-                            |> Expect.true "Expected black and white to have sufficient contrast."
-                , test "gray and white do not have sufficient contrast" <|
-                    \_ ->
-                        subject white gray
-                            |> Expect.true "Expected gray and white to have sufficient contrast."
-                ]
-            , describe "WCAG AAA" <|
-                let
-                    subject =
-                        sufficientContrast
-                            AAA_
-                            font
-                in
-                [ test "black and white has sufficient contrast" <|
-                    \_ ->
-                        subject white black
-                            |> Expect.true "Expected black and white to have sufficient contrast."
-                , test "gray and white do not have sufficient contrast" <|
-                    \_ ->
-                        subject white gray
-                            |> Expect.false "Expected gray and white not to have sufficient contrast."
-                ]
-            ]
-        , describe "Large text" <|
-            let
-                font =
-                    { fontSize = 19, fontWeight = 300 }
-            in
-            [ describe "WCAG AA" <|
-                let
-                    subject =
-                        sufficientContrast
-                            AA_
-                            font
-                in
-                [ test "black and white has sufficient contrast" <|
-                    \_ ->
-                        subject white black
-                            |> Expect.true "Expected black and white to have sufficient contrast."
-                , test "gray and white has sufficient contrast" <|
-                    \_ ->
-                        subject white gray
-                            |> Expect.true "Expected gray and white to have sufficient contrast."
-                ]
-            , describe "WCAG AAA" <|
-                let
-                    subject =
-                        sufficientContrast
-                            AAA_
-                            font
-                in
-                [ test "black and white has sufficient contrast" <|
-                    \_ ->
-                        subject white black
-                            |> Expect.true "Expected black and white to have sufficient contrast."
-                , test "gray and white to have sufficient contrast" <|
-                    \_ ->
-                        subject white gray
-                            |> Expect.true "Expected gray and white to have sufficient contrast."
-                ]
-            ]
-        ]
-
-
-ratingSpec : Test
-ratingSpec =
+ratingSuite : Test
+ratingSuite =
     describe "Rating"
         [ describe "meetsAA"
             [ test "Inaccessible" <|
