@@ -4,7 +4,7 @@ module OpaqueColor exposing
     , toRGBString, toHSLString, toHexString
     , grayscale, invert, highContrast
     , shade, tint, tone
-    , rotate, adjustSaturation, adjustLightness
+    , rotateHue, adjustSaturation, adjustLightness
     , toRGB, toHSL
     , luminance
     , add, subtract, multiply, divide
@@ -30,7 +30,7 @@ module OpaqueColor exposing
 
 @docs grayscale, invert, highContrast
 @docs shade, tint, tone
-@docs rotate, adjustSaturation, adjustLightness
+@docs rotateHue, adjustSaturation, adjustLightness
 
 
 ## Helpers
@@ -484,13 +484,13 @@ You might do something like this:
     eightEvenColors : OpaqueColor -> List OpaqueColor
     eightEvenColors color =
         List.range 0 7
-            |> List.map (\i -> OpaqueColor.rotate (toFloat i * 360 / 8) color)
+            |> List.map (\i -> OpaqueColor.rotateHue (toFloat i * 360 / 8) color)
 
 Check out this code on Ellie here: <https://ellie-app.com/3CRfDs2HLvGa1>.
 
 -}
-rotate : Float -> OpaqueColor -> OpaqueColor
-rotate degrees color =
+rotateHue : Float -> OpaqueColor -> OpaqueColor
+rotateHue degrees color =
     toHSL color
         |> (\( h, s, l ) -> ( h + degrees, s, l ))
         |> fromHSL

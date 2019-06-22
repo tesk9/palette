@@ -27,7 +27,7 @@ E.g., if you pass in a reddish color, you should expect to get back a tealish co
 -}
 complementary : OpaqueColor -> OpaqueColor
 complementary color =
-    OpaqueColor.rotate 180 color
+    OpaqueColor.rotateHue 180 color
 
 
 {-| Find the other two colors in the triadic scheme defined by the color passed in.
@@ -61,7 +61,7 @@ splitComplementary r color =
         rotation =
             clamp 0 180 r
     in
-    ( OpaqueColor.rotate rotation color, OpaqueColor.rotate (0 - rotation) color )
+    ( OpaqueColor.rotateHue rotation color, OpaqueColor.rotateHue (0 - rotation) color )
 
 
 {-| Find four equally-spaced colors along the color wheel starting from the passed-in color.
@@ -96,7 +96,10 @@ tetratic w color =
         length =
             (360 - 2 * width) / 2
     in
-    ( OpaqueColor.rotate width color, OpaqueColor.rotate (width + length) color, OpaqueColor.rotate (2 * width + length) color )
+    ( OpaqueColor.rotateHue width color
+    , OpaqueColor.rotateHue (width + length) color
+    , OpaqueColor.rotateHue (2 * width + length) color
+    )
 
 
 {-| Create a monochromatic palette. The `Float` argument is size of the Lightness

@@ -202,12 +202,12 @@ getOpacity (TransparentColor c) =
 
 {-|
 
-    import Palette.Generative exposing (rotate)
+    import Palette.Generative exposing (rotateHue)
     import TransparentColor exposing (TransparentColor)
 
     nextColor : TransparentColor -> TransparentColor
     nextColor color =
-        TransparentColor.mapColor (rotate 10) color
+        TransparentColor.mapColor (rotateHue 10) color
 
 -}
 mapColor :
@@ -244,14 +244,14 @@ mapOpacity f =
 {-|
 
     import Opacity
-    import Palette.Generative exposing (rotate)
+    import Palette.Generative exposing (rotateHue)
     import TransparentColor exposing (TransparentColor)
 
     rotateAndMakeMoreTransparent : TransparentColor -> TransparentColor
     rotateAndMakeMoreTransparent =
         TransparentColor.map
             (Opacity.map (\num -> num - 0.1))
-            (rotate 10)
+            (rotateHue 10)
 
 -}
 map :
