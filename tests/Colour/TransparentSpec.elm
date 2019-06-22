@@ -1,13 +1,13 @@
-module TransparentColorSpec exposing (colorWithOpacitySuite)
+module Colour.TransparentSpec exposing (colorWithOpacitySuite)
 
 import Colour
+import Colour.Transparent
+import Colour.TransparentFuzzer
 import Expect exposing (Expectation)
 import Fuzz exposing (Fuzzer)
 import Opacity
 import Palette.Generative
 import Test exposing (..)
-import TransparentColor
-import TransparentColorFuzzer
 
 
 colorWithOpacitySuite : Test
@@ -16,7 +16,7 @@ colorWithOpacitySuite =
         [ describe "to a String" <|
             let
                 transparentPink =
-                    TransparentColor.fromRGBA
+                    Colour.Transparent.fromRGBA
                         { red = 255
                         , green = 0
                         , blue = 255
@@ -26,79 +26,79 @@ colorWithOpacitySuite =
             [ test "toRGBAString" <|
                 \_ ->
                     transparentPink
-                        |> TransparentColor.toRGBAString
+                        |> Colour.Transparent.toRGBAString
                         |> Expect.equal "rgba(255,0,255,0.5)"
             , test "toHSLAString" <|
                 \_ ->
                     transparentPink
-                        |> TransparentColor.toHSLAString
+                        |> Colour.Transparent.toHSLAString
                         |> Expect.equal "hsla(300,100%,50%,0.5)"
             , test "toHexString with transparency" <|
                 \_ ->
                     transparentPink
-                        |> TransparentColor.toHexAString
+                        |> Colour.Transparent.toHexAString
                         |> Expect.equal "#FF00FF80"
             ]
         , test "when opacity differs, colors are not identical" <|
             \_ ->
                 let
                     startingColor =
-                        TransparentColor.fromRGBA { red = 0, green = 0, blue = 0, alpha = Opacity.transparent }
+                        Colour.Transparent.fromRGBA { red = 0, green = 0, blue = 0, alpha = Opacity.transparent }
                 in
                 startingColor
-                    |> TransparentColor.mapOpacity (\_ -> Opacity.opaque)
-                    |> TransparentColor.equals startingColor
+                    |> Colour.Transparent.mapOpacity (\_ -> Opacity.opaque)
+                    |> Colour.Transparent.equals startingColor
                     |> Expect.false "Calling `equals` on different opacities failed"
-        , describe "TransparentColor mapping"
+        , describe "Colour.Transparent mapping"
             [ fuzz
-                (Fuzz.tuple ( TransparentColorFuzzer.colorWithOpacity, Fuzz.float ))
+                (Fuzz.tuple ( Colour.TransparentFuzzer.colorWithOpacity, Fuzz.float ))
                 "mapOpacity"
               <|
                 \( colorWithOpacity, multiplier ) ->
                     let
                         expectedResult : Opacity.Opacity
                         expectedResult =
-                            f (TransparentColor.getOpacity colorWithOpacity)
+                            f (Colour.Transparent.getOpacity colorWithOpacity)
 
                         f =
                             Opacity.map ((*) multiplier)
                     in
                     colorWithOpacity
-                        |> TransparentColor.mapOpacity f
-                        |> TransparentColor.getOpacity
+                        |> Colour.Transparent.mapOpacity f
+                        |> Colour.Transparent.getOpacity
                         |> Expect.equal expectedResult
             , fuzz
-                (Fuzz.tuple ( TransparentColorFuzzer.colorWithOpacity, Fuzz.float ))
+                (Fuzz.tuple ( Colour.TransparentFuzzer.colorWithOpacity, Fuzz.float ))
                 "mapColor"
               <|
                 \( colorWithOpacity, percent ) ->
                     let
                         expectedResult : Colour.Colour
                         expectedResult =
-                            f (TransparentColor.toColor colorWithOpacity)
+                            f (Colour.Transparent.toColor colorWithOpacity)
 
                         f =
                             Colour.addSaturation percent
                     in
                     colorWithOpacity
-                        |> TransparentColor.mapColor f
-                        |> TransparentColor.toColor
+                        |> Colour.Transparent.mapColor f
+                        |> Colour.Transparent.toColor
                         |> Colour.equals expectedResult
                         |> Expect.true "`mapColor f >> toColor` should be equivalent to `toColor >> f`"
             , fuzz
-                TransparentColorFuzzer.colorWithOpacity
+                Colour.TransparentFuzzer.colorWithOpacity
                 "map"
               <|
                 \colorWithOpacity ->
                     let
                         { hue, saturation, lightness, alpha } =
-                            TransparentColor.toHSLA colorWithOpacity
+                            Colour.Transparent.toHSLA colorWithOpacity
 
-                        expectedResult : TransparentColor.TransparentColor
+                        expectedResult : Colour.Transparent.Colour
                         expectedResult =
                             Colour.fromHSL ( hue, saturation, lightness )
                                 |> fColor
-                                |> TransparentColor.fromColor (fOpacity alpha)
+                                |> Colour.Transparent.fromColor (fOpacity alpha)
 
                         fColor : Colour.Colour -> Colour.Colour
                         fColor =
@@ -109,8 +109,8 @@ colorWithOpacitySuite =
                             Opacity.map ((-) 0.3)
                     in
                     colorWithOpacity
-                        |> TransparentColor.map fOpacity fColor
-                        |> TransparentColor.equals expectedResult
+                        |> Colour.Transparent.map fOpacity fColor
+                        |> Colour.Transparent.equals expectedResult
                         |> Expect.true "`map fo fc >> toColor` should match deconstructing and reconstructing result"
             ]
         ]

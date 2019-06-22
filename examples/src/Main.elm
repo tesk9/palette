@@ -125,7 +125,7 @@ view model =
                     )
                 ]
             )
-        , Example.section "TransparentColor" TransparentColorExamples.view
+        , Example.section "Colour.Transparent" TransparentColorExamples.view
         , Example.section "Palette.Cubehelix" PaletteExamples.Cubehelix.examples
         , Example.section "Palette.Tango" PaletteExamples.Tango.examples
         , Example.section "Palette.X11" PaletteExamples.X11.examples
