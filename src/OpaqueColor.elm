@@ -1,21 +1,43 @@
 module OpaqueColor exposing
     ( OpaqueColor
-    , fromHSL, toHSL, toHSLString, toHSLAString
-    , fromRGB, toRGB, toRGBString, toRGBAString
-    , fromHexString, toHexString, toHexAString
+    , fromRGB, fromHSL, fromHexString
+    , toRGBString, toHSLString, toHexString
+    , grayscale, invert, highContrast
+    , shade, tint, tone
+    , rotate, adjustSaturation, adjustLightness
+    , toRGB, toHSL
+    , luminance
     , add, subtract, multiply, divide
     , equals
-    , luminance
-    , rotate
-    , highContrast
-    , shade, tint, tone
-    , grayscale, invert
-    , adjustSaturation, adjustLightness
+    , toHSLAString, toHexAString, toRGBAString
     )
 
 {-|
 
+
+## OpaqueColors
+
 @docs OpaqueColor
+@docs fromRGB, fromHSL, fromHexString
+
+
+## Use OpaqueColors
+
+@docs toRGBString, toHSLString, toHexString
+
+
+## Customize OpaqueColors
+
+@docs grayscale, invert, highContrast
+@docs shade, tint, tone
+@docs rotate, adjustSaturation, adjustLightness
+
+
+## Helpers
+
+@docs toRGB, toHSL
+
+@docs luminance
 
 
 ## HSL values
@@ -41,8 +63,6 @@ If you change the saturation to 0%, you'll see gray.
 
 **Lightness** is brightness -- 100% is white and 0% is black.
 
-@docs fromHSL, toHSL, toHSLString, toHSLAString
-
 
 ## RGB values
 
@@ -63,8 +83,6 @@ This is different than what you may remember from painting in elementary school.
 Paint, where you're mixing pigments together, is a **subtractive**
 color space. Printing (CMYK color space) is also subtractive.
 
-@docs fromRGB, toRGB, toRGBString, toRGBAString
-
 
 ## Hex values
 
@@ -73,8 +91,6 @@ between the two systems is in the base: RGB colors are base 10 and hex colors ar
 
 You will need to use hex colors if you're working with an
 [HTML input of type color](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color).
-
-@docs fromHexString, toHexString, toHexAString
 
 
 ## OpaqueColor blending
@@ -85,20 +101,6 @@ You will need to use hex colors if you're working with an
 ## Equality
 
 @docs equals
-
-
-## Contrast, Luminance, and Accessibility
-
-@docs luminance
-
-
-## Modify an OpaqueColor
-
-@docs rotate
-@docs highContrast
-@docs shade, tint, tone
-@docs grayscale, invert
-@docs adjustSaturation, adjustLightness
 
 -}
 
