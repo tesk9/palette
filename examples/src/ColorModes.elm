@@ -1,10 +1,10 @@
 module ColorModes exposing (Model, Msg, init, update, view)
 
 import Browser
+import Colour exposing (Colour)
 import Html exposing (Html)
 import Html.Attributes exposing (style)
 import Html.Events
-import OpaqueColor exposing (OpaqueColor)
 import Palette.Generative
 import Palette.X11 exposing (..)
 import Platform
@@ -20,13 +20,13 @@ init =
 
 
 type alias Palette =
-    { primary : OpaqueColor
-    , secondary : OpaqueColor
-    , backgroundColors : ( OpaqueColor, OpaqueColor )
+    { primary : Colour
+    , secondary : Colour
+    , backgroundColors : ( Colour, Colour )
     }
 
 
-mapPalette : (OpaqueColor -> OpaqueColor) -> Palette -> Palette
+mapPalette : (Colour -> Colour) -> Palette -> Palette
 mapPalette map palette =
     { primary = map palette.primary
     , secondary = map palette.secondary
@@ -77,13 +77,13 @@ colorPreferenceToPalette colorPreference =
             standardPalette
 
         InvertStandard ->
-            mapPalette OpaqueColor.invert standardPalette
+            mapPalette Colour.invert standardPalette
 
         HighContrast ->
             highContrastPalette
 
         InvertHighContrast ->
-            mapPalette OpaqueColor.invert highContrastPalette
+            mapPalette Colour.invert highContrastPalette
 
 
 type Msg
@@ -127,10 +127,10 @@ view colorPreference =
             )
         , viewContent palette
             [ Html.h3
-                [ style "color" (OpaqueColor.toRGBString palette.secondary) ]
+                [ style "color" (Colour.toRGBString palette.secondary) ]
                 [ Html.text (colorPreferenceToString colorPreference) ]
             , Html.div
-                [ style "color" (OpaqueColor.toRGBString palette.primary) ]
+                [ style "color" (Colour.toRGBString palette.primary) ]
                 [ Html.text "I'm some text." ]
             ]
         ]
@@ -140,10 +140,10 @@ viewContent : Palette -> List (Html msg) -> Html msg
 viewContent palette content =
     let
         linearGradient ( top, bottom ) =
-            "linear-gradient(" ++ OpaqueColor.toRGBString top ++ "," ++ OpaqueColor.toRGBString bottom ++ ")"
+            "linear-gradient(" ++ Colour.toRGBString top ++ "," ++ Colour.toRGBString bottom ++ ")"
     in
     Html.div
-        [ style "background-color" (OpaqueColor.toRGBString (Tuple.first palette.backgroundColors))
+        [ style "background-color" (Colour.toRGBString (Tuple.first palette.backgroundColors))
         , style "padding" "8px"
         ]
         [ Html.div
@@ -152,7 +152,7 @@ viewContent palette content =
             --Positioning
             , style "margin" "20px"
             , style "padding" "8px"
-            , style "border" ("1px dashed " ++ OpaqueColor.toRGBString palette.secondary)
+            , style "border" ("1px dashed " ++ Colour.toRGBString palette.secondary)
             ]
             content
         ]

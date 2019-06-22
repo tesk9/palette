@@ -1,4 +1,4 @@
-module OpaqueColorSpec exposing
+module ColourSpec exposing
     ( colorSpec
     , conversionsSpec
     , highContrastSuite
@@ -6,46 +6,46 @@ module OpaqueColorSpec exposing
     , luminanceSuite
     )
 
+import Colour exposing (Colour)
 import Colour.Accessibility
+import ColourFuzzer exposing (hexStringOfLength)
 import Expect exposing (Expectation)
 import Opacity
-import OpaqueColor exposing (OpaqueColor)
-import OpaqueColorFuzzer exposing (hexStringOfLength)
 import Palette.X11 exposing (..)
 import Test exposing (..)
 
 
 colorSpec : Test
 colorSpec =
-    describe "OpaqueColor"
-        [ describe "to and from a OpaqueColor"
+    describe "Colour"
+        [ describe "to and from a Colour"
             [ test "from RGB to RGB" <|
                 \_ ->
-                    OpaqueColor.fromRGB ( -10, 123, 300 )
+                    Colour.fromRGB ( -10, 123, 300 )
                         |> expectRGB ( 0, 123, 255 )
             , test "from HSL to HSL" <|
                 \_ ->
-                    OpaqueColor.fromHSL ( -10, 123, -10 )
+                    Colour.fromHSL ( -10, 123, -10 )
                         |> expectHSL ( 350, 100, 0 )
             , describe "Hex"
                 [ test "from Hex with bad values" <|
                     \_ ->
-                        OpaqueColor.fromHexString "#FFDG00"
+                        Colour.fromHexString "#FFDG00"
                             |> Expect.err
                 , test "from lowercase Hex to Hex" <|
                     \_ ->
-                        OpaqueColor.fromHexString "#d3e700"
+                        Colour.fromHexString "#d3e700"
                             |> expectHex "#D3E700"
                 , test "from Hex to Hex" <|
                     \_ ->
-                        OpaqueColor.fromHexString "#FFD700"
+                        Colour.fromHexString "#FFD700"
                             |> expectHex "#FFD700"
                 , fuzz (hexStringOfLength 4) "Short hex with transparency" <|
                     \hex ->
-                        Expect.ok (OpaqueColor.fromHexString hex)
+                        Expect.ok (Colour.fromHexString hex)
                 , fuzz (hexStringOfLength 8) "Long hex with transparency" <|
                     \hex ->
-                        Expect.ok (OpaqueColor.fromHexString hex)
+                        Expect.ok (Colour.fromHexString hex)
                 , fuzz (hexStringOfLength 3) "Short hex and long hex match" <|
                     \hex ->
                         let
@@ -55,57 +55,57 @@ colorSpec =
                                     |> String.fromList
                                     |> String.dropLeft 1
                         in
-                        OpaqueColor.fromHexString hex
+                        Colour.fromHexString hex
                             |> expectHex fullLengthHexString
                 , fuzz (hexStringOfLength 6) "Long hex succeeds" <|
                     \hex ->
-                        OpaqueColor.fromHexString hex
+                        Colour.fromHexString hex
                             |> expectHex hex
                 ]
             ]
         , describe "to a String" <|
             let
                 transparentPink =
-                    OpaqueColor.fromRGB ( 255, 0, 255 )
+                    Colour.fromRGB ( 255, 0, 255 )
             in
             [ test "toRGBString" <|
                 \_ ->
                     transparentPink
-                        |> OpaqueColor.toRGBString
+                        |> Colour.toRGBString
                         |> Expect.equal "rgb(255,0,255)"
             , test "toHSLString" <|
                 \_ ->
                     transparentPink
-                        |> OpaqueColor.toHSLString
+                        |> Colour.toHSLString
                         |> Expect.equal "hsl(300,100%,50%)"
             , test "toHexString" <|
                 \_ ->
                     transparentPink
-                        |> OpaqueColor.toHexString
+                        |> Colour.toHexString
                         |> Expect.equal "#FF00FF"
             ]
         , describe "equality and equivalence"
             [ test "(==) does not properly compare color values across color spaces" <|
                 \_ ->
-                    OpaqueColor.fromRGB ( 255, 0, 0 )
-                        == OpaqueColor.fromHSL ( 0, 100, 50 )
+                    Colour.fromRGB ( 255, 0, 0 )
+                        == Colour.fromHSL ( 0, 100, 50 )
                         |> Expect.false "(==) compared color values unexpectedly"
             , test "(==) does not properly compare repeated modelings of the same color" <|
                 \_ ->
                     -- Both results are black! however (==) won't compare them properly.
-                    OpaqueColor.fromHSL ( 3, 50, 0 )
-                        == OpaqueColor.fromHSL ( 45, 50, 0 )
+                    Colour.fromHSL ( 3, 50, 0 )
+                        == Colour.fromHSL ( 45, 50, 0 )
                         |> Expect.false "(==) compared color values unexpectedly"
             , describe "equals"
                 [ test "when colors are identical, return true" <|
                     \_ ->
-                        OpaqueColor.fromHSL ( 0, 100, 50 )
-                            |> OpaqueColor.equals (OpaqueColor.fromRGB ( 255, 0, 0 ))
+                        Colour.fromHSL ( 0, 100, 50 )
+                            |> Colour.equals (Colour.fromRGB ( 255, 0, 0 ))
                             |> Expect.true "Calling `equals` on identical colors failed"
                 , test "when colors are not identical, return false" <|
                     \_ ->
-                        OpaqueColor.fromHSL ( 0, 100, 51 )
-                            |> OpaqueColor.equals (OpaqueColor.fromRGB ( 255, 0, 0 ))
+                        Colour.fromHSL ( 0, 100, 51 )
+                            |> Colour.equals (Colour.fromRGB ( 255, 0, 0 ))
                             |> Expect.false "Calling `equals` on disparate colors failed"
                 ]
             ]
@@ -119,30 +119,30 @@ conversionsSpec =
             [ describe "from RGB color"
                 [ test "black" <|
                     \_ ->
-                        OpaqueColor.fromRGB ( 0, 0, 0 )
-                            |> OpaqueColor.toHSL
+                        Colour.fromRGB ( 0, 0, 0 )
+                            |> Colour.toHSL
                             |> expectTripleEquals ( 0, 0, 0 )
                 , test "white" <|
                     \_ ->
-                        OpaqueColor.fromRGB ( 255, 255, 255 )
-                            |> OpaqueColor.toHSL
+                        Colour.fromRGB ( 255, 255, 255 )
+                            |> Colour.toHSL
                             |> expectTripleEquals ( 0, 0, 100 )
                 , test "red" <|
                     \_ ->
-                        OpaqueColor.fromRGB ( 255, 0, 0 )
-                            |> OpaqueColor.toHSL
+                        Colour.fromRGB ( 255, 0, 0 )
+                            |> Colour.toHSL
                             |> expectTripleEquals ( 0, 100, 50 )
                 , test "green" <|
                     \_ ->
-                        OpaqueColor.fromRGB ( 0, 128, 0 )
-                            |> OpaqueColor.toHSL
+                        Colour.fromRGB ( 0, 128, 0 )
+                            |> Colour.toHSL
                             |> expectTripleEquals ( 120, 100, 25 )
                 ]
             , describe "from HSL color"
                 [ test "black" <|
                     \_ ->
-                        OpaqueColor.fromHSL ( 0, 0, 0 )
-                            |> OpaqueColor.toHSL
+                        Colour.fromHSL ( 0, 0, 0 )
+                            |> Colour.toHSL
                             |> expectTripleEquals ( 0, 0, 0 )
                 ]
             ]
@@ -150,57 +150,57 @@ conversionsSpec =
             [ describe "from RGB color"
                 [ test "black" <|
                     \_ ->
-                        OpaqueColor.fromRGB ( 0, 0, 0 )
-                            |> OpaqueColor.toRGB
+                        Colour.fromRGB ( 0, 0, 0 )
+                            |> Colour.toRGB
                             |> expectTripleEquals ( 0, 0, 0 )
                 ]
             , describe "from HSL color"
                 [ test "black" <|
                     \_ ->
-                        OpaqueColor.fromHSL ( 0, 0, 0 )
-                            |> OpaqueColor.toRGB
+                        Colour.fromHSL ( 0, 0, 0 )
+                            |> Colour.toRGB
                             |> expectTripleEquals ( 0, 0, 0 )
                 , test "white" <|
                     \_ ->
-                        OpaqueColor.fromHSL ( 0, 0, 100 )
-                            |> OpaqueColor.toRGB
+                        Colour.fromHSL ( 0, 0, 100 )
+                            |> Colour.toRGB
                             |> expectTripleEquals ( 255, 255, 255 )
                 , test "red" <|
                     \_ ->
-                        OpaqueColor.fromHSL ( 0, 100, 50 )
-                            |> OpaqueColor.toRGB
+                        Colour.fromHSL ( 0, 100, 50 )
+                            |> Colour.toRGB
                             |> expectTripleEquals ( 255, 0, 0 )
                 , test "green" <|
                     \_ ->
-                        OpaqueColor.fromHSL ( 120, 100, 25 )
-                            |> OpaqueColor.toRGB
+                        Colour.fromHSL ( 120, 100, 25 )
+                            |> Colour.toRGB
                             |> expectTripleEquals ( 0, 128, 0 )
                 ]
             ]
-        , fuzz OpaqueColorFuzzer.rgbValues "from RGB to HSL and back to RGB again" <|
+        , fuzz ColourFuzzer.rgbValues "from RGB to HSL and back to RGB again" <|
             \color ->
                 let
                     operations =
-                        OpaqueColor.fromRGB
-                            >> OpaqueColor.toHSL
-                            >> OpaqueColor.fromHSL
-                            >> OpaqueColor.toRGB
+                        Colour.fromRGB
+                            >> Colour.toHSL
+                            >> Colour.fromHSL
+                            >> Colour.toRGB
 
                     rgbName =
-                        OpaqueColor.toRGBString (OpaqueColor.fromRGB color)
+                        Colour.toRGBString (Colour.fromRGB color)
                 in
                 expectTripleEquals color (operations color)
-        , fuzz OpaqueColorFuzzer.hslValues "from HSL to RGB and back to HSL again" <|
+        , fuzz ColourFuzzer.hslValues "from HSL to RGB and back to HSL again" <|
             \(( _, s, l ) as color) ->
                 let
                     operations =
-                        OpaqueColor.fromHSL
-                            >> OpaqueColor.toRGB
-                            >> OpaqueColor.fromRGB
-                            >> OpaqueColor.toHSL
+                        Colour.fromHSL
+                            >> Colour.toRGB
+                            >> Colour.fromRGB
+                            >> Colour.toHSL
 
                     hslName =
-                        OpaqueColor.toHSLString (OpaqueColor.fromHSL color)
+                        Colour.toHSLString (Colour.fromHSL color)
                 in
                 if l == 0 then
                     -- This is black, which has more representations in HSL space
@@ -219,11 +219,11 @@ conversionsSpec =
 
                 else
                     expectTripleEquals color (operations color)
-        , fuzz (OpaqueColorFuzzer.hexStringOfLength 6) "from Hex to RGB and back to Hex again" <|
+        , fuzz (ColourFuzzer.hexStringOfLength 6) "from Hex to RGB and back to Hex again" <|
             \c ->
-                OpaqueColor.fromHexString c
-                    |> Result.map OpaqueColor.toRGB
-                    |> Result.map (OpaqueColor.fromRGB >> OpaqueColor.toHexString)
+                Colour.fromHexString c
+                    |> Result.map Colour.toRGB
+                    |> Result.map (Colour.fromRGB >> Colour.toHexString)
                     |> Expect.equal (Ok c)
         ]
 
@@ -234,17 +234,17 @@ luminanceSuite =
         [ test "white is very bright" <|
             \_ ->
                 white
-                    |> OpaqueColor.luminance
+                    |> Colour.luminance
                     |> floatEqual 1
         , test "gray is middlingly bright" <|
             \_ ->
                 gray
-                    |> OpaqueColor.luminance
+                    |> Colour.luminance
                     |> floatEqual 0.215
         , test "black is not very bright" <|
             \_ ->
                 black
-                    |> OpaqueColor.luminance
+                    |> Colour.luminance
                     |> floatEqual 0
         ]
 
@@ -252,7 +252,7 @@ luminanceSuite =
 highContrastSuite : Test
 highContrastSuite =
     let
-        grays : List ( OpaqueColor, String )
+        grays : List ( Colour, String )
         grays =
             [ ( gainsboro, "gainsboro" )
             , ( lightGray, "lightGray" )
@@ -270,17 +270,17 @@ highContrastSuite =
         [ describe "black and white"
             [ test "highContrast black == white" <|
                 \_ ->
-                    expectColorsEqual (OpaqueColor.highContrast black) white
+                    expectColorsEqual (Colour.highContrast black) white
             , test "highContrast white == black" <|
                 \_ ->
-                    expectColorsEqual (OpaqueColor.highContrast white) black
+                    expectColorsEqual (Colour.highContrast white) black
             , describe "highContrast grays"
                 (List.map
                     (\( color, name ) ->
                         test name <|
                             \_ ->
                                 color
-                                    |> OpaqueColor.highContrast
+                                    |> Colour.highContrast
                                     |> Colour.Accessibility.contrast color
                                     |> Expect.greaterThan 4.5
                     )
@@ -296,10 +296,10 @@ invertSuite =
         [ describe "black and white"
             [ test "invert black == white" <|
                 \_ ->
-                    expectColorsEqual (OpaqueColor.invert black) white
+                    expectColorsEqual (Colour.invert black) white
             , test "invert white == black" <|
                 \_ ->
-                    expectColorsEqual (OpaqueColor.invert white) black
+                    expectColorsEqual (Colour.invert white) black
             ]
         ]
 
@@ -313,46 +313,46 @@ floatEqual =
     Expect.within (Expect.Absolute 0.1)
 
 
-gray : OpaqueColor
+gray : Colour
 gray =
-    OpaqueColor.fromRGB ( 118, 118, 118 )
+    Colour.fromRGB ( 118, 118, 118 )
 
 
 {-| This exists mostly to make float equality checks nicer.
 -}
-expectRGB : ( Int, Int, Int ) -> OpaqueColor -> Expectation
+expectRGB : ( Int, Int, Int ) -> Colour -> Expectation
 expectRGB expected color =
     let
         ( r, g, b ) =
-            OpaqueColor.toRGB color
+            Colour.toRGB color
     in
     Expect.equal ( round r, round g, round b ) expected
 
 
 {-| This exists mostly to make float equality checks nicer.
 -}
-expectHSL : ( Int, Int, Int ) -> OpaqueColor -> Expectation
+expectHSL : ( Int, Int, Int ) -> Colour -> Expectation
 expectHSL expected color =
     let
         ( r, g, b ) =
-            OpaqueColor.toHSL color
+            Colour.toHSL color
     in
     Expect.equal ( round r, round g, round b ) expected
 
 
-expectHex : String -> Result String OpaqueColor -> Expectation
+expectHex : String -> Result String Colour -> Expectation
 expectHex expected colorResult =
     case colorResult of
         Ok got ->
-            Expect.equal expected (OpaqueColor.toHexString got)
+            Expect.equal expected (Colour.toHexString got)
 
         Err err ->
             Expect.fail ("Could not parse color string: \n" ++ err)
 
 
-expectColorsEqual : OpaqueColor -> OpaqueColor -> Expectation
+expectColorsEqual : Colour -> Colour -> Expectation
 expectColorsEqual a b =
-    Expect.equal (OpaqueColor.toRGBString a) (OpaqueColor.toRGBString b)
+    Expect.equal (Colour.toRGBString a) (Colour.toRGBString b)
 
 
 expectTripleEquals : ( Float, Float, Float ) -> ( Float, Float, Float ) -> Expectation

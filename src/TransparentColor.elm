@@ -48,13 +48,13 @@ If not, read more about each color space in `Color`.
 
 -}
 
+import Colour
 import Dict
 import Internal.Color
 import Internal.HSLA
 import Internal.Hex
 import Internal.RGBA
 import Opacity exposing (Opacity)
-import OpaqueColor
 
 
 {-| -}
@@ -154,24 +154,24 @@ equals a b =
 
 {-| Specify the opacity for a color without opacity.
 
+    import Colour exposing (Colour)
     import Opacity
-    import OpaqueColor exposing (OpaqueColor)
     import TransparentColor exposing (TransparentColor)
 
-    myRed : OpaqueColor
+    myRed : Colour
     myRed =
-        OpaqueColor.fromRGB ( 255, 0, 0 )
+        Colour.fromRGB ( 255, 0, 0 )
 
     myTransparentRed : TransparentColor
     myTransparentRed =
         TransparentColor.fromColor (Opacity.custom 0.5) myRed
 
 -}
-fromColor : Opacity -> OpaqueColor.OpaqueColor -> TransparentColor
+fromColor : Opacity -> Colour.Colour -> TransparentColor
 fromColor opacity color =
     let
         ( r, g, b ) =
-            OpaqueColor.toRGB color
+            Colour.toRGB color
     in
     fromRGBA
         { red = r
@@ -184,13 +184,13 @@ fromColor opacity color =
 {-| If you decide you don't care about the transparency anymore, you can
 drop this information and work with just the color values.
 -}
-toColor : TransparentColor -> OpaqueColor.OpaqueColor
+toColor : TransparentColor -> Colour.Colour
 toColor color =
     let
         { red, green, blue } =
             toRGBA color
     in
-    OpaqueColor.fromRGB ( red, green, blue )
+    Colour.fromRGB ( red, green, blue )
 
 
 {-| Extract just the opacity from the color.
@@ -211,7 +211,7 @@ getOpacity (TransparentColor c) =
 
 -}
 mapColor :
-    (OpaqueColor.OpaqueColor -> OpaqueColor.OpaqueColor)
+    (Colour.Colour -> Colour.Colour)
     -> TransparentColor
     -> TransparentColor
 mapColor f =
@@ -256,7 +256,7 @@ mapOpacity f =
 -}
 map :
     (Opacity -> Opacity)
-    -> (OpaqueColor.OpaqueColor -> OpaqueColor.OpaqueColor)
+    -> (Colour.Colour -> Colour.Colour)
     -> TransparentColor
     -> TransparentColor
 map fo fc color =

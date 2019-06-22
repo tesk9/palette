@@ -56,166 +56,166 @@ Play with all the Tango colors on [ellie](https://ellie-app.com/4wzXbjyK6Nta1).
 
 -}
 
-import OpaqueColor exposing (OpaqueColor)
+import Colour exposing (Colour)
 
 
 {-| -}
-butter1 : OpaqueColor
+butter1 : Colour
 butter1 =
-    OpaqueColor.fromRGB ( 252, 233, 79 )
+    Colour.fromRGB ( 252, 233, 79 )
 
 
 {-| -}
-butter2 : OpaqueColor
+butter2 : Colour
 butter2 =
-    OpaqueColor.fromRGB ( 237, 212, 0 )
+    Colour.fromRGB ( 237, 212, 0 )
 
 
 {-| -}
-butter3 : OpaqueColor
+butter3 : Colour
 butter3 =
-    OpaqueColor.fromRGB ( 196, 160, 0 )
+    Colour.fromRGB ( 196, 160, 0 )
 
 
 {-| -}
-orange1 : OpaqueColor
+orange1 : Colour
 orange1 =
-    OpaqueColor.fromRGB ( 252, 175, 62 )
+    Colour.fromRGB ( 252, 175, 62 )
 
 
 {-| -}
-orange2 : OpaqueColor
+orange2 : Colour
 orange2 =
-    OpaqueColor.fromRGB ( 245, 121, 0 )
+    Colour.fromRGB ( 245, 121, 0 )
 
 
 {-| -}
-orange3 : OpaqueColor
+orange3 : Colour
 orange3 =
-    OpaqueColor.fromRGB ( 206, 92, 0 )
+    Colour.fromRGB ( 206, 92, 0 )
 
 
 {-| -}
-chocolate1 : OpaqueColor
+chocolate1 : Colour
 chocolate1 =
-    OpaqueColor.fromRGB ( 233, 185, 110 )
+    Colour.fromRGB ( 233, 185, 110 )
 
 
 {-| -}
-chocolate2 : OpaqueColor
+chocolate2 : Colour
 chocolate2 =
-    OpaqueColor.fromRGB ( 193, 125, 17 )
+    Colour.fromRGB ( 193, 125, 17 )
 
 
 {-| -}
-chocolate3 : OpaqueColor
+chocolate3 : Colour
 chocolate3 =
-    OpaqueColor.fromRGB ( 143, 89, 2 )
+    Colour.fromRGB ( 143, 89, 2 )
 
 
 {-| -}
-chameleon1 : OpaqueColor
+chameleon1 : Colour
 chameleon1 =
-    OpaqueColor.fromRGB ( 138, 226, 52 )
+    Colour.fromRGB ( 138, 226, 52 )
 
 
 {-| -}
-chameleon2 : OpaqueColor
+chameleon2 : Colour
 chameleon2 =
-    OpaqueColor.fromRGB ( 115, 210, 22 )
+    Colour.fromRGB ( 115, 210, 22 )
 
 
 {-| -}
-chameleon3 : OpaqueColor
+chameleon3 : Colour
 chameleon3 =
-    OpaqueColor.fromRGB ( 78, 154, 6 )
+    Colour.fromRGB ( 78, 154, 6 )
 
 
 {-| -}
-skyBlue1 : OpaqueColor
+skyBlue1 : Colour
 skyBlue1 =
-    OpaqueColor.fromRGB ( 114, 159, 207 )
+    Colour.fromRGB ( 114, 159, 207 )
 
 
 {-| -}
-skyBlue2 : OpaqueColor
+skyBlue2 : Colour
 skyBlue2 =
-    OpaqueColor.fromRGB ( 52, 101, 164 )
+    Colour.fromRGB ( 52, 101, 164 )
 
 
 {-| -}
-skyBlue3 : OpaqueColor
+skyBlue3 : Colour
 skyBlue3 =
-    OpaqueColor.fromRGB ( 32, 74, 135 )
+    Colour.fromRGB ( 32, 74, 135 )
 
 
 {-| -}
-plum1 : OpaqueColor
+plum1 : Colour
 plum1 =
-    OpaqueColor.fromRGB ( 173, 127, 168 )
+    Colour.fromRGB ( 173, 127, 168 )
 
 
 {-| -}
-plum2 : OpaqueColor
+plum2 : Colour
 plum2 =
-    OpaqueColor.fromRGB ( 117, 80, 123 )
+    Colour.fromRGB ( 117, 80, 123 )
 
 
 {-| -}
-plum3 : OpaqueColor
+plum3 : Colour
 plum3 =
-    OpaqueColor.fromRGB ( 92, 53, 102 )
+    Colour.fromRGB ( 92, 53, 102 )
 
 
 {-| -}
-scarletRed1 : OpaqueColor
+scarletRed1 : Colour
 scarletRed1 =
-    OpaqueColor.fromRGB ( 239, 41, 41 )
+    Colour.fromRGB ( 239, 41, 41 )
 
 
 {-| -}
-scarletRed2 : OpaqueColor
+scarletRed2 : Colour
 scarletRed2 =
-    OpaqueColor.fromRGB ( 204, 0, 0 )
+    Colour.fromRGB ( 204, 0, 0 )
 
 
 {-| -}
-scarletRed3 : OpaqueColor
+scarletRed3 : Colour
 scarletRed3 =
-    OpaqueColor.fromRGB ( 164, 0, 0 )
+    Colour.fromRGB ( 164, 0, 0 )
 
 
 {-| -}
-aluminum1 : OpaqueColor
+aluminum1 : Colour
 aluminum1 =
-    OpaqueColor.fromRGB ( 238, 238, 236 )
+    Colour.fromRGB ( 238, 238, 236 )
 
 
 {-| -}
-aluminum2 : OpaqueColor
+aluminum2 : Colour
 aluminum2 =
-    OpaqueColor.fromRGB ( 211, 215, 207 )
+    Colour.fromRGB ( 211, 215, 207 )
 
 
 {-| -}
-aluminum3 : OpaqueColor
+aluminum3 : Colour
 aluminum3 =
-    OpaqueColor.fromRGB ( 186, 189, 182 )
+    Colour.fromRGB ( 186, 189, 182 )
 
 
 {-| -}
-aluminum4 : OpaqueColor
+aluminum4 : Colour
 aluminum4 =
-    OpaqueColor.fromRGB ( 136, 138, 133 )
+    Colour.fromRGB ( 136, 138, 133 )
 
 
 {-| -}
-aluminum5 : OpaqueColor
+aluminum5 : Colour
 aluminum5 =
-    OpaqueColor.fromRGB ( 85, 87, 83 )
+    Colour.fromRGB ( 85, 87, 83 )
 
 
 {-| -}
-aluminum6 : OpaqueColor
+aluminum6 : Colour
 aluminum6 =
-    OpaqueColor.fromRGB ( 46, 52, 54 )
+    Colour.fromRGB ( 46, 52, 54 )

@@ -1,4 +1,4 @@
-module OpaqueColorFuzzer exposing
+module ColourFuzzer exposing
     ( hexStringOfLength
     , hslColor
     , hslValues
@@ -6,16 +6,16 @@ module OpaqueColorFuzzer exposing
     , rgbValues
     )
 
+import Colour exposing (Colour)
 import Dict exposing (Dict)
 import Fuzz exposing (Fuzzer)
-import OpaqueColor exposing (OpaqueColor)
 import Random exposing (Generator)
 import Shrink
 
 
-rgbColor : Fuzzer OpaqueColor
+rgbColor : Fuzzer Colour
 rgbColor =
-    Fuzz.map OpaqueColor.fromRGB rgbValues
+    Fuzz.map Colour.fromRGB rgbValues
 
 
 rgbValues : Fuzzer ( Float, Float, Float )
@@ -23,9 +23,9 @@ rgbValues =
     triple (Fuzz.intRange 0 255) (Fuzz.intRange 0 255) (Fuzz.intRange 0 255)
 
 
-hslColor : Fuzzer OpaqueColor
+hslColor : Fuzzer Colour
 hslColor =
-    Fuzz.map OpaqueColor.fromHSL hslValues
+    Fuzz.map Colour.fromHSL hslValues
 
 
 hslValues : Fuzzer ( Float, Float, Float )

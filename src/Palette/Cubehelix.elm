@@ -23,7 +23,7 @@ helix?!) please read more about it [here](https://www.mrao.cam.ac.uk/~dag/CUBEHE
 
     import Palette.Cubehelix as Cubehelix
 
-    myPalette : List OpaqueColor
+    myPalette : List Colour
     myPalette =
         -- This will generate 10 even-intensity colors
         Cubehelix.generate 10
@@ -36,13 +36,13 @@ See this example on [Ellie](https://ellie-app.com/4K5FZFNYhmwa1).
 
 ## Customize your palette
 
-    import OpaqueColor exposing (OpaqueColor)
+    import Colour exposing (Colour)
     import Palette.Cubehelix as Cubehelix
 
-    myPalette : List OpaqueColor
+    myPalette : List Colour
     myPalette =
         Cubehelix.generateAdvanced 27
-            { startingColor = OpaqueColor.fromHSL ( 20, 100, 0 )
+            { startingColor = Colour.fromHSL ( 20, 100, 0 )
             , rotationDirection = Cubehelix.BGR
             , rotations = 1.2
             , gamma = 0.9
@@ -53,7 +53,7 @@ See this example on [Ellie](https://ellie-app.com/4K5FZFNYhmwa1).
 
 -}
 
-import OpaqueColor exposing (OpaqueColor)
+import Colour exposing (Colour)
 
 
 {-| `startingColor` is used to derive what hue you want to start from (see HSL color space)
@@ -65,8 +65,8 @@ blue then green then red. This is easiest to visualize if you think of a cube de
 vectors, one each for red, green, and blue values. If that's not doing the trick,
 take a look at [this image](https://www.mrao.cam.ac.uk/~dag/CUBEHELIX/3d-default.png).
 
-`rotations` describes the number of rotations the helix should make as it moves from black (`OpaqueColor.fromRGB (0, 0 0)`)
-to white `OpaqueColor.fromRGB (255, 255, 255)`. `rotations` should be in [0, 1.5]. If it's not, it will be absolute-value-ified & clamped.
+`rotations` describes the number of rotations the helix should make as it moves from black (`Colour.fromRGB (0, 0 0)`)
+to white `Colour.fromRGB (255, 255, 255)`. `rotations` should be in [0, 1.5]. If it's not, it will be absolute-value-ified & clamped.
 
 The `gamma` value can be used to emphasize low- or high-intensity colors. `gamma` will be clamped with `clamp 0 2`.
 
@@ -75,7 +75,7 @@ The `gamma` value can be used to emphasize low- or high-intensity colors. `gamma
 
 -}
 type alias AdvancedConfig =
-    { startingColor : OpaqueColor
+    { startingColor : Colour
     , rotationDirection : RotationDirection
     , rotations : Float
     , gamma : Float
@@ -94,7 +94,7 @@ type RotationDirection
 This is a great place to start to learn what different settings can get you. Try playing with one
 value at a time to see how it changes the result!
 
-    { startingColor = OpaqueColor.fromHSL ( -60, 100, 0 )
+    { startingColor = Colour.fromHSL ( -60, 100, 0 )
     , rotationDirection = BGR
     , rotations = 1.5
     , gamma = 1.0
@@ -103,7 +103,7 @@ value at a time to see how it changes the result!
 -}
 defaultConfig : AdvancedConfig
 defaultConfig =
-    { startingColor = OpaqueColor.fromHSL ( -60, 100, 0 )
+    { startingColor = Colour.fromHSL ( -60, 100, 0 )
     , rotationDirection = BGR
     , rotations = 1.5
     , gamma = 1.0
@@ -112,14 +112,14 @@ defaultConfig =
 
 {-| The parameter (clamped between 0 and 256) corresponds to the number of colors you want to generate.
 -}
-generate : Int -> List OpaqueColor
+generate : Int -> List Colour
 generate numLevels =
     generateAdvanced numLevels defaultConfig
 
 
 {-| The first parameter (clamped between 0 and 256) corresponds to the number of colors you want to generate.
 -}
-generateAdvanced : Int -> AdvancedConfig -> List OpaqueColor
+generateAdvanced : Int -> AdvancedConfig -> List Colour
 generateAdvanced numLevels config =
     let
         clampedNumLevels =
@@ -128,7 +128,7 @@ generateAdvanced numLevels config =
         internalConfig =
             toInternalConfig config clampedNumLevels
 
-        generate_ : List OpaqueColor -> List OpaqueColor
+        generate_ : List Colour -> List Colour
         generate_ colors =
             if List.length colors >= clampedNumLevels then
                 colors
@@ -143,7 +143,7 @@ toInternalConfig : AdvancedConfig -> Int -> InternalConfig
 toInternalConfig { startingColor, rotationDirection, rotations, gamma } numLevels =
     let
         ( hue, sat, _ ) =
-            OpaqueColor.toHSL startingColor
+            Colour.toHSL startingColor
 
         positiveClampedRotations =
             clamp 0 1.5 (abs rotations)
@@ -187,10 +187,10 @@ Please look at <http://astron-soc.in/bulletin/11June/289392011.pdf> too.
 The major differences between this implementation and that one are:
 
   - On the web, generally we want RGB values in [0,255] rather than [0,1], so the return values are scaled
-  - OpaqueColor.fromRGB clamps the values between 0 and 255 for us, so we don't need to double check anything
+  - Colour.fromRGB clamps the values between 0 and 255 for us, so we don't need to double check anything
 
 -}
-colorAtStep : Int -> InternalConfig -> OpaqueColor
+colorAtStep : Int -> InternalConfig -> Colour
 colorAtStep i { rotations, start, fract, gamma, saturation } =
     let
         angle =
@@ -211,4 +211,4 @@ colorAtStep i { rotations, start, fract, gamma, saturation } =
         blue =
             fract_ + amp * (1.97294 * cos angle)
     in
-    OpaqueColor.fromRGB ( red * 255, green * 255, blue * 255 )
+    Colour.fromRGB ( red * 255, green * 255, blue * 255 )

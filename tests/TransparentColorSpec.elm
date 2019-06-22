@@ -1,9 +1,9 @@
 module TransparentColorSpec exposing (colorWithOpacitySuite)
 
+import Colour
 import Expect exposing (Expectation)
 import Fuzz exposing (Fuzzer)
 import Opacity
-import OpaqueColor
 import Palette.Generative
 import Test exposing (..)
 import TransparentColor
@@ -73,17 +73,17 @@ colorWithOpacitySuite =
               <|
                 \( colorWithOpacity, percent ) ->
                     let
-                        expectedResult : OpaqueColor.OpaqueColor
+                        expectedResult : Colour.Colour
                         expectedResult =
                             f (TransparentColor.toColor colorWithOpacity)
 
                         f =
-                            OpaqueColor.addSaturation percent
+                            Colour.addSaturation percent
                     in
                     colorWithOpacity
                         |> TransparentColor.mapColor f
                         |> TransparentColor.toColor
-                        |> OpaqueColor.equals expectedResult
+                        |> Colour.equals expectedResult
                         |> Expect.true "`mapColor f >> toColor` should be equivalent to `toColor >> f`"
             , fuzz
                 TransparentColorFuzzer.colorWithOpacity
@@ -96,11 +96,11 @@ colorWithOpacitySuite =
 
                         expectedResult : TransparentColor.TransparentColor
                         expectedResult =
-                            OpaqueColor.fromHSL ( hue, saturation, lightness )
+                            Colour.fromHSL ( hue, saturation, lightness )
                                 |> fColor
                                 |> TransparentColor.fromColor (fOpacity alpha)
 
-                        fColor : OpaqueColor.OpaqueColor -> OpaqueColor.OpaqueColor
+                        fColor : Colour.Colour -> Colour.Colour
                         fColor =
                             Palette.Generative.complementary
 

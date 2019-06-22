@@ -1,15 +1,15 @@
 module TransparentColorExamples exposing (view)
 
+import Colour exposing (Colour)
 import Html exposing (..)
 import Html.Attributes exposing (style)
 import Opacity
-import OpaqueColor exposing (OpaqueColor)
 import TransparentColor exposing (TransparentColor)
 
 
-opaqueRed : OpaqueColor
+opaqueRed : Colour
 opaqueRed =
-    OpaqueColor.fromRGB ( 255, 0, 0 )
+    Colour.fromRGB ( 255, 0, 0 )
 
 
 screen : TransparentColor
@@ -33,10 +33,10 @@ view =
         ]
         [ span
             [ style "background-color" (TransparentColor.toRGBAString screen)
-            , style "color" (OpaqueColor.toRGBAString opaqueRed)
+            , style "color" (Colour.toRGBAString opaqueRed)
             , style "border" <|
                 "1px solid "
-                    ++ OpaqueColor.toRGBString (TransparentColor.toColor screen)
+                    ++ Colour.toRGBString (TransparentColor.toColor screen)
             , style "padding" "12px"
             ]
             [ p [ style "font-size" "24px" ] [ text "Yum! Strawberries!" ]

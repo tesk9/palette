@@ -1,10 +1,10 @@
 module PaletteExamples.Cubehelix exposing (examples)
 
+import Colour
 import Comparison
 import ExampleHelpers as Example
 import Html exposing (Html)
 import Html.Attributes exposing (style)
-import OpaqueColor
 import Palette.Cubehelix as Cubehelix exposing (defaultConfig)
 
 
@@ -32,11 +32,11 @@ examples =
                 ]
             , Html.h4 [] [ Html.text "Rotation direction" ]
             , viewExamples
-                [ ( Cubehelix.generateAdvanced 256 { defaultConfig | rotationDirection = Cubehelix.BGR, startingColor = OpaqueColor.fromRGB ( 255, 0, 0 ) }
-                  , "Cubehelix.generateAdvanced 256 { defaultConfig | rotationDirection = Cubehelix.BGR, startingColor = OpaqueColor.fromRGB (255, 0, 0 ) }"
+                [ ( Cubehelix.generateAdvanced 256 { defaultConfig | rotationDirection = Cubehelix.BGR, startingColor = Colour.fromRGB ( 255, 0, 0 ) }
+                  , "Cubehelix.generateAdvanced 256 { defaultConfig | rotationDirection = Cubehelix.BGR, startingColor = Colour.fromRGB (255, 0, 0 ) }"
                   )
-                , ( Cubehelix.generateAdvanced 256 { defaultConfig | rotationDirection = Cubehelix.RGB, startingColor = OpaqueColor.fromRGB ( 255, 0, 0 ) }
-                  , "Cubehelix.generateAdvanced 256 { defaultConfig | rotationDirection = Cubehelix.RGB, startingColor = OpaqueColor.fromRGB (255, 0, 0 ) }"
+                , ( Cubehelix.generateAdvanced 256 { defaultConfig | rotationDirection = Cubehelix.RGB, startingColor = Colour.fromRGB ( 255, 0, 0 ) }
+                  , "Cubehelix.generateAdvanced 256 { defaultConfig | rotationDirection = Cubehelix.RGB, startingColor = Colour.fromRGB (255, 0, 0 ) }"
                   )
                 ]
             , Html.h4 [] [ Html.text "Rotation count" ]
@@ -65,38 +65,38 @@ examples =
                 ]
             , Html.h4 [] [ Html.text "Starting color, adjusting saturation" ]
             , viewExamples
-                [ ( Cubehelix.generateAdvanced 10 { defaultConfig | startingColor = OpaqueColor.fromHSL ( 0, 0, 0 ) }
-                  , "Cubehelix.generateAdvanced 10 { defaultConfig | startingColor = OpaqueColor.fromHSL ( 0, 0, 0 ) }"
+                [ ( Cubehelix.generateAdvanced 10 { defaultConfig | startingColor = Colour.fromHSL ( 0, 0, 0 ) }
+                  , "Cubehelix.generateAdvanced 10 { defaultConfig | startingColor = Colour.fromHSL ( 0, 0, 0 ) }"
                   )
-                , ( Cubehelix.generateAdvanced 10 { defaultConfig | startingColor = OpaqueColor.fromHSL ( 0, 50, 0 ) }
-                  , "Cubehelix.generateAdvanced 10 { defaultConfig | startingColor = OpaqueColor.fromHSL ( 0, 50, 0 ) }"
+                , ( Cubehelix.generateAdvanced 10 { defaultConfig | startingColor = Colour.fromHSL ( 0, 50, 0 ) }
+                  , "Cubehelix.generateAdvanced 10 { defaultConfig | startingColor = Colour.fromHSL ( 0, 50, 0 ) }"
                   )
-                , ( Cubehelix.generateAdvanced 10 { defaultConfig | startingColor = OpaqueColor.fromHSL ( 0, 100, 0 ) }
-                  , "Cubehelix.generateAdvanced 10 { defaultConfig | startingColor = OpaqueColor.fromHSL ( 0, 100, 0 ) }"
+                , ( Cubehelix.generateAdvanced 10 { defaultConfig | startingColor = Colour.fromHSL ( 0, 100, 0 ) }
+                  , "Cubehelix.generateAdvanced 10 { defaultConfig | startingColor = Colour.fromHSL ( 0, 100, 0 ) }"
                   )
                 ]
             , Html.h4 [] [ Html.text "Starting color, adjusting hue" ]
             , viewExamples
-                [ ( Cubehelix.generateAdvanced 10 { defaultConfig | startingColor = OpaqueColor.fromHSL ( 0, 100, 0 ) }
-                  , "Cubehelix.generateAdvanced 10 { defaultConfig | startingColor = OpaqueColor.fromHSL ( 0, 100, 0 ) }"
+                [ ( Cubehelix.generateAdvanced 10 { defaultConfig | startingColor = Colour.fromHSL ( 0, 100, 0 ) }
+                  , "Cubehelix.generateAdvanced 10 { defaultConfig | startingColor = Colour.fromHSL ( 0, 100, 0 ) }"
                   )
-                , ( Cubehelix.generateAdvanced 10 { defaultConfig | startingColor = OpaqueColor.fromHSL ( 120, 100, 0 ) }
-                  , "Cubehelix.generateAdvanced 10 { defaultConfig |  startingColor = OpaqueColor.fromHSL ( 120, 100, 0 ) }"
+                , ( Cubehelix.generateAdvanced 10 { defaultConfig | startingColor = Colour.fromHSL ( 120, 100, 0 ) }
+                  , "Cubehelix.generateAdvanced 10 { defaultConfig |  startingColor = Colour.fromHSL ( 120, 100, 0 ) }"
                   )
-                , ( Cubehelix.generateAdvanced 10 { defaultConfig | startingColor = OpaqueColor.fromHSL ( 240, 100, 0 ) }
-                  , "Cubehelix.generateAdvanced 10 { defaultConfig |  startingColor = OpaqueColor.fromHSL ( 240, 100, 0 ) }"
+                , ( Cubehelix.generateAdvanced 10 { defaultConfig | startingColor = Colour.fromHSL ( 240, 100, 0 ) }
+                  , "Cubehelix.generateAdvanced 10 { defaultConfig |  startingColor = Colour.fromHSL ( 240, 100, 0 ) }"
                   )
                 ]
             ]
         )
 
 
-viewExamples : List ( List OpaqueColor.OpaqueColor, String ) -> Html msg
+viewExamples : List ( List Colour.Colour, String ) -> Html msg
 viewExamples exs =
     Example.listVertical exs viewExample
 
 
-viewExample : ( List OpaqueColor.OpaqueColor, String ) -> Html msg
+viewExample : ( List Colour.Colour, String ) -> Html msg
 viewExample ( colors, description ) =
     Html.div
         [ style "display" "flex"

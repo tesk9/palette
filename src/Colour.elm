@@ -1,5 +1,5 @@
-module OpaqueColor exposing
-    ( OpaqueColor
+module Colour exposing
+    ( Colour
     , fromRGB, fromHSL, fromHexString
     , toRGBString, toHSLString, toHexString
     , grayscale, invert, highContrast
@@ -15,18 +15,18 @@ module OpaqueColor exposing
 {-|
 
 
-## OpaqueColors
+## Colours
 
-@docs OpaqueColor
+@docs Colour
 @docs fromRGB, fromHSL, fromHexString
 
 
-## Use OpaqueColors
+## Use Colours
 
 @docs toRGBString, toHSLString, toHexString
 
 
-## Customize OpaqueColors
+## Customize Colours
 
 @docs grayscale, invert, highContrast
 @docs blacken, whiten, greyen
@@ -109,17 +109,17 @@ import Opacity exposing (Opacity)
 
 
 {-| -}
-type OpaqueColor
-    = OpaqueColor Internal.Color.Color
+type Colour
+    = Colour Internal.Color.Color
 
 
 {-| Build a new color based on HSL values.
 
-    import OpaqueColor exposing (OpaqueColor)
+    import Colour exposing (Colour)
 
-    red : OpaqueColor
+    red : Colour
     red =
-        OpaqueColor.fromHSL ( 0, 100, 50 )
+        Colour.fromHSL ( 0, 100, 50 )
 
 The hue is specified in degrees, and uses modular arithmetic such that whether you
 pass in `0`, `360`, or `-360`, you'll still end up with a red hue.
@@ -128,9 +128,9 @@ Saturation is a percentage value. It's clamped between 0 and 100 (inclusive).
 Lightness is a percentage value. It's clamped between 0 and 100 (inclusive).
 
 -}
-fromHSL : ( Float, Float, Float ) -> OpaqueColor
+fromHSL : ( Float, Float, Float ) -> Colour
 fromHSL ( hue, saturation, lightness ) =
-    OpaqueColor
+    Colour
         (Internal.Color.fromHSLA
             { hue = hue
             , saturation = saturation
@@ -140,10 +140,10 @@ fromHSL ( hue, saturation, lightness ) =
         )
 
 
-{-| Extract the hue, saturation, and lightness values from an existing OpaqueColor.
+{-| Extract the hue, saturation, and lightness values from an existing Colour.
 -}
-toHSL : OpaqueColor -> ( Float, Float, Float )
-toHSL (OpaqueColor color) =
+toHSL : Colour -> ( Float, Float, Float )
+toHSL (Colour color) =
     let
         { hue, saturation, lightness } =
             Internal.HSLA.toChannels (Internal.Color.asHSLA color)
@@ -153,9 +153,9 @@ toHSL (OpaqueColor color) =
 
 {-| Get the HSL representation of a color as a `String`.
 
+    import Colour exposing (toHSLString)
     import Html exposing (p, text)
     import Html.Attributes exposing (style)
-    import OpaqueColor exposing (toHSLString)
     import Palette.X11 exposing (red)
 
     view =
@@ -163,40 +163,40 @@ toHSL (OpaqueColor color) =
             [ text "Wow! This sure looks red!" ]
 
 -}
-toHSLString : OpaqueColor -> String
-toHSLString (OpaqueColor color) =
+toHSLString : Colour -> String
+toHSLString (Colour color) =
     Internal.HSLA.toStringWithoutOpacity
         (Internal.Color.asHSLA color)
 
 
 {-| -}
-toHSLAString : OpaqueColor -> String
-toHSLAString (OpaqueColor color) =
+toHSLAString : Colour -> String
+toHSLAString (Colour color) =
     Internal.HSLA.toStringWithOpacity (Internal.Color.asHSLA color)
 
 
 {-| Build a new color based on RGB values.
 
-    import OpaqueColor exposing (OpaqueColor)
+    import Colour exposing (Colour)
 
-    red : OpaqueColor
+    red : Colour
     red =
-        OpaqueColor.fromRGB ( 255, 0, 0 )
+        Colour.fromRGB ( 255, 0, 0 )
 
-    green : OpaqueColor
+    green : Colour
     green =
-        OpaqueColor.fromRGB ( 0, 255, 0 )
+        Colour.fromRGB ( 0, 255, 0 )
 
-    blue : OpaqueColor
+    blue : Colour
     blue =
-        OpaqueColor.fromRGB ( 0, 0, 255 )
+        Colour.fromRGB ( 0, 0, 255 )
 
 This function clamps each rgb value between 0 and 255 (inclusive).
 
 -}
-fromRGB : ( Float, Float, Float ) -> OpaqueColor
+fromRGB : ( Float, Float, Float ) -> Colour
 fromRGB ( red, green, blue ) =
-    OpaqueColor
+    Colour
         (Internal.Color.fromRGBA
             { red = red
             , green = green
@@ -206,10 +206,10 @@ fromRGB ( red, green, blue ) =
         )
 
 
-{-| Extract the red, green, blue values from an existing OpaqueColor.
+{-| Extract the red, green, blue values from an existing Colour.
 -}
-toRGB : OpaqueColor -> ( Float, Float, Float )
-toRGB (OpaqueColor color) =
+toRGB : Colour -> ( Float, Float, Float )
+toRGB (Colour color) =
     let
         { red, green, blue } =
             Internal.RGBA.toChannels (Internal.Color.asRGBA color)
@@ -219,9 +219,9 @@ toRGB (OpaqueColor color) =
 
 {-| Get the RGB representation of a color as a `String`.
 
+    import Colour exposing (toRGBString)
     import Html exposing (p, text)
     import Html.Attributes exposing (style)
-    import OpaqueColor exposing (toRGBString)
     import Palette.X11 exposing (red)
 
     view =
@@ -229,41 +229,41 @@ toRGB (OpaqueColor color) =
             [ text "Wow! This sure looks red!" ]
 
 -}
-toRGBString : OpaqueColor -> String
-toRGBString (OpaqueColor color) =
+toRGBString : Colour -> String
+toRGBString (Colour color) =
     Internal.RGBA.toStringWithoutOpacity (Internal.Color.asRGBA color)
 
 
 {-| -}
-toRGBAString : OpaqueColor -> String
-toRGBAString (OpaqueColor color) =
+toRGBAString : Colour -> String
+toRGBAString (Colour color) =
     Internal.RGBA.toStringWithOpacity (Internal.Color.asRGBA color)
 
 
 {-| Build a new color from a hex string.
 Supports lowercase and uppercase strings.
 
-    (OpaqueColor.fromHexString "#FFDD00" == OpaqueColor.fromHexString "#FD0")
-        && (OpaqueColor.fromHexString "#FFDD00" == OpaqueColor.fromHexString "#ffdd00")
+    (Colour.fromHexString "#FFDD00" == Colour.fromHexString "#FD0")
+        && (Colour.fromHexString "#FFDD00" == Colour.fromHexString "#ffdd00")
 
 Note: this helper will ignore transparency values.
 
 -}
-fromHexString : String -> Result String OpaqueColor
+fromHexString : String -> Result String Colour
 fromHexString colorString =
     case Internal.Hex.fromString colorString of
         Just { red, green, blue } ->
             Ok (fromRGB ( red, green, blue ))
 
         Nothing ->
-            Err ("fromHexString could not convert " ++ colorString ++ " to a OpaqueColor.")
+            Err ("fromHexString could not convert " ++ colorString ++ " to a Colour.")
 
 
 {-| Get the Hex representation of a color as a `String`.
 
+    import Colour exposing (toHexString)
     import Html exposing (p, text)
     import Html.Attributes exposing (type_, value)
-    import OpaqueColor exposing (toHexString)
     import Palette.X11 exposing (red)
 
     view =
@@ -280,7 +280,7 @@ If you want or need this functionality, please make an issue for it on the
 github repo for this library.
 
 -}
-toHexString : OpaqueColor -> String
+toHexString : Colour -> String
 toHexString color =
     let
         ( red, green, blue ) =
@@ -296,9 +296,9 @@ toHexString color =
 
 {-| Get the Hex representation of a color as a `String`.
 
+    import Colour exposing (toHexString)
     import Html exposing (p, text)
     import Html.Attributes exposing (type_, value)
-    import OpaqueColor exposing (toHexString)
     import Palette.X11 exposing (red)
 
     view =
@@ -316,14 +316,14 @@ If you want or need this functionality, please make an issue for it on the
 github repo for this library.
 
 -}
-toHexAString : OpaqueColor -> String
-toHexAString (OpaqueColor color) =
+toHexAString : Colour -> String
+toHexAString (Colour color) =
     Internal.Hex.toString (Internal.Color.asHex color)
 
 
 {-| Check two colors for equality.
 -}
-equals : OpaqueColor -> OpaqueColor -> Bool
+equals : Colour -> Colour -> Bool
 equals a b =
     toRGB a == toRGB b
 
@@ -335,7 +335,7 @@ That is, `rgb(10, 20, 30) + rgb(10, 10, 10) = rgb(20, 30, 40)`.
 Play with an example in Ellie here: <https://ellie-app.com/3yLdpDs9NBya1>.
 
 -}
-add : OpaqueColor -> OpaqueColor -> OpaqueColor
+add : Colour -> Colour -> Colour
 add a c =
     let
         ( r1, g1, b1 ) =
@@ -359,7 +359,7 @@ That is, `rgb(10, 20, 30) - rgb(10, 10, 10) = rgb(0, 10, 20)`.
 Play with an example in Ellie here: <https://ellie-app.com/3yLftQKkL6Ga1>.
 
 -}
-subtract : OpaqueColor -> OpaqueColor -> OpaqueColor
+subtract : Colour -> Colour -> Colour
 subtract a c =
     let
         ( r1, g1, b1 ) =
@@ -384,7 +384,7 @@ Any color multiplied by white will result in the color.
 Play with an example in Ellie here: <https://ellie-app.com/3yLgG6JQCgHa1>.
 
 -}
-multiply : OpaqueColor -> OpaqueColor -> OpaqueColor
+multiply : Colour -> Colour -> Colour
 multiply a c =
     let
         ( r1, g1, b1 ) =
@@ -407,7 +407,7 @@ Use this function to strip out tones & change them to white.
 Play with an example in Ellie here: <https://ellie-app.com/3yLhRLkJPwTa1>
 
 -}
-divide : OpaqueColor -> OpaqueColor -> OpaqueColor
+divide : Colour -> Colour -> Colour
 divide a c =
     let
         ( r1, g1, b1 ) =
@@ -436,7 +436,7 @@ Luminance describes the perceived brightness of a color. You're unlikely to need
 to use this function directly
 
 -}
-luminance : OpaqueColor -> Float
+luminance : Colour -> Float
 luminance color =
     let
         ( rRaw, gRaw, bRaw ) =
@@ -475,62 +475,62 @@ luminance color =
 Picture the color wheel. Suppose you want to find 8 evenly-spaced colors from a starting color.
 You might do something like this:
 
-    import OpaqueColor
+    import Colour
 
-    eightEvenColors : OpaqueColor -> List OpaqueColor
+    eightEvenColors : Colour -> List Colour
     eightEvenColors color =
         List.range 0 7
-            |> List.map (\i -> OpaqueColor.rotateHue (toFloat i * 360 / 8) color)
+            |> List.map (\i -> Colour.rotateHue (toFloat i * 360 / 8) color)
 
 Check out this code on Ellie here: <https://ellie-app.com/3CRfDs2HLvGa1>.
 
 -}
-rotateHue : Float -> OpaqueColor -> OpaqueColor
+rotateHue : Float -> Colour -> Colour
 rotateHue degrees color =
     toHSL color
         |> (\( h, s, l ) -> ( h + degrees, s, l ))
         |> fromHSL
 
 
-{-| Use this function to produce a new shade of the OpaqueColor.
+{-| Use this function to produce a new shade of the Colour.
 Note: shades will be darker than the starting color. If you want a lighter color,
 please see `tint`.
 
 Pass in the percentage value by which you want to darken the color.
 
 -}
-blacken : Float -> OpaqueColor -> OpaqueColor
+blacken : Float -> Colour -> Colour
 blacken percentage color =
     addLightness (0 - abs percentage) color
 
 
-{-| Use this function to produce a new tint of the OpaqueColor.
+{-| Use this function to produce a new tint of the Colour.
 Note: tints will be lighter than the starting color. If you want a darker color,
 please see `blacken`.
 
 Pass in the percentage value by which you want to lighten the color.
 
 -}
-whiten : Float -> OpaqueColor -> OpaqueColor
+whiten : Float -> Colour -> Colour
 whiten percentage color =
     addLightness (abs percentage) color
 
 
-{-| Use this function to produce a new tone of the OpaqueColor.
+{-| Use this function to produce a new tone of the Colour.
 
 Essentially this means adding grays to the color you pass in. It's implemented,
 though, by adjusting the saturation of the color. You can pass in a positive or
 negative percentage value.
 
 -}
-greyen : Float -> OpaqueColor -> OpaqueColor
+greyen : Float -> Colour -> Colour
 greyen percentage color =
     addSaturation percentage color
 
 
 {-| Modify the saturation of a color (see notes on HSL color space).
 -}
-addSaturation : Float -> OpaqueColor -> OpaqueColor
+addSaturation : Float -> Colour -> Colour
 addSaturation percentage color =
     toHSL color
         |> (\( h, s, l ) -> ( h, s + percentage, l ))
@@ -539,7 +539,7 @@ addSaturation percentage color =
 
 {-| Modify the lightness of a color (see notes on HSL color space).
 -}
-addLightness : Float -> OpaqueColor -> OpaqueColor
+addLightness : Float -> Colour -> Colour
 addLightness percentage color =
     toHSL color
         |> (\( h, s, l ) -> ( h, s, l + percentage ))
@@ -554,7 +554,7 @@ This is most useful when working with styleguide colors. It will not produce
 particularly visually pleasing results, but they will be consistent and readable.
 
 -}
-highContrast : OpaqueColor -> OpaqueColor
+highContrast : Colour -> Colour
 highContrast starting =
     if luminance starting < 0.1791 then
         addLightness 100 starting
@@ -565,7 +565,7 @@ highContrast starting =
 
 {-| Use this function to invert a color. E.g., black inverted is white, white inverted is black....
 -}
-invert : OpaqueColor -> OpaqueColor
+invert : Colour -> Colour
 invert color =
     let
         ( r, g, b ) =
@@ -577,7 +577,7 @@ invert color =
 {-| Convert the color you pass in to a grayscale version. Essentially this uses the
 luminance of the color you pass in to make a corresponding white <-> black value.
 -}
-grayscale : OpaqueColor -> OpaqueColor
+grayscale : Colour -> Colour
 grayscale color =
     let
         fromLuminance =
