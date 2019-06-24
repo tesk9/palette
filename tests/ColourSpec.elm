@@ -83,31 +83,6 @@ colorSpec =
                         |> Colour.toHex
                         |> Expect.equal "#FF00FF"
             ]
-        , describe "equality and equivalence"
-            [ test "(==) does not properly compare color values across color spaces" <|
-                \_ ->
-                    Colour.fromRGB ( 255, 0, 0 )
-                        == Colour.fromHSL ( 0, 100, 50 )
-                        |> Expect.false "(==) compared color values unexpectedly"
-            , test "(==) does not properly compare repeated modelings of the same color" <|
-                \_ ->
-                    -- Both results are black! however (==) won't compare them properly.
-                    Colour.fromHSL ( 3, 50, 0 )
-                        == Colour.fromHSL ( 45, 50, 0 )
-                        |> Expect.false "(==) compared color values unexpectedly"
-            , describe "equals"
-                [ test "when colors are identical, return true" <|
-                    \_ ->
-                        Colour.fromHSL ( 0, 100, 50 )
-                            |> Colour.equals (Colour.fromRGB ( 255, 0, 0 ))
-                            |> Expect.true "Calling `equals` on identical colors failed"
-                , test "when colors are not identical, return false" <|
-                    \_ ->
-                        Colour.fromHSL ( 0, 100, 51 )
-                            |> Colour.equals (Colour.fromRGB ( 255, 0, 0 ))
-                            |> Expect.false "Calling `equals` on disparate colors failed"
-                ]
-            ]
         ]
 
 

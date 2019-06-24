@@ -38,28 +38,6 @@ colorWithOpacitySuite =
                         |> Colour.Transparent.toHexA
                         |> Expect.equal "#FF00FF80"
             ]
-        , test "when opacity differs, colors are not identical" <|
-            \_ ->
-                let
-                    colora =
-                        Colour.Transparent.fromRGBA
-                            { red = 0
-                            , green = 0
-                            , blue = 0
-                            , alpha = Colour.Transparent.transparent
-                            }
-
-                    colorb =
-                        Colour.Transparent.fromRGBA
-                            { red = 0
-                            , green = 0
-                            , blue = 0
-                            , alpha = Colour.Transparent.opaque
-                            }
-                in
-                colora
-                    |> Colour.Transparent.equals colorb
-                    |> Expect.false "Calling `equals` on different opacities failed"
         ]
 
 

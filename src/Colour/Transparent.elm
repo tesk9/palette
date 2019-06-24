@@ -11,7 +11,6 @@ module Colour.Transparent exposing
     , blacken, whiten, greyen
     , rotateHue, addSaturation, addLightness
     , toRGBA, toHSLA, toHexA
-    , equals
     )
 
 {-| This module provides helpers for working with colors that are not fully opaque.
@@ -163,13 +162,6 @@ fromHexA colorString =
 toHexA : Colour -> String
 toHexA (Colour color) =
     Internal.Hex.toString (Internal.Color.asHex color)
-
-
-{-| Check two colors for equality.
--}
-equals : Colour -> Colour -> Bool
-equals a b =
-    toRGBA a == toRGBA b
 
 
 {-| Specify the opacity for a color without opacity.

@@ -8,7 +8,6 @@ module Colour exposing
     , add, subtract, multiply, divide
     , toRGB, toHSL, toHex
     , luminance
-    , equals
     )
 
 {-|
@@ -91,11 +90,6 @@ between the two systems is in the base: RGB colors are base 10 and hex colors ar
 
 You will need to use hex colors if you're working with an
 [HTML input of type color](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color).
-
-
-## Equality
-
-@docs equals
 
 -}
 
@@ -279,13 +273,6 @@ toHex color =
         , blue = blue
         , alpha = Internal.Opacity.opaque
         }
-
-
-{-| Check two colors for equality.
--}
-equals : Colour -> Colour -> Bool
-equals a b =
-    toRGB a == toRGB b
 
 
 {-| Blends two colors together by adding the values in each channel.
