@@ -44,7 +44,7 @@ validFontColour fontColour =
 
 ## Use static palettes
 
-Use [X11](https://en.wikipedia.org/wiki/X11_colour_names) and [Tango](http://tango.freedesktop.org/Tango_Icon_Theme_Guidelines#Colour_Palette) colours by name:
+Use [X11](https://en.wikipedia.org/wiki/X11_color_names) and [Tango](http://tango.freedesktop.org/Tango_Icon_Theme_Guidelines#Color_Palette) colours by name:
 
 ```
 import Colour exposing (Colour)

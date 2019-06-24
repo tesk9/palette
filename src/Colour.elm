@@ -73,7 +73,7 @@ see black. If the saturation is 100%, you'll see white.
 
 Geometrically, you can think of HSL colours as modeled on a cylinder:
 
-![Representation of HSL values on a cylinder](https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/HSL_colour_solid_cylinder_saturation_gray.png/320px-HSL_colour_solid_cylinder_saturation_gray.png)
+![Representation of HSL values on a cylinder](https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/HSL_color_solid_cylinder_saturation_gray.png/320px-HSL_color_solid_cylinder_saturation_gray.png)
 [Image from the HSL and HSV article on Wikipedia](https://en.wikipedia.org/wiki/HSL_and_HSV)
 
 -}
@@ -189,7 +189,7 @@ Hexadecimal colours use the same colour space as RGB colours. The difference
 between the two systems is in the base: RGB colours are base 10 and hex colours are base 16.
 
 You will need to use hex colours if you're working with an
-[HTML input of type colour](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/colour).
+[HTML input of type colour](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color).
 
 -}
 fromHex : String -> Result String Colour
