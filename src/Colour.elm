@@ -292,8 +292,6 @@ equals a b =
 
 That is, `rgb(10, 20, 30) + rgb(10, 10, 10) = rgb(20, 30, 40)`.
 
-Play with an example in Ellie here: <https://ellie-app.com/3yLdpDs9NBya1>.
-
 -}
 add : Colour -> Colour -> Colour
 add a c =
@@ -315,8 +313,6 @@ add a c =
 the first color's channel values.
 
 That is, `rgb(10, 20, 30) - rgb(10, 10, 10) = rgb(0, 10, 20)`.
-
-Play with an example in Ellie here: <https://ellie-app.com/3yLftQKkL6Ga1>.
 
 -}
 subtract : Colour -> Colour -> Colour
@@ -341,8 +337,6 @@ Any color multiplied by black will result in black.
 Any color multiplied by white will result in the color.
 `rgb(255, 0, 0)` will keep reds and remove any greens and blues.
 
-Play with an example in Ellie here: <https://ellie-app.com/3yLgG6JQCgHa1>.
-
 -}
 multiply : Colour -> Colour -> Colour
 multiply a c =
@@ -363,8 +357,6 @@ multiply a c =
 {-| Blend two colors together.
 
 Use this function to strip out tones & change them to white.
-
-Play with an example in Ellie here: <https://ellie-app.com/3yLhRLkJPwTa1>
 
 -}
 divide : Colour -> Colour -> Colour
@@ -441,8 +433,6 @@ You might do something like this:
     eightEvenColors color =
         List.range 0 7
             |> List.map (\i -> Colour.rotateHue (toFloat i * 360 / 8) color)
-
-Check out this code on Ellie here: <https://ellie-app.com/3CRfDs2HLvGa1>.
 
 -}
 rotateHue : Float -> Colour -> Colour
