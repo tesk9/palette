@@ -256,19 +256,7 @@ opacityToString =
     String.fromFloat << opacityToFloat
 
 
-{-| Rotate a color by degrees [0, 360).
-
-Picture the color wheel. Suppose you want to find 8 evenly-spaced colors from a starting color.
-You might do something like this:
-
-    import Transparent.Colour exposing (Colour)
-
-    eightEvenColors : Colour -> List Colour
-    eightEvenColors color =
-        List.range 0 7
-            |> List.map (\i -> Colour.rotateHue (toFloat i * 360 / 8) color)
-
--}
+{-| -}
 rotateHue : Float -> Colour -> Colour
 rotateHue degrees (Colour color) =
     Colour (Internal.Color.rotateHue degrees color)
@@ -292,22 +280,19 @@ grayen percentage color =
     addSaturation (0 - abs percentage) color
 
 
-{-| Modify the saturation of a color (see notes on HSL color space).
--}
+{-| -}
 addSaturation : Float -> Colour -> Colour
 addSaturation percentage (Colour color) =
     Colour (Internal.Color.addSaturation percentage color)
 
 
-{-| Modify the lightness of a color (see notes on HSL color space).
--}
+{-| -}
 addLightness : Float -> Colour -> Colour
 addLightness percentage (Colour color) =
     Colour (Internal.Color.addLightness percentage color)
 
 
-{-| Use this function to invert a color. E.g., black inverted is white, white inverted is black....
--}
+{-| -}
 invert : Colour -> Colour
 invert (Colour color) =
     Colour (Internal.Color.invert color)
