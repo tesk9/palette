@@ -39,30 +39,6 @@ module Colour exposing
 @docs luminance
 
 
-## HSL values
-
-HSL is short for hue, saturation, and lightness (or luminosity, or random other
-L words depending on who you ask. Think "brightness", and you'll be on the right track).
-
-You may be intuitively familiar with HSL color modeling if you've worked with a
-color wheel before. It also may be a great place to start working with color if
-you enjoyed playing with unit circles and polar coordinates in trigonometry.
-
-![Representation of HSL values on a cylinder](https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/HSL_color_solid_cylinder_saturation_gray.png/320px-HSL_color_solid_cylinder_saturation_gray.png)
-(Image can be seen in context on the [HSL and HSV arcticle on Wikipedia](https://en.wikipedia.org/wiki/HSL_and_HSV). By HSL\_color\_solid\_cylinder.png: SharkDderivative work: SharkD  Talk - HSL\_color\_solid\_cylinder.png, CC BY-SA 3.0, <https://commons.wikimedia.org/w/index.php?curid=9801661>)
-
-HSL models **hue** as a value on a circle. We can pick a hue by providing a degree.
-We start at red -- meaning that we can get to red by saying that our hue is 0 degrees or
-by saying that our hue is at 360 degrees. Green is at 90, teal is at 180, and
-there's a lovely purple at 270.
-
-**Saturation** is how much of the hue is present. When you see a hue of 0 degrees,
-a saturation of 100%, and lightness of 50%, your reaction is going to be "Schnickeys! that's red!"
-If you change the saturation to 0%, you'll see gray.
-
-**Lightness** is brightness -- 100% is white and 0% is black.
-
-
 ## Hex values
 
 Hexadecimal colors actually use the same color space as RGB colors. The difference
@@ -86,7 +62,7 @@ type Colour
     = Colour Internal.Color.Color
 
 
-{-| Build a new color based on HSL values.
+{-| Build a new color based on HSL (Hue, Saturation, and Lightness) values.
 
     import Colour exposing (Colour)
 
@@ -94,11 +70,21 @@ type Colour
     red =
         Colour.fromHSL ( 0, 100, 50 )
 
-The hue is specified in degrees, and uses modular arithmetic such that whether you
-pass in `0`, `360`, or `-360`, you'll still end up with a red hue.
+The hue is specified in degrees on the color wheel. If you pass in a hue of
+`0`, `360`, or `-360`, you'll be specifying a red hue.
 
-Saturation is a percentage value. It's clamped between 0 and 100 (inclusive).
-Lightness is a percentage value. It's clamped between 0 and 100 (inclusive).
+Saturation is a percentage value that describes "how much" of the hue is present.
+Saturation clamped between 0 and 100 (inclusive). If the saturation is 0%, you'll
+see gray.
+
+Lightness is a percentage value that describes how bright the color is.
+Lightness is clamped between 0 and 100 (inclusive). If the lightness is 0%, you'll
+see black. If the saturation is 100%, you'll see white.
+
+Geometrically, you can think of HSL colors as modeled on a cylinder:
+
+![Representation of HSL values on a cylinder](https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/HSL_color_solid_cylinder_saturation_gray.png/320px-HSL_color_solid_cylinder_saturation_gray.png)
+(Image can be seen in context on the [HSL and HSV arcticle on Wikipedia](https://en.wikipedia.org/wiki/HSL_and_HSV). By HSL\_color\_solid\_cylinder.png: SharkDderivative work: SharkD  Talk - HSL\_color\_solid\_cylinder.png, CC BY-SA 3.0, <https://commons.wikimedia.org/w/index.php?curid=9801661>)
 
 -}
 fromHSL : ( Float, Float, Float ) -> Colour
@@ -412,11 +398,15 @@ rotateHue degrees (Colour color) =
     Colour (Internal.Color.rotateHue degrees color)
 
 
-{-| Use this function to produce a new shade of the Colour.
-Note: shades will be darker than the starting color. If you want a lighter color,
-please see `tint`.
+{-| Use this function to produce a new "shade" of the Colour. Pass in the
+percentage value by which you want to darken the color.
 
-Pass in the percentage value by which you want to darken the color.
+Essentially, `blacken` works by decreasing the "lightness" of the color in the
+HSL color space.
+
+    blacken : Float -> Colour -> Colour
+    blacken percentage color =
+        addLightness (0 - abs percentage) color
 
 -}
 blacken : Float -> Colour -> Colour
@@ -424,11 +414,15 @@ blacken percentage color =
     addLightness (0 - abs percentage) color
 
 
-{-| Use this function to produce a new tint of the Colour.
-Note: tints will be lighter than the starting color. If you want a darker color,
-please see `blacken`.
+{-| Use this function to produce a new "tint" of the Colour. Pass in the
+percentage value by which you want to lighten the color.
 
-Pass in the percentage value by which you want to lighten the color.
+Essentially, `whiten` works by increasing the "lightness" of the color in the
+HSL color space.
+
+    whiten : Float -> Colour -> Colour
+    whiten percentage color =
+        addLightness (abs percentage) color
 
 -}
 whiten : Float -> Colour -> Colour
@@ -451,14 +445,14 @@ greyen percentage color =
     addSaturation (0 - abs percentage) color
 
 
-{-| Modify the saturation of a color (see notes on HSL color space).
+{-| Modify the saturation of a color in the HSL color space.
 -}
 addSaturation : Float -> Colour -> Colour
 addSaturation percentage (Colour color) =
     Colour (Internal.Color.addSaturation percentage color)
 
 
-{-| Modify the lightness of a color (see notes on HSL color space).
+{-| Modify the lightness of a color in the HSL color space.
 -}
 addLightness : Float -> Colour -> Colour
 addLightness percentage (Colour color) =
@@ -466,11 +460,10 @@ addLightness percentage (Colour color) =
 
 
 {-| Find a high contrast color to use in concert with the passed-in color.
-This funciton will return either black or white, whichever will be higher contrast
-given the starter color.
+This function will return either black or white, whichever will be higher contrast
+given the starting color.
 
-This is most useful when working with styleguide colors. It will not produce
-particularly visually pleasing results, but they will be consistent and readable.
+This is often useful when working with styleguide colors.
 
 -}
 highContrast : Colour -> Colour
