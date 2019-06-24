@@ -2,34 +2,27 @@
 
 Work with colors safely  and accessibly.
 
-- Calculate color contrasts
-- Use common web-color palettes
-- Generate beautiful palettes programmatically.
-- Blend and transform colors
-- Use RGB, HSL, and hex colors interchangeably
-- Modify opacity
-
 ## Creating colors
 
 Create colors from RGB, HSL, and hex values.
 
 ```
-import OpaqueColor exposing (OpaqueColor)
+import Colour exposing (Colour)
 
 
-myOrangeyRed : OpaqueColor
+myOrangeyRed : Colour
 myOrangeyRed =
-    OpaqueColor.fromRGB ( 255, 80, 0 )
+    Colour.fromRGB ( 255, 80, 0 )
 
 
-myTurquoiseIsh : OpaqueColor
+myTurquoiseIsh : Colour
 myTurquoiseIsh =
-    OpaqueColor.fromHSL (127, 50, 50)
+    Colour.fromHSL (127, 50, 50)
 
 
-myHex : Result String OpaqueColor
+myHex : Result String Colour
 myHex =
-    OpaqueColor.fromHexString "#ff9800"
+    Colour.fromHex "#ff9800"
 
 ```
 
@@ -37,21 +30,33 @@ myHex =
 
 Use helpers like `contrast` and `sufficientContrast` to verify that your font size, boldness, and colors meet accessibility standards.
 
+```
+import Colour exposing (Colour)
+import Colour.Accessibility exposing (Rating, meetsAAA)
+
+validFontColor : Colour -> Bool
+validFontColor fontColor =
+    checkContrast { fontSize = 12, fontWeight = 700 }
+        (Colour.fromRGB ( 255, 255, 255 ))
+        fontColor
+        |> meetsAAA
+```
+
 ## Use static palettes
 
 Use [X11](https://en.wikipedia.org/wiki/X11_color_names) and [Tango](http://tango.freedesktop.org/Tango_Icon_Theme_Guidelines#Color_Palette) colors by name:
 
 ```
-import OpaqueColor exposing (OpaqueColor)
+import Colour exposing (Colour)
 import Palette.X11 as X11 exposing (orangeRed, tomato, coral, darkOrange, orange)
 import Palette.Tango as Tango exposing (butter1, butter2, butter3)
 
-orangyReds : List OpaqueColor
+orangyReds : List Colour
 orangyReds =
     [ orangeRed, tomato, coral, darkOrange, orange ]
 
 
-allTheButter : List OpaqueColor
+allTheButter : List Colour
 allTheButter =
     [ butter1, butter2, butter3 ]
 ```
@@ -81,6 +86,10 @@ you get a feel for what the functions do.
 ## Transparent colors
 
 Work with alpha channel values/transparency/opacity.
+
+```
+import Colour.Transparent
+```
 
 ## Developing & Contributing
 
