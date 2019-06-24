@@ -30,7 +30,7 @@ view =
             , style "color" (Colour.toRGBString (Colour.fromRGB ( 255, 0, 0 )))
             , style "border" <|
                 "1px solid "
-                    ++ Colour.toRGBString (Colour.Transparent.toColor screen)
+                    ++ Colour.toRGBString (Colour.Transparent.toColour screen)
             , style "padding" "12px"
             ]
             [ p [ style "font-size" "24px" ] [ text "Yum! Strawberries!" ]

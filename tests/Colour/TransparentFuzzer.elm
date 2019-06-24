@@ -17,14 +17,14 @@ colorWithOpacity =
 
 rgbColor : Fuzzer Colour
 rgbColor =
-    Fuzz.map2 Colour.Transparent.fromColor
+    Fuzz.map2 Colour.Transparent.fromColour
         opacityValue
         ColourFuzzer.rgbColor
 
 
 hslColor : Fuzzer Colour
 hslColor =
-    Fuzz.map2 Colour.Transparent.fromColor
+    Fuzz.map2 Colour.Transparent.fromColour
         opacityValue
         ColourFuzzer.hslColor
 

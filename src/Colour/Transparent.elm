@@ -3,9 +3,9 @@ module Colour.Transparent exposing
     , transparent, opaque, customOpacity
     , opacityToString, opacityToFloat
     , Colour
-    , fromColor
+    , fromColour
     , fromRGBA, fromHSLA, fromHexA
-    , toColor
+    , toColour
     , toRGBAString, toHSLAString
     , invert
     , blacken, whiten, grayen
@@ -15,23 +15,23 @@ module Colour.Transparent exposing
 
 {-| This module provides helpers for working with colors that are not fully opaque.
 
-Why is `Colour.Transparent` separate from `Color`? Why isn't `Color` simply modeled
+Why is `Colour.Transparent` separate from `Colour`? Why isn't `Colour` simply modeled
 as an RGBA color value?
 
 Transparency fundamentally involves stacking contexts on render; transparency
-is really a shortcut for saying "blend my color with whatever is behind it."
+is really a shortcut for saying "blend my colour with whatever is behind it."
 
-As soon as we know that our color may be transparent, we can no longer make
+As soon as we know that our colour may be transparent, we can no longer make
 claims about contrast or luminance. Black text on a white background provides
 high contrast, but transparent black text on a white background may not be high
 contrast.
 
-`Colour.Transparent` exists in order to try to keep functions like `Color.luminance`
-and `Color.Contrast.sufficientContrast` safe and reliable, while also providing
+`Colour.Transparent` exists in order to try to keep functions like `Colour.luminance`
+and `Colour.Accessibility.sufficientContrast` safe and reliable, while also providing
 full-featured support for working with alpha channel values.
 
-These docs assume that you're familiar with the color space you're looking at.
-If not, read more about each color space in `Color`.
+These docs assume that you're familiar with the colour space you're looking at.
+If not, read more about each colour space in `Colour`.
 
 
 ## Opacity
@@ -44,13 +44,13 @@ If not, read more about each color space in `Color`.
 ## Colour
 
 @docs Colour
-@docs fromColor
+@docs fromColour
 @docs fromRGBA, fromHSLA, fromHexA
 
 
 ## Use Colours
 
-@docs toColor
+@docs toColour
 @docs toRGBAString, toHSLAString
 
 
@@ -173,13 +173,17 @@ toHexA (Colour color) =
     myRed =
         Colour.fromRGB ( 255, 0, 0 )
 
+    myOpacity : Colour.Transparent.Opacity
+    myOpacity =
+        Colour.Transparent.Colour.customOpacity 0.5
+
     myTransparentRed : Colour.Transparent.Colour
     myTransparentRed =
-        Colour.fromColor (Colour.Transparent.Colour.customOpacity 0.5) myRed
+        Colour.fromColour myOpacity myRed
 
 -}
-fromColor : Opacity -> Colour.Colour -> Colour
-fromColor opacity color =
+fromColour : Opacity -> Colour.Colour -> Colour
+fromColour opacity color =
     let
         ( r, g, b ) =
             Colour.toRGB color
@@ -192,11 +196,11 @@ fromColor opacity color =
         }
 
 
-{-| If you decide you don't care about the transparency anymore, you can
-drop this information and work with just the color values.
+{-| If you decide you don't care about the opacity anymore, you can
+drop this information.
 -}
-toColor : Colour -> Colour.Colour
-toColor color =
+toColour : Colour -> Colour.Colour
+toColour color =
     let
         { red, green, blue } =
             toRGBA color
