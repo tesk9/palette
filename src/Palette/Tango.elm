@@ -12,7 +12,6 @@ module Palette.Tango exposing
 {-| [Tango](http://tango.freedesktop.org/Tango_Icon_Theme_Guidelines#Colour_Palette) colour palette.
 
 ![](https://user-images.githubusercontent.com/8811312/51518135-c3b06b00-1dd1-11e9-9047-b53e5f179f77.png)
-Play with all the Tango colours on [ellie](https://ellie-app.com/4wzXbjyK6Nta1).
 
 
 ## Butters

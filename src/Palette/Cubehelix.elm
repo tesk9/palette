@@ -6,7 +6,6 @@ module Palette.Cubehelix exposing
 
 {-| Cubehelix colour palette.
 ![](https://user-images.githubusercontent.com/8811312/52818779-82238080-305c-11e9-8084-9c0048f549a2.png)
-Play with an example [here](https://ellie-app.com/4K5qvPZNws5a1).
 
 Use this palette generator when you want a colour scheme in which none of the colours "pop."
 
