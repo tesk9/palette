@@ -34,16 +34,16 @@ init =
         selectedColour =
             Colour.fromHSL ( 0, 100, 50 )
     in
-    { colorModesModel = ColourModes.init
-    , colorPickerModel = ColourPicker.init selectedColour
+    { colourModesModel = ColourModes.init
+    , colourPickerModel = ColourPicker.init selectedColour
     , previewModel = Preview.init
     , selectedColour = selectedColour
     }
 
 
 type alias Model =
-    { colorModesModel : ColourModes.Model
-    , colorPickerModel : ColourPicker.Model
+    { colourModesModel : ColourModes.Model
+    , colourPickerModel : ColourPicker.Model
     , previewModel : Preview.Model
     , selectedColour : Colour
     }
@@ -58,16 +58,16 @@ type Msg
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        ColourModesMsg colorMsg ->
-            { model | colorModesModel = ColourModes.update colorMsg model.colorModesModel }
+        ColourModesMsg colourMsg ->
+            { model | colourModesModel = ColourModes.update colourMsg model.colourModesModel }
 
-        ColourPickerMsg colorMsg ->
+        ColourPickerMsg colourMsg ->
             let
                 ( newColourPickerModel, maybeNewColour ) =
-                    ColourPicker.update colorMsg model.colorPickerModel
+                    ColourPicker.update colourMsg model.colourPickerModel
             in
             { model
-                | colorPickerModel = newColourPickerModel
+                | colourPickerModel = newColourPickerModel
                 , selectedColour = Maybe.withDefault model.selectedColour maybeNewColour
             }
 
@@ -83,7 +83,7 @@ view model =
             (Html.div []
                 [ Example.subsection "API"
                     (Html.div []
-                        [ ColourPicker.view model.colorPickerModel
+                        [ ColourPicker.view model.colourPickerModel
                             |> Html.map ColourPickerMsg
                         , Preview.view model.selectedColour model.previewModel
                             |> Html.map PreviewMsg
@@ -106,21 +106,21 @@ view model =
                 , Example.subsection "Blending"
                     (Html.div []
                         [ Html.h4 [] [ Html.text "Add" ]
-                        , Example.list (List.map (\color -> ( color, X11.lightSeaGreen )) rainbow)
+                        , Example.list (List.map (\colour -> ( colour, X11.lightSeaGreen )) rainbow)
                             (Comparison.viewOverlapping Colour.add)
                         , Html.h4 [] [ Html.text "Subtract" ]
-                        , Example.list (List.map (\color -> ( color, X11.lightSeaGreen )) rainbow)
+                        , Example.list (List.map (\colour -> ( colour, X11.lightSeaGreen )) rainbow)
                             (Comparison.viewOverlapping Colour.subtract)
                         , Html.h4 [] [ Html.text "Multiply" ]
-                        , Example.list (List.map (\color -> ( color, X11.lightSeaGreen )) rainbow)
+                        , Example.list (List.map (\colour -> ( colour, X11.lightSeaGreen )) rainbow)
                             (Comparison.viewOverlapping Colour.multiply)
                         , Html.h4 [] [ Html.text "Divide" ]
-                        , Example.list (List.map (\color -> ( color, X11.lightSeaGreen )) rainbow)
+                        , Example.list (List.map (\colour -> ( colour, X11.lightSeaGreen )) rainbow)
                             (Comparison.viewOverlapping Colour.divide)
                         ]
                     )
                 , Example.subsection "Contrast"
-                    (ColourModes.view model.colorModesModel
+                    (ColourModes.view model.colourModesModel
                         |> Html.map ColourModesMsg
                     )
                 ]
@@ -137,17 +137,17 @@ view model =
                 , Example.subsection "Triadic"
                     (Example.list rainbow viewTriadic)
                 , Example.subsection "Split Complementary"
-                    (Example.list (List.map (\color -> ( 30, color )) rainbow)
+                    (Example.list (List.map (\colour -> ( 30, colour )) rainbow)
                         viewSplitComplementary
                     )
                 , Example.subsection "Square"
                     (Example.list rainbow viewSquare)
                 , Example.subsection "Tetratic"
-                    (Example.list (List.map (\color -> ( 30, color )) rainbow)
+                    (Example.list (List.map (\colour -> ( 30, colour )) rainbow)
                         viewRectangle
                     )
                 , Example.subsection "Monochromatic"
-                    (Example.list (List.map (\color -> ( 10, color )) rainbow)
+                    (Example.list (List.map (\colour -> ( 10, colour )) rainbow)
                         viewMonochromaticGenerator
                     )
                 ]
@@ -156,92 +156,92 @@ view model =
 
 
 viewGrayscale : Colour -> Html msg
-viewGrayscale color =
-    Comparison.viewPalette color [ Colour.grayscale color ]
+viewGrayscale colour =
+    Comparison.viewPalette colour [ Colour.grayscale colour ]
 
 
 viewInverse : Colour -> Html msg
-viewInverse color =
-    Comparison.viewPalette color [ Colour.invert color ]
+viewInverse colour =
+    Comparison.viewPalette colour [ Colour.invert colour ]
 
 
 viewComplementary : Colour -> Html msg
-viewComplementary color =
-    Comparison.viewPalette color [ Palette.Generative.complementary color ]
+viewComplementary colour =
+    Comparison.viewPalette colour [ Palette.Generative.complementary colour ]
 
 
 viewTriadic : Colour -> Html msg
-viewTriadic color =
+viewTriadic colour =
     let
         ( one, two ) =
-            Palette.Generative.triadic color
+            Palette.Generative.triadic colour
     in
-    Comparison.viewPalette color [ one, two ]
+    Comparison.viewPalette colour [ one, two ]
 
 
 viewSplitComplementary : ( Float, Colour ) -> Html msg
-viewSplitComplementary ( degree, color ) =
+viewSplitComplementary ( degree, colour ) =
     let
         ( one, two ) =
-            Palette.Generative.splitComplementary degree color
+            Palette.Generative.splitComplementary degree colour
     in
-    Comparison.viewPalette color [ one, two ]
+    Comparison.viewPalette colour [ one, two ]
 
 
 viewSquare : Colour -> Html msg
-viewSquare color =
+viewSquare colour =
     let
         ( one, two, three ) =
-            Palette.Generative.square color
+            Palette.Generative.square colour
     in
-    Comparison.viewPalette color [ one, two, three ]
+    Comparison.viewPalette colour [ one, two, three ]
 
 
 viewRectangle : ( Float, Colour ) -> Html msg
-viewRectangle ( degree, color ) =
+viewRectangle ( degree, colour ) =
     let
         ( one, two, three ) =
-            Palette.Generative.tetratic degree color
+            Palette.Generative.tetratic degree colour
     in
-    Comparison.viewPalette color [ one, two, three ]
+    Comparison.viewPalette colour [ one, two, three ]
 
 
 viewMonochromaticShades : Colour -> Html msg
-viewMonochromaticShades color =
-    Comparison.viewPalette color
-        [ Colour.blacken 10 color
-        , Colour.blacken 20 color
-        , Colour.blacken 30 color
-        , Colour.blacken 40 color
+viewMonochromaticShades colour =
+    Comparison.viewPalette colour
+        [ Colour.blacken 10 colour
+        , Colour.blacken 20 colour
+        , Colour.blacken 30 colour
+        , Colour.blacken 40 colour
         ]
 
 
 viewMonochromaticTints : Colour -> Html msg
-viewMonochromaticTints color =
-    Comparison.viewPalette color
-        [ Colour.whiten 10 color
-        , Colour.whiten 20 color
-        , Colour.whiten 30 color
-        , Colour.whiten 40 color
-        , Colour.whiten 50 color
+viewMonochromaticTints colour =
+    Comparison.viewPalette colour
+        [ Colour.whiten 10 colour
+        , Colour.whiten 20 colour
+        , Colour.whiten 30 colour
+        , Colour.whiten 40 colour
+        , Colour.whiten 50 colour
         ]
 
 
 viewMonochromaticTones : Colour -> Html msg
-viewMonochromaticTones color =
-    Comparison.viewPalette color
-        [ Colour.grayen 20 color
-        , Colour.grayen 40 color
-        , Colour.grayen 60 color
-        , Colour.grayen 80 color
-        , Colour.grayen 100 color
+viewMonochromaticTones colour =
+    Comparison.viewPalette colour
+        [ Colour.grayen 20 colour
+        , Colour.grayen 40 colour
+        , Colour.grayen 60 colour
+        , Colour.grayen 80 colour
+        , Colour.grayen 100 colour
         ]
 
 
 viewMonochromaticGenerator : ( Float, Colour ) -> Html msg
-viewMonochromaticGenerator ( stepSize, color ) =
-    Comparison.viewPalette color
-        (Palette.Generative.monochromatic stepSize color)
+viewMonochromaticGenerator ( stepSize, colour ) =
+    Comparison.viewPalette colour
+        (Palette.Generative.monochromatic stepSize colour)
 
 
 

@@ -139,7 +139,7 @@ generatorOptions : Model -> Html Msg
 generatorOptions model =
     Html.div [ style "margin-bottom" "8px" ]
         [ Html.label [ Html.Attributes.for "generator-select" ]
-            [ Html.text "Modify/generate new colors with:" ]
+            [ Html.text "Modify/generate new colours with:" ]
         , Html.select
             [ Html.Attributes.id "generator-select"
             , Html.Events.onInput

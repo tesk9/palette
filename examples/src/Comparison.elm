@@ -1,8 +1,8 @@
 module Comparison exposing (viewOverlapping, viewPalette, viewSpectrum, viewWithName)
 
 import Browser
-import ColourModes
 import Colour exposing (Colour)
+import ColourModes
 import Html exposing (Html)
 import Html.Attributes exposing (style)
 import Html.Events
@@ -11,13 +11,13 @@ import Platform
 
 
 viewWithName : ( Colour, String ) -> Html msg
-viewWithName ( color, name ) =
+viewWithName ( colour, name ) =
     let
         rgbColour =
-            Colour.toRGBString color
+            Colour.toRGBString colour
 
         highContrastColour =
-            Colour.highContrast color
+            Colour.highContrast colour
                 |> Colour.toRGBString
     in
     Html.div
@@ -75,12 +75,12 @@ viewPalette baseColour otherColours =
         , style "background-color" (Colour.toRGBString baseColour)
         ]
         (List.indexedMap
-            (\index color ->
+            (\index colour ->
                 Html.div
                     [ style "width" (String.fromInt (radius * 2) ++ "px")
                     , style "height" (String.fromInt (radius * 2) ++ "px")
                     , style "border-radius" "50%"
-                    , style "background-color" (Colour.toRGBString color)
+                    , style "background-color" (Colour.toRGBString colour)
                     , style "position" "absolute"
                     , style "left" (leftPlacement index ++ "px")
                     , style "top" (String.fromFloat (baseColourHeight / 2 - radius) ++ "px")
@@ -97,14 +97,14 @@ viewOverlapping blend ( a, b ) =
         rectangleSize =
             ( 140, 80 )
 
-        rectangle ( width, height ) ( x, y ) color =
+        rectangle ( width, height ) ( x, y ) colour =
             Html.div
                 [ style "position" "absolute"
                 , style "width" (px width)
                 , style "height" (px height)
                 , style "top" (px y)
                 , style "left" (px x)
-                , style "background-color" (Colour.toRGBString color)
+                , style "background-color" (Colour.toRGBString colour)
                 ]
                 []
 
@@ -128,24 +128,24 @@ viewOverlapping blend ( a, b ) =
 
 
 viewSpectrum : List Colour -> Html msg
-viewSpectrum colors =
+viewSpectrum colours =
     let
         spectrumWidth =
             512
 
         sliceWidth =
-            spectrumWidth // List.length colors
+            spectrumWidth // List.length colours
 
-        slice color =
+        slice colour =
             Html.div
                 [ style "width" (px sliceWidth)
                 , style "height" (px 40)
-                , style "background-color" (Colour.toRGBString color)
+                , style "background-color" (Colour.toRGBString colour)
                 , style "display" "inline-block"
                 ]
                 []
     in
-    colors
+    colours
         |> List.map slice
         |> Html.div [ style "min-width" (px spectrumWidth) ]
 

@@ -41,9 +41,9 @@ type ColourPreference
     | InvertHighContrast
 
 
-colorPreferenceToString : ColourPreference -> String
-colorPreferenceToString colorPreference =
-    case colorPreference of
+colourPreferenceToString : ColourPreference -> String
+colourPreferenceToString colourPreference =
+    case colourPreference of
         Standard ->
             "Standard"
 
@@ -57,8 +57,8 @@ colorPreferenceToString colorPreference =
             "Invert High Contrast"
 
 
-colorPreferenceToPalette : ColourPreference -> Palette
-colorPreferenceToPalette colorPreference =
+colourPreferenceToPalette : ColourPreference -> Palette
+colourPreferenceToPalette colourPreference =
     let
         standardPalette =
             { primary = dimGray
@@ -72,7 +72,7 @@ colorPreferenceToPalette colorPreference =
             , backgroundColours = ( white, white )
             }
     in
-    case colorPreference of
+    case colourPreference of
         Standard ->
             standardPalette
 
@@ -98,10 +98,10 @@ update msg m =
 
 
 view : Model -> Html Msg
-view colorPreference =
+view colourPreference =
     let
         palette =
-            colorPreferenceToPalette colorPreference
+            colourPreferenceToPalette colourPreference
     in
     Html.div []
         [ Html.div []
@@ -111,16 +111,16 @@ view colorPreference =
                         [ Html.input
                             [ Html.Attributes.name "ColourPreference"
                             , Html.Attributes.type_ "radio"
-                            , Html.Attributes.id (colorPreferenceToString i)
-                            , Html.Attributes.value (colorPreferenceToString i)
-                            , Html.Attributes.checked (colorPreference == i)
+                            , Html.Attributes.id (colourPreferenceToString i)
+                            , Html.Attributes.value (colourPreferenceToString i)
+                            , Html.Attributes.checked (colourPreference == i)
                             , Html.Events.onCheck (\_ -> ChangePreference i)
                             ]
                             []
                         , Html.label
-                            [ Html.Attributes.for (colorPreferenceToString i)
+                            [ Html.Attributes.for (colourPreferenceToString i)
                             ]
-                            [ Html.text (colorPreferenceToString i) ]
+                            [ Html.text (colourPreferenceToString i) ]
                         ]
                 )
                 [ Standard, InvertStandard, HighContrast, InvertHighContrast ]
@@ -128,7 +128,7 @@ view colorPreference =
         , viewContent palette
             [ Html.h3
                 [ style "color" (Colour.toRGBString palette.secondary) ]
-                [ Html.text (colorPreferenceToString colorPreference) ]
+                [ Html.text (colourPreferenceToString colourPreference) ]
             , Html.div
                 [ style "color" (Colour.toRGBString palette.primary) ]
                 [ Html.text "I'm some text." ]

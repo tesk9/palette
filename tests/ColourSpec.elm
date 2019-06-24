@@ -1,5 +1,5 @@
 module ColourSpec exposing
-    ( colorSpec
+    ( colourSpec
     , conversionsSpec
     , highContrastSuite
     , invertSuite
@@ -14,8 +14,8 @@ import Palette.X11 exposing (..)
 import Test exposing (..)
 
 
-colorSpec : Test
-colorSpec =
+colourSpec : Test
+colourSpec =
     describe "Colour"
         [ describe "to and from a Colour"
             [ test "from RGB to RGB" <|
@@ -90,7 +90,7 @@ conversionsSpec : Test
 conversionsSpec =
     describe "Conversions & channel values"
         [ describe "toHSL"
-            [ describe "from RGB color"
+            [ describe "from RGB colour"
                 [ test "black" <|
                     \_ ->
                         Colour.fromRGB ( 0, 0, 0 )
@@ -112,7 +112,7 @@ conversionsSpec =
                             |> Colour.toHSL
                             |> expectTripleEquals ( 120, 100, 25 )
                 ]
-            , describe "from HSL color"
+            , describe "from HSL colour"
                 [ test "black" <|
                     \_ ->
                         Colour.fromHSL ( 0, 0, 0 )
@@ -121,14 +121,14 @@ conversionsSpec =
                 ]
             ]
         , describe "toRGB"
-            [ describe "from RGB color"
+            [ describe "from RGB colour"
                 [ test "black" <|
                     \_ ->
                         Colour.fromRGB ( 0, 0, 0 )
                             |> Colour.toRGB
                             |> expectTripleEquals ( 0, 0, 0 )
                 ]
-            , describe "from HSL color"
+            , describe "from HSL colour"
                 [ test "black" <|
                     \_ ->
                         Colour.fromHSL ( 0, 0, 0 )
@@ -152,7 +152,7 @@ conversionsSpec =
                 ]
             ]
         , fuzz ColourFuzzer.rgbValues "from RGB to HSL and back to RGB again" <|
-            \color ->
+            \colour ->
                 let
                     operations =
                         Colour.fromRGB
@@ -161,11 +161,11 @@ conversionsSpec =
                             >> Colour.toRGB
 
                     rgbName =
-                        Colour.toRGBString (Colour.fromRGB color)
+                        Colour.toRGBString (Colour.fromRGB colour)
                 in
-                expectTripleEquals color (operations color)
+                expectTripleEquals colour (operations colour)
         , fuzz ColourFuzzer.hslValues "from HSL to RGB and back to HSL again" <|
-            \(( _, s, l ) as color) ->
+            \(( _, s, l ) as colour) ->
                 let
                     operations =
                         Colour.fromHSL
@@ -174,25 +174,25 @@ conversionsSpec =
                             >> Colour.toHSL
 
                     hslName =
-                        Colour.toHSLString (Colour.fromHSL color)
+                        Colour.toHSLString (Colour.fromHSL colour)
                 in
                 if l == 0 then
                     -- This is black, which has more representations in HSL space
                     -- than in RGB space.
-                    expectTripleEquals ( 0, 0, 0 ) (operations color)
+                    expectTripleEquals ( 0, 0, 0 ) (operations colour)
 
                 else if l == 100 then
                     -- This is white, which has more representations in HSL space
                     -- than in RGB space.
-                    expectTripleEquals ( 0, 0, 100 ) (operations color)
+                    expectTripleEquals ( 0, 0, 100 ) (operations colour)
 
                 else if s == 0 then
                     -- This is a fully-desaturated gray. It also has more representations
                     -- in HSL space than in RGB space.
-                    expectTripleEquals ( 0, 0, l ) (operations color)
+                    expectTripleEquals ( 0, 0, l ) (operations colour)
 
                 else
-                    expectTripleEquals color (operations color)
+                    expectTripleEquals colour (operations colour)
         , fuzz (ColourFuzzer.hexStringOfLength 6) "from Hex to RGB and back to Hex again" <|
             \c ->
                 Colour.fromHex c
@@ -250,12 +250,12 @@ highContrastSuite =
                     expectColoursEqual (Colour.highContrast white) black
             , describe "highContrast grays"
                 (List.map
-                    (\( color, name ) ->
+                    (\( colour, name ) ->
                         test name <|
                             \_ ->
-                                color
+                                colour
                                     |> Colour.highContrast
-                                    |> Colour.Accessibility.contrast color
+                                    |> Colour.Accessibility.contrast colour
                                     |> Expect.greaterThan 4.5
                     )
                     grays
@@ -295,10 +295,10 @@ gray =
 {-| This exists mostly to make float equality checks nicer.
 -}
 expectRGB : ( Int, Int, Int ) -> Colour -> Expectation
-expectRGB expected color =
+expectRGB expected colour =
     let
         ( r, g, b ) =
-            Colour.toRGB color
+            Colour.toRGB colour
     in
     Expect.equal ( round r, round g, round b ) expected
 
@@ -306,22 +306,22 @@ expectRGB expected color =
 {-| This exists mostly to make float equality checks nicer.
 -}
 expectHSL : ( Int, Int, Int ) -> Colour -> Expectation
-expectHSL expected color =
+expectHSL expected colour =
     let
         ( r, g, b ) =
-            Colour.toHSL color
+            Colour.toHSL colour
     in
     Expect.equal ( round r, round g, round b ) expected
 
 
 expectHex : String -> Result String Colour -> Expectation
-expectHex expected colorResult =
-    case colorResult of
+expectHex expected colourResult =
+    case colourResult of
         Ok got ->
             Expect.equal expected (Colour.toHex got)
 
         Err err ->
-            Expect.fail ("Could not parse color string: \n" ++ err)
+            Expect.fail ("Could not parse colour string: \n" ++ err)
 
 
 expectColoursEqual : Colour -> Colour -> Expectation

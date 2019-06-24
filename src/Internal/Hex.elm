@@ -18,14 +18,14 @@ type alias Channels =
 
 
 fromString : String -> Maybe Channels
-fromString colorString =
+fromString colourString =
     let
-        colorList =
-            colorString
+        colourList =
+            colourString
                 |> String.toList
                 |> List.filterMap fromHexSymbol
     in
-    case colorList of
+    case colourList of
         r1 :: r0 :: g1 :: g0 :: b1 :: b0 :: a1 :: a0 :: [] ->
             hexWithAlpha ( r1, r0 ) ( g1, g0 ) ( b1, b0 ) (Just ( a1, a0 ))
                 |> Just

@@ -1,5 +1,5 @@
 module Colour.TransparentFuzzer exposing
-    ( colorWithOpacity
+    ( colourWithOpacity
     , hslColour
     , opacityValue
     , rgbColour
@@ -10,8 +10,8 @@ import ColourFuzzer
 import Fuzz exposing (Fuzzer)
 
 
-colorWithOpacity : Fuzzer Colour
-colorWithOpacity =
+colourWithOpacity : Fuzzer Colour
+colourWithOpacity =
     Fuzz.oneOf [ rgbColour, hslColour ]
 
 

@@ -34,7 +34,7 @@ cubehelixRotationsSpec =
                         |> Expect.equal 256
             ]
         , describe "without saturation"
-            [ test "middle colors are grayscale" <|
+            [ test "middle colours are grayscale" <|
                 \() ->
                     let
                         config =
@@ -54,8 +54,8 @@ cubehelixRotationsSpec =
                         { defaultConfig | start = red, rotationDirection = direction }
 
                 sumRGB : List Colour -> ( Float, Float, Float )
-                sumRGB colors =
-                    colors
+                sumRGB colours =
+                    colours
                         |> List.map Colour.toRGB
                         |> List.foldl (\( r, g, b ) ( rSum, bSum, gSum ) -> ( rSum + r, gSum + g, bSum + b )) ( 0, 0, 0 )
             in

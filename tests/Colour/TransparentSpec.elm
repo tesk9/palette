@@ -1,4 +1,4 @@
-module Colour.TransparentSpec exposing (colorWithOpacitySuite, opacitySuite)
+module Colour.TransparentSpec exposing (colourWithOpacitySuite, opacitySuite)
 
 import Colour
 import Colour.Transparent
@@ -9,9 +9,9 @@ import Palette.Generative
 import Test exposing (..)
 
 
-colorWithOpacitySuite : Test
-colorWithOpacitySuite =
-    describe "colorWithOpacity"
+colourWithOpacitySuite : Test
+colourWithOpacitySuite =
+    describe "colourWithOpacity"
         [ describe "to a String" <|
             let
                 transparentPink =

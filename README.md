@@ -1,10 +1,10 @@
 [![Build Status](https://travis-ci.org/tesk9/palette.svg?branch=master)](https://travis-ci.org/tesk9/palette)
 
-Work with colors safely  and accessibly.
+Work with colours safely  and accessibly.
 
-## Creating colors
+## Creating colours
 
-Create colors from RGB, HSL, and hex values.
+Create colours from RGB, HSL, and hex values.
 
 ```
 import Colour exposing (Colour)
@@ -28,7 +28,7 @@ myHex =
 
 ## Accessibility
 
-Use helpers like `contrast` and `sufficientContrast` to verify that your font size, boldness, and colors meet accessibility standards.
+Use helpers like `contrast` and `sufficientContrast` to verify that your font size, boldness, and colours meet accessibility standards.
 
 ```
 import Colour exposing (Colour)
@@ -44,7 +44,7 @@ validFontColour fontColour =
 
 ## Use static palettes
 
-Use [X11](https://en.wikipedia.org/wiki/X11_color_names) and [Tango](http://tango.freedesktop.org/Tango_Icon_Theme_Guidelines#Colour_Palette) colors by name:
+Use [X11](https://en.wikipedia.org/wiki/X11_colour_names) and [Tango](http://tango.freedesktop.org/Tango_Icon_Theme_Guidelines#Colour_Palette) colours by name:
 
 ```
 import Colour exposing (Colour)
@@ -63,27 +63,27 @@ allTheButter =
 
 ## Generate palettes
 
-Generate a customized cubehelix color scheme using `Palette.Cubehelix` and `Palette.Generative`.
+Generate a customized cubehelix colour scheme using `Palette.Cubehelix` and `Palette.Generative`.
 
-`Palette.Cubehelix` is a good choice for charts & graphs because the produced colors have quite even visual intensity.
+`Palette.Cubehelix` is a good choice for charts & graphs because the produced colours have quite even visual intensity.
 
-Designers often approach color not by picking one color at a time, but by describing the relationships between
-the colors, e.g., "I want 4 colors that are equally spaced on the color wheel," or, "I want 10 colors that
+Designers often approach colour not by picking one colour at a time, but by describing the relationships between
+the colours, e.g., "I want 4 colours that are equally spaced on the colour wheel," or, "I want 10 colours that
 are all of the same hue but with different lightnesses."
 
-If you approach color like this, then you'll be interested in using `Palette.Generative`, which has
-helpers like `square` (generates 4 evenly-spaced colors) and `monochromatic` (generates lovely
-single-hue lists of colors).
+If you approach colour like this, then you'll be interested in using `Palette.Generative`, which has
+helpers like `square` (generates 4 evenly-spaced colours) and `monochromatic` (generates lovely
+single-hue lists of colours).
 
 
-## Mixing colors together
+## Mixing colours together
 
-If you've used Photoshop, you may be familiar with color blending with functions
+If you've used Photoshop, you may be familiar with colour blending with functions
 like `multiply`. If not, I recommend taking a lot at the examples & playing until
 you get a feel for what the functions do.
 
 
-## Transparent colors
+## Transparent colours
 
 Work with alpha channel values/transparency/opacity.
 

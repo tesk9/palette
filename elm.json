@@ -1,7 +1,7 @@
 {
     "type": "package",
     "name": "tesk9/palette",
-    "summary": "Work with colors and generate palettes.",
+    "summary": "Work with colours and generate palettes.",
     "license": "BSD-3-Clause",
     "version": "1.4.0",
     "exposed-modules": [

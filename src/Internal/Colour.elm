@@ -36,8 +36,8 @@ fromHSLA values =
 
 {-| -}
 asHSLA : Colour -> HSLA.Colour
-asHSLA color =
-    case color of
+asHSLA colour =
+    case colour of
         HSLA values ->
             values
 
@@ -53,8 +53,8 @@ fromRGBA values =
 
 {-| -}
 asRGBA : Colour -> RGBA.Colour
-asRGBA color =
-    case color of
+asRGBA colour =
+    case colour of
         RGBA values ->
             values
 
@@ -64,8 +64,8 @@ asRGBA color =
 
 {-| -}
 asHex : Colour -> Hex.Colour
-asHex color =
-    case color of
+asHex colour =
+    case colour of
         RGBA values ->
             RGBA.toChannels values
 
@@ -85,15 +85,15 @@ fromHex str =
 
 {-| -}
 convertRGBAToHSL : RGBA.Colour -> Colour
-convertRGBAToHSL color =
-    RGBA.toChannels color
+convertRGBAToHSL colour =
+    RGBA.toChannels colour
         |> HSLA.fromRGBA
         |> HSLA
 
 
 convertHSLToRGBA : HSLA.Colour -> Colour
-convertHSLToRGBA color =
-    HSLA.toChannels color
+convertHSLToRGBA colour =
+    HSLA.toChannels colour
         |> RGBA.fromHSLA
         |> RGBA
 
@@ -104,40 +104,40 @@ convertHSLToRGBA color =
 
 {-| -}
 rotateHue : Float -> Colour -> Colour
-rotateHue degrees color =
+rotateHue degrees colour =
     let
         ({ hue } as hsla) =
-            HSLA.toChannels (asHSLA color)
+            HSLA.toChannels (asHSLA colour)
     in
     fromHSLA { hsla | hue = hue + degrees }
 
 
 {-| -}
 addSaturation : Float -> Colour -> Colour
-addSaturation percentage color =
+addSaturation percentage colour =
     let
         ({ saturation } as hsla) =
-            HSLA.toChannels (asHSLA color)
+            HSLA.toChannels (asHSLA colour)
     in
     fromHSLA { hsla | saturation = saturation + percentage }
 
 
 {-| -}
 addLightness : Float -> Colour -> Colour
-addLightness percentage color =
+addLightness percentage colour =
     let
         ({ lightness } as hsla) =
-            HSLA.toChannels (asHSLA color)
+            HSLA.toChannels (asHSLA colour)
     in
     fromHSLA { hsla | lightness = lightness + percentage }
 
 
 {-| -}
 invert : Colour -> Colour
-invert color =
+invert colour =
     let
         { red, green, blue, alpha } =
-            RGBA.toChannels (asRGBA color)
+            RGBA.toChannels (asRGBA colour)
     in
     fromRGBA
         { red = 255 - red

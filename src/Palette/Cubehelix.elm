@@ -4,15 +4,15 @@ module Palette.Cubehelix exposing
     , AdvancedConfig, RotationDirection(..)
     )
 
-{-| Cubehelix color palette.
+{-| Cubehelix colour palette.
 ![](https://user-images.githubusercontent.com/8811312/52818779-82238080-305c-11e9-8084-9c0048f549a2.png)
 Play with an example [here](https://ellie-app.com/4K5qvPZNws5a1).
 
-Use this palette generator when you want a color scheme in which none of the colors "pop."
+Use this palette generator when you want a colour scheme in which none of the colours "pop."
 
 Professor Dave Green (whose name, given the context, makes me very happy! Please also see [these testimonials](http://davegreenfacts.soc.srcf.net/).)
-developed this method of generating even-intensity color schemes for use in astronomy. He called this method
-"cubehelix" based on its relationship to the RGB color solid (a cube!). If you're curious (what cube?? what about the
+developed this method of generating even-intensity colour schemes for use in astronomy. He called this method
+"cubehelix" based on its relationship to the RGB colour solid (a cube!). If you're curious (what cube?? what about the
 helix?!) please read more about it [here](https://www.mrao.cam.ac.uk/~dag/CUBEHELIX/), or see the paper:
 
 > Green, D. A., 2011, ["A colour scheme for the display of astronomical intensity images"](http://astron-soc.in/bulletin/11June/289392011.pdf), Bulletin of the Astronomical Society of India, 39, 289.
@@ -25,7 +25,7 @@ helix?!) please read more about it [here](https://www.mrao.cam.ac.uk/~dag/CUBEHE
 
     myPalette : List Colour
     myPalette =
-        -- This will generate 10 even-intensity colors
+        -- This will generate 10 even-intensity colours
         Cubehelix.generate 10
 
 ![](https://user-images.githubusercontent.com/8811312/52819054-37563880-305d-11e9-9cf3-a553c54f2c11.png)
@@ -55,9 +55,9 @@ helix?!) please read more about it [here](https://www.mrao.cam.ac.uk/~dag/CUBEHE
 import Colour exposing (Colour)
 
 
-{-| `start` is used to derive what hue you want to start from (see HSL color space)
-as well as how saturated (how far from grey) you want the colors produced to be.
-The lightness of the color that you pass in is not used.
+{-| `start` is used to derive what hue you want to start from (see HSL colour space)
+as well as how saturated (how far from grey) you want the colours produced to be.
+The lightness of the colour that you pass in is not used.
 
 `rotationDirection` describes whether the helix moves towards red then green then blue, or
 blue then green then red. This is easiest to visualize if you think of a cube defined by three
@@ -67,7 +67,7 @@ take a look at [this image](https://www.mrao.cam.ac.uk/~dag/CUBEHELIX/3d-default
 `rotations` describes the number of rotations the helix should make as it moves from black (`Colour.fromRGB (0, 0 0)`)
 to white `Colour.fromRGB (255, 255, 255)`. `rotations` should be in [0, 1.5]. If it's not, it will be absolute-value-ified & clamped.
 
-The `gamma` value can be used to emphasize low- or high-intensity colors. `gamma` will be clamped with `clamp 0 2`.
+The `gamma` value can be used to emphasize low- or high-intensity colours. `gamma` will be clamped with `clamp 0 2`.
 
   - Provide a 0 < gamma < 1 to emphasize low-intensity values
   - Provide a 1 < gamma < 2 to emphasize high-intensity values
@@ -109,14 +109,14 @@ defaultConfig =
     }
 
 
-{-| The parameter (clamped between 0 and 256) corresponds to the number of colors you want to generate.
+{-| The parameter (clamped between 0 and 256) corresponds to the number of colours you want to generate.
 -}
 generate : Int -> List Colour
 generate numLevels =
     generateAdvanced numLevels defaultConfig
 
 
-{-| The first parameter (clamped between 0 and 256) corresponds to the number of colors you want to generate.
+{-| The first parameter (clamped between 0 and 256) corresponds to the number of colours you want to generate.
 -}
 generateAdvanced : Int -> AdvancedConfig -> List Colour
 generateAdvanced numLevels config =
@@ -128,12 +128,12 @@ generateAdvanced numLevels config =
             toInternalConfig config clampedNumLevels
 
         generate_ : List Colour -> List Colour
-        generate_ colors =
-            if List.length colors >= clampedNumLevels then
-                colors
+        generate_ colours =
+            if List.length colours >= clampedNumLevels then
+                colours
 
             else
-                generate_ (colorAtStep (List.length colors) internalConfig :: colors)
+                generate_ (colourAtStep (List.length colours) internalConfig :: colours)
     in
     List.reverse (generate_ [])
 
@@ -164,13 +164,13 @@ toInternalConfig { start, rotationDirection, rotations, gamma } numLevels =
 
 
 type alias InternalConfig =
-    { -- "direction" of color deviation from black at the start.
+    { -- "direction" of colour deviation from black at the start.
       -- R = 1, G = 2, B = 3.
       start : Float
     , -- Saturation should be in [0, 1].
       -- Think of this value as the distance from gray.
       -- If this is zero, the expected behavior is that the
-      -- resulting color scheme is grayscale & increasing in brightness
+      -- resulting colour scheme is grayscale & increasing in brightness
       saturation : Float
     , -- how many rotations between the start (black) and end (white)
       -- generally should be [-1.5, 1.5]
@@ -189,8 +189,8 @@ The major differences between this implementation and that one are:
   - Colour.fromRGB clamps the values between 0 and 255 for us, so we don't need to double check anything
 
 -}
-colorAtStep : Int -> InternalConfig -> Colour
-colorAtStep i { rotations, start, fract, gamma, saturation } =
+colourAtStep : Int -> InternalConfig -> Colour
+colourAtStep i { rotations, start, fract, gamma, saturation } =
     let
         angle =
             2 * pi * (start / 3.0 + 1.0 + rotations * fract i)

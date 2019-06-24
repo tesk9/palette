@@ -63,7 +63,7 @@ examples =
                   , "Cubehelix.generateAdvanced 256 { defaultConfig | gamma = 1.75  }"
                   )
                 ]
-            , Html.h4 [] [ Html.text "Starting color, adjusting saturation" ]
+            , Html.h4 [] [ Html.text "Starting colour, adjusting saturation" ]
             , viewExamples
                 [ ( Cubehelix.generateAdvanced 10 { defaultConfig | start = Colour.fromHSL ( 0, 0, 0 ) }
                   , "Cubehelix.generateAdvanced 10 { defaultConfig | start = Colour.fromHSL ( 0, 0, 0 ) }"
@@ -75,7 +75,7 @@ examples =
                   , "Cubehelix.generateAdvanced 10 { defaultConfig | start = Colour.fromHSL ( 0, 100, 0 ) }"
                   )
                 ]
-            , Html.h4 [] [ Html.text "Starting color, adjusting hue" ]
+            , Html.h4 [] [ Html.text "Starting colour, adjusting hue" ]
             , viewExamples
                 [ ( Cubehelix.generateAdvanced 10 { defaultConfig | start = Colour.fromHSL ( 0, 100, 0 ) }
                   , "Cubehelix.generateAdvanced 10 { defaultConfig | start = Colour.fromHSL ( 0, 100, 0 ) }"
@@ -97,13 +97,13 @@ viewExamples exs =
 
 
 viewExample : ( List Colour.Colour, String ) -> Html msg
-viewExample ( colors, description ) =
+viewExample ( colours, description ) =
     Html.div
         [ style "display" "flex"
         , style "align-items" "center"
         , style "flex-wrap" "wrap"
         , style "margin-bottom" "8px"
         ]
-        [ Comparison.viewSpectrum colors
+        [ Comparison.viewSpectrum colours
         , Html.code [] [ Html.text description ]
         ]

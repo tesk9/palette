@@ -52,7 +52,7 @@ type Colour
     = Colour Internal.Colour.Colour
 
 
-{-| Build a new color based on HSL (Hue, Saturation, and Lightness) values.
+{-| Build a new colour based on HSL (Hue, Saturation, and Lightness) values.
 
     import Colour exposing (Colour)
 
@@ -60,20 +60,20 @@ type Colour
     red =
         Colour.fromHSL ( 0, 100, 50 )
 
-The hue is specified in degrees on the color wheel. If you pass in a hue of
+The hue is specified in degrees on the colour wheel. If you pass in a hue of
 `0`, `360`, or `-360`, you'll be specifying a red hue.
 
 Saturation is a percentage value that describes "how much" of the hue is present.
 Saturation clamped between 0 and 100 (inclusive). If the saturation is 0%, you'll
 see gray.
 
-Lightness is a percentage value that describes how bright the color is.
+Lightness is a percentage value that describes how bright the colour is.
 Lightness is clamped between 0 and 100 (inclusive). If the lightness is 0%, you'll
 see black. If the saturation is 100%, you'll see white.
 
-Geometrically, you can think of HSL colors as modeled on a cylinder:
+Geometrically, you can think of HSL colours as modeled on a cylinder:
 
-![Representation of HSL values on a cylinder](https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/HSL_color_solid_cylinder_saturation_gray.png/320px-HSL_color_solid_cylinder_saturation_gray.png)
+![Representation of HSL values on a cylinder](https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/HSL_colour_solid_cylinder_saturation_gray.png/320px-HSL_colour_solid_cylinder_saturation_gray.png)
 [Image from the HSL and HSV article on Wikipedia](https://en.wikipedia.org/wiki/HSL_and_HSV)
 
 -}
@@ -92,15 +92,15 @@ fromHSL ( hue, saturation, lightness ) =
 {-| Extract the hue, saturation, and lightness values from an existing Colour.
 -}
 toHSL : Colour -> ( Float, Float, Float )
-toHSL (Colour color) =
+toHSL (Colour colour) =
     let
         { hue, saturation, lightness } =
-            Internal.HSLA.toChannels (Internal.Colour.asHSLA color)
+            Internal.HSLA.toChannels (Internal.Colour.asHSLA colour)
     in
     ( hue, saturation, lightness )
 
 
-{-| Get the HSL representation of a color as a `String`.
+{-| Get the HSL representation of a colour as a `String`.
 
     import Colour exposing (toHSLString)
     import Html exposing (p, text)
@@ -113,12 +113,12 @@ toHSL (Colour color) =
 
 -}
 toHSLString : Colour -> String
-toHSLString (Colour color) =
+toHSLString (Colour colour) =
     Internal.HSLA.toStringWithoutOpacity
-        (Internal.Colour.asHSLA color)
+        (Internal.Colour.asHSLA colour)
 
 
-{-| Build a new color based on RGB (red, green, blue) values.
+{-| Build a new colour based on RGB (red, green, blue) values.
 
     import Colour exposing (Colour)
 
@@ -152,15 +152,15 @@ fromRGB ( red, green, blue ) =
 {-| Extract the red, green, blue values from an existing Colour.
 -}
 toRGB : Colour -> ( Float, Float, Float )
-toRGB (Colour color) =
+toRGB (Colour colour) =
     let
         { red, green, blue } =
-            Internal.RGBA.toChannels (Internal.Colour.asRGBA color)
+            Internal.RGBA.toChannels (Internal.Colour.asRGBA colour)
     in
     ( red, green, blue )
 
 
-{-| Get the RGB representation of a color as a `String`.
+{-| Get the RGB representation of a colour as a `String`.
 
     import Colour exposing (toRGBString)
     import Html exposing (p, text)
@@ -173,11 +173,11 @@ toRGB (Colour color) =
 
 -}
 toRGBString : Colour -> String
-toRGBString (Colour color) =
-    Internal.RGBA.toStringWithoutOpacity (Internal.Colour.asRGBA color)
+toRGBString (Colour colour) =
+    Internal.RGBA.toStringWithoutOpacity (Internal.Colour.asRGBA colour)
 
 
-{-| Build a new color from a hex string.
+{-| Build a new colour from a hex string.
 Supports lowercase and uppercase strings.
 
     (Colour.fromHex "#FFDD00" == Colour.fromHex "#FD0")
@@ -185,24 +185,24 @@ Supports lowercase and uppercase strings.
 
 Note: this helper will ignore transparency values.
 
-Hexadecimal colors use the same color space as RGB colors. The difference
-between the two systems is in the base: RGB colors are base 10 and hex colors are base 16.
+Hexadecimal colours use the same colour space as RGB colours. The difference
+between the two systems is in the base: RGB colours are base 10 and hex colours are base 16.
 
-You will need to use hex colors if you're working with an
-[HTML input of type color](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color).
+You will need to use hex colours if you're working with an
+[HTML input of type colour](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/colour).
 
 -}
 fromHex : String -> Result String Colour
-fromHex colorString =
-    case Internal.Hex.fromString colorString of
+fromHex colourString =
+    case Internal.Hex.fromString colourString of
         Just { red, green, blue } ->
             Ok (fromRGB ( red, green, blue ))
 
         Nothing ->
-            Err ("fromHex could not convert " ++ colorString ++ " to a Colour.")
+            Err ("fromHex could not convert " ++ colourString ++ " to a Colour.")
 
 
-{-| Get the Hex representation of a color as a `String`.
+{-| Get the Hex representation of a colour as a `String`.
 
     import Colour exposing (toHex)
     import Html exposing (p, text)
@@ -221,10 +221,10 @@ It will not return shortened values (i.e., "#RGB").
 
 -}
 toHex : Colour -> String
-toHex color =
+toHex colour =
     let
         ( red, green, blue ) =
-            toRGB color
+            toRGB colour
     in
     Internal.Hex.toString
         { red = red
@@ -234,14 +234,14 @@ toHex color =
         }
 
 
-{-| Blends two colors together by adding the values in each RGB channel.
+{-| Blends two colours together by adding the values in each RGB channel.
 
 That is, `rgb(10, 20, 30) + rgb(10, 10, 10) = rgb(20, 30, 40)`.
 
-As you work with RGB colors, it may also be helpful to know that this color space is **additive**.
+As you work with RGB colours, it may also be helpful to know that this colour space is **additive**.
 
 This means that if you add red, green, and blue together, you'll end up with white. The more
-colors you add, the brighter/whiter the result.
+colours you add, the brighter/whiter the result.
 
 -}
 add : Colour -> Colour -> Colour
@@ -260,8 +260,8 @@ add a c =
         )
 
 
-{-| Blends two colors together by subtracting the second color's channel values from
-the first color's channel values.
+{-| Blends two colours together by subtracting the second colour's channel values from
+the first colour's channel values.
 
 That is, `rgb(10, 20, 30) - rgb(10, 10, 10) = rgb(0, 10, 20)`.
 
@@ -282,10 +282,10 @@ subtract a c =
         )
 
 
-{-| Blend two colors together.
+{-| Blend two colours together.
 
-Any color multiplied by black will result in black.
-Any color multiplied by white will result in the color.
+Any colour multiplied by black will result in black.
+Any colour multiplied by white will result in the colour.
 `rgb(255, 0, 0)` will keep reds and remove any greens and blues.
 
 -}
@@ -305,7 +305,7 @@ multiply a c =
         )
 
 
-{-| Blend two colors together.
+{-| Blend two colours together.
 -}
 divide : Colour -> Colour -> Colour
 divide a c =
@@ -332,15 +332,15 @@ divide a c =
 
 {-| Luminance calculation adopted from <https://www.w3.org/TR/WCAG20-TECHS/G17.html>
 
-Luminance describes the perceived brightness of a color. You're unlikely to need
+Luminance describes the perceived brightness of a colour. You're unlikely to need
 to use this function directly.
 
 -}
 luminance : Colour -> Float
-luminance color =
+luminance colour =
     let
         ( rRaw, gRaw, bRaw ) =
-            toRGB color
+            toRGB colour
 
         red =
             rRaw
@@ -370,87 +370,87 @@ luminance color =
     (0.2126 * red) + (0.7152 * green) + (0.0722 * blue)
 
 
-{-| Rotate a color's by degrees [0, 360) in the HSL color space.
+{-| Rotate a colour's by degrees [0, 360) in the HSL colour space.
 
-Picture the color wheel. Suppose you want to find 8 evenly-spaced colors from a starting color.
+Picture the colour wheel. Suppose you want to find 8 evenly-spaced colours from a starting colour.
 You might do something like this:
 
     import Colour
 
     eightEvenColours : Colour -> List Colour
-    eightEvenColours color =
+    eightEvenColours colour =
         List.range 0 7
-            |> List.map (\i -> Colour.rotateHue (toFloat i * 360 / 8) color)
+            |> List.map (\i -> Colour.rotateHue (toFloat i * 360 / 8) colour)
 
 -}
 rotateHue : Float -> Colour -> Colour
-rotateHue degrees (Colour color) =
-    Colour (Internal.Colour.rotateHue degrees color)
+rotateHue degrees (Colour colour) =
+    Colour (Internal.Colour.rotateHue degrees colour)
 
 
 {-| Use this function to produce a new "shade" of the Colour. Pass in the
-percentage value by which you want to darken the color.
+percentage value by which you want to darken the colour.
 
-`blacken` increases the "lightness" of the color in the HSL color space.
+`blacken` increases the "lightness" of the colour in the HSL colour space.
 
     blacken : Float -> Colour -> Colour
-    blacken percentage color =
-        addLightness (0 - abs percentage) color
+    blacken percentage colour =
+        addLightness (0 - abs percentage) colour
 
 -}
 blacken : Float -> Colour -> Colour
-blacken percentage color =
-    addLightness (0 - abs percentage) color
+blacken percentage colour =
+    addLightness (0 - abs percentage) colour
 
 
 {-| Use this function to produce a new "tint" of the Colour. Pass in the
-percentage value by which you want to lighten the color.
+percentage value by which you want to lighten the colour.
 
-`whiten` increases the "lightness" of the color in the HSL color space.
+`whiten` increases the "lightness" of the colour in the HSL colour space.
 
     whiten : Float -> Colour -> Colour
-    whiten percentage color =
-        addLightness (abs percentage) color
+    whiten percentage colour =
+        addLightness (abs percentage) colour
 
 -}
 whiten : Float -> Colour -> Colour
-whiten percentage color =
-    addLightness (abs percentage) color
+whiten percentage colour =
+    addLightness (abs percentage) colour
 
 
 {-| Use this function to produce a new "tone" of the Colour.
 
-`grayen` decreases the "saturation" of the color in the HSL color space.
+`grayen` decreases the "saturation" of the colour in the HSL colour space.
 
     grayen : Float -> Colour -> Colour
-    grayen percentage color =
-        addSaturation (0 - abs percentage) color
+    grayen percentage colour =
+        addSaturation (0 - abs percentage) colour
 
 -}
 grayen : Float -> Colour -> Colour
-grayen percentage color =
-    addSaturation (0 - abs percentage) color
+grayen percentage colour =
+    addSaturation (0 - abs percentage) colour
 
 
-{-| Modify the saturation of a color in the HSL color space.
+{-| Modify the saturation of a colour in the HSL colour space.
 -}
 addSaturation : Float -> Colour -> Colour
-addSaturation percentage (Colour color) =
-    Colour (Internal.Colour.addSaturation percentage color)
+addSaturation percentage (Colour colour) =
+    Colour (Internal.Colour.addSaturation percentage colour)
 
 
-{-| Modify the lightness of a color in the HSL color space.
+{-| Modify the lightness of a colour in the HSL colour space.
 -}
 addLightness : Float -> Colour -> Colour
-addLightness percentage (Colour color) =
-    Colour (Internal.Colour.addLightness percentage color)
+addLightness percentage (Colour colour) =
+    Colour (Internal.Colour.addLightness percentage colour)
 
 
-{-| Find a high contrast color to use in concert with the passed-in color.
+{-| Find a high contrast colour to use in concert with the passed-in colour.
 This function will return either black or white, whichever will be higher contrast
-given the starting color.
+given the starting colour.
 
-This is often useful when working with styleguide colors.
+This is often useful when working with styleguide colours.
 
 -}
 highContrast : Colour -> Colour
@@ -462,21 +462,21 @@ highContrast starting =
         addLightness (0 - 100) starting
 
 
-{-| Use this function to invert a color. E.g., black inverted is white, white inverted is black....
+{-| Use this function to invert a colour. E.g., black inverted is white, white inverted is black....
 -}
 invert : Colour -> Colour
-invert (Colour color) =
-    Colour (Internal.Colour.invert color)
+invert (Colour colour) =
+    Colour (Internal.Colour.invert colour)
 
 
-{-| Convert the color you pass in to a grayscale version. This function uses the
-luminance of the color you pass in to make a corresponding white <-> black value.
+{-| Convert the colour you pass in to a grayscale version. This function uses the
+luminance of the colour you pass in to make a corresponding white <-> black value.
 -}
 grayscale : Colour -> Colour
-grayscale color =
+grayscale colour =
     let
         fromLuminance =
-            luminance color * 255
+            luminance colour * 255
     in
     ( fromLuminance, fromLuminance, fromLuminance )
         |> fromRGB

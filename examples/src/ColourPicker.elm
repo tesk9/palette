@@ -12,8 +12,8 @@ type alias Model =
 
 
 init : Colour -> Model
-init color =
-    Model color
+init colour =
+    Model colour
 
 
 view : Model -> Html Msg
@@ -26,7 +26,7 @@ view model =
             , Html.Events.onInput SetHexColour
             ]
             []
-        , Html.span [ style "padding" "2px" ] [ Html.text "Select a color" ]
+        , Html.span [ style "padding" "2px" ] [ Html.text "Select a colour" ]
         ]
 
 
@@ -37,10 +37,10 @@ type Msg
 update : Msg -> Model -> ( Model, Maybe Colour )
 update msg { selectedColour } =
     case msg of
-        SetHexColour colorString ->
+        SetHexColour colourString ->
             let
                 newColour =
-                    Colour.fromHex colorString
+                    Colour.fromHex colourString
                         |> Result.withDefault selectedColour
             in
             ( Model newColour, Just newColour )
