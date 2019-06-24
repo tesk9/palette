@@ -11,7 +11,7 @@ module Colour.Transparent exposing
     , blacken, whiten, greyen
     , rotateHue, addSaturation, addLightness
     , toRGBA, toHSLA, toHexA
-    , equals, getOpacity
+    , equals
     )
 
 {-| This module provides helpers for working with colors that are not fully opaque.
@@ -210,13 +210,6 @@ toColor color =
             toRGBA color
     in
     Colour.fromRGB ( red, green, blue )
-
-
-{-| Extract just the opacity from the color.
--}
-getOpacity : Colour -> Opacity
-getOpacity (Colour c) =
-    Internal.Color.getOpacity c
 
 
 

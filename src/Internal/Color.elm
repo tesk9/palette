@@ -2,7 +2,6 @@ module Internal.Color exposing
     ( Color
     , fromHSLA, fromRGBA
     , asHSLA
-    , getOpacity
     , rotateHue, addSaturation, addLightness, invert
     , asHex, asRGBA
     )
@@ -12,7 +11,6 @@ module Internal.Color exposing
 @docs Color
 @docs fromHSLA, fromRGBA
 @docs asHSLA, asRGBA asHex
-@docs getOpacity
 @docs rotateHue, addSaturation, addLightness, invert
 
 -}
@@ -79,17 +77,6 @@ asHex color =
 fromHex : String -> Maybe Color
 fromHex str =
     Maybe.map (RGBA.fromChannels >> RGBA) (Hex.fromString str)
-
-
-{-| -}
-getOpacity : Color -> Opacity.Opacity
-getOpacity color =
-    case color of
-        RGBA values ->
-            RGBA.getOpacity values
-
-        HSLA values ->
-            HSLA.getOpacity values
 
 
 
