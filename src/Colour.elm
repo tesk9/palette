@@ -446,10 +446,8 @@ Check out this code on Ellie here: <https://ellie-app.com/3CRfDs2HLvGa1>.
 
 -}
 rotateHue : Float -> Colour -> Colour
-rotateHue degrees color =
-    toHSL color
-        |> (\( h, s, l ) -> ( h + degrees, s, l ))
-        |> fromHSL
+rotateHue degrees (Colour color) =
+    Colour (Internal.Color.rotateHue degrees color)
 
 
 {-| Use this function to produce a new shade of the Colour.
@@ -491,19 +489,15 @@ greyen percentage color =
 {-| Modify the saturation of a color (see notes on HSL color space).
 -}
 addSaturation : Float -> Colour -> Colour
-addSaturation percentage color =
-    toHSL color
-        |> (\( h, s, l ) -> ( h, s + percentage, l ))
-        |> fromHSL
+addSaturation percentage (Colour color) =
+    Colour (Internal.Color.addSaturation percentage color)
 
 
 {-| Modify the lightness of a color (see notes on HSL color space).
 -}
 addLightness : Float -> Colour -> Colour
-addLightness percentage color =
-    toHSL color
-        |> (\( h, s, l ) -> ( h, s, l + percentage ))
-        |> fromHSL
+addLightness percentage (Colour color) =
+    Colour (Internal.Color.addLightness percentage color)
 
 
 {-| Find a high contrast color to use in concert with the passed-in color.
@@ -526,12 +520,8 @@ highContrast starting =
 {-| Use this function to invert a color. E.g., black inverted is white, white inverted is black....
 -}
 invert : Colour -> Colour
-invert color =
-    let
-        ( r, g, b ) =
-            toRGB color
-    in
-    fromRGB ( 255 - r, 255 - g, 255 - b )
+invert (Colour color) =
+    Colour (Internal.Color.invert color)
 
 
 {-| Convert the color you pass in to a grayscale version. Essentially this uses the
