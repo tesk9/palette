@@ -80,9 +80,9 @@ generatorList =
             , editable = Nothing
             }
       , GeneratorWith
-            { name = "Colour.greyen"
+            { name = "Colour.grayen"
             , unit = Percentage
-            , generate = apply Colour.greyen List.singleton
+            , generate = apply Colour.grayen List.singleton
             , editable = Nothing
             }
       , Generator

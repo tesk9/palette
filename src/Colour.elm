@@ -3,7 +3,7 @@ module Colour exposing
     , fromRGB, fromHSL, fromHex
     , toRGBString, toHSLString
     , grayscale, invert, highContrast
-    , blacken, whiten, greyen
+    , blacken, whiten, grayen
     , rotateHue, addSaturation, addLightness
     , add, subtract, multiply, divide
     , toRGB, toHSL, toHex
@@ -27,7 +27,7 @@ module Colour exposing
 ## Customize Colours
 
 @docs grayscale, invert, highContrast
-@docs blacken, whiten, greyen
+@docs blacken, whiten, grayen
 @docs rotateHue, addSaturation, addLightness
 @docs add, subtract, multiply, divide
 
@@ -435,13 +435,13 @@ whiten percentage color =
 Essentially, this means decreasing the "saturation" of the color in the HSL
 color space.
 
-    greyen : Float -> Colour -> Colour
-    greyen percentage color =
+    grayen : Float -> Colour -> Colour
+    grayen percentage color =
         addSaturation (0 - abs percentage) color
 
 -}
-greyen : Float -> Colour -> Colour
-greyen percentage color =
+grayen : Float -> Colour -> Colour
+grayen percentage color =
     addSaturation (0 - abs percentage) color
 
 

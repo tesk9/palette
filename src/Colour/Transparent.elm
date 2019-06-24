@@ -8,7 +8,7 @@ module Colour.Transparent exposing
     , toColor
     , toRGBAString, toHSLAString
     , invert
-    , blacken, whiten, greyen
+    , blacken, whiten, grayen
     , rotateHue, addSaturation, addLightness
     , toRGBA, toHSLA, toHexA
     )
@@ -57,7 +57,7 @@ If not, read more about each color space in `Color`.
 ## Customize Colours
 
 @docs invert
-@docs blacken, whiten, greyen
+@docs blacken, whiten, grayen
 @docs rotateHue, addSaturation, addLightness
 
 
@@ -283,8 +283,8 @@ whiten percentage color =
 
 
 {-| -}
-greyen : Float -> Colour -> Colour
-greyen percentage color =
+grayen : Float -> Colour -> Colour
+grayen percentage color =
     addSaturation (0 - abs percentage) color
 
 
