@@ -380,7 +380,7 @@ luminance color =
     (0.2126 * red) + (0.7152 * green) + (0.0722 * blue)
 
 
-{-| Rotate a color by degrees [0, 360).
+{-| Rotate a color's by degrees [0, 360) in the HSL color space.
 
 Picture the color wheel. Suppose you want to find 8 evenly-spaced colors from a starting color.
 You might do something like this:
@@ -482,7 +482,7 @@ invert (Colour color) =
     Colour (Internal.Color.invert color)
 
 
-{-| Convert the color you pass in to a grayscale version. Essentially this uses the
+{-| Convert the color you pass in to a grayscale version. This function uses the
 luminance of the color you pass in to make a corresponding white <-> black value.
 -}
 grayscale : Colour -> Colour
