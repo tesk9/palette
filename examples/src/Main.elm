@@ -230,11 +230,11 @@ viewMonochromaticTints color =
 viewMonochromaticTones : Colour -> Html msg
 viewMonochromaticTones color =
     Comparison.viewPalette color
-        [ Colour.greyen -100 color
-        , Colour.greyen -80 color
-        , Colour.greyen -60 color
-        , Colour.greyen -40 color
-        , Colour.greyen -20 color
+        [ Colour.greyen 20 color
+        , Colour.greyen 40 color
+        , Colour.greyen 60 color
+        , Colour.greyen 80 color
+        , Colour.greyen 100 color
         ]
 
 

@@ -285,7 +285,7 @@ whiten percentage color =
 {-| -}
 greyen : Float -> Colour -> Colour
 greyen percentage color =
-    addSaturation percentage color
+    addSaturation (0 - abs percentage) color
 
 
 {-| Modify the saturation of a color (see notes on HSL color space).

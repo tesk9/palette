@@ -436,16 +436,19 @@ whiten percentage color =
     addLightness (abs percentage) color
 
 
-{-| Use this function to produce a new tone of the Colour.
+{-| Use this function to produce a new "tone" of the Colour.
 
-Essentially this means adding grays to the color you pass in. It's implemented,
-though, by adjusting the saturation of the color. You can pass in a positive or
-negative percentage value.
+Essentially, this means decreasing the "saturation" of the color in the HSL
+color space.
+
+    greyen : Float -> Colour -> Colour
+    greyen percentage color =
+        addSaturation (0 - abs percentage) color
 
 -}
 greyen : Float -> Colour -> Colour
 greyen percentage color =
-    addSaturation percentage color
+    addSaturation (0 - abs percentage) color
 
 
 {-| Modify the saturation of a color (see notes on HSL color space).
