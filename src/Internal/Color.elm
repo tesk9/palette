@@ -1,18 +1,19 @@
 module Internal.Color exposing
     ( Color
-    , fromHSLA, asHSLA
-    , fromRGBA, asRGBA
-    , asHex
+    , fromHSLA, fromRGBA
+    , asHSLA
     , getOpacity
+    , rotateHue, addSaturation, addLightness, invert
+    , asHex, asRGBA
     )
 
 {-|
 
 @docs Color
-@docs fromHSLA, asHSLA
-@docs fromRGBA, asRGBA
-@docs asHex
+@docs fromHSLA, fromRGBA
+@docs asHSLA, asRGBA asHex
 @docs getOpacity
+@docs rotateHue, addSaturation, addLightness, invert
 
 -}
 
@@ -108,3 +109,52 @@ convertHSLToRGBA color =
     HSLA.toChannels color
         |> RGBA.fromHSLA
         |> RGBA
+
+
+
+-- MODIFICATIONS
+
+
+{-| -}
+rotateHue : Float -> Color -> Color
+rotateHue degrees color =
+    let
+        ({ hue } as hsla) =
+            HSLA.toChannels (asHSLA color)
+    in
+    fromHSLA { hsla | hue = hue + degrees }
+
+
+{-| -}
+addSaturation : Float -> Color -> Color
+addSaturation percentage color =
+    let
+        ({ saturation } as hsla) =
+            HSLA.toChannels (asHSLA color)
+    in
+    fromHSLA { hsla | saturation = saturation + percentage }
+
+
+{-| -}
+addLightness : Float -> Color -> Color
+addLightness percentage color =
+    let
+        ({ lightness } as hsla) =
+            HSLA.toChannels (asHSLA color)
+    in
+    fromHSLA { hsla | lightness = lightness + percentage }
+
+
+{-| -}
+invert : Color -> Color
+invert color =
+    let
+        { red, green, blue, alpha } =
+            RGBA.toChannels (asRGBA color)
+    in
+    fromRGBA
+        { red = 255 - red
+        , green = 255 - green
+        , blue = 255 - blue
+        , alpha = alpha
+        }
