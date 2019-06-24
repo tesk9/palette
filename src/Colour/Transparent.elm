@@ -69,7 +69,7 @@ If not, read more about each colour space in `Colour`.
 
 import Colour
 import Dict
-import Internal.Color
+import Internal.Colour
 import Internal.HSLA
 import Internal.Hex
 import Internal.Opacity
@@ -78,7 +78,7 @@ import Internal.RGBA
 
 {-| -}
 type Colour
-    = Colour Internal.Color.Color
+    = Colour Internal.Colour.Colour
 
 
 {-| -}
@@ -90,10 +90,10 @@ fromHSLA :
     }
     -> Colour
 fromHSLA =
-    Internal.Color.fromHSLA >> Colour
+    Internal.Colour.fromHSLA >> Colour
 
 
-{-| Extract the hue, saturation, lightness, and alpha values from an existing Color.
+{-| Extract the hue, saturation, lightness, and alpha values from an existing Colour.
 -}
 toHSLA :
     Colour
@@ -104,13 +104,13 @@ toHSLA :
         , alpha : Opacity
         }
 toHSLA (Colour color) =
-    Internal.HSLA.toChannels (Internal.Color.asHSLA color)
+    Internal.HSLA.toChannels (Internal.Colour.asHSLA color)
 
 
 {-| -}
 toHSLAString : Colour -> String
 toHSLAString (Colour color) =
-    Internal.HSLA.toStringWithOpacity (Internal.Color.asHSLA color)
+    Internal.HSLA.toStringWithOpacity (Internal.Colour.asHSLA color)
 
 
 {-| -}
@@ -122,10 +122,10 @@ fromRGBA :
     }
     -> Colour
 fromRGBA =
-    Internal.Color.fromRGBA >> Colour
+    Internal.Colour.fromRGBA >> Colour
 
 
-{-| Extract the red, green, blue, and alpha values from an existing Color.
+{-| Extract the red, green, blue, and alpha values from an existing Colour.
 -}
 toRGBA :
     Colour
@@ -136,13 +136,13 @@ toRGBA :
         , alpha : Opacity
         }
 toRGBA (Colour color) =
-    Internal.RGBA.toChannels (Internal.Color.asRGBA color)
+    Internal.RGBA.toChannels (Internal.Colour.asRGBA color)
 
 
 {-| -}
 toRGBAString : Colour -> String
 toRGBAString (Colour color) =
-    Internal.RGBA.toStringWithOpacity (Internal.Color.asRGBA color)
+    Internal.RGBA.toStringWithOpacity (Internal.Colour.asRGBA color)
 
 
 {-| Build a new color from a hex string that might include transparencies.
@@ -161,7 +161,7 @@ fromHexA colorString =
 {-| -}
 toHexA : Colour -> String
 toHexA (Colour color) =
-    Internal.Hex.toString (Internal.Color.asHex color)
+    Internal.Hex.toString (Internal.Colour.asHex color)
 
 
 {-| Specify the opacity for a color without opacity.
@@ -259,7 +259,7 @@ opacityToString =
 {-| -}
 rotateHue : Float -> Colour -> Colour
 rotateHue degrees (Colour color) =
-    Colour (Internal.Color.rotateHue degrees color)
+    Colour (Internal.Colour.rotateHue degrees color)
 
 
 {-| -}
@@ -283,16 +283,16 @@ grayen percentage color =
 {-| -}
 addSaturation : Float -> Colour -> Colour
 addSaturation percentage (Colour color) =
-    Colour (Internal.Color.addSaturation percentage color)
+    Colour (Internal.Colour.addSaturation percentage color)
 
 
 {-| -}
 addLightness : Float -> Colour -> Colour
 addLightness percentage (Colour color) =
-    Colour (Internal.Color.addLightness percentage color)
+    Colour (Internal.Colour.addLightness percentage color)
 
 
 {-| -}
 invert : Colour -> Colour
 invert (Colour color) =
-    Colour (Internal.Color.invert color)
+    Colour (Internal.Colour.invert color)

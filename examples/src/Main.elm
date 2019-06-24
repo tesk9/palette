@@ -1,8 +1,8 @@
 module Main exposing (main)
 
 import Browser
-import ColorModes
-import ColorPicker
+import ColourModes
+import ColourPicker
 import Colour exposing (Colour)
 import Comparison
 import ExampleHelpers as Example
@@ -14,7 +14,7 @@ import PaletteExamples.Tango
 import PaletteExamples.X11
 import Platform
 import Preview
-import TransparentColorExamples
+import TransparentColourExamples
 import Url exposing (Url)
 import Url.Parser exposing ((</>), Parser, int, map, oneOf, s, string)
 
@@ -31,44 +31,44 @@ main =
 init : Model
 init =
     let
-        selectedColor =
+        selectedColour =
             Colour.fromHSL ( 0, 100, 50 )
     in
-    { colorModesModel = ColorModes.init
-    , colorPickerModel = ColorPicker.init selectedColor
+    { colorModesModel = ColourModes.init
+    , colorPickerModel = ColourPicker.init selectedColour
     , previewModel = Preview.init
-    , selectedColor = selectedColor
+    , selectedColour = selectedColour
     }
 
 
 type alias Model =
-    { colorModesModel : ColorModes.Model
-    , colorPickerModel : ColorPicker.Model
+    { colorModesModel : ColourModes.Model
+    , colorPickerModel : ColourPicker.Model
     , previewModel : Preview.Model
-    , selectedColor : Colour
+    , selectedColour : Colour
     }
 
 
 type Msg
-    = ColorModesMsg ColorModes.Msg
-    | ColorPickerMsg ColorPicker.Msg
+    = ColourModesMsg ColourModes.Msg
+    | ColourPickerMsg ColourPicker.Msg
     | PreviewMsg Preview.Msg
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        ColorModesMsg colorMsg ->
-            { model | colorModesModel = ColorModes.update colorMsg model.colorModesModel }
+        ColourModesMsg colorMsg ->
+            { model | colorModesModel = ColourModes.update colorMsg model.colorModesModel }
 
-        ColorPickerMsg colorMsg ->
+        ColourPickerMsg colorMsg ->
             let
-                ( newColorPickerModel, maybeNewColor ) =
-                    ColorPicker.update colorMsg model.colorPickerModel
+                ( newColourPickerModel, maybeNewColour ) =
+                    ColourPicker.update colorMsg model.colorPickerModel
             in
             { model
-                | colorPickerModel = newColorPickerModel
-                , selectedColor = Maybe.withDefault model.selectedColor maybeNewColor
+                | colorPickerModel = newColourPickerModel
+                , selectedColour = Maybe.withDefault model.selectedColour maybeNewColour
             }
 
         PreviewMsg previewMsg ->
@@ -83,9 +83,9 @@ view model =
             (Html.div []
                 [ Example.subsection "API"
                     (Html.div []
-                        [ ColorPicker.view model.colorPickerModel
-                            |> Html.map ColorPickerMsg
-                        , Preview.view model.selectedColor model.previewModel
+                        [ ColourPicker.view model.colorPickerModel
+                            |> Html.map ColourPickerMsg
+                        , Preview.view model.selectedColour model.previewModel
                             |> Html.map PreviewMsg
                         ]
                     )
@@ -120,12 +120,12 @@ view model =
                         ]
                     )
                 , Example.subsection "Contrast"
-                    (ColorModes.view model.colorModesModel
-                        |> Html.map ColorModesMsg
+                    (ColourModes.view model.colorModesModel
+                        |> Html.map ColourModesMsg
                     )
                 ]
             )
-        , Example.section "Colour.Transparent" TransparentColorExamples.view
+        , Example.section "Colour.Transparent" TransparentColourExamples.view
         , Example.section "Palette.Cubehelix" PaletteExamples.Cubehelix.examples
         , Example.section "Palette.Tango" PaletteExamples.Tango.examples
         , Example.section "Palette.X11" PaletteExamples.X11.examples

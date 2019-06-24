@@ -1,5 +1,5 @@
-module Internal.Color exposing
-    ( Color
+module Internal.Colour exposing
+    ( Colour
     , fromHSLA, fromRGBA
     , asHSLA
     , rotateHue, addSaturation, addLightness, invert
@@ -8,7 +8,7 @@ module Internal.Color exposing
 
 {-|
 
-@docs Color
+@docs Colour
 @docs fromHSLA, fromRGBA
 @docs asHSLA, asRGBA asHex
 @docs rotateHue, addSaturation, addLightness, invert
@@ -23,19 +23,19 @@ import Internal.RGBA as RGBA
 
 
 {-| -}
-type Color
-    = HSLA HSLA.Color
-    | RGBA RGBA.Color
+type Colour
+    = HSLA HSLA.Colour
+    | RGBA RGBA.Colour
 
 
 {-| -}
-fromHSLA : HSLA.Channels -> Color
+fromHSLA : HSLA.Channels -> Colour
 fromHSLA values =
     HSLA (HSLA.fromChannels values)
 
 
 {-| -}
-asHSLA : Color -> HSLA.Color
+asHSLA : Colour -> HSLA.Colour
 asHSLA color =
     case color of
         HSLA values ->
@@ -46,13 +46,13 @@ asHSLA color =
 
 
 {-| -}
-fromRGBA : RGBA.Channels -> Color
+fromRGBA : RGBA.Channels -> Colour
 fromRGBA values =
     RGBA (RGBA.fromChannels values)
 
 
 {-| -}
-asRGBA : Color -> RGBA.Color
+asRGBA : Colour -> RGBA.Colour
 asRGBA color =
     case color of
         RGBA values ->
@@ -63,7 +63,7 @@ asRGBA color =
 
 
 {-| -}
-asHex : Color -> Hex.Color
+asHex : Colour -> Hex.Colour
 asHex color =
     case color of
         RGBA values ->
@@ -74,7 +74,7 @@ asHex color =
 
 
 {-| -}
-fromHex : String -> Maybe Color
+fromHex : String -> Maybe Colour
 fromHex str =
     Maybe.map (RGBA.fromChannels >> RGBA) (Hex.fromString str)
 
@@ -84,14 +84,14 @@ fromHex str =
 
 
 {-| -}
-convertRGBAToHSL : RGBA.Color -> Color
+convertRGBAToHSL : RGBA.Colour -> Colour
 convertRGBAToHSL color =
     RGBA.toChannels color
         |> HSLA.fromRGBA
         |> HSLA
 
 
-convertHSLToRGBA : HSLA.Color -> Color
+convertHSLToRGBA : HSLA.Colour -> Colour
 convertHSLToRGBA color =
     HSLA.toChannels color
         |> RGBA.fromHSLA
@@ -103,7 +103,7 @@ convertHSLToRGBA color =
 
 
 {-| -}
-rotateHue : Float -> Color -> Color
+rotateHue : Float -> Colour -> Colour
 rotateHue degrees color =
     let
         ({ hue } as hsla) =
@@ -113,7 +113,7 @@ rotateHue degrees color =
 
 
 {-| -}
-addSaturation : Float -> Color -> Color
+addSaturation : Float -> Colour -> Colour
 addSaturation percentage color =
     let
         ({ saturation } as hsla) =
@@ -123,7 +123,7 @@ addSaturation percentage color =
 
 
 {-| -}
-addLightness : Float -> Color -> Color
+addLightness : Float -> Colour -> Colour
 addLightness percentage color =
     let
         ({ lightness } as hsla) =
@@ -133,7 +133,7 @@ addLightness percentage color =
 
 
 {-| -}
-invert : Color -> Color
+invert : Colour -> Colour
 invert color =
     let
         { red, green, blue, alpha } =

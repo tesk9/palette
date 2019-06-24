@@ -1,5 +1,5 @@
 module Internal.HSLA exposing
-    ( Color
+    ( Colour
     , Channels
     , fromChannels, toChannels
     , fromRGBA
@@ -8,7 +8,7 @@ module Internal.HSLA exposing
 
 {-|
 
-@docs Color
+@docs Colour
 @docs Channels
 @docs fromChannels, toChannels
 @docs fromRGBA
@@ -19,8 +19,8 @@ module Internal.HSLA exposing
 import Internal.Opacity as Opacity exposing (Opacity)
 
 
-type Color
-    = Color Channels
+type Colour
+    = Colour Channels
 
 
 type alias Channels =
@@ -31,7 +31,7 @@ type alias Channels =
     }
 
 
-fromChannels : Channels -> Color
+fromChannels : Channels -> Colour
 fromChannels { hue, saturation, lightness, alpha } =
     let
         hueInt =
@@ -43,7 +43,7 @@ fromChannels { hue, saturation, lightness, alpha } =
         hue360 =
             toFloat (modBy 360 hueInt)
     in
-    Color
+    Colour
         { hue = hue360 + floatingHueValues
         , saturation = clamp 0 100 saturation
         , lightness = clamp 0 100 lightness
@@ -51,13 +51,13 @@ fromChannels { hue, saturation, lightness, alpha } =
         }
 
 
-toChannels : Color -> Channels
-toChannels (Color values) =
+toChannels : Colour -> Channels
+toChannels (Colour values) =
     values
 
 
-toStringWithoutOpacity : Color -> String
-toStringWithoutOpacity (Color { hue, saturation, lightness }) =
+toStringWithoutOpacity : Colour -> String
+toStringWithoutOpacity (Colour { hue, saturation, lightness }) =
     "hsl("
         ++ String.fromFloat hue
         ++ ","
@@ -67,8 +67,8 @@ toStringWithoutOpacity (Color { hue, saturation, lightness }) =
         ++ "%)"
 
 
-toStringWithOpacity : Color -> String
-toStringWithOpacity (Color { hue, saturation, lightness, alpha }) =
+toStringWithOpacity : Colour -> String
+toStringWithOpacity (Colour { hue, saturation, lightness, alpha }) =
     "hsla("
         ++ String.fromFloat hue
         ++ ","
@@ -80,7 +80,7 @@ toStringWithOpacity (Color { hue, saturation, lightness, alpha }) =
         ++ ")"
 
 
-fromRGBA : { red : Float, green : Float, blue : Float, alpha : Opacity } -> Color
+fromRGBA : { red : Float, green : Float, blue : Float, alpha : Opacity } -> Colour
 fromRGBA { red, green, blue, alpha } =
     let
         ( r, g, b ) =

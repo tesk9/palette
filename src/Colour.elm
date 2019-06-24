@@ -40,7 +40,7 @@ module Colour exposing
 -}
 
 import Dict
-import Internal.Color
+import Internal.Colour
 import Internal.HSLA
 import Internal.Hex
 import Internal.Opacity
@@ -49,7 +49,7 @@ import Internal.RGBA
 
 {-| -}
 type Colour
-    = Colour Internal.Color.Color
+    = Colour Internal.Colour.Colour
 
 
 {-| Build a new color based on HSL (Hue, Saturation, and Lightness) values.
@@ -80,7 +80,7 @@ Geometrically, you can think of HSL colors as modeled on a cylinder:
 fromHSL : ( Float, Float, Float ) -> Colour
 fromHSL ( hue, saturation, lightness ) =
     Colour
-        (Internal.Color.fromHSLA
+        (Internal.Colour.fromHSLA
             { hue = hue
             , saturation = saturation
             , lightness = lightness
@@ -95,7 +95,7 @@ toHSL : Colour -> ( Float, Float, Float )
 toHSL (Colour color) =
     let
         { hue, saturation, lightness } =
-            Internal.HSLA.toChannels (Internal.Color.asHSLA color)
+            Internal.HSLA.toChannels (Internal.Colour.asHSLA color)
     in
     ( hue, saturation, lightness )
 
@@ -115,7 +115,7 @@ toHSL (Colour color) =
 toHSLString : Colour -> String
 toHSLString (Colour color) =
     Internal.HSLA.toStringWithoutOpacity
-        (Internal.Color.asHSLA color)
+        (Internal.Colour.asHSLA color)
 
 
 {-| Build a new color based on RGB (red, green, blue) values.
@@ -140,7 +140,7 @@ This function clamps each RGB value between 0 and 255 (inclusive).
 fromRGB : ( Float, Float, Float ) -> Colour
 fromRGB ( red, green, blue ) =
     Colour
-        (Internal.Color.fromRGBA
+        (Internal.Colour.fromRGBA
             { red = red
             , green = green
             , blue = blue
@@ -155,7 +155,7 @@ toRGB : Colour -> ( Float, Float, Float )
 toRGB (Colour color) =
     let
         { red, green, blue } =
-            Internal.RGBA.toChannels (Internal.Color.asRGBA color)
+            Internal.RGBA.toChannels (Internal.Colour.asRGBA color)
     in
     ( red, green, blue )
 
@@ -174,7 +174,7 @@ toRGB (Colour color) =
 -}
 toRGBString : Colour -> String
 toRGBString (Colour color) =
-    Internal.RGBA.toStringWithoutOpacity (Internal.Color.asRGBA color)
+    Internal.RGBA.toStringWithoutOpacity (Internal.Colour.asRGBA color)
 
 
 {-| Build a new color from a hex string.
@@ -377,15 +377,15 @@ You might do something like this:
 
     import Colour
 
-    eightEvenColors : Colour -> List Colour
-    eightEvenColors color =
+    eightEvenColours : Colour -> List Colour
+    eightEvenColours color =
         List.range 0 7
             |> List.map (\i -> Colour.rotateHue (toFloat i * 360 / 8) color)
 
 -}
 rotateHue : Float -> Colour -> Colour
 rotateHue degrees (Colour color) =
-    Colour (Internal.Color.rotateHue degrees color)
+    Colour (Internal.Colour.rotateHue degrees color)
 
 
 {-| Use this function to produce a new "shade" of the Colour. Pass in the
@@ -436,14 +436,14 @@ grayen percentage color =
 -}
 addSaturation : Float -> Colour -> Colour
 addSaturation percentage (Colour color) =
-    Colour (Internal.Color.addSaturation percentage color)
+    Colour (Internal.Colour.addSaturation percentage color)
 
 
 {-| Modify the lightness of a color in the HSL color space.
 -}
 addLightness : Float -> Colour -> Colour
 addLightness percentage (Colour color) =
-    Colour (Internal.Color.addLightness percentage color)
+    Colour (Internal.Colour.addLightness percentage color)
 
 
 {-| Find a high contrast color to use in concert with the passed-in color.
@@ -466,7 +466,7 @@ highContrast starting =
 -}
 invert : Colour -> Colour
 invert (Colour color) =
-    Colour (Internal.Color.invert color)
+    Colour (Internal.Colour.invert color)
 
 
 {-| Convert the color you pass in to a grayscale version. This function uses the

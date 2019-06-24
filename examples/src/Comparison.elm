@@ -1,7 +1,7 @@
 module Comparison exposing (viewOverlapping, viewPalette, viewSpectrum, viewWithName)
 
 import Browser
-import ColorModes
+import ColourModes
 import Colour exposing (Colour)
 import Html exposing (Html)
 import Html.Attributes exposing (style)
@@ -13,10 +13,10 @@ import Platform
 viewWithName : ( Colour, String ) -> Html msg
 viewWithName ( color, name ) =
     let
-        rgbColor =
+        rgbColour =
             Colour.toRGBString color
 
-        highContrastColor =
+        highContrastColour =
             Colour.highContrast color
                 |> Colour.toRGBString
     in
@@ -24,7 +24,7 @@ viewWithName ( color, name ) =
         [ style "display" "flex"
         , style "justify-content" "center"
         , style "align-items" "flex-start"
-        , style "background-color" rgbColor
+        , style "background-color" rgbColour
         , style "width" "200px"
         ]
         [ Html.span
@@ -32,36 +32,36 @@ viewWithName ( color, name ) =
             , style "padding" "4px"
             , style "overflow" "scroll"
             , style "text-align" "center"
-            , style "color" highContrastColor
+            , style "color" highContrastColour
             ]
             [ Html.div [] [ Html.text name ] ]
         ]
 
 
 viewPalette : Colour -> List Colour -> Html msg
-viewPalette baseColor otherColors =
+viewPalette baseColour otherColours =
     let
-        baseColorWidth =
+        baseColourWidth =
             200
 
-        baseColorHeight =
+        baseColourHeight =
             100
 
         radius =
-            if List.length otherColors > 8 then
+            if List.length otherColours > 8 then
                 15
 
-            else if List.length otherColors > 4 then
+            else if List.length otherColours > 4 then
                 25
 
             else
                 35
 
         circleCount =
-            List.length otherColors
+            List.length otherColours
 
         leftPlacement index =
-            baseColorWidth
+            baseColourWidth
                 * toFloat (index + 1)
                 / (toFloat circleCount + 1)
                 - radius
@@ -69,10 +69,10 @@ viewPalette baseColor otherColors =
     in
     Html.div
         [ style "margin-right" "16px"
-        , style "height" (String.fromInt baseColorHeight ++ "px")
-        , style "width" (String.fromInt baseColorWidth ++ "px")
+        , style "height" (String.fromInt baseColourHeight ++ "px")
+        , style "width" (String.fromInt baseColourWidth ++ "px")
         , style "position" "relative"
-        , style "background-color" (Colour.toRGBString baseColor)
+        , style "background-color" (Colour.toRGBString baseColour)
         ]
         (List.indexedMap
             (\index color ->
@@ -83,11 +83,11 @@ viewPalette baseColor otherColors =
                     , style "background-color" (Colour.toRGBString color)
                     , style "position" "absolute"
                     , style "left" (leftPlacement index ++ "px")
-                    , style "top" (String.fromFloat (baseColorHeight / 2 - radius) ++ "px")
+                    , style "top" (String.fromFloat (baseColourHeight / 2 - radius) ++ "px")
                     ]
                     []
             )
-            otherColors
+            otherColours
         )
 
 

@@ -1,5 +1,5 @@
 module Internal.RGBA exposing
-    ( Color
+    ( Colour
     , Channels
     , fromChannels, toChannels
     , fromHSLA
@@ -8,7 +8,7 @@ module Internal.RGBA exposing
 
 {-|
 
-@docs Color
+@docs Colour
 @docs Channels
 @docs fromChannels, toChannels
 @docs fromHSLA
@@ -19,8 +19,8 @@ module Internal.RGBA exposing
 import Internal.Opacity as Opacity exposing (Opacity)
 
 
-type Color
-    = Color Channels
+type Colour
+    = Colour Channels
 
 
 type alias Channels =
@@ -31,9 +31,9 @@ type alias Channels =
     }
 
 
-fromChannels : Channels -> Color
+fromChannels : Channels -> Colour
 fromChannels { red, green, blue, alpha } =
-    Color
+    Colour
         { red = clamp 0 255 red
         , green = clamp 0 255 green
         , blue = clamp 0 255 blue
@@ -41,13 +41,13 @@ fromChannels { red, green, blue, alpha } =
         }
 
 
-toChannels : Color -> Channels
-toChannels (Color values) =
+toChannels : Colour -> Channels
+toChannels (Colour values) =
     values
 
 
-toStringWithoutOpacity : Color -> String
-toStringWithoutOpacity (Color { red, green, blue }) =
+toStringWithoutOpacity : Colour -> String
+toStringWithoutOpacity (Colour { red, green, blue }) =
     "rgb("
         ++ String.fromFloat red
         ++ ","
@@ -57,8 +57,8 @@ toStringWithoutOpacity (Color { red, green, blue }) =
         ++ ")"
 
 
-toStringWithOpacity : Color -> String
-toStringWithOpacity (Color { red, green, blue, alpha }) =
+toStringWithOpacity : Colour -> String
+toStringWithOpacity (Colour { red, green, blue, alpha }) =
     "rgba("
         ++ String.fromFloat red
         ++ ","
@@ -70,7 +70,7 @@ toStringWithOpacity (Color { red, green, blue, alpha }) =
         ++ ")"
 
 
-fromHSLA : { hue : Float, saturation : Float, lightness : Float, alpha : Opacity } -> Color
+fromHSLA : { hue : Float, saturation : Float, lightness : Float, alpha : Opacity } -> Colour
 fromHSLA ({ hue, alpha } as hsl) =
     let
         saturation =

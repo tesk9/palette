@@ -1,8 +1,8 @@
 module ColourFuzzer exposing
     ( hexStringOfLength
-    , hslColor
+    , hslColour
     , hslValues
-    , rgbColor
+    , rgbColour
     , rgbValues
     )
 
@@ -13,8 +13,8 @@ import Random exposing (Generator)
 import Shrink
 
 
-rgbColor : Fuzzer Colour
-rgbColor =
+rgbColour : Fuzzer Colour
+rgbColour =
     Fuzz.map Colour.fromRGB rgbValues
 
 
@@ -23,8 +23,8 @@ rgbValues =
     triple (Fuzz.intRange 0 255) (Fuzz.intRange 0 255) (Fuzz.intRange 0 255)
 
 
-hslColor : Fuzzer Colour
-hslColor =
+hslColour : Fuzzer Colour
+hslColour =
     Fuzz.map Colour.fromHSL hslValues
 
 

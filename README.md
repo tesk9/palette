@@ -34,17 +34,17 @@ Use helpers like `contrast` and `sufficientContrast` to verify that your font si
 import Colour exposing (Colour)
 import Colour.Accessibility exposing (Rating, meetsAAA)
 
-validFontColor : Colour -> Bool
-validFontColor fontColor =
+validFontColour : Colour -> Bool
+validFontColour fontColour =
     checkContrast { fontSize = 12, fontWeight = 700 }
         (Colour.fromRGB ( 255, 255, 255 ))
-        fontColor
+        fontColour
         |> meetsAAA
 ```
 
 ## Use static palettes
 
-Use [X11](https://en.wikipedia.org/wiki/X11_color_names) and [Tango](http://tango.freedesktop.org/Tango_Icon_Theme_Guidelines#Color_Palette) colors by name:
+Use [X11](https://en.wikipedia.org/wiki/X11_color_names) and [Tango](http://tango.freedesktop.org/Tango_Icon_Theme_Guidelines#Colour_Palette) colors by name:
 
 ```
 import Colour exposing (Colour)

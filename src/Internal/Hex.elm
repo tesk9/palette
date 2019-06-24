@@ -1,11 +1,11 @@
-module Internal.Hex exposing (Color, fromString, toString)
+module Internal.Hex exposing (Colour, fromString, toString)
 
 import Dict
 import Internal.Opacity as Opacity exposing (Opacity)
 import Internal.RGBA
 
 
-type alias Color =
+type alias Colour =
     Channels
 
 

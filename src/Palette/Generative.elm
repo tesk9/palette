@@ -111,23 +111,23 @@ something like this:
     grayscalePalette =
         monochromatic 20 black
 
-Colors will be arranged from darkest to lightest.
+Colours will be arranged from darkest to lightest.
 
 -}
 monochromatic : Float -> Colour -> List Colour
 monochromatic stepSize color =
     let
-        getNextStep adjustment lastColor colors =
+        getNextStep adjustment lastColour colors =
             let
                 nextLightness =
-                    Colour.toHSL lastColor
+                    Colour.toHSL lastColour
                         |> (\( _, _, lightness ) -> lightness + adjustment)
             in
             if nextLightness <= 0 || nextLightness >= 100 then
-                lastColor :: colors
+                lastColour :: colors
 
             else
-                getNextStep adjustment (Colour.addLightness adjustment lastColor) (lastColor :: colors)
+                getNextStep adjustment (Colour.addLightness adjustment lastColour) (lastColour :: colors)
     in
     case List.reverse (getNextStep stepSize color []) of
         start :: tints ->

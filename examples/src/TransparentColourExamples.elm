@@ -1,4 +1,4 @@
-module TransparentColorExamples exposing (view)
+module TransparentColourExamples exposing (view)
 
 import Colour
 import Colour.Transparent exposing (Colour, customOpacity)

@@ -115,17 +115,17 @@ init =
 
 
 view : Colour -> Model -> Html Msg
-view selectedColor model =
+view selectedColour model =
     Html.div [ style "margin-top" "4px" ]
         [ generatorOptions model
         , case model.selectedGenerator of
             Generator details ->
-                viewPalette selectedColor details.name details.generate
+                viewPalette selectedColour details.name details.generate
 
             GeneratorWith details ->
                 Html.div []
                     [ customValueEditor (unitToString details.unit) details.editable
-                    , viewEditablePalette selectedColor details
+                    , viewEditablePalette selectedColour details
                     ]
                     |> Html.map
                         (\newEditable ->
@@ -188,20 +188,20 @@ viewEditablePalette :
     Colour
     -> { a | name : String, generate : Float -> Colour -> List Colour, editable : Maybe Float }
     -> Html msg
-viewEditablePalette selectedColor { name, generate, editable } =
+viewEditablePalette selectedColour { name, generate, editable } =
     case editable of
         Just value ->
-            viewPalette selectedColor (name ++ " " ++ String.fromFloat value) (generate value)
+            viewPalette selectedColour (name ++ " " ++ String.fromFloat value) (generate value)
 
         Nothing ->
             Html.text ""
 
 
 viewPalette : Colour -> String -> (Colour -> List Colour) -> Html msg
-viewPalette selectedColor name generate =
+viewPalette selectedColour name generate =
     let
         ( r, g, b ) =
-            Colour.toRGB selectedColor
+            Colour.toRGB selectedColour
     in
     Html.div []
         [ Html.code []
@@ -216,7 +216,7 @@ viewPalette selectedColor name generate =
                     ++ " ) == "
                 )
             ]
-        , Comparison.viewPalette (Colour.fromRGB ( 255, 255, 255 )) (generate selectedColor)
+        , Comparison.viewPalette (Colour.fromRGB ( 255, 255, 255 )) (generate selectedColour)
         ]
 
 

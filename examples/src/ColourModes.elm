@@ -1,4 +1,4 @@
-module ColorModes exposing (Model, Msg, init, update, view)
+module ColourModes exposing (Model, Msg, init, update, view)
 
 import Browser
 import Colour exposing (Colour)
@@ -11,7 +11,7 @@ import Platform
 
 
 type alias Model =
-    ColorPreference
+    ColourPreference
 
 
 init : Model
@@ -22,7 +22,7 @@ init =
 type alias Palette =
     { primary : Colour
     , secondary : Colour
-    , backgroundColors : ( Colour, Colour )
+    , backgroundColours : ( Colour, Colour )
     }
 
 
@@ -30,18 +30,18 @@ mapPalette : (Colour -> Colour) -> Palette -> Palette
 mapPalette map palette =
     { primary = map palette.primary
     , secondary = map palette.secondary
-    , backgroundColors = Tuple.mapBoth map map palette.backgroundColors
+    , backgroundColours = Tuple.mapBoth map map palette.backgroundColours
     }
 
 
-type ColorPreference
+type ColourPreference
     = Standard
     | InvertStandard
     | HighContrast
     | InvertHighContrast
 
 
-colorPreferenceToString : ColorPreference -> String
+colorPreferenceToString : ColourPreference -> String
 colorPreferenceToString colorPreference =
     case colorPreference of
         Standard ->
@@ -57,19 +57,19 @@ colorPreferenceToString colorPreference =
             "Invert High Contrast"
 
 
-colorPreferenceToPalette : ColorPreference -> Palette
+colorPreferenceToPalette : ColourPreference -> Palette
 colorPreferenceToPalette colorPreference =
     let
         standardPalette =
             { primary = dimGray
             , secondary = lightSalmon
-            , backgroundColors = ( lavenderBlush, Palette.Generative.complementary lavenderBlush )
+            , backgroundColours = ( lavenderBlush, Palette.Generative.complementary lavenderBlush )
             }
 
         highContrastPalette =
             { primary = black
             , secondary = red
-            , backgroundColors = ( white, white )
+            , backgroundColours = ( white, white )
             }
     in
     case colorPreference of
@@ -87,7 +87,7 @@ colorPreferenceToPalette colorPreference =
 
 
 type Msg
-    = ChangePreference ColorPreference
+    = ChangePreference ColourPreference
 
 
 update : Msg -> Model -> Model
@@ -109,7 +109,7 @@ view colorPreference =
                 (\i ->
                     Html.div []
                         [ Html.input
-                            [ Html.Attributes.name "ColorPreference"
+                            [ Html.Attributes.name "ColourPreference"
                             , Html.Attributes.type_ "radio"
                             , Html.Attributes.id (colorPreferenceToString i)
                             , Html.Attributes.value (colorPreferenceToString i)
@@ -143,11 +143,11 @@ viewContent palette content =
             "linear-gradient(" ++ Colour.toRGBString top ++ "," ++ Colour.toRGBString bottom ++ ")"
     in
     Html.div
-        [ style "background-color" (Colour.toRGBString (Tuple.first palette.backgroundColors))
+        [ style "background-color" (Colour.toRGBString (Tuple.first palette.backgroundColours))
         , style "padding" "8px"
         ]
         [ Html.div
-            [ style "background-image" (linearGradient palette.backgroundColors)
+            [ style "background-image" (linearGradient palette.backgroundColours)
 
             --Positioning
             , style "margin" "20px"

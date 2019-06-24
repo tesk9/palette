@@ -244,10 +244,10 @@ highContrastSuite =
         [ describe "black and white"
             [ test "highContrast black == white" <|
                 \_ ->
-                    expectColorsEqual (Colour.highContrast black) white
+                    expectColoursEqual (Colour.highContrast black) white
             , test "highContrast white == black" <|
                 \_ ->
-                    expectColorsEqual (Colour.highContrast white) black
+                    expectColoursEqual (Colour.highContrast white) black
             , describe "highContrast grays"
                 (List.map
                     (\( color, name ) ->
@@ -270,10 +270,10 @@ invertSuite =
         [ describe "black and white"
             [ test "invert black == white" <|
                 \_ ->
-                    expectColorsEqual (Colour.invert black) white
+                    expectColoursEqual (Colour.invert black) white
             , test "invert white == black" <|
                 \_ ->
-                    expectColorsEqual (Colour.invert white) black
+                    expectColoursEqual (Colour.invert white) black
             ]
         ]
 
@@ -324,8 +324,8 @@ expectHex expected colorResult =
             Expect.fail ("Could not parse color string: \n" ++ err)
 
 
-expectColorsEqual : Colour -> Colour -> Expectation
-expectColorsEqual a b =
+expectColoursEqual : Colour -> Colour -> Expectation
+expectColoursEqual a b =
     Expect.equal (Colour.toRGBString a) (Colour.toRGBString b)
 
 
