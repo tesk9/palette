@@ -29,7 +29,6 @@ helix?!) please read more about it [here](https://www.mrao.cam.ac.uk/~dag/CUBEHE
         Cubehelix.generate 10
 
 ![](https://user-images.githubusercontent.com/8811312/52819054-37563880-305d-11e9-9cf3-a553c54f2c11.png)
-See this example on [Ellie](https://ellie-app.com/4K5FZFNYhmwa1).
 
 @docs generate
 
@@ -42,7 +41,7 @@ See this example on [Ellie](https://ellie-app.com/4K5FZFNYhmwa1).
     myPalette : List Colour
     myPalette =
         Cubehelix.generateAdvanced 27
-            { startingColor = Colour.fromHSL ( 20, 100, 0 )
+            { start = Colour.fromHSL ( 20, 100, 0 )
             , rotationDirection = Cubehelix.BGR
             , rotations = 1.2
             , gamma = 0.9
@@ -56,7 +55,7 @@ See this example on [Ellie](https://ellie-app.com/4K5FZFNYhmwa1).
 import Colour exposing (Colour)
 
 
-{-| `startingColor` is used to derive what hue you want to start from (see HSL color space)
+{-| `start` is used to derive what hue you want to start from (see HSL color space)
 as well as how saturated (how far from grey) you want the colors produced to be.
 The lightness of the color that you pass in is not used.
 
@@ -75,7 +74,7 @@ The `gamma` value can be used to emphasize low- or high-intensity colors. `gamma
 
 -}
 type alias AdvancedConfig =
-    { startingColor : Colour
+    { start : Colour
     , rotationDirection : RotationDirection
     , rotations : Float
     , gamma : Float
@@ -94,7 +93,7 @@ type RotationDirection
 This is a great place to start to learn what different settings can get you. Try playing with one
 value at a time to see how it changes the result!
 
-    { startingColor = Colour.fromHSL ( -60, 100, 0 )
+    { start = Colour.fromHSL ( -60, 100, 0 )
     , rotationDirection = BGR
     , rotations = 1.5
     , gamma = 1.0
@@ -103,7 +102,7 @@ value at a time to see how it changes the result!
 -}
 defaultConfig : AdvancedConfig
 defaultConfig =
-    { startingColor = Colour.fromHSL ( -60, 100, 0 )
+    { start = Colour.fromHSL ( -60, 100, 0 )
     , rotationDirection = BGR
     , rotations = 1.5
     , gamma = 1.0
@@ -140,10 +139,10 @@ generateAdvanced numLevels config =
 
 
 toInternalConfig : AdvancedConfig -> Int -> InternalConfig
-toInternalConfig { startingColor, rotationDirection, rotations, gamma } numLevels =
+toInternalConfig { start, rotationDirection, rotations, gamma } numLevels =
     let
         ( hue, sat, _ ) =
-            Colour.toHSL startingColor
+            Colour.toHSL start
 
         positiveClampedRotations =
             clamp 0 1.5 (abs rotations)

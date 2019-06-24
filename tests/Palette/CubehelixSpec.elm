@@ -38,7 +38,7 @@ cubehelixRotationsSpec =
                 \() ->
                     let
                         config =
-                            { defaultConfig | startingColor = Colour.fromHSL ( 0, 0, 0 ) }
+                            { defaultConfig | start = Colour.fromHSL ( 0, 0, 0 ) }
                     in
                     case Cubehelix.generateAdvanced 3 config of
                         start :: second :: tail ->
@@ -51,7 +51,7 @@ cubehelixRotationsSpec =
             let
                 generate direction =
                     Cubehelix.generateAdvanced 3
-                        { defaultConfig | startingColor = red, rotationDirection = direction }
+                        { defaultConfig | start = red, rotationDirection = direction }
 
                 sumRGB : List Colour -> ( Float, Float, Float )
                 sumRGB colors =

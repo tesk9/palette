@@ -130,7 +130,7 @@ monochromatic stepSize color =
                 getNextStep adjustment (Colour.addLightness adjustment lastColor) (lastColor :: colors)
     in
     case List.reverse (getNextStep stepSize color []) of
-        startingColor :: tints ->
+        start :: tints ->
             getNextStep (0 - stepSize) color [] ++ tints
 
         [] ->
