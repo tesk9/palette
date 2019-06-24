@@ -79,7 +79,7 @@ single-hue lists of colours).
 ## Mixing colours together
 
 If you've used Photoshop, you may be familiar with colour blending with functions
-like `multiply`. If not, I recommend taking a lot at the examples & playing until
+like `multiply`. If not, I recommend taking a look at the examples & playing until
 you get a feel for what the functions do.
 
 
