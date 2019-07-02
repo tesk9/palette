@@ -1,7 +1,7 @@
-module ColourModes exposing (Model, Msg, init, update, view)
+module ColorModes exposing (Model, Msg, init, update, view)
 
 import Browser
-import Colour exposing (Colour)
+import Color exposing (Color)
 import Html exposing (Html)
 import Html.Attributes exposing (style)
 import Html.Events
@@ -11,7 +11,7 @@ import Platform
 
 
 type alias Model =
-    ColourPreference
+    ColorPreference
 
 
 init : Model
@@ -20,30 +20,30 @@ init =
 
 
 type alias Palette =
-    { primary : Colour
-    , secondary : Colour
-    , backgroundColours : ( Colour, Colour )
+    { primary : Color
+    , secondary : Color
+    , backgroundColors : ( Color, Color )
     }
 
 
-mapPalette : (Colour -> Colour) -> Palette -> Palette
+mapPalette : (Color -> Color) -> Palette -> Palette
 mapPalette map palette =
     { primary = map palette.primary
     , secondary = map palette.secondary
-    , backgroundColours = Tuple.mapBoth map map palette.backgroundColours
+    , backgroundColors = Tuple.mapBoth map map palette.backgroundColors
     }
 
 
-type ColourPreference
+type ColorPreference
     = Standard
     | InvertStandard
     | HighContrast
     | InvertHighContrast
 
 
-colourPreferenceToString : ColourPreference -> String
-colourPreferenceToString colourPreference =
-    case colourPreference of
+colorPreferenceToString : ColorPreference -> String
+colorPreferenceToString colorPreference =
+    case colorPreference of
         Standard ->
             "Standard"
 
@@ -57,37 +57,37 @@ colourPreferenceToString colourPreference =
             "Invert High Contrast"
 
 
-colourPreferenceToPalette : ColourPreference -> Palette
-colourPreferenceToPalette colourPreference =
+colorPreferenceToPalette : ColorPreference -> Palette
+colorPreferenceToPalette colorPreference =
     let
         standardPalette =
             { primary = dimGray
             , secondary = lightSalmon
-            , backgroundColours = ( lavenderBlush, Palette.Generative.complementary lavenderBlush )
+            , backgroundColors = ( lavenderBlush, Palette.Generative.complementary lavenderBlush )
             }
 
         highContrastPalette =
             { primary = black
             , secondary = red
-            , backgroundColours = ( white, white )
+            , backgroundColors = ( white, white )
             }
     in
-    case colourPreference of
+    case colorPreference of
         Standard ->
             standardPalette
 
         InvertStandard ->
-            mapPalette Colour.invert standardPalette
+            mapPalette Color.invert standardPalette
 
         HighContrast ->
             highContrastPalette
 
         InvertHighContrast ->
-            mapPalette Colour.invert highContrastPalette
+            mapPalette Color.invert highContrastPalette
 
 
 type Msg
-    = ChangePreference ColourPreference
+    = ChangePreference ColorPreference
 
 
 update : Msg -> Model -> Model
@@ -98,10 +98,10 @@ update msg m =
 
 
 view : Model -> Html Msg
-view colourPreference =
+view colorPreference =
     let
         palette =
-            colourPreferenceToPalette colourPreference
+            colorPreferenceToPalette colorPreference
     in
     Html.div []
         [ Html.div []
@@ -109,28 +109,28 @@ view colourPreference =
                 (\i ->
                     Html.div []
                         [ Html.input
-                            [ Html.Attributes.name "ColourPreference"
+                            [ Html.Attributes.name "ColorPreference"
                             , Html.Attributes.type_ "radio"
-                            , Html.Attributes.id (colourPreferenceToString i)
-                            , Html.Attributes.value (colourPreferenceToString i)
-                            , Html.Attributes.checked (colourPreference == i)
+                            , Html.Attributes.id (colorPreferenceToString i)
+                            , Html.Attributes.value (colorPreferenceToString i)
+                            , Html.Attributes.checked (colorPreference == i)
                             , Html.Events.onCheck (\_ -> ChangePreference i)
                             ]
                             []
                         , Html.label
-                            [ Html.Attributes.for (colourPreferenceToString i)
+                            [ Html.Attributes.for (colorPreferenceToString i)
                             ]
-                            [ Html.text (colourPreferenceToString i) ]
+                            [ Html.text (colorPreferenceToString i) ]
                         ]
                 )
                 [ Standard, InvertStandard, HighContrast, InvertHighContrast ]
             )
         , viewContent palette
             [ Html.h3
-                [ style "color" (Colour.toRGBString palette.secondary) ]
-                [ Html.text (colourPreferenceToString colourPreference) ]
+                [ style "color" (Color.toRGBString palette.secondary) ]
+                [ Html.text (colorPreferenceToString colorPreference) ]
             , Html.div
-                [ style "color" (Colour.toRGBString palette.primary) ]
+                [ style "color" (Color.toRGBString palette.primary) ]
                 [ Html.text "I'm some text." ]
             ]
         ]
@@ -140,19 +140,19 @@ viewContent : Palette -> List (Html msg) -> Html msg
 viewContent palette content =
     let
         linearGradient ( top, bottom ) =
-            "linear-gradient(" ++ Colour.toRGBString top ++ "," ++ Colour.toRGBString bottom ++ ")"
+            "linear-gradient(" ++ Color.toRGBString top ++ "," ++ Color.toRGBString bottom ++ ")"
     in
     Html.div
-        [ style "background-color" (Colour.toRGBString (Tuple.first palette.backgroundColours))
+        [ style "background-color" (Color.toRGBString (Tuple.first palette.backgroundColors))
         , style "padding" "8px"
         ]
         [ Html.div
-            [ style "background-image" (linearGradient palette.backgroundColours)
+            [ style "background-image" (linearGradient palette.backgroundColors)
 
             --Positioning
             , style "margin" "20px"
             , style "padding" "8px"
-            , style "border" ("1px dashed " ++ Colour.toRGBString palette.secondary)
+            , style "border" ("1px dashed " ++ Color.toRGBString palette.secondary)
             ]
             content
         ]

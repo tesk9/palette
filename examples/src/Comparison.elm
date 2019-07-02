@@ -1,8 +1,8 @@
 module Comparison exposing (viewOverlapping, viewPalette, viewSpectrum, viewWithName)
 
 import Browser
-import Colour exposing (Colour)
-import ColourModes
+import Color exposing (Color)
+import ColorModes
 import Html exposing (Html)
 import Html.Attributes exposing (style)
 import Html.Events
@@ -10,21 +10,21 @@ import Palette.X11 exposing (..)
 import Platform
 
 
-viewWithName : ( Colour, String ) -> Html msg
-viewWithName ( colour, name ) =
+viewWithName : ( Color, String ) -> Html msg
+viewWithName ( color, name ) =
     let
-        rgbColour =
-            Colour.toRGBString colour
+        rgbColor =
+            Color.toRGBString color
 
-        highContrastColour =
-            Colour.highContrast colour
-                |> Colour.toRGBString
+        highContrastColor =
+            Color.highContrast color
+                |> Color.toRGBString
     in
     Html.div
         [ style "display" "flex"
         , style "justify-content" "center"
         , style "align-items" "flex-start"
-        , style "background-color" rgbColour
+        , style "background-color" rgbColor
         , style "width" "200px"
         ]
         [ Html.span
@@ -32,36 +32,36 @@ viewWithName ( colour, name ) =
             , style "padding" "4px"
             , style "overflow" "scroll"
             , style "text-align" "center"
-            , style "color" highContrastColour
+            , style "color" highContrastColor
             ]
             [ Html.div [] [ Html.text name ] ]
         ]
 
 
-viewPalette : Colour -> List Colour -> Html msg
-viewPalette baseColour otherColours =
+viewPalette : Color -> List Color -> Html msg
+viewPalette baseColor otherColors =
     let
-        baseColourWidth =
+        baseColorWidth =
             200
 
-        baseColourHeight =
+        baseColorHeight =
             100
 
         radius =
-            if List.length otherColours > 8 then
+            if List.length otherColors > 8 then
                 15
 
-            else if List.length otherColours > 4 then
+            else if List.length otherColors > 4 then
                 25
 
             else
                 35
 
         circleCount =
-            List.length otherColours
+            List.length otherColors
 
         leftPlacement index =
-            baseColourWidth
+            baseColorWidth
                 * toFloat (index + 1)
                 / (toFloat circleCount + 1)
                 - radius
@@ -69,42 +69,42 @@ viewPalette baseColour otherColours =
     in
     Html.div
         [ style "margin-right" "16px"
-        , style "height" (String.fromInt baseColourHeight ++ "px")
-        , style "width" (String.fromInt baseColourWidth ++ "px")
+        , style "height" (String.fromInt baseColorHeight ++ "px")
+        , style "width" (String.fromInt baseColorWidth ++ "px")
         , style "position" "relative"
-        , style "background-color" (Colour.toRGBString baseColour)
+        , style "background-color" (Color.toRGBString baseColor)
         ]
         (List.indexedMap
-            (\index colour ->
+            (\index color ->
                 Html.div
                     [ style "width" (String.fromInt (radius * 2) ++ "px")
                     , style "height" (String.fromInt (radius * 2) ++ "px")
                     , style "border-radius" "50%"
-                    , style "background-color" (Colour.toRGBString colour)
+                    , style "background-color" (Color.toRGBString color)
                     , style "position" "absolute"
                     , style "left" (leftPlacement index ++ "px")
-                    , style "top" (String.fromFloat (baseColourHeight / 2 - radius) ++ "px")
+                    , style "top" (String.fromFloat (baseColorHeight / 2 - radius) ++ "px")
                     ]
                     []
             )
-            otherColours
+            otherColors
         )
 
 
-viewOverlapping : (Colour -> Colour -> Colour) -> ( Colour, Colour ) -> Html msg
+viewOverlapping : (Color -> Color -> Color) -> ( Color, Color ) -> Html msg
 viewOverlapping blend ( a, b ) =
     let
         rectangleSize =
             ( 140, 80 )
 
-        rectangle ( width, height ) ( x, y ) colour =
+        rectangle ( width, height ) ( x, y ) color =
             Html.div
                 [ style "position" "absolute"
                 , style "width" (px width)
                 , style "height" (px height)
                 , style "top" (px y)
                 , style "left" (px x)
-                , style "background-color" (Colour.toRGBString colour)
+                , style "background-color" (Color.toRGBString color)
                 ]
                 []
 
@@ -127,25 +127,25 @@ viewOverlapping blend ( a, b ) =
         ]
 
 
-viewSpectrum : List Colour -> Html msg
-viewSpectrum colours =
+viewSpectrum : List Color -> Html msg
+viewSpectrum colors =
     let
         spectrumWidth =
             512
 
         sliceWidth =
-            spectrumWidth // List.length colours
+            spectrumWidth // List.length colors
 
-        slice colour =
+        slice color =
             Html.div
                 [ style "width" (px sliceWidth)
                 , style "height" (px 40)
-                , style "background-color" (Colour.toRGBString colour)
+                , style "background-color" (Color.toRGBString color)
                 , style "display" "inline-block"
                 ]
                 []
     in
-    colours
+    colors
         |> List.map slice
         |> Html.div [ style "min-width" (px spectrumWidth) ]
 

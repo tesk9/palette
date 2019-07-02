@@ -1,6 +1,6 @@
 module Palette.CubehelixSpec exposing (cubehelixRotationsSpec)
 
-import Colour exposing (Colour)
+import Color exposing (Color)
 import Expect exposing (Expectation)
 import Fuzz
 import Palette.Cubehelix as Cubehelix exposing (defaultConfig)
@@ -34,15 +34,15 @@ cubehelixRotationsSpec =
                         |> Expect.equal 256
             ]
         , describe "without saturation"
-            [ test "middle colours are grayscale" <|
+            [ test "middle colors are grayscale" <|
                 \() ->
                     let
                         config =
-                            { defaultConfig | start = Colour.fromHSL ( 0, 0, 0 ) }
+                            { defaultConfig | start = Color.fromHSL ( 0, 0, 0 ) }
                     in
                     case Cubehelix.generateAdvanced 3 config of
                         start :: second :: tail ->
-                            Expect.equal "rgb(127.5,127.5,127.5)" (Colour.toRGBString second)
+                            Expect.equal "rgb(127.5,127.5,127.5)" (Color.toRGBString second)
 
                         _ ->
                             Expect.fail "Uh oh -- `generate` didn't return the right number of levels."
@@ -53,10 +53,10 @@ cubehelixRotationsSpec =
                     Cubehelix.generateAdvanced 3
                         { defaultConfig | start = red, rotationDirection = direction }
 
-                sumRGB : List Colour -> ( Float, Float, Float )
-                sumRGB colours =
-                    colours
-                        |> List.map Colour.toRGB
+                sumRGB : List Color -> ( Float, Float, Float )
+                sumRGB colors =
+                    colors
+                        |> List.map Color.toRGB
                         |> List.foldl (\( r, g, b ) ( rSum, bSum, gSum ) -> ( rSum + r, gSum + g, bSum + b )) ( 0, 0, 0 )
             in
             [ test "starting red, we should move through greens fastest with RGB direction" <|

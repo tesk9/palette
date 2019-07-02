@@ -1,7 +1,7 @@
 {
   "name": "palette",
   "version": "1.0.0",
-  "description": "Exploratory package (read: API very subject to change & breakage) for playing with different approaches to modeling and working with Colour.",
+  "description": "Exploratory package (read: API very subject to change & breakage) for playing with different approaches to modeling and working with Color.",
   "main": "index.js",
   "directories": {
     "test": "."
@@ -11,7 +11,7 @@
   },
   "keywords": [
     "colors",
-    "colours",
+    "colors",
     "palette"
   ],
   "author": "tesk9",

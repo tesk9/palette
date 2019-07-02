@@ -1,11 +1,11 @@
-module Colour.Transparent exposing
+module Color.Transparent exposing
     ( Opacity
     , transparent, opaque, customOpacity
     , opacityToString, opacityToFloat
-    , Colour
-    , fromColour
+    , Color
+    , fromColor
     , fromRGBA, fromHSLA, fromHexA
-    , toColour
+    , toColor
     , toRGBAString, toHSLAString
     , invert
     , blacken, whiten, grayen
@@ -13,25 +13,25 @@ module Colour.Transparent exposing
     , toRGBA, toHSLA, toHexA
     )
 
-{-| This module provides helpers for working with colours that are not fully opaque.
+{-| This module provides helpers for working with colors that are not fully opaque.
 
-Why is `Colour.Transparent` separate from `Colour`? Why isn't `Colour` simply modeled
-as an RGBA colour value?
+Why is `Color.Transparent` separate from `Color`? Why isn't `Color` simply modeled
+as an RGBA color value?
 
 Transparency fundamentally involves stacking contexts on render; transparency
-is really a shortcut for saying "blend my colour with whatever is behind it."
+is really a shortcut for saying "blend my color with whatever is behind it."
 
-As soon as we know that our colour may be transparent, we can no longer make
+As soon as we know that our color may be transparent, we can no longer make
 claims about contrast or luminance. Black text on a white background provides
 high contrast, but transparent black text on a white background may not be high
 contrast.
 
-`Colour.Transparent` exists in order to try to keep functions like `Colour.luminance`
-and `Colour.Accessibility.sufficientContrast` safe and reliable, while also providing
+`Color.Transparent` exists in order to try to keep functions like `Color.luminance`
+and `Color.Accessibility.sufficientContrast` safe and reliable, while also providing
 full-featured support for working with alpha channel values.
 
-These docs assume that you're familiar with the colour space you're looking at.
-If not, read more about each colour space in `Colour`.
+These docs assume that you're familiar with the color space you're looking at.
+If not, read more about each color space in `Color`.
 
 
 ## Opacity
@@ -41,20 +41,20 @@ If not, read more about each colour space in `Colour`.
 @docs opacityToString, opacityToFloat
 
 
-## Colour
+## Color
 
-@docs Colour
-@docs fromColour
+@docs Color
+@docs fromColor
 @docs fromRGBA, fromHSLA, fromHexA
 
 
-## Use Colours
+## Use Colors
 
-@docs toColour
+@docs toColor
 @docs toRGBAString, toHSLAString
 
 
-## Customize Colours
+## Customize Colors
 
 @docs invert
 @docs blacken, whiten, grayen
@@ -67,9 +67,9 @@ If not, read more about each colour space in `Colour`.
 
 -}
 
-import Colour
+import Color
 import Dict
-import Internal.Colour
+import Internal.Color
 import Internal.HSLA
 import Internal.Hex
 import Internal.Opacity
@@ -77,8 +77,8 @@ import Internal.RGBA
 
 
 {-| -}
-type Colour
-    = Colour Internal.Colour.Colour
+type Color
+    = Color Internal.Color.Color
 
 
 {-| -}
@@ -88,29 +88,29 @@ fromHSLA :
     , lightness : Float
     , alpha : Opacity
     }
-    -> Colour
+    -> Color
 fromHSLA =
-    Internal.Colour.fromHSLA >> Colour
+    Internal.Color.fromHSLA >> Color
 
 
-{-| Extract the hue, saturation, lightness, and alpha values from an existing Colour.
+{-| Extract the hue, saturation, lightness, and alpha values from an existing Color.
 -}
 toHSLA :
-    Colour
+    Color
     ->
         { hue : Float
         , saturation : Float
         , lightness : Float
         , alpha : Opacity
         }
-toHSLA (Colour colour) =
-    Internal.HSLA.toChannels (Internal.Colour.asHSLA colour)
+toHSLA (Color color) =
+    Internal.HSLA.toChannels (Internal.Color.asHSLA color)
 
 
 {-| -}
-toHSLAString : Colour -> String
-toHSLAString (Colour colour) =
-    Internal.HSLA.toStringWithOpacity (Internal.Colour.asHSLA colour)
+toHSLAString : Color -> String
+toHSLAString (Color color) =
+    Internal.HSLA.toStringWithOpacity (Internal.Color.asHSLA color)
 
 
 {-| -}
@@ -120,73 +120,73 @@ fromRGBA :
     , blue : Float
     , alpha : Opacity
     }
-    -> Colour
+    -> Color
 fromRGBA =
-    Internal.Colour.fromRGBA >> Colour
+    Internal.Color.fromRGBA >> Color
 
 
-{-| Extract the red, green, blue, and alpha values from an existing Colour.
+{-| Extract the red, green, blue, and alpha values from an existing Color.
 -}
 toRGBA :
-    Colour
+    Color
     ->
         { red : Float
         , green : Float
         , blue : Float
         , alpha : Opacity
         }
-toRGBA (Colour colour) =
-    Internal.RGBA.toChannels (Internal.Colour.asRGBA colour)
+toRGBA (Color color) =
+    Internal.RGBA.toChannels (Internal.Color.asRGBA color)
 
 
 {-| -}
-toRGBAString : Colour -> String
-toRGBAString (Colour colour) =
-    Internal.RGBA.toStringWithOpacity (Internal.Colour.asRGBA colour)
+toRGBAString : Color -> String
+toRGBAString (Color color) =
+    Internal.RGBA.toStringWithOpacity (Internal.Color.asRGBA color)
 
 
-{-| Build a new colour from a hex string that might include transparencies.
+{-| Build a new color from a hex string that might include transparencies.
 Supports lowercase and uppercase strings.
 -}
-fromHexA : String -> Result String Colour
-fromHexA colourString =
-    case Internal.Hex.fromString colourString of
+fromHexA : String -> Result String Color
+fromHexA colorString =
+    case Internal.Hex.fromString colorString of
         Just rgbChannelValues ->
             Ok (fromRGBA rgbChannelValues)
 
         Nothing ->
-            Err ("fromHex could not convert " ++ colourString ++ " to a Colour.")
+            Err ("fromHex could not convert " ++ colorString ++ " to a Color.")
 
 
 {-| -}
-toHexA : Colour -> String
-toHexA (Colour colour) =
-    Internal.Hex.toString (Internal.Colour.asHex colour)
+toHexA : Color -> String
+toHexA (Color color) =
+    Internal.Hex.toString (Internal.Color.asHex color)
 
 
-{-| Specify the opacity for a colour without opacity.
+{-| Specify the opacity for a color without opacity.
 
-    import Colour
-    import Colour.Transparent
+    import Color
+    import Color.Transparent
 
-    myRed : Colour.Colour
+    myRed : Color.Color
     myRed =
-        Colour.fromRGB ( 255, 0, 0 )
+        Color.fromRGB ( 255, 0, 0 )
 
-    myOpacity : Colour.Transparent.Opacity
+    myOpacity : Color.Transparent.Opacity
     myOpacity =
-        Colour.Transparent.Colour.customOpacity 0.5
+        Color.Transparent.Color.customOpacity 0.5
 
-    myTransparentRed : Colour.Transparent.Colour
+    myTransparentRed : Color.Transparent.Color
     myTransparentRed =
-        Colour.fromColour myOpacity myRed
+        Color.fromColor myOpacity myRed
 
 -}
-fromColour : Opacity -> Colour.Colour -> Colour
-fromColour opacity colour =
+fromColor : Opacity -> Color.Color -> Color
+fromColor opacity color =
     let
         ( r, g, b ) =
-            Colour.toRGB colour
+            Color.toRGB color
     in
     fromRGBA
         { red = r
@@ -199,13 +199,13 @@ fromColour opacity colour =
 {-| If you decide you don't care about the opacity anymore, you can
 drop this information.
 -}
-toColour : Colour -> Colour.Colour
-toColour colour =
+toColor : Color -> Color.Color
+toColor color =
     let
         { red, green, blue } =
-            toRGBA colour
+            toRGBA color
     in
-    Colour.fromRGB ( red, green, blue )
+    Color.fromRGB ( red, green, blue )
 
 
 
@@ -257,42 +257,42 @@ opacityToString =
 
 
 {-| -}
-rotateHue : Float -> Colour -> Colour
-rotateHue degrees (Colour colour) =
-    Colour (Internal.Colour.rotateHue degrees colour)
+rotateHue : Float -> Color -> Color
+rotateHue degrees (Color color) =
+    Color (Internal.Color.rotateHue degrees color)
 
 
 {-| -}
-blacken : Float -> Colour -> Colour
-blacken percentage colour =
-    addLightness (0 - abs percentage) colour
+blacken : Float -> Color -> Color
+blacken percentage color =
+    addLightness (0 - abs percentage) color
 
 
 {-| -}
-whiten : Float -> Colour -> Colour
-whiten percentage colour =
-    addLightness (abs percentage) colour
+whiten : Float -> Color -> Color
+whiten percentage color =
+    addLightness (abs percentage) color
 
 
 {-| -}
-grayen : Float -> Colour -> Colour
-grayen percentage colour =
-    addSaturation (0 - abs percentage) colour
+grayen : Float -> Color -> Color
+grayen percentage color =
+    addSaturation (0 - abs percentage) color
 
 
 {-| -}
-addSaturation : Float -> Colour -> Colour
-addSaturation percentage (Colour colour) =
-    Colour (Internal.Colour.addSaturation percentage colour)
+addSaturation : Float -> Color -> Color
+addSaturation percentage (Color color) =
+    Color (Internal.Color.addSaturation percentage color)
 
 
 {-| -}
-addLightness : Float -> Colour -> Colour
-addLightness percentage (Colour colour) =
-    Colour (Internal.Colour.addLightness percentage colour)
+addLightness : Float -> Color -> Color
+addLightness percentage (Color color) =
+    Color (Internal.Color.addLightness percentage color)
 
 
 {-| -}
-invert : Colour -> Colour
-invert (Colour colour) =
-    Colour (Internal.Colour.invert colour)
+invert : Color -> Color
+invert (Color color) =
+    Color (Internal.Color.invert color)

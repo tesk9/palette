@@ -1,11 +1,11 @@
-module Internal.Hex exposing (Colour, fromString, toString)
+module Internal.Hex exposing (Color, fromString, toString)
 
 import Dict
 import Internal.Opacity as Opacity exposing (Opacity)
 import Internal.RGBA
 
 
-type alias Colour =
+type alias Color =
     Channels
 
 
@@ -18,14 +18,14 @@ type alias Channels =
 
 
 fromString : String -> Maybe Channels
-fromString colourString =
+fromString colorString =
     let
-        colourList =
-            colourString
+        colorList =
+            colorString
                 |> String.toList
                 |> List.filterMap fromHexSymbol
     in
-    case colourList of
+    case colorList of
         r1 :: r0 :: g1 :: g0 :: b1 :: b0 :: a1 :: a0 :: [] ->
             hexWithAlpha ( r1, r0 ) ( g1, g0 ) ( b1, b0 ) (Just ( a1, a0 ))
                 |> Just

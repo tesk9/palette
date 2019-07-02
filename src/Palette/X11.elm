@@ -12,7 +12,7 @@ module Palette.X11 exposing
     , gainsboro, lightGray, silver, darkGray, gray, dimGray, lightSlateGray, slateGray, darkSlateGray, black
     )
 
-{-| [X11 colours](https://en.wikipedia.org/wiki/Web_colors#X11_color_names).
+{-| [X11 colors](https://en.wikipedia.org/wiki/Web_colors#X11_color_names).
 ![](https://user-images.githubusercontent.com/8811312/51518957-62d66200-1dd4-11e9-86c7-ef90e7b06811.png)
 
 
@@ -72,7 +72,7 @@ module Palette.X11 exposing
 
 -}
 
-import Colour exposing (Colour)
+import Color exposing (Color)
 
 
 
@@ -80,39 +80,39 @@ import Colour exposing (Colour)
 
 
 {-| -}
-pink : Colour
+pink : Color
 pink =
-    Colour.fromRGB ( 255, 192, 203 )
+    Color.fromRGB ( 255, 192, 203 )
 
 
 {-| -}
-lightPink : Colour
+lightPink : Color
 lightPink =
-    Colour.fromRGB ( 255, 182, 193 )
+    Color.fromRGB ( 255, 182, 193 )
 
 
 {-| -}
-hotPink : Colour
+hotPink : Color
 hotPink =
-    Colour.fromRGB ( 255, 105, 180 )
+    Color.fromRGB ( 255, 105, 180 )
 
 
 {-| -}
-deepPink : Colour
+deepPink : Color
 deepPink =
-    Colour.fromRGB ( 255, 20, 147 )
+    Color.fromRGB ( 255, 20, 147 )
 
 
 {-| -}
-paleVioletRed : Colour
+paleVioletRed : Color
 paleVioletRed =
-    Colour.fromRGB ( 219, 112, 147 )
+    Color.fromRGB ( 219, 112, 147 )
 
 
 {-| -}
-mediumVioletRed : Colour
+mediumVioletRed : Color
 mediumVioletRed =
-    Colour.fromRGB ( 199, 21, 133 )
+    Color.fromRGB ( 199, 21, 133 )
 
 
 
@@ -120,57 +120,57 @@ mediumVioletRed =
 
 
 {-| -}
-lightSalmon : Colour
+lightSalmon : Color
 lightSalmon =
-    Colour.fromRGB ( 255, 160, 122 )
+    Color.fromRGB ( 255, 160, 122 )
 
 
 {-| -}
-salmon : Colour
+salmon : Color
 salmon =
-    Colour.fromRGB ( 250, 128, 114 )
+    Color.fromRGB ( 250, 128, 114 )
 
 
 {-| -}
-darkSalmon : Colour
+darkSalmon : Color
 darkSalmon =
-    Colour.fromRGB ( 233, 150, 122 )
+    Color.fromRGB ( 233, 150, 122 )
 
 
 {-| -}
-lightCoral : Colour
+lightCoral : Color
 lightCoral =
-    Colour.fromRGB ( 240, 128, 128 )
+    Color.fromRGB ( 240, 128, 128 )
 
 
 {-| -}
-indianRed : Colour
+indianRed : Color
 indianRed =
-    Colour.fromRGB ( 205, 92, 92 )
+    Color.fromRGB ( 205, 92, 92 )
 
 
 {-| -}
-crimson : Colour
+crimson : Color
 crimson =
-    Colour.fromRGB ( 220, 20, 60 )
+    Color.fromRGB ( 220, 20, 60 )
 
 
 {-| -}
-firebrick : Colour
+firebrick : Color
 firebrick =
-    Colour.fromRGB ( 178, 34, 34 )
+    Color.fromRGB ( 178, 34, 34 )
 
 
 {-| -}
-darkRed : Colour
+darkRed : Color
 darkRed =
-    Colour.fromRGB ( 139, 0, 0 )
+    Color.fromRGB ( 139, 0, 0 )
 
 
 {-| -}
-red : Colour
+red : Color
 red =
-    Colour.fromRGB ( 255, 0, 0 )
+    Color.fromRGB ( 255, 0, 0 )
 
 
 
@@ -178,33 +178,33 @@ red =
 
 
 {-| -}
-orangeRed : Colour
+orangeRed : Color
 orangeRed =
-    Colour.fromRGB ( 255, 69, 0 )
+    Color.fromRGB ( 255, 69, 0 )
 
 
 {-| -}
-tomato : Colour
+tomato : Color
 tomato =
-    Colour.fromRGB ( 255, 99, 71 )
+    Color.fromRGB ( 255, 99, 71 )
 
 
 {-| -}
-coral : Colour
+coral : Color
 coral =
-    Colour.fromRGB ( 255, 127, 80 )
+    Color.fromRGB ( 255, 127, 80 )
 
 
 {-| -}
-darkOrange : Colour
+darkOrange : Color
 darkOrange =
-    Colour.fromRGB ( 255, 140, 0 )
+    Color.fromRGB ( 255, 140, 0 )
 
 
 {-| -}
-orange : Colour
+orange : Color
 orange =
-    Colour.fromRGB ( 255, 165, 0 )
+    Color.fromRGB ( 255, 165, 0 )
 
 
 
@@ -212,69 +212,69 @@ orange =
 
 
 {-| -}
-yellow : Colour
+yellow : Color
 yellow =
-    Colour.fromRGB ( 255, 255, 0 )
+    Color.fromRGB ( 255, 255, 0 )
 
 
 {-| -}
-lightYellow : Colour
+lightYellow : Color
 lightYellow =
-    Colour.fromRGB ( 255, 255, 224 )
+    Color.fromRGB ( 255, 255, 224 )
 
 
 {-| -}
-lemonChiffon : Colour
+lemonChiffon : Color
 lemonChiffon =
-    Colour.fromRGB ( 255, 250, 205 )
+    Color.fromRGB ( 255, 250, 205 )
 
 
 {-| -}
-lightGoldenrodYellow : Colour
+lightGoldenrodYellow : Color
 lightGoldenrodYellow =
-    Colour.fromRGB ( 250, 250, 210 )
+    Color.fromRGB ( 250, 250, 210 )
 
 
 {-| -}
-papayaWhip : Colour
+papayaWhip : Color
 papayaWhip =
-    Colour.fromRGB ( 255, 239, 213 )
+    Color.fromRGB ( 255, 239, 213 )
 
 
 {-| -}
-moccasin : Colour
+moccasin : Color
 moccasin =
-    Colour.fromRGB ( 255, 228, 181 )
+    Color.fromRGB ( 255, 228, 181 )
 
 
 {-| -}
-peachPuff : Colour
+peachPuff : Color
 peachPuff =
-    Colour.fromRGB ( 255, 218, 185 )
+    Color.fromRGB ( 255, 218, 185 )
 
 
 {-| -}
-paleGoldenrod : Colour
+paleGoldenrod : Color
 paleGoldenrod =
-    Colour.fromRGB ( 238, 232, 170 )
+    Color.fromRGB ( 238, 232, 170 )
 
 
 {-| -}
-khaki : Colour
+khaki : Color
 khaki =
-    Colour.fromRGB ( 240, 230, 140 )
+    Color.fromRGB ( 240, 230, 140 )
 
 
 {-| -}
-darkKhaki : Colour
+darkKhaki : Color
 darkKhaki =
-    Colour.fromRGB ( 189, 183, 107 )
+    Color.fromRGB ( 189, 183, 107 )
 
 
 {-| -}
-gold : Colour
+gold : Color
 gold =
-    Colour.fromRGB ( 255, 215, 0 )
+    Color.fromRGB ( 255, 215, 0 )
 
 
 
@@ -282,105 +282,105 @@ gold =
 
 
 {-| -}
-cornsilk : Colour
+cornsilk : Color
 cornsilk =
-    Colour.fromRGB ( 255, 248, 220 )
+    Color.fromRGB ( 255, 248, 220 )
 
 
 {-| -}
-blanchedAlmond : Colour
+blanchedAlmond : Color
 blanchedAlmond =
-    Colour.fromRGB ( 255, 235, 205 )
+    Color.fromRGB ( 255, 235, 205 )
 
 
 {-| -}
-bisque : Colour
+bisque : Color
 bisque =
-    Colour.fromRGB ( 255, 228, 196 )
+    Color.fromRGB ( 255, 228, 196 )
 
 
 {-| -}
-navajoWhite : Colour
+navajoWhite : Color
 navajoWhite =
-    Colour.fromRGB ( 255, 222, 173 )
+    Color.fromRGB ( 255, 222, 173 )
 
 
 {-| -}
-wheat : Colour
+wheat : Color
 wheat =
-    Colour.fromRGB ( 245, 222, 179 )
+    Color.fromRGB ( 245, 222, 179 )
 
 
 {-| -}
-burlywood : Colour
+burlywood : Color
 burlywood =
-    Colour.fromRGB ( 222, 184, 135 )
+    Color.fromRGB ( 222, 184, 135 )
 
 
 {-| -}
-tan : Colour
+tan : Color
 tan =
-    Colour.fromRGB ( 210, 180, 140 )
+    Color.fromRGB ( 210, 180, 140 )
 
 
 {-| -}
-rosyBrown : Colour
+rosyBrown : Color
 rosyBrown =
-    Colour.fromRGB ( 188, 143, 143 )
+    Color.fromRGB ( 188, 143, 143 )
 
 
 {-| -}
-sandyBrown : Colour
+sandyBrown : Color
 sandyBrown =
-    Colour.fromRGB ( 244, 164, 96 )
+    Color.fromRGB ( 244, 164, 96 )
 
 
 {-| -}
-goldenrod : Colour
+goldenrod : Color
 goldenrod =
-    Colour.fromRGB ( 218, 165, 32 )
+    Color.fromRGB ( 218, 165, 32 )
 
 
 {-| -}
-darkGoldenrod : Colour
+darkGoldenrod : Color
 darkGoldenrod =
-    Colour.fromRGB ( 184, 134, 11 )
+    Color.fromRGB ( 184, 134, 11 )
 
 
 {-| -}
-peru : Colour
+peru : Color
 peru =
-    Colour.fromRGB ( 205, 133, 63 )
+    Color.fromRGB ( 205, 133, 63 )
 
 
 {-| -}
-chocolate : Colour
+chocolate : Color
 chocolate =
-    Colour.fromRGB ( 210, 105, 30 )
+    Color.fromRGB ( 210, 105, 30 )
 
 
 {-| -}
-saddleBrown : Colour
+saddleBrown : Color
 saddleBrown =
-    Colour.fromRGB ( 139, 69, 19 )
+    Color.fromRGB ( 139, 69, 19 )
 
 
 {-| -}
-sienna : Colour
+sienna : Color
 sienna =
-    Colour.fromRGB ( 160, 82, 45 )
+    Color.fromRGB ( 160, 82, 45 )
 
 
 {-| -}
-brown : Colour
+brown : Color
 brown =
-    Colour.fromRGB ( 165, 42, 42 )
+    Color.fromRGB ( 165, 42, 42 )
 
 
 {-| -}
-maroon : Colour
+maroon : Color
 maroon =
-    Colour.fromRGB ( 128, 0, 0 )
+    Color.fromRGB ( 128, 0, 0 )
 
 
 
@@ -388,123 +388,123 @@ maroon =
 
 
 {-| -}
-darkOliveGreen : Colour
+darkOliveGreen : Color
 darkOliveGreen =
-    Colour.fromRGB ( 85, 107, 47 )
+    Color.fromRGB ( 85, 107, 47 )
 
 
 {-| -}
-olive : Colour
+olive : Color
 olive =
-    Colour.fromRGB ( 128, 128, 0 )
+    Color.fromRGB ( 128, 128, 0 )
 
 
 {-| -}
-oliveDrab : Colour
+oliveDrab : Color
 oliveDrab =
-    Colour.fromRGB ( 107, 142, 35 )
+    Color.fromRGB ( 107, 142, 35 )
 
 
 {-| -}
-yellowGreen : Colour
+yellowGreen : Color
 yellowGreen =
-    Colour.fromRGB ( 154, 205, 50 )
+    Color.fromRGB ( 154, 205, 50 )
 
 
 {-| -}
-limeGreen : Colour
+limeGreen : Color
 limeGreen =
-    Colour.fromRGB ( 50, 205, 50 )
+    Color.fromRGB ( 50, 205, 50 )
 
 
 {-| -}
-lime : Colour
+lime : Color
 lime =
-    Colour.fromRGB ( 0, 255, 0 )
+    Color.fromRGB ( 0, 255, 0 )
 
 
 {-| -}
-lawnGreen : Colour
+lawnGreen : Color
 lawnGreen =
-    Colour.fromRGB ( 124, 252, 0 )
+    Color.fromRGB ( 124, 252, 0 )
 
 
 {-| -}
-chartreuse : Colour
+chartreuse : Color
 chartreuse =
-    Colour.fromRGB ( 127, 255, 0 )
+    Color.fromRGB ( 127, 255, 0 )
 
 
 {-| -}
-greenYellow : Colour
+greenYellow : Color
 greenYellow =
-    Colour.fromRGB ( 173, 255, 47 )
+    Color.fromRGB ( 173, 255, 47 )
 
 
 {-| -}
-springGreen : Colour
+springGreen : Color
 springGreen =
-    Colour.fromRGB ( 0, 255, 127 )
+    Color.fromRGB ( 0, 255, 127 )
 
 
 {-| -}
-mediumSpringGreen : Colour
+mediumSpringGreen : Color
 mediumSpringGreen =
-    Colour.fromRGB ( 0, 250, 154 )
+    Color.fromRGB ( 0, 250, 154 )
 
 
 {-| -}
-lightGreen : Colour
+lightGreen : Color
 lightGreen =
-    Colour.fromRGB ( 144, 238, 144 )
+    Color.fromRGB ( 144, 238, 144 )
 
 
 {-| -}
-paleGreen : Colour
+paleGreen : Color
 paleGreen =
-    Colour.fromRGB ( 152, 251, 152 )
+    Color.fromRGB ( 152, 251, 152 )
 
 
 {-| -}
-darkSeaGreen : Colour
+darkSeaGreen : Color
 darkSeaGreen =
-    Colour.fromRGB ( 143, 188, 143 )
+    Color.fromRGB ( 143, 188, 143 )
 
 
 {-| -}
-mediumAquamarine : Colour
+mediumAquamarine : Color
 mediumAquamarine =
-    Colour.fromRGB ( 102, 205, 170 )
+    Color.fromRGB ( 102, 205, 170 )
 
 
 {-| -}
-mediumSeaGreen : Colour
+mediumSeaGreen : Color
 mediumSeaGreen =
-    Colour.fromRGB ( 60, 179, 113 )
+    Color.fromRGB ( 60, 179, 113 )
 
 
 {-| -}
-seaGreen : Colour
+seaGreen : Color
 seaGreen =
-    Colour.fromRGB ( 46, 139, 87 )
+    Color.fromRGB ( 46, 139, 87 )
 
 
 {-| -}
-forestGreen : Colour
+forestGreen : Color
 forestGreen =
-    Colour.fromRGB ( 34, 139, 34 )
+    Color.fromRGB ( 34, 139, 34 )
 
 
 {-| -}
-green : Colour
+green : Color
 green =
-    Colour.fromRGB ( 0, 128, 0 )
+    Color.fromRGB ( 0, 128, 0 )
 
 
 {-| -}
-darkGreen : Colour
+darkGreen : Color
 darkGreen =
-    Colour.fromRGB ( 0, 100, 0 )
+    Color.fromRGB ( 0, 100, 0 )
 
 
 
@@ -512,75 +512,75 @@ darkGreen =
 
 
 {-| -}
-aqua : Colour
+aqua : Color
 aqua =
-    Colour.fromRGB ( 0, 255, 255 )
+    Color.fromRGB ( 0, 255, 255 )
 
 
 {-| -}
-cyan : Colour
+cyan : Color
 cyan =
-    Colour.fromRGB ( 0, 255, 255 )
+    Color.fromRGB ( 0, 255, 255 )
 
 
 {-| -}
-lightCyan : Colour
+lightCyan : Color
 lightCyan =
-    Colour.fromRGB ( 224, 255, 255 )
+    Color.fromRGB ( 224, 255, 255 )
 
 
 {-| -}
-paleTurquoise : Colour
+paleTurquoise : Color
 paleTurquoise =
-    Colour.fromRGB ( 175, 238, 238 )
+    Color.fromRGB ( 175, 238, 238 )
 
 
 {-| -}
-aquamarine : Colour
+aquamarine : Color
 aquamarine =
-    Colour.fromRGB ( 127, 255, 212 )
+    Color.fromRGB ( 127, 255, 212 )
 
 
 {-| -}
-turquoise : Colour
+turquoise : Color
 turquoise =
-    Colour.fromRGB ( 64, 224, 208 )
+    Color.fromRGB ( 64, 224, 208 )
 
 
 {-| -}
-mediumTurquoise : Colour
+mediumTurquoise : Color
 mediumTurquoise =
-    Colour.fromRGB ( 72, 209, 204 )
+    Color.fromRGB ( 72, 209, 204 )
 
 
 {-| -}
-darkTurquoise : Colour
+darkTurquoise : Color
 darkTurquoise =
-    Colour.fromRGB ( 0, 206, 209 )
+    Color.fromRGB ( 0, 206, 209 )
 
 
 {-| -}
-lightSeaGreen : Colour
+lightSeaGreen : Color
 lightSeaGreen =
-    Colour.fromRGB ( 32, 178, 170 )
+    Color.fromRGB ( 32, 178, 170 )
 
 
 {-| -}
-cadetBlue : Colour
+cadetBlue : Color
 cadetBlue =
-    Colour.fromRGB ( 95, 158, 160 )
+    Color.fromRGB ( 95, 158, 160 )
 
 
 {-| -}
-darkCyan : Colour
+darkCyan : Color
 darkCyan =
-    Colour.fromRGB ( 0, 139, 139 )
+    Color.fromRGB ( 0, 139, 139 )
 
 
 {-| -}
-teal : Colour
+teal : Color
 teal =
-    Colour.fromRGB ( 0, 128, 128 )
+    Color.fromRGB ( 0, 128, 128 )
 
 
 
@@ -588,93 +588,93 @@ teal =
 
 
 {-| -}
-lightSteelBlue : Colour
+lightSteelBlue : Color
 lightSteelBlue =
-    Colour.fromRGB ( 176, 196, 222 )
+    Color.fromRGB ( 176, 196, 222 )
 
 
 {-| -}
-powderBlue : Colour
+powderBlue : Color
 powderBlue =
-    Colour.fromRGB ( 176, 224, 230 )
+    Color.fromRGB ( 176, 224, 230 )
 
 
 {-| -}
-lightBlue : Colour
+lightBlue : Color
 lightBlue =
-    Colour.fromRGB ( 173, 216, 230 )
+    Color.fromRGB ( 173, 216, 230 )
 
 
 {-| -}
-skyBlue : Colour
+skyBlue : Color
 skyBlue =
-    Colour.fromRGB ( 135, 206, 235 )
+    Color.fromRGB ( 135, 206, 235 )
 
 
 {-| -}
-lightSkyBlue : Colour
+lightSkyBlue : Color
 lightSkyBlue =
-    Colour.fromRGB ( 135, 206, 250 )
+    Color.fromRGB ( 135, 206, 250 )
 
 
 {-| -}
-deepSkyBlue : Colour
+deepSkyBlue : Color
 deepSkyBlue =
-    Colour.fromRGB ( 0, 191, 255 )
+    Color.fromRGB ( 0, 191, 255 )
 
 
 {-| -}
-dodgerBlue : Colour
+dodgerBlue : Color
 dodgerBlue =
-    Colour.fromRGB ( 30, 144, 255 )
+    Color.fromRGB ( 30, 144, 255 )
 
 
 {-| -}
-cornflowerBlue : Colour
+cornflowerBlue : Color
 cornflowerBlue =
-    Colour.fromRGB ( 100, 149, 237 )
+    Color.fromRGB ( 100, 149, 237 )
 
 
 {-| -}
-steelBlue : Colour
+steelBlue : Color
 steelBlue =
-    Colour.fromRGB ( 70, 130, 180 )
+    Color.fromRGB ( 70, 130, 180 )
 
 
 {-| -}
-royalBlue : Colour
+royalBlue : Color
 royalBlue =
-    Colour.fromRGB ( 65, 105, 225 )
+    Color.fromRGB ( 65, 105, 225 )
 
 
 {-| -}
-blue : Colour
+blue : Color
 blue =
-    Colour.fromRGB ( 0, 0, 255 )
+    Color.fromRGB ( 0, 0, 255 )
 
 
 {-| -}
-mediumBlue : Colour
+mediumBlue : Color
 mediumBlue =
-    Colour.fromRGB ( 0, 0, 205 )
+    Color.fromRGB ( 0, 0, 205 )
 
 
 {-| -}
-darkBlue : Colour
+darkBlue : Color
 darkBlue =
-    Colour.fromRGB ( 0, 0, 139 )
+    Color.fromRGB ( 0, 0, 139 )
 
 
 {-| -}
-navy : Colour
+navy : Color
 navy =
-    Colour.fromRGB ( 0, 0, 128 )
+    Color.fromRGB ( 0, 0, 128 )
 
 
 {-| -}
-midnightBlue : Colour
+midnightBlue : Color
 midnightBlue =
-    Colour.fromRGB ( 25, 25, 112 )
+    Color.fromRGB ( 25, 25, 112 )
 
 
 
@@ -682,111 +682,111 @@ midnightBlue =
 
 
 {-| -}
-lavender : Colour
+lavender : Color
 lavender =
-    Colour.fromRGB ( 230, 230, 250 )
+    Color.fromRGB ( 230, 230, 250 )
 
 
 {-| -}
-thistle : Colour
+thistle : Color
 thistle =
-    Colour.fromRGB ( 216, 191, 216 )
+    Color.fromRGB ( 216, 191, 216 )
 
 
 {-| -}
-plum : Colour
+plum : Color
 plum =
-    Colour.fromRGB ( 221, 160, 221 )
+    Color.fromRGB ( 221, 160, 221 )
 
 
 {-| -}
-violet : Colour
+violet : Color
 violet =
-    Colour.fromRGB ( 238, 130, 238 )
+    Color.fromRGB ( 238, 130, 238 )
 
 
 {-| -}
-orchid : Colour
+orchid : Color
 orchid =
-    Colour.fromRGB ( 218, 112, 214 )
+    Color.fromRGB ( 218, 112, 214 )
 
 
 {-| -}
-fuchsia : Colour
+fuchsia : Color
 fuchsia =
-    Colour.fromRGB ( 255, 0, 255 )
+    Color.fromRGB ( 255, 0, 255 )
 
 
 {-| -}
-magenta : Colour
+magenta : Color
 magenta =
-    Colour.fromRGB ( 255, 0, 255 )
+    Color.fromRGB ( 255, 0, 255 )
 
 
 {-| -}
-mediumOrchid : Colour
+mediumOrchid : Color
 mediumOrchid =
-    Colour.fromRGB ( 186, 85, 211 )
+    Color.fromRGB ( 186, 85, 211 )
 
 
 {-| -}
-mediumPurple : Colour
+mediumPurple : Color
 mediumPurple =
-    Colour.fromRGB ( 147, 112, 219 )
+    Color.fromRGB ( 147, 112, 219 )
 
 
 {-| -}
-blueViolet : Colour
+blueViolet : Color
 blueViolet =
-    Colour.fromRGB ( 138, 43, 226 )
+    Color.fromRGB ( 138, 43, 226 )
 
 
 {-| -}
-darkViolet : Colour
+darkViolet : Color
 darkViolet =
-    Colour.fromRGB ( 148, 0, 211 )
+    Color.fromRGB ( 148, 0, 211 )
 
 
 {-| -}
-darkOrchid : Colour
+darkOrchid : Color
 darkOrchid =
-    Colour.fromRGB ( 153, 50, 204 )
+    Color.fromRGB ( 153, 50, 204 )
 
 
 {-| -}
-darkMagenta : Colour
+darkMagenta : Color
 darkMagenta =
-    Colour.fromRGB ( 139, 0, 139 )
+    Color.fromRGB ( 139, 0, 139 )
 
 
 {-| -}
-purple : Colour
+purple : Color
 purple =
-    Colour.fromRGB ( 128, 0, 128 )
+    Color.fromRGB ( 128, 0, 128 )
 
 
 {-| -}
-indigo : Colour
+indigo : Color
 indigo =
-    Colour.fromRGB ( 75, 0, 130 )
+    Color.fromRGB ( 75, 0, 130 )
 
 
 {-| -}
-darkSlateBlue : Colour
+darkSlateBlue : Color
 darkSlateBlue =
-    Colour.fromRGB ( 72, 61, 139 )
+    Color.fromRGB ( 72, 61, 139 )
 
 
 {-| -}
-slateBlue : Colour
+slateBlue : Color
 slateBlue =
-    Colour.fromRGB ( 106, 90, 205 )
+    Color.fromRGB ( 106, 90, 205 )
 
 
 {-| -}
-mediumSlateBlue : Colour
+mediumSlateBlue : Color
 mediumSlateBlue =
-    Colour.fromRGB ( 123, 104, 238 )
+    Color.fromRGB ( 123, 104, 238 )
 
 
 
@@ -794,105 +794,105 @@ mediumSlateBlue =
 
 
 {-| -}
-white : Colour
+white : Color
 white =
-    Colour.fromRGB ( 255, 255, 255 )
+    Color.fromRGB ( 255, 255, 255 )
 
 
 {-| -}
-snow : Colour
+snow : Color
 snow =
-    Colour.fromRGB ( 255, 250, 250 )
+    Color.fromRGB ( 255, 250, 250 )
 
 
 {-| -}
-honeydew : Colour
+honeydew : Color
 honeydew =
-    Colour.fromRGB ( 240, 255, 240 )
+    Color.fromRGB ( 240, 255, 240 )
 
 
 {-| -}
-mintCream : Colour
+mintCream : Color
 mintCream =
-    Colour.fromRGB ( 245, 255, 250 )
+    Color.fromRGB ( 245, 255, 250 )
 
 
 {-| -}
-azure : Colour
+azure : Color
 azure =
-    Colour.fromRGB ( 240, 255, 255 )
+    Color.fromRGB ( 240, 255, 255 )
 
 
 {-| -}
-aliceBlue : Colour
+aliceBlue : Color
 aliceBlue =
-    Colour.fromRGB ( 240, 248, 255 )
+    Color.fromRGB ( 240, 248, 255 )
 
 
 {-| -}
-ghostWhite : Colour
+ghostWhite : Color
 ghostWhite =
-    Colour.fromRGB ( 248, 248, 255 )
+    Color.fromRGB ( 248, 248, 255 )
 
 
 {-| -}
-whiteSmoke : Colour
+whiteSmoke : Color
 whiteSmoke =
-    Colour.fromRGB ( 245, 245, 245 )
+    Color.fromRGB ( 245, 245, 245 )
 
 
 {-| -}
-seashell : Colour
+seashell : Color
 seashell =
-    Colour.fromRGB ( 255, 245, 238 )
+    Color.fromRGB ( 255, 245, 238 )
 
 
 {-| -}
-beige : Colour
+beige : Color
 beige =
-    Colour.fromRGB ( 245, 245, 220 )
+    Color.fromRGB ( 245, 245, 220 )
 
 
 {-| -}
-oldLace : Colour
+oldLace : Color
 oldLace =
-    Colour.fromRGB ( 253, 245, 230 )
+    Color.fromRGB ( 253, 245, 230 )
 
 
 {-| -}
-floralWhite : Colour
+floralWhite : Color
 floralWhite =
-    Colour.fromRGB ( 255, 250, 240 )
+    Color.fromRGB ( 255, 250, 240 )
 
 
 {-| -}
-ivory : Colour
+ivory : Color
 ivory =
-    Colour.fromRGB ( 255, 255, 240 )
+    Color.fromRGB ( 255, 255, 240 )
 
 
 {-| -}
-antiqueWhite : Colour
+antiqueWhite : Color
 antiqueWhite =
-    Colour.fromRGB ( 250, 235, 215 )
+    Color.fromRGB ( 250, 235, 215 )
 
 
 {-| -}
-linen : Colour
+linen : Color
 linen =
-    Colour.fromRGB ( 250, 240, 230 )
+    Color.fromRGB ( 250, 240, 230 )
 
 
 {-| -}
-lavenderBlush : Colour
+lavenderBlush : Color
 lavenderBlush =
-    Colour.fromRGB ( 255, 240, 245 )
+    Color.fromRGB ( 255, 240, 245 )
 
 
 {-| -}
-mistyRose : Colour
+mistyRose : Color
 mistyRose =
-    Colour.fromRGB ( 255, 228, 225 )
+    Color.fromRGB ( 255, 228, 225 )
 
 
 
@@ -900,60 +900,60 @@ mistyRose =
 
 
 {-| -}
-gainsboro : Colour
+gainsboro : Color
 gainsboro =
-    Colour.fromRGB ( 220, 220, 220 )
+    Color.fromRGB ( 220, 220, 220 )
 
 
 {-| -}
-lightGray : Colour
+lightGray : Color
 lightGray =
-    Colour.fromRGB ( 211, 211, 211 )
+    Color.fromRGB ( 211, 211, 211 )
 
 
 {-| -}
-silver : Colour
+silver : Color
 silver =
-    Colour.fromRGB ( 192, 192, 192 )
+    Color.fromRGB ( 192, 192, 192 )
 
 
 {-| -}
-darkGray : Colour
+darkGray : Color
 darkGray =
-    Colour.fromRGB ( 169, 169, 169 )
+    Color.fromRGB ( 169, 169, 169 )
 
 
 {-| -}
-gray : Colour
+gray : Color
 gray =
-    Colour.fromRGB ( 128, 128, 128 )
+    Color.fromRGB ( 128, 128, 128 )
 
 
 {-| -}
-dimGray : Colour
+dimGray : Color
 dimGray =
-    Colour.fromRGB ( 105, 105, 105 )
+    Color.fromRGB ( 105, 105, 105 )
 
 
 {-| -}
-lightSlateGray : Colour
+lightSlateGray : Color
 lightSlateGray =
-    Colour.fromRGB ( 119, 136, 153 )
+    Color.fromRGB ( 119, 136, 153 )
 
 
 {-| -}
-slateGray : Colour
+slateGray : Color
 slateGray =
-    Colour.fromRGB ( 112, 128, 144 )
+    Color.fromRGB ( 112, 128, 144 )
 
 
 {-| -}
-darkSlateGray : Colour
+darkSlateGray : Color
 darkSlateGray =
-    Colour.fromRGB ( 47, 79, 79 )
+    Color.fromRGB ( 47, 79, 79 )
 
 
 {-| -}
-black : Colour
+black : Color
 black =
-    Colour.fromRGB ( 0, 0, 0 )
+    Color.fromRGB ( 0, 0, 0 )

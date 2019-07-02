@@ -1,6 +1,6 @@
 module Preview exposing (Model, Msg, init, update, view)
 
-import Colour exposing (Colour)
+import Color exposing (Color)
 import Comparison
 import Html exposing (Html)
 import Html.Attributes exposing (style)
@@ -18,12 +18,12 @@ type alias Model =
 type Generator
     = Generator
         { name : String
-        , generate : Colour -> List Colour
+        , generate : Color -> List Color
         }
     | GeneratorWith
         { name : String
         , unit : Unit
-        , generate : Float -> Colour -> List Colour
+        , generate : Float -> Color -> List Color
         , editable : Maybe Float
         }
 
@@ -64,34 +64,34 @@ generatorList =
             normalize (generator a b)
     in
     ( Generator
-        { name = "Colour.highContrast"
-        , generate = Colour.highContrast >> List.singleton
+        { name = "Color.highContrast"
+        , generate = Color.highContrast >> List.singleton
         }
     , [ GeneratorWith
-            { name = "Colour.blacken"
+            { name = "Color.blacken"
             , unit = Percentage
-            , generate = apply Colour.blacken List.singleton
+            , generate = apply Color.blacken List.singleton
             , editable = Nothing
             }
       , GeneratorWith
-            { name = "Colour.whiten"
+            { name = "Color.whiten"
             , unit = Percentage
-            , generate = apply Colour.whiten List.singleton
+            , generate = apply Color.whiten List.singleton
             , editable = Nothing
             }
       , GeneratorWith
-            { name = "Colour.grayen"
+            { name = "Color.grayen"
             , unit = Percentage
-            , generate = apply Colour.grayen List.singleton
+            , generate = apply Color.grayen List.singleton
             , editable = Nothing
             }
       , Generator
-            { name = "Colour.grayscale"
-            , generate = Colour.grayscale >> List.singleton
+            { name = "Color.grayscale"
+            , generate = Color.grayscale >> List.singleton
             }
       , Generator
-            { name = "Colour.invert"
-            , generate = Colour.invert >> List.singleton
+            { name = "Color.invert"
+            , generate = Color.invert >> List.singleton
             }
       ]
     )
@@ -114,18 +114,18 @@ init =
     }
 
 
-view : Colour -> Model -> Html Msg
-view selectedColour model =
+view : Color -> Model -> Html Msg
+view selectedColor model =
     Html.div [ style "margin-top" "4px" ]
         [ generatorOptions model
         , case model.selectedGenerator of
             Generator details ->
-                viewPalette selectedColour details.name details.generate
+                viewPalette selectedColor details.name details.generate
 
             GeneratorWith details ->
                 Html.div []
                     [ customValueEditor (unitToString details.unit) details.editable
-                    , viewEditablePalette selectedColour details
+                    , viewEditablePalette selectedColor details
                     ]
                     |> Html.map
                         (\newEditable ->
@@ -139,7 +139,7 @@ generatorOptions : Model -> Html Msg
 generatorOptions model =
     Html.div [ style "margin-bottom" "8px" ]
         [ Html.label [ Html.Attributes.for "generator-select" ]
-            [ Html.text "Modify/generate new colours with:" ]
+            [ Html.text "Modify/generate new colors with:" ]
         , Html.select
             [ Html.Attributes.id "generator-select"
             , Html.Events.onInput
@@ -185,29 +185,29 @@ customValueEditor unit currentValue =
 
 
 viewEditablePalette :
-    Colour
-    -> { a | name : String, generate : Float -> Colour -> List Colour, editable : Maybe Float }
+    Color
+    -> { a | name : String, generate : Float -> Color -> List Color, editable : Maybe Float }
     -> Html msg
-viewEditablePalette selectedColour { name, generate, editable } =
+viewEditablePalette selectedColor { name, generate, editable } =
     case editable of
         Just value ->
-            viewPalette selectedColour (name ++ " " ++ String.fromFloat value) (generate value)
+            viewPalette selectedColor (name ++ " " ++ String.fromFloat value) (generate value)
 
         Nothing ->
             Html.text ""
 
 
-viewPalette : Colour -> String -> (Colour -> List Colour) -> Html msg
-viewPalette selectedColour name generate =
+viewPalette : Color -> String -> (Color -> List Color) -> Html msg
+viewPalette selectedColor name generate =
     let
         ( r, g, b ) =
-            Colour.toRGB selectedColour
+            Color.toRGB selectedColor
     in
     Html.div []
         [ Html.code []
             [ Html.text
                 (name
-                    ++ " <| Colour.fromRGB ( "
+                    ++ " <| Color.fromRGB ( "
                     ++ String.fromFloat r
                     ++ ", "
                     ++ String.fromFloat g
@@ -216,7 +216,7 @@ viewPalette selectedColour name generate =
                     ++ " ) == "
                 )
             ]
-        , Comparison.viewPalette (Colour.fromRGB ( 255, 255, 255 )) (generate selectedColour)
+        , Comparison.viewPalette (Color.fromRGB ( 255, 255, 255 )) (generate selectedColor)
         ]
 
 

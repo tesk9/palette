@@ -1,13 +1,13 @@
 {
     "type": "package",
     "name": "tesk9/palette",
-    "summary": "Work with colours and generate palettes.",
+    "summary": "Work with colors and generate palettes.",
     "license": "BSD-3-Clause",
     "version": "1.4.0",
     "exposed-modules": [
-        "Colour",
-        "Colour.Accessibility",
-        "Colour.Transparent",
+        "Color",
+        "Color.Accessibility",
+        "Color.Transparent",
         "Palette.Generative",
         "Palette.X11",
         "Palette.Tango",

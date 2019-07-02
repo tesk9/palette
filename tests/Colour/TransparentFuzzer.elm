@@ -1,34 +1,34 @@
-module Colour.TransparentFuzzer exposing
-    ( colourWithOpacity
-    , hslColour
+module Color.TransparentFuzzer exposing
+    ( colorWithOpacity
+    , hslColor
     , opacityValue
-    , rgbColour
+    , rgbColor
     )
 
-import Colour.Transparent exposing (Colour, Opacity)
-import ColourFuzzer
+import Color.Transparent exposing (Color, Opacity)
+import ColorFuzzer
 import Fuzz exposing (Fuzzer)
 
 
-colourWithOpacity : Fuzzer Colour
-colourWithOpacity =
-    Fuzz.oneOf [ rgbColour, hslColour ]
+colorWithOpacity : Fuzzer Color
+colorWithOpacity =
+    Fuzz.oneOf [ rgbColor, hslColor ]
 
 
-rgbColour : Fuzzer Colour
-rgbColour =
-    Fuzz.map2 Colour.Transparent.fromColour
+rgbColor : Fuzzer Color
+rgbColor =
+    Fuzz.map2 Color.Transparent.fromColor
         opacityValue
-        ColourFuzzer.rgbColour
+        ColorFuzzer.rgbColor
 
 
-hslColour : Fuzzer Colour
-hslColour =
-    Fuzz.map2 Colour.Transparent.fromColour
+hslColor : Fuzzer Color
+hslColor =
+    Fuzz.map2 Color.Transparent.fromColor
         opacityValue
-        ColourFuzzer.hslColour
+        ColorFuzzer.hslColor
 
 
 opacityValue : Fuzzer Opacity
 opacityValue =
-    Fuzz.map Colour.Transparent.customOpacity (Fuzz.floatRange 0 1.0)
+    Fuzz.map Color.Transparent.customOpacity (Fuzz.floatRange 0 1.0)

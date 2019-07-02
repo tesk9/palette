@@ -1,50 +1,50 @@
-module ColourSpec exposing
-    ( colourSpec
+module ColorSpec exposing
+    ( colorSpec
     , conversionsSpec
     , highContrastSuite
     , invertSuite
     , luminanceSuite
     )
 
-import Colour exposing (Colour)
-import Colour.Accessibility
-import ColourFuzzer exposing (hexStringOfLength)
+import Color exposing (Color)
+import Color.Accessibility
+import ColorFuzzer exposing (hexStringOfLength)
 import Expect exposing (Expectation)
 import Palette.X11 exposing (..)
 import Test exposing (..)
 
 
-colourSpec : Test
-colourSpec =
-    describe "Colour"
-        [ describe "to and from a Colour"
+colorSpec : Test
+colorSpec =
+    describe "Color"
+        [ describe "to and from a Color"
             [ test "from RGB to RGB" <|
                 \_ ->
-                    Colour.fromRGB ( -10, 123, 300 )
+                    Color.fromRGB ( -10, 123, 300 )
                         |> expectRGB ( 0, 123, 255 )
             , test "from HSL to HSL" <|
                 \_ ->
-                    Colour.fromHSL ( -10, 123, -10 )
+                    Color.fromHSL ( -10, 123, -10 )
                         |> expectHSL ( 350, 100, 0 )
             , describe "Hex"
                 [ test "from Hex with bad values" <|
                     \_ ->
-                        Colour.fromHex "#FFDG00"
+                        Color.fromHex "#FFDG00"
                             |> Expect.err
                 , test "from lowercase Hex to Hex" <|
                     \_ ->
-                        Colour.fromHex "#d3e700"
+                        Color.fromHex "#d3e700"
                             |> expectHex "#D3E700"
                 , test "from Hex to Hex" <|
                     \_ ->
-                        Colour.fromHex "#FFD700"
+                        Color.fromHex "#FFD700"
                             |> expectHex "#FFD700"
                 , fuzz (hexStringOfLength 4) "Short hex with transparency" <|
                     \hex ->
-                        Expect.ok (Colour.fromHex hex)
+                        Expect.ok (Color.fromHex hex)
                 , fuzz (hexStringOfLength 8) "Long hex with transparency" <|
                     \hex ->
-                        Expect.ok (Colour.fromHex hex)
+                        Expect.ok (Color.fromHex hex)
                 , fuzz (hexStringOfLength 3) "Short hex and long hex match" <|
                     \hex ->
                         let
@@ -54,33 +54,33 @@ colourSpec =
                                     |> String.fromList
                                     |> String.dropLeft 1
                         in
-                        Colour.fromHex hex
+                        Color.fromHex hex
                             |> expectHex fullLengthHexString
                 , fuzz (hexStringOfLength 6) "Long hex succeeds" <|
                     \hex ->
-                        Colour.fromHex hex
+                        Color.fromHex hex
                             |> expectHex hex
                 ]
             ]
         , describe "to a String" <|
             let
                 transparentPink =
-                    Colour.fromRGB ( 255, 0, 255 )
+                    Color.fromRGB ( 255, 0, 255 )
             in
             [ test "toRGBString" <|
                 \_ ->
                     transparentPink
-                        |> Colour.toRGBString
+                        |> Color.toRGBString
                         |> Expect.equal "rgb(255,0,255)"
             , test "toHSLString" <|
                 \_ ->
                     transparentPink
-                        |> Colour.toHSLString
+                        |> Color.toHSLString
                         |> Expect.equal "hsl(300,100%,50%)"
             , test "toHex" <|
                 \_ ->
                     transparentPink
-                        |> Colour.toHex
+                        |> Color.toHex
                         |> Expect.equal "#FF00FF"
             ]
         ]
@@ -90,114 +90,114 @@ conversionsSpec : Test
 conversionsSpec =
     describe "Conversions & channel values"
         [ describe "toHSL"
-            [ describe "from RGB colour"
+            [ describe "from RGB color"
                 [ test "black" <|
                     \_ ->
-                        Colour.fromRGB ( 0, 0, 0 )
-                            |> Colour.toHSL
+                        Color.fromRGB ( 0, 0, 0 )
+                            |> Color.toHSL
                             |> expectTripleEquals ( 0, 0, 0 )
                 , test "white" <|
                     \_ ->
-                        Colour.fromRGB ( 255, 255, 255 )
-                            |> Colour.toHSL
+                        Color.fromRGB ( 255, 255, 255 )
+                            |> Color.toHSL
                             |> expectTripleEquals ( 0, 0, 100 )
                 , test "red" <|
                     \_ ->
-                        Colour.fromRGB ( 255, 0, 0 )
-                            |> Colour.toHSL
+                        Color.fromRGB ( 255, 0, 0 )
+                            |> Color.toHSL
                             |> expectTripleEquals ( 0, 100, 50 )
                 , test "green" <|
                     \_ ->
-                        Colour.fromRGB ( 0, 128, 0 )
-                            |> Colour.toHSL
+                        Color.fromRGB ( 0, 128, 0 )
+                            |> Color.toHSL
                             |> expectTripleEquals ( 120, 100, 25 )
                 ]
-            , describe "from HSL colour"
+            , describe "from HSL color"
                 [ test "black" <|
                     \_ ->
-                        Colour.fromHSL ( 0, 0, 0 )
-                            |> Colour.toHSL
+                        Color.fromHSL ( 0, 0, 0 )
+                            |> Color.toHSL
                             |> expectTripleEquals ( 0, 0, 0 )
                 ]
             ]
         , describe "toRGB"
-            [ describe "from RGB colour"
+            [ describe "from RGB color"
                 [ test "black" <|
                     \_ ->
-                        Colour.fromRGB ( 0, 0, 0 )
-                            |> Colour.toRGB
+                        Color.fromRGB ( 0, 0, 0 )
+                            |> Color.toRGB
                             |> expectTripleEquals ( 0, 0, 0 )
                 ]
-            , describe "from HSL colour"
+            , describe "from HSL color"
                 [ test "black" <|
                     \_ ->
-                        Colour.fromHSL ( 0, 0, 0 )
-                            |> Colour.toRGB
+                        Color.fromHSL ( 0, 0, 0 )
+                            |> Color.toRGB
                             |> expectTripleEquals ( 0, 0, 0 )
                 , test "white" <|
                     \_ ->
-                        Colour.fromHSL ( 0, 0, 100 )
-                            |> Colour.toRGB
+                        Color.fromHSL ( 0, 0, 100 )
+                            |> Color.toRGB
                             |> expectTripleEquals ( 255, 255, 255 )
                 , test "red" <|
                     \_ ->
-                        Colour.fromHSL ( 0, 100, 50 )
-                            |> Colour.toRGB
+                        Color.fromHSL ( 0, 100, 50 )
+                            |> Color.toRGB
                             |> expectTripleEquals ( 255, 0, 0 )
                 , test "green" <|
                     \_ ->
-                        Colour.fromHSL ( 120, 100, 25 )
-                            |> Colour.toRGB
+                        Color.fromHSL ( 120, 100, 25 )
+                            |> Color.toRGB
                             |> expectTripleEquals ( 0, 128, 0 )
                 ]
             ]
-        , fuzz ColourFuzzer.rgbValues "from RGB to HSL and back to RGB again" <|
-            \colour ->
+        , fuzz ColorFuzzer.rgbValues "from RGB to HSL and back to RGB again" <|
+            \color ->
                 let
                     operations =
-                        Colour.fromRGB
-                            >> Colour.toHSL
-                            >> Colour.fromHSL
-                            >> Colour.toRGB
+                        Color.fromRGB
+                            >> Color.toHSL
+                            >> Color.fromHSL
+                            >> Color.toRGB
 
                     rgbName =
-                        Colour.toRGBString (Colour.fromRGB colour)
+                        Color.toRGBString (Color.fromRGB color)
                 in
-                expectTripleEquals colour (operations colour)
-        , fuzz ColourFuzzer.hslValues "from HSL to RGB and back to HSL again" <|
-            \(( _, s, l ) as colour) ->
+                expectTripleEquals color (operations color)
+        , fuzz ColorFuzzer.hslValues "from HSL to RGB and back to HSL again" <|
+            \(( _, s, l ) as color) ->
                 let
                     operations =
-                        Colour.fromHSL
-                            >> Colour.toRGB
-                            >> Colour.fromRGB
-                            >> Colour.toHSL
+                        Color.fromHSL
+                            >> Color.toRGB
+                            >> Color.fromRGB
+                            >> Color.toHSL
 
                     hslName =
-                        Colour.toHSLString (Colour.fromHSL colour)
+                        Color.toHSLString (Color.fromHSL color)
                 in
                 if l == 0 then
                     -- This is black, which has more representations in HSL space
                     -- than in RGB space.
-                    expectTripleEquals ( 0, 0, 0 ) (operations colour)
+                    expectTripleEquals ( 0, 0, 0 ) (operations color)
 
                 else if l == 100 then
                     -- This is white, which has more representations in HSL space
                     -- than in RGB space.
-                    expectTripleEquals ( 0, 0, 100 ) (operations colour)
+                    expectTripleEquals ( 0, 0, 100 ) (operations color)
 
                 else if s == 0 then
                     -- This is a fully-desaturated gray. It also has more representations
                     -- in HSL space than in RGB space.
-                    expectTripleEquals ( 0, 0, l ) (operations colour)
+                    expectTripleEquals ( 0, 0, l ) (operations color)
 
                 else
-                    expectTripleEquals colour (operations colour)
-        , fuzz (ColourFuzzer.hexStringOfLength 6) "from Hex to RGB and back to Hex again" <|
+                    expectTripleEquals color (operations color)
+        , fuzz (ColorFuzzer.hexStringOfLength 6) "from Hex to RGB and back to Hex again" <|
             \c ->
-                Colour.fromHex c
-                    |> Result.map Colour.toRGB
-                    |> Result.map (Colour.fromRGB >> Colour.toHex)
+                Color.fromHex c
+                    |> Result.map Color.toRGB
+                    |> Result.map (Color.fromRGB >> Color.toHex)
                     |> Expect.equal (Ok c)
         ]
 
@@ -208,17 +208,17 @@ luminanceSuite =
         [ test "white is very bright" <|
             \_ ->
                 white
-                    |> Colour.luminance
+                    |> Color.luminance
                     |> floatEqual 1
         , test "gray is middlingly bright" <|
             \_ ->
                 gray
-                    |> Colour.luminance
+                    |> Color.luminance
                     |> floatEqual 0.215
         , test "black is not very bright" <|
             \_ ->
                 black
-                    |> Colour.luminance
+                    |> Color.luminance
                     |> floatEqual 0
         ]
 
@@ -226,7 +226,7 @@ luminanceSuite =
 highContrastSuite : Test
 highContrastSuite =
     let
-        grays : List ( Colour, String )
+        grays : List ( Color, String )
         grays =
             [ ( gainsboro, "gainsboro" )
             , ( lightGray, "lightGray" )
@@ -244,18 +244,18 @@ highContrastSuite =
         [ describe "black and white"
             [ test "highContrast black == white" <|
                 \_ ->
-                    expectColoursEqual (Colour.highContrast black) white
+                    expectColorsEqual (Color.highContrast black) white
             , test "highContrast white == black" <|
                 \_ ->
-                    expectColoursEqual (Colour.highContrast white) black
+                    expectColorsEqual (Color.highContrast white) black
             , describe "highContrast grays"
                 (List.map
-                    (\( colour, name ) ->
+                    (\( color, name ) ->
                         test name <|
                             \_ ->
-                                colour
-                                    |> Colour.highContrast
-                                    |> Colour.Accessibility.contrast colour
+                                color
+                                    |> Color.highContrast
+                                    |> Color.Accessibility.contrast color
                                     |> Expect.greaterThan 4.5
                     )
                     grays
@@ -270,10 +270,10 @@ invertSuite =
         [ describe "black and white"
             [ test "invert black == white" <|
                 \_ ->
-                    expectColoursEqual (Colour.invert black) white
+                    expectColorsEqual (Color.invert black) white
             , test "invert white == black" <|
                 \_ ->
-                    expectColoursEqual (Colour.invert white) black
+                    expectColorsEqual (Color.invert white) black
             ]
         ]
 
@@ -287,46 +287,46 @@ floatEqual =
     Expect.within (Expect.Absolute 0.1)
 
 
-gray : Colour
+gray : Color
 gray =
-    Colour.fromRGB ( 118, 118, 118 )
+    Color.fromRGB ( 118, 118, 118 )
 
 
 {-| This exists mostly to make float equality checks nicer.
 -}
-expectRGB : ( Int, Int, Int ) -> Colour -> Expectation
-expectRGB expected colour =
+expectRGB : ( Int, Int, Int ) -> Color -> Expectation
+expectRGB expected color =
     let
         ( r, g, b ) =
-            Colour.toRGB colour
+            Color.toRGB color
     in
     Expect.equal ( round r, round g, round b ) expected
 
 
 {-| This exists mostly to make float equality checks nicer.
 -}
-expectHSL : ( Int, Int, Int ) -> Colour -> Expectation
-expectHSL expected colour =
+expectHSL : ( Int, Int, Int ) -> Color -> Expectation
+expectHSL expected color =
     let
         ( r, g, b ) =
-            Colour.toHSL colour
+            Color.toHSL color
     in
     Expect.equal ( round r, round g, round b ) expected
 
 
-expectHex : String -> Result String Colour -> Expectation
-expectHex expected colourResult =
-    case colourResult of
+expectHex : String -> Result String Color -> Expectation
+expectHex expected colorResult =
+    case colorResult of
         Ok got ->
-            Expect.equal expected (Colour.toHex got)
+            Expect.equal expected (Color.toHex got)
 
         Err err ->
-            Expect.fail ("Could not parse colour string: \n" ++ err)
+            Expect.fail ("Could not parse color string: \n" ++ err)
 
 
-expectColoursEqual : Colour -> Colour -> Expectation
-expectColoursEqual a b =
-    Expect.equal (Colour.toRGBString a) (Colour.toRGBString b)
+expectColorsEqual : Color -> Color -> Expectation
+expectColorsEqual a b =
+    Expect.equal (Color.toRGBString a) (Color.toRGBString b)
 
 
 expectTripleEquals : ( Float, Float, Float ) -> ( Float, Float, Float ) -> Expectation

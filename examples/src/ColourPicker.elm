@@ -1,19 +1,19 @@
-module ColourPicker exposing (Model, Msg, init, update, view)
+module ColorPicker exposing (Model, Msg, init, update, view)
 
-import Colour exposing (Colour)
+import Color exposing (Color)
 import Html exposing (Html)
 import Html.Attributes exposing (attribute, id, style)
 import Html.Events
 
 
 type alias Model =
-    { selectedColour : Colour
+    { selectedColor : Color
     }
 
 
-init : Colour -> Model
-init colour =
-    Model colour
+init : Color -> Model
+init color =
+    Model color
 
 
 view : Model -> Html Msg
@@ -21,26 +21,26 @@ view model =
     Html.label []
         [ Html.input
             [ Html.Attributes.type_ "color"
-            , Colour.toHex model.selectedColour
+            , Color.toHex model.selectedColor
                 |> Html.Attributes.value
-            , Html.Events.onInput SetHexColour
+            , Html.Events.onInput SetHexColor
             ]
             []
-        , Html.span [ style "padding" "2px" ] [ Html.text "Select a colour" ]
+        , Html.span [ style "padding" "2px" ] [ Html.text "Select a color" ]
         ]
 
 
 type Msg
-    = SetHexColour String
+    = SetHexColor String
 
 
-update : Msg -> Model -> ( Model, Maybe Colour )
-update msg { selectedColour } =
+update : Msg -> Model -> ( Model, Maybe Color )
+update msg { selectedColor } =
     case msg of
-        SetHexColour colourString ->
+        SetHexColor colorString ->
             let
-                newColour =
-                    Colour.fromHex colourString
-                        |> Result.withDefault selectedColour
+                newColor =
+                    Color.fromHex colorString
+                        |> Result.withDefault selectedColor
             in
-            ( Model newColour, Just newColour )
+            ( Model newColor, Just newColor )

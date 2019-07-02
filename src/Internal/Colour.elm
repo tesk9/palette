@@ -1,5 +1,5 @@
-module Internal.Colour exposing
-    ( Colour
+module Internal.Color exposing
+    ( Color
     , fromHSLA, fromRGBA
     , asHSLA
     , rotateHue, addSaturation, addLightness, invert
@@ -8,7 +8,7 @@ module Internal.Colour exposing
 
 {-|
 
-@docs Colour
+@docs Color
 @docs fromHSLA, fromRGBA
 @docs asHSLA, asRGBA asHex
 @docs rotateHue, addSaturation, addLightness, invert
@@ -23,21 +23,21 @@ import Internal.RGBA as RGBA
 
 
 {-| -}
-type Colour
-    = HSLA HSLA.Colour
-    | RGBA RGBA.Colour
+type Color
+    = HSLA HSLA.Color
+    | RGBA RGBA.Color
 
 
 {-| -}
-fromHSLA : HSLA.Channels -> Colour
+fromHSLA : HSLA.Channels -> Color
 fromHSLA values =
     HSLA (HSLA.fromChannels values)
 
 
 {-| -}
-asHSLA : Colour -> HSLA.Colour
-asHSLA colour =
-    case colour of
+asHSLA : Color -> HSLA.Color
+asHSLA color =
+    case color of
         HSLA values ->
             values
 
@@ -46,15 +46,15 @@ asHSLA colour =
 
 
 {-| -}
-fromRGBA : RGBA.Channels -> Colour
+fromRGBA : RGBA.Channels -> Color
 fromRGBA values =
     RGBA (RGBA.fromChannels values)
 
 
 {-| -}
-asRGBA : Colour -> RGBA.Colour
-asRGBA colour =
-    case colour of
+asRGBA : Color -> RGBA.Color
+asRGBA color =
+    case color of
         RGBA values ->
             values
 
@@ -63,9 +63,9 @@ asRGBA colour =
 
 
 {-| -}
-asHex : Colour -> Hex.Colour
-asHex colour =
-    case colour of
+asHex : Color -> Hex.Color
+asHex color =
+    case color of
         RGBA values ->
             RGBA.toChannels values
 
@@ -74,7 +74,7 @@ asHex colour =
 
 
 {-| -}
-fromHex : String -> Maybe Colour
+fromHex : String -> Maybe Color
 fromHex str =
     Maybe.map (RGBA.fromChannels >> RGBA) (Hex.fromString str)
 
@@ -84,16 +84,16 @@ fromHex str =
 
 
 {-| -}
-convertRGBAToHSL : RGBA.Colour -> Colour
-convertRGBAToHSL colour =
-    RGBA.toChannels colour
+convertRGBAToHSL : RGBA.Color -> Color
+convertRGBAToHSL color =
+    RGBA.toChannels color
         |> HSLA.fromRGBA
         |> HSLA
 
 
-convertHSLToRGBA : HSLA.Colour -> Colour
-convertHSLToRGBA colour =
-    HSLA.toChannels colour
+convertHSLToRGBA : HSLA.Color -> Color
+convertHSLToRGBA color =
+    HSLA.toChannels color
         |> RGBA.fromHSLA
         |> RGBA
 
@@ -103,41 +103,41 @@ convertHSLToRGBA colour =
 
 
 {-| -}
-rotateHue : Float -> Colour -> Colour
-rotateHue degrees colour =
+rotateHue : Float -> Color -> Color
+rotateHue degrees color =
     let
         ({ hue } as hsla) =
-            HSLA.toChannels (asHSLA colour)
+            HSLA.toChannels (asHSLA color)
     in
     fromHSLA { hsla | hue = hue + degrees }
 
 
 {-| -}
-addSaturation : Float -> Colour -> Colour
-addSaturation percentage colour =
+addSaturation : Float -> Color -> Color
+addSaturation percentage color =
     let
         ({ saturation } as hsla) =
-            HSLA.toChannels (asHSLA colour)
+            HSLA.toChannels (asHSLA color)
     in
     fromHSLA { hsla | saturation = saturation + percentage }
 
 
 {-| -}
-addLightness : Float -> Colour -> Colour
-addLightness percentage colour =
+addLightness : Float -> Color -> Color
+addLightness percentage color =
     let
         ({ lightness } as hsla) =
-            HSLA.toChannels (asHSLA colour)
+            HSLA.toChannels (asHSLA color)
     in
     fromHSLA { hsla | lightness = lightness + percentage }
 
 
 {-| -}
-invert : Colour -> Colour
-invert colour =
+invert : Color -> Color
+invert color =
     let
         { red, green, blue, alpha } =
-            RGBA.toChannels (asRGBA colour)
+            RGBA.toChannels (asRGBA color)
     in
     fromRGBA
         { red = 255 - red

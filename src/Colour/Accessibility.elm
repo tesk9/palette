@@ -1,4 +1,4 @@
-module Colour.Accessibility exposing
+module Color.Accessibility exposing
     ( Rating(..), meetsAA, meetsAAA
     , checkContrast
     , contrast
@@ -12,7 +12,7 @@ module Colour.Accessibility exposing
 
 -}
 
-import Colour exposing (Colour)
+import Color exposing (Color)
 
 
 {-| Read more about levels of conformance at [WCAG](https://www.w3.org/TR/UNDERSTANDING-WCAG20/conformance.html#uc-levels-head).
@@ -51,8 +51,8 @@ meetsAAA rating =
             True
 
 
-{-| Checks whether two colours have enough contrast with each other to be used together
-(e.g., as a background and text colour combination). Returns the WCAG Rating level.
+{-| Checks whether two colors have enough contrast with each other to be used together
+(e.g., as a background and text color combination). Returns the WCAG Rating level.
 
 To meet AA level sufficiently, [follow these standards](https://www.w3.org/WAI/WCAG21/quickref/?versions=2.0&showtechniques=143%2C146#contrast-minimum).
 To meet AAA level sufficiently, [follow these standards](https://www.w3.org/WAI/WCAG21/quickref/?versions=2.0&showtechniques=143%2C146#contrast-enhanced).
@@ -60,14 +60,14 @@ To meet AAA level sufficiently, [follow these standards](https://www.w3.org/WAI/
 -}
 checkContrast :
     { fontSize : Float, fontWeight : Int }
-    -> Colour
-    -> Colour
+    -> Color
+    -> Color
     -> Rating
-checkContrast font colour1 colour2 =
-    if sufficientContrast AAA_ font colour1 colour2 then
+checkContrast font color1 color2 =
+    if sufficientContrast AAA_ font color1 color2 then
         AAA
 
-    else if sufficientContrast AA_ font colour1 colour2 then
+    else if sufficientContrast AA_ font color1 color2 then
         AA
 
     else
@@ -80,38 +80,38 @@ type WCAGLevel
 
 
 {-| -}
-sufficientContrast : WCAGLevel -> { fontSize : Float, fontWeight : Int } -> Colour -> Colour -> Bool
-sufficientContrast wcagLevel { fontSize, fontWeight } colour1 colour2 =
+sufficientContrast : WCAGLevel -> { fontSize : Float, fontWeight : Int } -> Color -> Color -> Bool
+sufficientContrast wcagLevel { fontSize, fontWeight } color1 color2 =
     let
-        colourContrast =
-            contrast colour1 colour2
+        colorContrast =
+            contrast color1 color2
     in
     case wcagLevel of
         AA_ ->
             if (fontSize > 14 && fontWeight >= 700) || fontSize > 18 then
-                colourContrast >= 3
+                colorContrast >= 3
 
             else
-                colourContrast >= 4.5
+                colorContrast >= 4.5
 
         AAA_ ->
             if (fontSize > 14 && fontWeight >= 700) || fontSize > 18 then
-                colourContrast >= 4.5
+                colorContrast >= 4.5
 
             else
-                colourContrast >= 7
+                colorContrast >= 7
 
 
-{-| Calculate the contrast between two colours.
+{-| Calculate the contrast between two colors.
 -}
-contrast : Colour -> Colour -> Float
-contrast colour1 colour2 =
+contrast : Color -> Color -> Float
+contrast color1 color2 =
     let
         luminance1 =
-            Colour.luminance colour1
+            Color.luminance color1
 
         luminance2 =
-            Colour.luminance colour2
+            Color.luminance color2
     in
     if luminance1 > luminance2 then
         (luminance1 + 0.05) / (luminance2 + 0.05)

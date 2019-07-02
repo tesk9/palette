@@ -1,14 +1,14 @@
-module TransparentColourExamples exposing (view)
+module TransparentColorExamples exposing (view)
 
-import Colour
-import Colour.Transparent exposing (Colour, customOpacity)
+import Color
+import Color.Transparent exposing (Color, customOpacity)
 import Html exposing (..)
 import Html.Attributes exposing (style)
 
 
-screen : Colour
+screen : Color
 screen =
-    Colour.Transparent.fromRGBA
+    Color.Transparent.fromRGBA
         { red = 255
         , green = 200
         , blue = 200
@@ -26,11 +26,11 @@ view =
         , style "display" "flex"
         ]
         [ span
-            [ style "background-color" (Colour.Transparent.toRGBAString screen)
-            , style "color" (Colour.toRGBString (Colour.fromRGB ( 255, 0, 0 )))
+            [ style "background-color" (Color.Transparent.toRGBAString screen)
+            , style "color" (Color.toRGBString (Color.fromRGB ( 255, 0, 0 )))
             , style "border" <|
                 "1px solid "
-                    ++ Colour.toRGBString (Colour.Transparent.toColour screen)
+                    ++ Color.toRGBString (Color.Transparent.toColor screen)
             , style "padding" "12px"
             ]
             [ p [ style "font-size" "24px" ] [ text "Yum! Strawberries!" ]

@@ -1,94 +1,94 @@
 [![Build Status](https://travis-ci.org/tesk9/palette.svg?branch=master)](https://travis-ci.org/tesk9/palette)
 
-Work with colours safely  and accessibly.
+Work with colors safely  and accessibly.
 
-## Creating colours
+## Creating colors
 
-Create colours from RGB, HSL, and hex values.
+Create colors from RGB, HSL, and hex values.
 
 ```
-import Colour exposing (Colour)
+import Color exposing (Color)
 
 
-myOrangeyRed : Colour
+myOrangeyRed : Color
 myOrangeyRed =
-    Colour.fromRGB ( 255, 80, 0 )
+    Color.fromRGB ( 255, 80, 0 )
 
 
-myTurquoiseIsh : Colour
+myTurquoiseIsh : Color
 myTurquoiseIsh =
-    Colour.fromHSL (127, 50, 50)
+    Color.fromHSL (127, 50, 50)
 
 
-myHex : Result String Colour
+myHex : Result String Color
 myHex =
-    Colour.fromHex "#ff9800"
+    Color.fromHex "#ff9800"
 
 ```
 
 ## Accessibility
 
-Use helpers like `contrast` and `sufficientContrast` to verify that your font size, boldness, and colours meet accessibility standards.
+Use helpers like `contrast` and `sufficientContrast` to verify that your font size, boldness, and colors meet accessibility standards.
 
 ```
-import Colour exposing (Colour)
-import Colour.Accessibility exposing (Rating, meetsAAA)
+import Color exposing (Color)
+import Color.Accessibility exposing (Rating, meetsAAA)
 
-validFontColour : Colour -> Bool
-validFontColour fontColour =
+validFontColor : Color -> Bool
+validFontColor fontColor =
     checkContrast { fontSize = 12, fontWeight = 700 }
-        (Colour.fromRGB ( 255, 255, 255 ))
-        fontColour
+        (Color.fromRGB ( 255, 255, 255 ))
+        fontColor
         |> meetsAAA
 ```
 
 ## Use static palettes
 
-Use [X11](https://en.wikipedia.org/wiki/X11_color_names) and [Tango](http://tango.freedesktop.org/Tango_Icon_Theme_Guidelines#Color_Palette) colours by name:
+Use [X11](https://en.wikipedia.org/wiki/X11_color_names) and [Tango](http://tango.freedesktop.org/Tango_Icon_Theme_Guidelines#Color_Palette) colors by name:
 
 ```
-import Colour exposing (Colour)
+import Color exposing (Color)
 import Palette.X11 as X11 exposing (orangeRed, tomato, coral, darkOrange, orange)
 import Palette.Tango as Tango exposing (butter1, butter2, butter3)
 
-orangyReds : List Colour
+orangyReds : List Color
 orangyReds =
     [ orangeRed, tomato, coral, darkOrange, orange ]
 
 
-allTheButter : List Colour
+allTheButter : List Color
 allTheButter =
     [ butter1, butter2, butter3 ]
 ```
 
 ## Generate palettes
 
-Generate a customized cubehelix colour scheme using `Palette.Cubehelix` and `Palette.Generative`.
+Generate a customized cubehelix color scheme using `Palette.Cubehelix` and `Palette.Generative`.
 
-`Palette.Cubehelix` is a good choice for charts & graphs because the produced colours have quite even visual intensity.
+`Palette.Cubehelix` is a good choice for charts & graphs because the produced colors have quite even visual intensity.
 
-Designers often approach colour not by picking one colour at a time, but by describing the relationships between
-the colours, e.g., "I want 4 colours that are equally spaced on the colour wheel," or, "I want 10 colours that
+Designers often approach color not by picking one color at a time, but by describing the relationships between
+the colors, e.g., "I want 4 colors that are equally spaced on the color wheel," or, "I want 10 colors that
 are all of the same hue but with different lightnesses."
 
-If you approach colour like this, then you'll be interested in using `Palette.Generative`, which has
-helpers like `square` (generates 4 evenly-spaced colours) and `monochromatic` (generates lovely
-single-hue lists of colours).
+If you approach color like this, then you'll be interested in using `Palette.Generative`, which has
+helpers like `square` (generates 4 evenly-spaced colors) and `monochromatic` (generates lovely
+single-hue lists of colors).
 
 
-## Mixing colours together
+## Mixing colors together
 
-If you've used Photoshop, you may be familiar with colour blending with functions
+If you've used Photoshop, you may be familiar with color blending with functions
 like `multiply`. If not, I recommend taking a look at the examples & playing until
 you get a feel for what the functions do.
 
 
-## Transparent colours
+## Transparent colors
 
 Work with alpha channel values/transparency/opacity.
 
 ```
-import Colour.Transparent
+import Color.Transparent
 ```
 
 ## Developing & Contributing

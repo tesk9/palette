@@ -17,78 +17,78 @@ module Palette.Generative exposing
 
 -}
 
-import Colour exposing (Colour)
+import Color exposing (Color)
 
 
-{-| Find the colour opposite the colour you pass in on the colour wheel.
+{-| Find the color opposite the color you pass in on the color wheel.
 
-E.g., if you pass in a reddish colour, you should expect to get back a tealish colour.
+E.g., if you pass in a reddish color, you should expect to get back a tealish color.
 
 -}
-complementary : Colour -> Colour
-complementary colour =
-    Colour.rotateHue 180 colour
+complementary : Color -> Color
+complementary color =
+    Color.rotateHue 180 color
 
 
-{-| Find the other two colours in the triadic scheme defined by the colour passed in.
+{-| Find the other two colors in the triadic scheme defined by the color passed in.
 
-Triadic colour schemes are evenly-spaced, so each of the three colours is 120 degrees
+Triadic color schemes are evenly-spaced, so each of the three colors is 120 degrees
 from the others.
 
 The internet says this scheme will be vibrant, and that you should
-mostly use one of the three colours and only use the other two for accents.
+mostly use one of the three colors and only use the other two for accents.
 
 -}
-triadic : Colour -> ( Colour, Colour )
-triadic colour =
-    splitComplementary 120 colour
+triadic : Color -> ( Color, Color )
+triadic color =
+    splitComplementary 120 color
 
 
-{-| Build a three-colour scheme by rotating the same amount from the initial colour
+{-| Build a three-color scheme by rotating the same amount from the initial color
 in both directions.
 
-`triadic`, the evenly-spaced 3-colour scheme, can be defined in terms of this function:
+`triadic`, the evenly-spaced 3-color scheme, can be defined in terms of this function:
 
-    triadic colour =
-        splitComplementary 120 colour
+    triadic color =
+        splitComplementary 120 color
 
 Initial rotation is clamped between 0 and 180.
 
 -}
-splitComplementary : Float -> Colour -> ( Colour, Colour )
-splitComplementary r colour =
+splitComplementary : Float -> Color -> ( Color, Color )
+splitComplementary r color =
     let
         rotation =
             clamp 0 180 r
     in
-    ( Colour.rotateHue rotation colour, Colour.rotateHue (0 - rotation) colour )
+    ( Color.rotateHue rotation color, Color.rotateHue (0 - rotation) color )
 
 
-{-| Find four equally-spaced colours along the colour wheel starting from the passed-in colour.
+{-| Find four equally-spaced colors along the color wheel starting from the passed-in color.
 -}
-square : Colour -> ( Colour, Colour, Colour )
-square colour =
-    tetratic 60 colour
+square : Color -> ( Color, Color, Color )
+square color =
+    tetratic 60 color
 
 
-{-| Find four colours along the colour wheel starting from the passed-in colour.
+{-| Find four colors along the color wheel starting from the passed-in color.
 
 This differs from the `square` helper in that our values aren't equally spaced --
-we are selecting colours on the colour wheel with a rectangle. We can actually define
+we are selecting colors on the color wheel with a rectangle. We can actually define
 `square` in terms of this function as follows:
 
-    square colour =
-        tetratic 60 colour
+    square color =
+        tetratic 60 color
 
-We'll rotate the number of degrees passed in along the colour wheel to find our first
-colour. Then we'll rotate the "length" of the rectangle -- as much as we need to in order
+We'll rotate the number of degrees passed in along the color wheel to find our first
+color. Then we'll rotate the "length" of the rectangle -- as much as we need to in order
 to make it all the way around.
 
 Initial rotation is clamped between 0 and 180.
 
 -}
-tetratic : Float -> Colour -> ( Colour, Colour, Colour )
-tetratic w colour =
+tetratic : Float -> Color -> ( Color, Color, Color )
+tetratic w color =
     let
         width =
             clamp 0 180 w
@@ -96,42 +96,42 @@ tetratic w colour =
         length =
             (360 - 2 * width) / 2
     in
-    ( Colour.rotateHue width colour
-    , Colour.rotateHue (width + length) colour
-    , Colour.rotateHue (2 * width + length) colour
+    ( Color.rotateHue width color
+    , Color.rotateHue (width + length) color
+    , Color.rotateHue (2 * width + length) color
     )
 
 
 {-| Create a monochromatic palette. The `Float` argument is size of the Lightness
 steps that you'd like in the palette.
 
-If you wanted a grayscale palette, and you wanted it to have five colours, you could do
+If you wanted a grayscale palette, and you wanted it to have five colors, you could do
 something like this:
 
     grayscalePalette =
         monochromatic 20 black
 
-Colours will be arranged from darkest to lightest.
+Colors will be arranged from darkest to lightest.
 
 -}
-monochromatic : Float -> Colour -> List Colour
-monochromatic stepSize colour =
+monochromatic : Float -> Color -> List Color
+monochromatic stepSize color =
     let
-        getNextStep adjustment lastColour colours =
+        getNextStep adjustment lastColor colors =
             let
                 nextLightness =
-                    Colour.toHSL lastColour
+                    Color.toHSL lastColor
                         |> (\( _, _, lightness ) -> lightness + adjustment)
             in
             if nextLightness <= 0 || nextLightness >= 100 then
-                lastColour :: colours
+                lastColor :: colors
 
             else
-                getNextStep adjustment (Colour.addLightness adjustment lastColour) (lastColour :: colours)
+                getNextStep adjustment (Color.addLightness adjustment lastColor) (lastColor :: colors)
     in
-    case List.reverse (getNextStep stepSize colour []) of
+    case List.reverse (getNextStep stepSize color []) of
         start :: tints ->
-            getNextStep (0 - stepSize) colour [] ++ tints
+            getNextStep (0 - stepSize) color [] ++ tints
 
         [] ->
             []
