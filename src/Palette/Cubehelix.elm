@@ -14,7 +14,7 @@ developed this method of generating even-intensity color schemes for use in astr
 "cubehelix" based on its relationship to the RGB color solid (a cube!). If you're curious (what cube?? what about the
 helix?!) please read more about it [here](https://www.mrao.cam.ac.uk/~dag/CUBEHELIX/), or see the paper:
 
-> Green, D. A., 2011, ["A color scheme for the display of astronomical intensity images"](http://astron-soc.in/bulletin/11June/289392011.pdf), Bulletin of the Astronomical Society of India, 39, 289.
+> Green, D. A., 2011, ["A colour scheme for the display of astronomical intensity images"](http://astron-soc.in/bulletin/11June/289392011.pdf), Bulletin of the Astronomical Society of India, 39, 289.
 > ([2011BASI...39..289G](https://ui.adsabs.harvard.edu/#abs/2011BASI...39..289G) at [ADS](https://ui.adsabs.harvard.edu/).)
 
 
