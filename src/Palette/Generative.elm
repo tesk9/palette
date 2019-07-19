@@ -17,7 +17,7 @@ module Palette.Generative exposing
 
 -}
 
-import OpaqueColor exposing (OpaqueColor)
+import Color exposing (Color)
 
 
 {-| Find the color opposite the color you pass in on the color wheel.
@@ -25,9 +25,9 @@ import OpaqueColor exposing (OpaqueColor)
 E.g., if you pass in a reddish color, you should expect to get back a tealish color.
 
 -}
-complementary : OpaqueColor -> OpaqueColor
+complementary : Color -> Color
 complementary color =
-    OpaqueColor.rotate 180 color
+    Color.rotateHue 180 color
 
 
 {-| Find the other two colors in the triadic scheme defined by the color passed in.
@@ -39,7 +39,7 @@ The internet says this scheme will be vibrant, and that you should
 mostly use one of the three colors and only use the other two for accents.
 
 -}
-triadic : OpaqueColor -> ( OpaqueColor, OpaqueColor )
+triadic : Color -> ( Color, Color )
 triadic color =
     splitComplementary 120 color
 
@@ -55,18 +55,18 @@ in both directions.
 Initial rotation is clamped between 0 and 180.
 
 -}
-splitComplementary : Float -> OpaqueColor -> ( OpaqueColor, OpaqueColor )
+splitComplementary : Float -> Color -> ( Color, Color )
 splitComplementary r color =
     let
         rotation =
             clamp 0 180 r
     in
-    ( OpaqueColor.rotate rotation color, OpaqueColor.rotate (0 - rotation) color )
+    ( Color.rotateHue rotation color, Color.rotateHue (0 - rotation) color )
 
 
 {-| Find four equally-spaced colors along the color wheel starting from the passed-in color.
 -}
-square : OpaqueColor -> ( OpaqueColor, OpaqueColor, OpaqueColor )
+square : Color -> ( Color, Color, Color )
 square color =
     tetratic 60 color
 
@@ -87,7 +87,7 @@ to make it all the way around.
 Initial rotation is clamped between 0 and 180.
 
 -}
-tetratic : Float -> OpaqueColor -> ( OpaqueColor, OpaqueColor, OpaqueColor )
+tetratic : Float -> Color -> ( Color, Color, Color )
 tetratic w color =
     let
         width =
@@ -96,7 +96,10 @@ tetratic w color =
         length =
             (360 - 2 * width) / 2
     in
-    ( OpaqueColor.rotate width color, OpaqueColor.rotate (width + length) color, OpaqueColor.rotate (2 * width + length) color )
+    ( Color.rotateHue width color
+    , Color.rotateHue (width + length) color
+    , Color.rotateHue (2 * width + length) color
+    )
 
 
 {-| Create a monochromatic palette. The `Float` argument is size of the Lightness
@@ -111,23 +114,23 @@ something like this:
 Colors will be arranged from darkest to lightest.
 
 -}
-monochromatic : Float -> OpaqueColor -> List OpaqueColor
+monochromatic : Float -> Color -> List Color
 monochromatic stepSize color =
     let
         getNextStep adjustment lastColor colors =
             let
                 nextLightness =
-                    OpaqueColor.toHSL lastColor
+                    Color.toHSL lastColor
                         |> (\( _, _, lightness ) -> lightness + adjustment)
             in
             if nextLightness <= 0 || nextLightness >= 100 then
                 lastColor :: colors
 
             else
-                getNextStep adjustment (OpaqueColor.adjustLightness adjustment lastColor) (lastColor :: colors)
+                getNextStep adjustment (Color.addLightness adjustment lastColor) (lastColor :: colors)
     in
     case List.reverse (getNextStep stepSize color []) of
-        startingColor :: tints ->
+        start :: tints ->
             getNextStep (0 - stepSize) color [] ++ tints
 
         [] ->

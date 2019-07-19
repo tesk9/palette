@@ -1,11 +1,11 @@
 module Preview exposing (Model, Msg, init, update, view)
 
+import Color exposing (Color)
 import Comparison
 import Html exposing (Html)
 import Html.Attributes exposing (style)
 import Html.Events
 import Json.Decode
-import OpaqueColor exposing (OpaqueColor)
 import Palette.Generative as Generator
 
 
@@ -18,12 +18,12 @@ type alias Model =
 type Generator
     = Generator
         { name : String
-        , generate : OpaqueColor -> List OpaqueColor
+        , generate : Color -> List Color
         }
     | GeneratorWith
         { name : String
         , unit : Unit
-        , generate : Float -> OpaqueColor -> List OpaqueColor
+        , generate : Float -> Color -> List Color
         , editable : Maybe Float
         }
 
@@ -64,34 +64,34 @@ generatorList =
             normalize (generator a b)
     in
     ( Generator
-        { name = "OpaqueColor.highContrast"
-        , generate = OpaqueColor.highContrast >> List.singleton
+        { name = "Color.highContrast"
+        , generate = Color.highContrast >> List.singleton
         }
     , [ GeneratorWith
-            { name = "OpaqueColor.shade"
+            { name = "Color.blacken"
             , unit = Percentage
-            , generate = apply OpaqueColor.shade List.singleton
+            , generate = apply Color.blacken List.singleton
             , editable = Nothing
             }
       , GeneratorWith
-            { name = "OpaqueColor.tint"
+            { name = "Color.whiten"
             , unit = Percentage
-            , generate = apply OpaqueColor.tint List.singleton
+            , generate = apply Color.whiten List.singleton
             , editable = Nothing
             }
       , GeneratorWith
-            { name = "OpaqueColor.tone"
+            { name = "Color.grayen"
             , unit = Percentage
-            , generate = apply OpaqueColor.tone List.singleton
+            , generate = apply Color.grayen List.singleton
             , editable = Nothing
             }
       , Generator
-            { name = "OpaqueColor.grayscale"
-            , generate = OpaqueColor.grayscale >> List.singleton
+            { name = "Color.grayscale"
+            , generate = Color.grayscale >> List.singleton
             }
       , Generator
-            { name = "OpaqueColor.invert"
-            , generate = OpaqueColor.invert >> List.singleton
+            { name = "Color.invert"
+            , generate = Color.invert >> List.singleton
             }
       ]
     )
@@ -114,7 +114,7 @@ init =
     }
 
 
-view : OpaqueColor -> Model -> Html Msg
+view : Color -> Model -> Html Msg
 view selectedColor model =
     Html.div [ style "margin-top" "4px" ]
         [ generatorOptions model
@@ -185,8 +185,8 @@ customValueEditor unit currentValue =
 
 
 viewEditablePalette :
-    OpaqueColor
-    -> { a | name : String, generate : Float -> OpaqueColor -> List OpaqueColor, editable : Maybe Float }
+    Color
+    -> { a | name : String, generate : Float -> Color -> List Color, editable : Maybe Float }
     -> Html msg
 viewEditablePalette selectedColor { name, generate, editable } =
     case editable of
@@ -197,17 +197,17 @@ viewEditablePalette selectedColor { name, generate, editable } =
             Html.text ""
 
 
-viewPalette : OpaqueColor -> String -> (OpaqueColor -> List OpaqueColor) -> Html msg
+viewPalette : Color -> String -> (Color -> List Color) -> Html msg
 viewPalette selectedColor name generate =
     let
         ( r, g, b ) =
-            OpaqueColor.toRGB selectedColor
+            Color.toRGB selectedColor
     in
     Html.div []
         [ Html.code []
             [ Html.text
                 (name
-                    ++ " <| OpaqueColor.fromRGB ( "
+                    ++ " <| Color.fromRGB ( "
                     ++ String.fromFloat r
                     ++ ", "
                     ++ String.fromFloat g
@@ -216,7 +216,7 @@ viewPalette selectedColor name generate =
                     ++ " ) == "
                 )
             ]
-        , Comparison.viewPalette (OpaqueColor.fromRGB ( 255, 255, 255 )) (generate selectedColor)
+        , Comparison.viewPalette (Color.fromRGB ( 255, 255, 255 )) (generate selectedColor)
         ]
 
 

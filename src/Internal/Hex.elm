@@ -1,8 +1,8 @@
 module Internal.Hex exposing (Color, fromString, toString)
 
 import Dict
+import Internal.Opacity as Opacity exposing (Opacity)
 import Internal.RGBA
-import Opacity exposing (Opacity)
 
 
 type alias Color =

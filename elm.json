@@ -5,9 +5,9 @@
     "license": "BSD-3-Clause",
     "version": "1.4.0",
     "exposed-modules": [
-        "OpaqueColor",
-        "TransparentColor",
-        "Opacity",
+        "Color",
+        "Color.Accessibility",
+        "Color.Transparent",
         "Palette.Generative",
         "Palette.X11",
         "Palette.Tango",

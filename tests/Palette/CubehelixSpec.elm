@@ -1,8 +1,8 @@
 module Palette.CubehelixSpec exposing (cubehelixRotationsSpec)
 
+import Color exposing (Color)
 import Expect exposing (Expectation)
 import Fuzz
-import OpaqueColor exposing (OpaqueColor)
 import Palette.Cubehelix as Cubehelix exposing (defaultConfig)
 import Palette.X11 exposing (black, blue, red, white)
 import Test exposing (..)
@@ -38,11 +38,11 @@ cubehelixRotationsSpec =
                 \() ->
                     let
                         config =
-                            { defaultConfig | startingColor = OpaqueColor.fromHSL ( 0, 0, 0 ) }
+                            { defaultConfig | start = Color.fromHSL ( 0, 0, 0 ) }
                     in
                     case Cubehelix.generateAdvanced 3 config of
                         start :: second :: tail ->
-                            Expect.equal "rgb(127.5,127.5,127.5)" (OpaqueColor.toRGBString second)
+                            Expect.equal "rgb(127.5,127.5,127.5)" (Color.toRGBString second)
 
                         _ ->
                             Expect.fail "Uh oh -- `generate` didn't return the right number of levels."
@@ -51,12 +51,12 @@ cubehelixRotationsSpec =
             let
                 generate direction =
                     Cubehelix.generateAdvanced 3
-                        { defaultConfig | startingColor = red, rotationDirection = direction }
+                        { defaultConfig | start = red, rotationDirection = direction }
 
-                sumRGB : List OpaqueColor -> ( Float, Float, Float )
+                sumRGB : List Color -> ( Float, Float, Float )
                 sumRGB colors =
                     colors
-                        |> List.map OpaqueColor.toRGB
+                        |> List.map Color.toRGB
                         |> List.foldl (\( r, g, b ) ( rSum, bSum, gSum ) -> ( rSum + r, gSum + g, bSum + b )) ( 0, 0, 0 )
             in
             [ test "starting red, we should move through greens fastest with RGB direction" <|

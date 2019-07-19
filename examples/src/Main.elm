@@ -3,10 +3,10 @@ module Main exposing (main)
 import Browser
 import ColorModes
 import ColorPicker
+import Color exposing (Color)
 import Comparison
 import ExampleHelpers as Example
 import Html exposing (Html)
-import OpaqueColor exposing (OpaqueColor)
 import Palette.Generative
 import Palette.X11 as X11
 import PaletteExamples.Cubehelix
@@ -32,7 +32,7 @@ init : Model
 init =
     let
         selectedColor =
-            OpaqueColor.fromHSL ( 0, 100, 50 )
+            Color.fromHSL ( 0, 100, 50 )
     in
     { colorModesModel = ColorModes.init
     , colorPickerModel = ColorPicker.init selectedColor
@@ -45,7 +45,7 @@ type alias Model =
     { colorModesModel : ColorModes.Model
     , colorPickerModel : ColorPicker.Model
     , previewModel : Preview.Model
-    , selectedColor : OpaqueColor
+    , selectedColor : Color
     }
 
 
@@ -79,7 +79,7 @@ view : Model -> Html Msg
 view model =
     Html.main_ []
         [ Html.h1 [] [ Html.text "Examples" ]
-        , Example.section "OpaqueColor"
+        , Example.section "Color"
             (Html.div []
                 [ Example.subsection "API"
                     (Html.div []
@@ -107,16 +107,16 @@ view model =
                     (Html.div []
                         [ Html.h4 [] [ Html.text "Add" ]
                         , Example.list (List.map (\color -> ( color, X11.lightSeaGreen )) rainbow)
-                            (Comparison.viewOverlapping OpaqueColor.add)
+                            (Comparison.viewOverlapping Color.add)
                         , Html.h4 [] [ Html.text "Subtract" ]
                         , Example.list (List.map (\color -> ( color, X11.lightSeaGreen )) rainbow)
-                            (Comparison.viewOverlapping OpaqueColor.subtract)
+                            (Comparison.viewOverlapping Color.subtract)
                         , Html.h4 [] [ Html.text "Multiply" ]
                         , Example.list (List.map (\color -> ( color, X11.lightSeaGreen )) rainbow)
-                            (Comparison.viewOverlapping OpaqueColor.multiply)
+                            (Comparison.viewOverlapping Color.multiply)
                         , Html.h4 [] [ Html.text "Divide" ]
                         , Example.list (List.map (\color -> ( color, X11.lightSeaGreen )) rainbow)
-                            (Comparison.viewOverlapping OpaqueColor.divide)
+                            (Comparison.viewOverlapping Color.divide)
                         ]
                     )
                 , Example.subsection "Contrast"
@@ -125,7 +125,7 @@ view model =
                     )
                 ]
             )
-        , Example.section "TransparentColor" TransparentColorExamples.view
+        , Example.section "Color.Transparent" TransparentColorExamples.view
         , Example.section "Palette.Cubehelix" PaletteExamples.Cubehelix.examples
         , Example.section "Palette.Tango" PaletteExamples.Tango.examples
         , Example.section "Palette.X11" PaletteExamples.X11.examples
@@ -155,22 +155,22 @@ view model =
         ]
 
 
-viewGrayscale : OpaqueColor -> Html msg
+viewGrayscale : Color -> Html msg
 viewGrayscale color =
-    Comparison.viewPalette color [ OpaqueColor.grayscale color ]
+    Comparison.viewPalette color [ Color.grayscale color ]
 
 
-viewInverse : OpaqueColor -> Html msg
+viewInverse : Color -> Html msg
 viewInverse color =
-    Comparison.viewPalette color [ OpaqueColor.invert color ]
+    Comparison.viewPalette color [ Color.invert color ]
 
 
-viewComplementary : OpaqueColor -> Html msg
+viewComplementary : Color -> Html msg
 viewComplementary color =
     Comparison.viewPalette color [ Palette.Generative.complementary color ]
 
 
-viewTriadic : OpaqueColor -> Html msg
+viewTriadic : Color -> Html msg
 viewTriadic color =
     let
         ( one, two ) =
@@ -179,7 +179,7 @@ viewTriadic color =
     Comparison.viewPalette color [ one, two ]
 
 
-viewSplitComplementary : ( Float, OpaqueColor ) -> Html msg
+viewSplitComplementary : ( Float, Color ) -> Html msg
 viewSplitComplementary ( degree, color ) =
     let
         ( one, two ) =
@@ -188,7 +188,7 @@ viewSplitComplementary ( degree, color ) =
     Comparison.viewPalette color [ one, two ]
 
 
-viewSquare : OpaqueColor -> Html msg
+viewSquare : Color -> Html msg
 viewSquare color =
     let
         ( one, two, three ) =
@@ -197,7 +197,7 @@ viewSquare color =
     Comparison.viewPalette color [ one, two, three ]
 
 
-viewRectangle : ( Float, OpaqueColor ) -> Html msg
+viewRectangle : ( Float, Color ) -> Html msg
 viewRectangle ( degree, color ) =
     let
         ( one, two, three ) =
@@ -206,39 +206,39 @@ viewRectangle ( degree, color ) =
     Comparison.viewPalette color [ one, two, three ]
 
 
-viewMonochromaticShades : OpaqueColor -> Html msg
+viewMonochromaticShades : Color -> Html msg
 viewMonochromaticShades color =
     Comparison.viewPalette color
-        [ OpaqueColor.shade 10 color
-        , OpaqueColor.shade 20 color
-        , OpaqueColor.shade 30 color
-        , OpaqueColor.shade 40 color
+        [ Color.blacken 10 color
+        , Color.blacken 20 color
+        , Color.blacken 30 color
+        , Color.blacken 40 color
         ]
 
 
-viewMonochromaticTints : OpaqueColor -> Html msg
+viewMonochromaticTints : Color -> Html msg
 viewMonochromaticTints color =
     Comparison.viewPalette color
-        [ OpaqueColor.tint 10 color
-        , OpaqueColor.tint 20 color
-        , OpaqueColor.tint 30 color
-        , OpaqueColor.tint 40 color
-        , OpaqueColor.tint 50 color
+        [ Color.whiten 10 color
+        , Color.whiten 20 color
+        , Color.whiten 30 color
+        , Color.whiten 40 color
+        , Color.whiten 50 color
         ]
 
 
-viewMonochromaticTones : OpaqueColor -> Html msg
+viewMonochromaticTones : Color -> Html msg
 viewMonochromaticTones color =
     Comparison.viewPalette color
-        [ OpaqueColor.tone -100 color
-        , OpaqueColor.tone -80 color
-        , OpaqueColor.tone -60 color
-        , OpaqueColor.tone -40 color
-        , OpaqueColor.tone -20 color
+        [ Color.grayen 20 color
+        , Color.grayen 40 color
+        , Color.grayen 60 color
+        , Color.grayen 80 color
+        , Color.grayen 100 color
         ]
 
 
-viewMonochromaticGenerator : ( Float, OpaqueColor ) -> Html msg
+viewMonochromaticGenerator : ( Float, Color ) -> Html msg
 viewMonochromaticGenerator ( stepSize, color ) =
     Comparison.viewPalette color
         (Palette.Generative.monochromatic stepSize color)
@@ -248,7 +248,7 @@ viewMonochromaticGenerator ( stepSize, color ) =
 -- SUPER CONVENIENT COLORS
 
 
-rainbow : List OpaqueColor
+rainbow : List Color
 rainbow =
     [ X11.coral
     , X11.olive
