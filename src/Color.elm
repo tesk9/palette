@@ -391,7 +391,7 @@ rotateHue degrees (Color color) =
 {-| Use this function to produce a new "shade" of the Color. Pass in the
 percentage value by which you want to darken the color.
 
-`blacken` increases the "lightness" of the color in the HSL color space.
+`blacken` decreases the "lightness" of the color in the HSL color space.
 
     blacken : Float -> Color -> Color
     blacken percentage color =
