@@ -6,11 +6,11 @@ module ColorSpec exposing
     , luminanceSuite
     )
 
-import Color.Accessibility
 import ColorFuzzer exposing (hexStringOfLength)
 import Expect exposing (Expectation)
 import Palette.X11 exposing (..)
 import SolidColor exposing (SolidColor)
+import SolidColor.Accessibility
 import Test exposing (..)
 
 
@@ -255,7 +255,7 @@ highContrastSuite =
                             \_ ->
                                 color
                                     |> SolidColor.highContrast
-                                    |> Color.Accessibility.contrast color
+                                    |> SolidColor.Accessibility.contrast color
                                     |> Expect.greaterThan 4.5
                     )
                     grays

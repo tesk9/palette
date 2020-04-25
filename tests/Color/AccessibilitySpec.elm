@@ -4,11 +4,11 @@ module Color.AccessibilitySpec exposing
     , ratingSuite
     )
 
-import Color.Accessibility exposing (..)
 import ColorFuzzer exposing (hexStringOfLength)
 import Expect exposing (Expectation)
 import Palette.X11 exposing (black, white)
 import SolidColor exposing (SolidColor)
+import SolidColor.Accessibility exposing (..)
 import Test exposing (..)
 
 

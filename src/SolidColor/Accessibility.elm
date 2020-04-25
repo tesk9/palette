@@ -1,4 +1,4 @@
-module Color.Accessibility exposing
+module SolidColor.Accessibility exposing
     ( Rating(..), meetsAA, meetsAAA
     , checkContrast
     , contrast
