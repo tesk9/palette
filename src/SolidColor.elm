@@ -15,17 +15,17 @@ module SolidColor exposing
 @docs SolidColor
 
 
-# RGB
+## RGB
 
 @docs fromRGB, toRGB, toRGBString
 
 
-# HSL
+## HSL
 
 @docs fromHSL, toHSL, toHSLString
 
 
-# Hexadecimal
+## Hexadecimal
 
 @docs fromHex, toHex
 

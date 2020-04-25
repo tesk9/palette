@@ -6,8 +6,8 @@
     "version": "2.0.0",
     "exposed-modules": [
         "SolidColor",
+        "TransparentColor",
         "Color.Accessibility",
-        "Color.Transparent",
         "Palette.Generative",
         "Palette.X11",
         "Palette.Tango",
