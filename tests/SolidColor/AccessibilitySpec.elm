@@ -1,4 +1,4 @@
-module Color.AccessibilitySpec exposing
+module SolidColor.AccessibilitySpec exposing
     ( checkContrastSuite
     , contrastSuite
     , ratingSuite
