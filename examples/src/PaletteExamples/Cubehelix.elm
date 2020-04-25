@@ -1,11 +1,11 @@
 module PaletteExamples.Cubehelix exposing (examples)
 
-import Color
 import Comparison
 import ExampleHelpers as Example
 import Html exposing (Html)
 import Html.Attributes exposing (style)
 import Palette.Cubehelix as Cubehelix exposing (defaultConfig)
+import SolidColor exposing (SolidColor)
 
 
 examples : Html msg
@@ -32,11 +32,11 @@ examples =
                 ]
             , Html.h4 [] [ Html.text "Rotation direction" ]
             , viewExamples
-                [ ( Cubehelix.generateAdvanced 256 { defaultConfig | rotationDirection = Cubehelix.BGR, start = Color.fromRGB ( 255, 0, 0 ) }
-                  , "Cubehelix.generateAdvanced 256 { defaultConfig | rotationDirection = Cubehelix.BGR, start = Color.fromRGB (255, 0, 0 ) }"
+                [ ( Cubehelix.generateAdvanced 256 { defaultConfig | rotationDirection = Cubehelix.BGR, start = SolidColor.fromRGB ( 255, 0, 0 ) }
+                  , "Cubehelix.generateAdvanced 256 { defaultConfig | rotationDirection = Cubehelix.BGR, start = SolidColor.fromRGB (255, 0, 0 ) }"
                   )
-                , ( Cubehelix.generateAdvanced 256 { defaultConfig | rotationDirection = Cubehelix.RGB, start = Color.fromRGB ( 255, 0, 0 ) }
-                  , "Cubehelix.generateAdvanced 256 { defaultConfig | rotationDirection = Cubehelix.RGB, start = Color.fromRGB (255, 0, 0 ) }"
+                , ( Cubehelix.generateAdvanced 256 { defaultConfig | rotationDirection = Cubehelix.RGB, start = SolidColor.fromRGB ( 255, 0, 0 ) }
+                  , "Cubehelix.generateAdvanced 256 { defaultConfig | rotationDirection = Cubehelix.RGB, start = SolidColor.fromRGB (255, 0, 0 ) }"
                   )
                 ]
             , Html.h4 [] [ Html.text "Rotation count" ]
@@ -65,38 +65,38 @@ examples =
                 ]
             , Html.h4 [] [ Html.text "Starting color, adjusting saturation" ]
             , viewExamples
-                [ ( Cubehelix.generateAdvanced 10 { defaultConfig | start = Color.fromHSL ( 0, 0, 0 ) }
-                  , "Cubehelix.generateAdvanced 10 { defaultConfig | start = Color.fromHSL ( 0, 0, 0 ) }"
+                [ ( Cubehelix.generateAdvanced 10 { defaultConfig | start = SolidColor.fromHSL ( 0, 0, 0 ) }
+                  , "Cubehelix.generateAdvanced 10 { defaultConfig | start = SolidColor.fromHSL ( 0, 0, 0 ) }"
                   )
-                , ( Cubehelix.generateAdvanced 10 { defaultConfig | start = Color.fromHSL ( 0, 50, 0 ) }
-                  , "Cubehelix.generateAdvanced 10 { defaultConfig | start = Color.fromHSL ( 0, 50, 0 ) }"
+                , ( Cubehelix.generateAdvanced 10 { defaultConfig | start = SolidColor.fromHSL ( 0, 50, 0 ) }
+                  , "Cubehelix.generateAdvanced 10 { defaultConfig | start = SolidColor.fromHSL ( 0, 50, 0 ) }"
                   )
-                , ( Cubehelix.generateAdvanced 10 { defaultConfig | start = Color.fromHSL ( 0, 100, 0 ) }
-                  , "Cubehelix.generateAdvanced 10 { defaultConfig | start = Color.fromHSL ( 0, 100, 0 ) }"
+                , ( Cubehelix.generateAdvanced 10 { defaultConfig | start = SolidColor.fromHSL ( 0, 100, 0 ) }
+                  , "Cubehelix.generateAdvanced 10 { defaultConfig | start = SolidColor.fromHSL ( 0, 100, 0 ) }"
                   )
                 ]
             , Html.h4 [] [ Html.text "Starting color, adjusting hue" ]
             , viewExamples
-                [ ( Cubehelix.generateAdvanced 10 { defaultConfig | start = Color.fromHSL ( 0, 100, 0 ) }
-                  , "Cubehelix.generateAdvanced 10 { defaultConfig | start = Color.fromHSL ( 0, 100, 0 ) }"
+                [ ( Cubehelix.generateAdvanced 10 { defaultConfig | start = SolidColor.fromHSL ( 0, 100, 0 ) }
+                  , "Cubehelix.generateAdvanced 10 { defaultConfig | start = SolidColor.fromHSL ( 0, 100, 0 ) }"
                   )
-                , ( Cubehelix.generateAdvanced 10 { defaultConfig | start = Color.fromHSL ( 120, 100, 0 ) }
-                  , "Cubehelix.generateAdvanced 10 { defaultConfig |  start = Color.fromHSL ( 120, 100, 0 ) }"
+                , ( Cubehelix.generateAdvanced 10 { defaultConfig | start = SolidColor.fromHSL ( 120, 100, 0 ) }
+                  , "Cubehelix.generateAdvanced 10 { defaultConfig |  start = SolidColor.fromHSL ( 120, 100, 0 ) }"
                   )
-                , ( Cubehelix.generateAdvanced 10 { defaultConfig | start = Color.fromHSL ( 240, 100, 0 ) }
-                  , "Cubehelix.generateAdvanced 10 { defaultConfig |  start = Color.fromHSL ( 240, 100, 0 ) }"
+                , ( Cubehelix.generateAdvanced 10 { defaultConfig | start = SolidColor.fromHSL ( 240, 100, 0 ) }
+                  , "Cubehelix.generateAdvanced 10 { defaultConfig |  start = SolidColor.fromHSL ( 240, 100, 0 ) }"
                   )
                 ]
             ]
         )
 
 
-viewExamples : List ( List Color.Color, String ) -> Html msg
+viewExamples : List ( List SolidColor, String ) -> Html msg
 viewExamples exs =
     Example.listVertical exs viewExample
 
 
-viewExample : ( List Color.Color, String ) -> Html msg
+viewExample : ( List SolidColor, String ) -> Html msg
 viewExample ( colors, description ) =
     Html.div
         [ style "display" "flex"

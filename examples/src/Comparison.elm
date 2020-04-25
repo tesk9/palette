@@ -1,24 +1,24 @@
 module Comparison exposing (viewOverlapping, viewPalette, viewSpectrum, viewWithName)
 
 import Browser
-import Color exposing (Color)
 import ColorModes
 import Html exposing (Html)
 import Html.Attributes exposing (style)
 import Html.Events
 import Palette.X11 exposing (..)
 import Platform
+import SolidColor exposing (SolidColor)
 
 
-viewWithName : ( Color, String ) -> Html msg
+viewWithName : ( SolidColor, String ) -> Html msg
 viewWithName ( color, name ) =
     let
         rgbColor =
-            Color.toRGBString color
+            SolidColor.toRGBString color
 
         highContrastColor =
-            Color.highContrast color
-                |> Color.toRGBString
+            SolidColor.highContrast color
+                |> SolidColor.toRGBString
     in
     Html.div
         [ style "display" "flex"
@@ -38,7 +38,7 @@ viewWithName ( color, name ) =
         ]
 
 
-viewPalette : Color -> List Color -> Html msg
+viewPalette : SolidColor -> List SolidColor -> Html msg
 viewPalette baseColor otherColors =
     let
         baseColorWidth =
@@ -72,7 +72,7 @@ viewPalette baseColor otherColors =
         , style "height" (String.fromInt baseColorHeight ++ "px")
         , style "width" (String.fromInt baseColorWidth ++ "px")
         , style "position" "relative"
-        , style "background-color" (Color.toRGBString baseColor)
+        , style "background-color" (SolidColor.toRGBString baseColor)
         ]
         (List.indexedMap
             (\index color ->
@@ -80,7 +80,7 @@ viewPalette baseColor otherColors =
                     [ style "width" (String.fromInt (radius * 2) ++ "px")
                     , style "height" (String.fromInt (radius * 2) ++ "px")
                     , style "border-radius" "50%"
-                    , style "background-color" (Color.toRGBString color)
+                    , style "background-color" (SolidColor.toRGBString color)
                     , style "position" "absolute"
                     , style "left" (leftPlacement index ++ "px")
                     , style "top" (String.fromFloat (baseColorHeight / 2 - radius) ++ "px")
@@ -91,7 +91,7 @@ viewPalette baseColor otherColors =
         )
 
 
-viewOverlapping : (Color -> Color -> Color) -> ( Color, Color ) -> Html msg
+viewOverlapping : (SolidColor -> SolidColor -> SolidColor) -> ( SolidColor, SolidColor ) -> Html msg
 viewOverlapping blend ( a, b ) =
     let
         rectangleSize =
@@ -104,7 +104,7 @@ viewOverlapping blend ( a, b ) =
                 , style "height" (px height)
                 , style "top" (px y)
                 , style "left" (px x)
-                , style "background-color" (Color.toRGBString color)
+                , style "background-color" (SolidColor.toRGBString color)
                 ]
                 []
 
@@ -127,7 +127,7 @@ viewOverlapping blend ( a, b ) =
         ]
 
 
-viewSpectrum : List Color -> Html msg
+viewSpectrum : List SolidColor -> Html msg
 viewSpectrum colors =
     let
         spectrumWidth =
@@ -140,7 +140,7 @@ viewSpectrum colors =
             Html.div
                 [ style "width" (px sliceWidth)
                 , style "height" (px 40)
-                , style "background-color" (Color.toRGBString color)
+                , style "background-color" (SolidColor.toRGBString color)
                 , style "display" "inline-block"
                 ]
                 []

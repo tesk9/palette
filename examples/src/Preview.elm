@@ -1,12 +1,12 @@
 module Preview exposing (Model, Msg, init, update, view)
 
-import Color exposing (Color)
 import Comparison
 import Html exposing (Html)
 import Html.Attributes exposing (style)
 import Html.Events
 import Json.Decode
 import Palette.Generative as Generator
+import SolidColor exposing (SolidColor)
 
 
 type alias Model =
@@ -18,12 +18,12 @@ type alias Model =
 type Generator
     = Generator
         { name : String
-        , generate : Color -> List Color
+        , generate : SolidColor -> List SolidColor
         }
     | GeneratorWith
         { name : String
         , unit : Unit
-        , generate : Float -> Color -> List Color
+        , generate : Float -> SolidColor -> List SolidColor
         , editable : Maybe Float
         }
 
@@ -64,34 +64,34 @@ generatorList =
             normalize (generator a b)
     in
     ( Generator
-        { name = "Color.highContrast"
-        , generate = Color.highContrast >> List.singleton
+        { name = "SolidColor.highContrast"
+        , generate = SolidColor.highContrast >> List.singleton
         }
     , [ GeneratorWith
-            { name = "Color.blacken"
+            { name = "SolidColor.blacken"
             , unit = Percentage
-            , generate = apply Color.blacken List.singleton
+            , generate = apply SolidColor.blacken List.singleton
             , editable = Nothing
             }
       , GeneratorWith
-            { name = "Color.whiten"
+            { name = "SolidColor.whiten"
             , unit = Percentage
-            , generate = apply Color.whiten List.singleton
+            , generate = apply SolidColor.whiten List.singleton
             , editable = Nothing
             }
       , GeneratorWith
-            { name = "Color.grayen"
+            { name = "SolidColor.grayen"
             , unit = Percentage
-            , generate = apply Color.grayen List.singleton
+            , generate = apply SolidColor.grayen List.singleton
             , editable = Nothing
             }
       , Generator
-            { name = "Color.grayscale"
-            , generate = Color.grayscale >> List.singleton
+            { name = "SolidColor.grayscale"
+            , generate = SolidColor.grayscale >> List.singleton
             }
       , Generator
-            { name = "Color.invert"
-            , generate = Color.invert >> List.singleton
+            { name = "SolidColor.invert"
+            , generate = SolidColor.invert >> List.singleton
             }
       ]
     )
@@ -114,7 +114,7 @@ init =
     }
 
 
-view : Color -> Model -> Html Msg
+view : SolidColor -> Model -> Html Msg
 view selectedColor model =
     Html.div [ style "margin-top" "4px" ]
         [ generatorOptions model
@@ -185,8 +185,8 @@ customValueEditor unit currentValue =
 
 
 viewEditablePalette :
-    Color
-    -> { a | name : String, generate : Float -> Color -> List Color, editable : Maybe Float }
+    SolidColor
+    -> { a | name : String, generate : Float -> SolidColor -> List SolidColor, editable : Maybe Float }
     -> Html msg
 viewEditablePalette selectedColor { name, generate, editable } =
     case editable of
@@ -197,17 +197,17 @@ viewEditablePalette selectedColor { name, generate, editable } =
             Html.text ""
 
 
-viewPalette : Color -> String -> (Color -> List Color) -> Html msg
+viewPalette : SolidColor -> String -> (SolidColor -> List SolidColor) -> Html msg
 viewPalette selectedColor name generate =
     let
         ( r, g, b ) =
-            Color.toRGB selectedColor
+            SolidColor.toRGB selectedColor
     in
     Html.div []
         [ Html.code []
             [ Html.text
                 (name
-                    ++ " <| Color.fromRGB ( "
+                    ++ " <| SolidColor.fromRGB ( "
                     ++ String.fromFloat r
                     ++ ", "
                     ++ String.fromFloat g
@@ -216,7 +216,7 @@ viewPalette selectedColor name generate =
                     ++ " ) == "
                 )
             ]
-        , Comparison.viewPalette (Color.fromRGB ( 255, 255, 255 )) (generate selectedColor)
+        , Comparison.viewPalette (SolidColor.fromRGB ( 255, 255, 255 )) (generate selectedColor)
         ]
 
 

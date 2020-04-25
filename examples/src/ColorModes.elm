@@ -1,13 +1,13 @@
 module ColorModes exposing (Model, Msg, init, update, view)
 
 import Browser
-import Color exposing (Color)
 import Html exposing (Html)
 import Html.Attributes exposing (style)
 import Html.Events
 import Palette.Generative
 import Palette.X11 exposing (..)
 import Platform
+import SolidColor exposing (SolidColor)
 
 
 type alias Model =
@@ -20,13 +20,13 @@ init =
 
 
 type alias Palette =
-    { primary : Color
-    , secondary : Color
-    , backgroundColors : ( Color, Color )
+    { primary : SolidColor
+    , secondary : SolidColor
+    , backgroundColors : ( SolidColor, SolidColor )
     }
 
 
-mapPalette : (Color -> Color) -> Palette -> Palette
+mapPalette : (SolidColor -> SolidColor) -> Palette -> Palette
 mapPalette map palette =
     { primary = map palette.primary
     , secondary = map palette.secondary
@@ -77,13 +77,13 @@ colorPreferenceToPalette colorPreference =
             standardPalette
 
         InvertStandard ->
-            mapPalette Color.invert standardPalette
+            mapPalette SolidColor.invert standardPalette
 
         HighContrast ->
             highContrastPalette
 
         InvertHighContrast ->
-            mapPalette Color.invert highContrastPalette
+            mapPalette SolidColor.invert highContrastPalette
 
 
 type Msg
@@ -127,10 +127,10 @@ view colorPreference =
             )
         , viewContent palette
             [ Html.h3
-                [ style "color" (Color.toRGBString palette.secondary) ]
+                [ style "color" (SolidColor.toRGBString palette.secondary) ]
                 [ Html.text (colorPreferenceToString colorPreference) ]
             , Html.div
-                [ style "color" (Color.toRGBString palette.primary) ]
+                [ style "color" (SolidColor.toRGBString palette.primary) ]
                 [ Html.text "I'm some text." ]
             ]
         ]
@@ -140,10 +140,10 @@ viewContent : Palette -> List (Html msg) -> Html msg
 viewContent palette content =
     let
         linearGradient ( top, bottom ) =
-            "linear-gradient(" ++ Color.toRGBString top ++ "," ++ Color.toRGBString bottom ++ ")"
+            "linear-gradient(" ++ SolidColor.toRGBString top ++ "," ++ SolidColor.toRGBString bottom ++ ")"
     in
     Html.div
-        [ style "background-color" (Color.toRGBString (Tuple.first palette.backgroundColors))
+        [ style "background-color" (SolidColor.toRGBString (Tuple.first palette.backgroundColors))
         , style "padding" "8px"
         ]
         [ Html.div
@@ -152,7 +152,7 @@ viewContent palette content =
             --Positioning
             , style "margin" "20px"
             , style "padding" "8px"
-            , style "border" ("1px dashed " ++ Color.toRGBString palette.secondary)
+            , style "border" ("1px dashed " ++ SolidColor.toRGBString palette.secondary)
             ]
             content
         ]
