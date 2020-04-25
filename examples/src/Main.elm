@@ -81,7 +81,7 @@ view model =
         [ Html.h1 [] [ Html.text "Examples" ]
         , Example.section "SolidColor"
             (Html.div []
-                [ Example.subsection "API"
+                [ Example.subsection "ColorPicker example"
                     (Html.div []
                         [ ColorPicker.view model.colorPickerModel
                             |> Html.map ColorPickerMsg
