@@ -2,8 +2,12 @@ module ColorFuzzer exposing
     ( hexStringOfLength
     , hslColor
     , hslValues
+    , hslaColor
+    , opacityValue
     , rgbColor
     , rgbValues
+    , rgbaColor
+    , transparentColor
     )
 
 import Dict exposing (Dict)
@@ -11,6 +15,7 @@ import Fuzz exposing (Fuzzer)
 import Random exposing (Generator)
 import Shrink
 import SolidColor exposing (SolidColor)
+import TransparentColor exposing (Opacity, TransparentColor)
 
 
 rgbColor : Fuzzer SolidColor
@@ -63,3 +68,27 @@ hexChars =
     [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' ]
         |> List.indexedMap (\i v -> ( i, v ))
         |> Dict.fromList
+
+
+
+-- Transparent colors
+
+
+transparentColor : Fuzzer TransparentColor
+transparentColor =
+    Fuzz.oneOf [ rgbaColor, hslaColor ]
+
+
+rgbaColor : Fuzzer TransparentColor
+rgbaColor =
+    Fuzz.map2 TransparentColor.fromColor opacityValue rgbColor
+
+
+hslaColor : Fuzzer TransparentColor
+hslaColor =
+    Fuzz.map2 TransparentColor.fromColor opacityValue hslColor
+
+
+opacityValue : Fuzzer Opacity
+opacityValue =
+    Fuzz.map TransparentColor.customOpacity (Fuzz.floatRange 0 1.0)
