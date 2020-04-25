@@ -1,4 +1,4 @@
-module Color.TransparentSpec exposing (colorWithOpacitySuite, opacitySuite)
+module TransparentColorSpec exposing (colorWithOpacitySuite, opacitySuite)
 
 import Expect exposing (Expectation)
 import Palette.Generative
