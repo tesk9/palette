@@ -67,13 +67,13 @@ If not, read more about each color space in `Color`.
 
 -}
 
-import Color
 import Dict
 import Internal.Color
 import Internal.HSLA
 import Internal.Hex
 import Internal.Opacity
 import Internal.RGBA
+import SolidColor exposing (SolidColor)
 
 
 {-| -}
@@ -166,12 +166,12 @@ toHexA (Color color) =
 
 {-| Specify the opacity for a color without opacity.
 
-    import Color
     import Color.Transparent
+    import SolidColor exposing (SolidColor)
 
-    myRed : Color.Color
+    myRed : SolidColor
     myRed =
-        Color.fromRGB ( 255, 0, 0 )
+        SolidColor.fromRGB ( 255, 0, 0 )
 
     myOpacity : Color.Transparent.Opacity
     myOpacity =
@@ -182,11 +182,11 @@ toHexA (Color color) =
         Color.fromColor myOpacity myRed
 
 -}
-fromColor : Opacity -> Color.Color -> Color
+fromColor : Opacity -> SolidColor -> Color
 fromColor opacity color =
     let
         ( r, g, b ) =
-            Color.toRGB color
+            SolidColor.toRGB color
     in
     fromRGBA
         { red = r
@@ -199,13 +199,13 @@ fromColor opacity color =
 {-| If you decide you don't care about the opacity anymore, you can
 drop this information.
 -}
-toColor : Color -> Color.Color
+toColor : Color -> SolidColor
 toColor color =
     let
         { red, green, blue } =
             toRGBA color
     in
-    Color.fromRGB ( red, green, blue )
+    SolidColor.fromRGB ( red, green, blue )
 
 
 

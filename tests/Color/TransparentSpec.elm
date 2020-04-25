@@ -1,6 +1,5 @@
 module Color.TransparentSpec exposing (colorWithOpacitySuite, opacitySuite)
 
-import Color
 import Color.Transparent
 import Color.TransparentFuzzer
 import Expect exposing (Expectation)

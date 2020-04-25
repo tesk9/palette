@@ -72,7 +72,7 @@ module Palette.X11 exposing
 
 -}
 
-import Color exposing (Color)
+import SolidColor exposing (SolidColor)
 
 
 
@@ -80,39 +80,39 @@ import Color exposing (Color)
 
 
 {-| -}
-pink : Color
+pink : SolidColor
 pink =
-    Color.fromRGB ( 255, 192, 203 )
+    SolidColor.fromRGB ( 255, 192, 203 )
 
 
 {-| -}
-lightPink : Color
+lightPink : SolidColor
 lightPink =
-    Color.fromRGB ( 255, 182, 193 )
+    SolidColor.fromRGB ( 255, 182, 193 )
 
 
 {-| -}
-hotPink : Color
+hotPink : SolidColor
 hotPink =
-    Color.fromRGB ( 255, 105, 180 )
+    SolidColor.fromRGB ( 255, 105, 180 )
 
 
 {-| -}
-deepPink : Color
+deepPink : SolidColor
 deepPink =
-    Color.fromRGB ( 255, 20, 147 )
+    SolidColor.fromRGB ( 255, 20, 147 )
 
 
 {-| -}
-paleVioletRed : Color
+paleVioletRed : SolidColor
 paleVioletRed =
-    Color.fromRGB ( 219, 112, 147 )
+    SolidColor.fromRGB ( 219, 112, 147 )
 
 
 {-| -}
-mediumVioletRed : Color
+mediumVioletRed : SolidColor
 mediumVioletRed =
-    Color.fromRGB ( 199, 21, 133 )
+    SolidColor.fromRGB ( 199, 21, 133 )
 
 
 
@@ -120,57 +120,57 @@ mediumVioletRed =
 
 
 {-| -}
-lightSalmon : Color
+lightSalmon : SolidColor
 lightSalmon =
-    Color.fromRGB ( 255, 160, 122 )
+    SolidColor.fromRGB ( 255, 160, 122 )
 
 
 {-| -}
-salmon : Color
+salmon : SolidColor
 salmon =
-    Color.fromRGB ( 250, 128, 114 )
+    SolidColor.fromRGB ( 250, 128, 114 )
 
 
 {-| -}
-darkSalmon : Color
+darkSalmon : SolidColor
 darkSalmon =
-    Color.fromRGB ( 233, 150, 122 )
+    SolidColor.fromRGB ( 233, 150, 122 )
 
 
 {-| -}
-lightCoral : Color
+lightCoral : SolidColor
 lightCoral =
-    Color.fromRGB ( 240, 128, 128 )
+    SolidColor.fromRGB ( 240, 128, 128 )
 
 
 {-| -}
-indianRed : Color
+indianRed : SolidColor
 indianRed =
-    Color.fromRGB ( 205, 92, 92 )
+    SolidColor.fromRGB ( 205, 92, 92 )
 
 
 {-| -}
-crimson : Color
+crimson : SolidColor
 crimson =
-    Color.fromRGB ( 220, 20, 60 )
+    SolidColor.fromRGB ( 220, 20, 60 )
 
 
 {-| -}
-firebrick : Color
+firebrick : SolidColor
 firebrick =
-    Color.fromRGB ( 178, 34, 34 )
+    SolidColor.fromRGB ( 178, 34, 34 )
 
 
 {-| -}
-darkRed : Color
+darkRed : SolidColor
 darkRed =
-    Color.fromRGB ( 139, 0, 0 )
+    SolidColor.fromRGB ( 139, 0, 0 )
 
 
 {-| -}
-red : Color
+red : SolidColor
 red =
-    Color.fromRGB ( 255, 0, 0 )
+    SolidColor.fromRGB ( 255, 0, 0 )
 
 
 
@@ -178,33 +178,33 @@ red =
 
 
 {-| -}
-orangeRed : Color
+orangeRed : SolidColor
 orangeRed =
-    Color.fromRGB ( 255, 69, 0 )
+    SolidColor.fromRGB ( 255, 69, 0 )
 
 
 {-| -}
-tomato : Color
+tomato : SolidColor
 tomato =
-    Color.fromRGB ( 255, 99, 71 )
+    SolidColor.fromRGB ( 255, 99, 71 )
 
 
 {-| -}
-coral : Color
+coral : SolidColor
 coral =
-    Color.fromRGB ( 255, 127, 80 )
+    SolidColor.fromRGB ( 255, 127, 80 )
 
 
 {-| -}
-darkOrange : Color
+darkOrange : SolidColor
 darkOrange =
-    Color.fromRGB ( 255, 140, 0 )
+    SolidColor.fromRGB ( 255, 140, 0 )
 
 
 {-| -}
-orange : Color
+orange : SolidColor
 orange =
-    Color.fromRGB ( 255, 165, 0 )
+    SolidColor.fromRGB ( 255, 165, 0 )
 
 
 
@@ -212,69 +212,69 @@ orange =
 
 
 {-| -}
-yellow : Color
+yellow : SolidColor
 yellow =
-    Color.fromRGB ( 255, 255, 0 )
+    SolidColor.fromRGB ( 255, 255, 0 )
 
 
 {-| -}
-lightYellow : Color
+lightYellow : SolidColor
 lightYellow =
-    Color.fromRGB ( 255, 255, 224 )
+    SolidColor.fromRGB ( 255, 255, 224 )
 
 
 {-| -}
-lemonChiffon : Color
+lemonChiffon : SolidColor
 lemonChiffon =
-    Color.fromRGB ( 255, 250, 205 )
+    SolidColor.fromRGB ( 255, 250, 205 )
 
 
 {-| -}
-lightGoldenrodYellow : Color
+lightGoldenrodYellow : SolidColor
 lightGoldenrodYellow =
-    Color.fromRGB ( 250, 250, 210 )
+    SolidColor.fromRGB ( 250, 250, 210 )
 
 
 {-| -}
-papayaWhip : Color
+papayaWhip : SolidColor
 papayaWhip =
-    Color.fromRGB ( 255, 239, 213 )
+    SolidColor.fromRGB ( 255, 239, 213 )
 
 
 {-| -}
-moccasin : Color
+moccasin : SolidColor
 moccasin =
-    Color.fromRGB ( 255, 228, 181 )
+    SolidColor.fromRGB ( 255, 228, 181 )
 
 
 {-| -}
-peachPuff : Color
+peachPuff : SolidColor
 peachPuff =
-    Color.fromRGB ( 255, 218, 185 )
+    SolidColor.fromRGB ( 255, 218, 185 )
 
 
 {-| -}
-paleGoldenrod : Color
+paleGoldenrod : SolidColor
 paleGoldenrod =
-    Color.fromRGB ( 238, 232, 170 )
+    SolidColor.fromRGB ( 238, 232, 170 )
 
 
 {-| -}
-khaki : Color
+khaki : SolidColor
 khaki =
-    Color.fromRGB ( 240, 230, 140 )
+    SolidColor.fromRGB ( 240, 230, 140 )
 
 
 {-| -}
-darkKhaki : Color
+darkKhaki : SolidColor
 darkKhaki =
-    Color.fromRGB ( 189, 183, 107 )
+    SolidColor.fromRGB ( 189, 183, 107 )
 
 
 {-| -}
-gold : Color
+gold : SolidColor
 gold =
-    Color.fromRGB ( 255, 215, 0 )
+    SolidColor.fromRGB ( 255, 215, 0 )
 
 
 
@@ -282,105 +282,105 @@ gold =
 
 
 {-| -}
-cornsilk : Color
+cornsilk : SolidColor
 cornsilk =
-    Color.fromRGB ( 255, 248, 220 )
+    SolidColor.fromRGB ( 255, 248, 220 )
 
 
 {-| -}
-blanchedAlmond : Color
+blanchedAlmond : SolidColor
 blanchedAlmond =
-    Color.fromRGB ( 255, 235, 205 )
+    SolidColor.fromRGB ( 255, 235, 205 )
 
 
 {-| -}
-bisque : Color
+bisque : SolidColor
 bisque =
-    Color.fromRGB ( 255, 228, 196 )
+    SolidColor.fromRGB ( 255, 228, 196 )
 
 
 {-| -}
-navajoWhite : Color
+navajoWhite : SolidColor
 navajoWhite =
-    Color.fromRGB ( 255, 222, 173 )
+    SolidColor.fromRGB ( 255, 222, 173 )
 
 
 {-| -}
-wheat : Color
+wheat : SolidColor
 wheat =
-    Color.fromRGB ( 245, 222, 179 )
+    SolidColor.fromRGB ( 245, 222, 179 )
 
 
 {-| -}
-burlywood : Color
+burlywood : SolidColor
 burlywood =
-    Color.fromRGB ( 222, 184, 135 )
+    SolidColor.fromRGB ( 222, 184, 135 )
 
 
 {-| -}
-tan : Color
+tan : SolidColor
 tan =
-    Color.fromRGB ( 210, 180, 140 )
+    SolidColor.fromRGB ( 210, 180, 140 )
 
 
 {-| -}
-rosyBrown : Color
+rosyBrown : SolidColor
 rosyBrown =
-    Color.fromRGB ( 188, 143, 143 )
+    SolidColor.fromRGB ( 188, 143, 143 )
 
 
 {-| -}
-sandyBrown : Color
+sandyBrown : SolidColor
 sandyBrown =
-    Color.fromRGB ( 244, 164, 96 )
+    SolidColor.fromRGB ( 244, 164, 96 )
 
 
 {-| -}
-goldenrod : Color
+goldenrod : SolidColor
 goldenrod =
-    Color.fromRGB ( 218, 165, 32 )
+    SolidColor.fromRGB ( 218, 165, 32 )
 
 
 {-| -}
-darkGoldenrod : Color
+darkGoldenrod : SolidColor
 darkGoldenrod =
-    Color.fromRGB ( 184, 134, 11 )
+    SolidColor.fromRGB ( 184, 134, 11 )
 
 
 {-| -}
-peru : Color
+peru : SolidColor
 peru =
-    Color.fromRGB ( 205, 133, 63 )
+    SolidColor.fromRGB ( 205, 133, 63 )
 
 
 {-| -}
-chocolate : Color
+chocolate : SolidColor
 chocolate =
-    Color.fromRGB ( 210, 105, 30 )
+    SolidColor.fromRGB ( 210, 105, 30 )
 
 
 {-| -}
-saddleBrown : Color
+saddleBrown : SolidColor
 saddleBrown =
-    Color.fromRGB ( 139, 69, 19 )
+    SolidColor.fromRGB ( 139, 69, 19 )
 
 
 {-| -}
-sienna : Color
+sienna : SolidColor
 sienna =
-    Color.fromRGB ( 160, 82, 45 )
+    SolidColor.fromRGB ( 160, 82, 45 )
 
 
 {-| -}
-brown : Color
+brown : SolidColor
 brown =
-    Color.fromRGB ( 165, 42, 42 )
+    SolidColor.fromRGB ( 165, 42, 42 )
 
 
 {-| -}
-maroon : Color
+maroon : SolidColor
 maroon =
-    Color.fromRGB ( 128, 0, 0 )
+    SolidColor.fromRGB ( 128, 0, 0 )
 
 
 
@@ -388,123 +388,123 @@ maroon =
 
 
 {-| -}
-darkOliveGreen : Color
+darkOliveGreen : SolidColor
 darkOliveGreen =
-    Color.fromRGB ( 85, 107, 47 )
+    SolidColor.fromRGB ( 85, 107, 47 )
 
 
 {-| -}
-olive : Color
+olive : SolidColor
 olive =
-    Color.fromRGB ( 128, 128, 0 )
+    SolidColor.fromRGB ( 128, 128, 0 )
 
 
 {-| -}
-oliveDrab : Color
+oliveDrab : SolidColor
 oliveDrab =
-    Color.fromRGB ( 107, 142, 35 )
+    SolidColor.fromRGB ( 107, 142, 35 )
 
 
 {-| -}
-yellowGreen : Color
+yellowGreen : SolidColor
 yellowGreen =
-    Color.fromRGB ( 154, 205, 50 )
+    SolidColor.fromRGB ( 154, 205, 50 )
 
 
 {-| -}
-limeGreen : Color
+limeGreen : SolidColor
 limeGreen =
-    Color.fromRGB ( 50, 205, 50 )
+    SolidColor.fromRGB ( 50, 205, 50 )
 
 
 {-| -}
-lime : Color
+lime : SolidColor
 lime =
-    Color.fromRGB ( 0, 255, 0 )
+    SolidColor.fromRGB ( 0, 255, 0 )
 
 
 {-| -}
-lawnGreen : Color
+lawnGreen : SolidColor
 lawnGreen =
-    Color.fromRGB ( 124, 252, 0 )
+    SolidColor.fromRGB ( 124, 252, 0 )
 
 
 {-| -}
-chartreuse : Color
+chartreuse : SolidColor
 chartreuse =
-    Color.fromRGB ( 127, 255, 0 )
+    SolidColor.fromRGB ( 127, 255, 0 )
 
 
 {-| -}
-greenYellow : Color
+greenYellow : SolidColor
 greenYellow =
-    Color.fromRGB ( 173, 255, 47 )
+    SolidColor.fromRGB ( 173, 255, 47 )
 
 
 {-| -}
-springGreen : Color
+springGreen : SolidColor
 springGreen =
-    Color.fromRGB ( 0, 255, 127 )
+    SolidColor.fromRGB ( 0, 255, 127 )
 
 
 {-| -}
-mediumSpringGreen : Color
+mediumSpringGreen : SolidColor
 mediumSpringGreen =
-    Color.fromRGB ( 0, 250, 154 )
+    SolidColor.fromRGB ( 0, 250, 154 )
 
 
 {-| -}
-lightGreen : Color
+lightGreen : SolidColor
 lightGreen =
-    Color.fromRGB ( 144, 238, 144 )
+    SolidColor.fromRGB ( 144, 238, 144 )
 
 
 {-| -}
-paleGreen : Color
+paleGreen : SolidColor
 paleGreen =
-    Color.fromRGB ( 152, 251, 152 )
+    SolidColor.fromRGB ( 152, 251, 152 )
 
 
 {-| -}
-darkSeaGreen : Color
+darkSeaGreen : SolidColor
 darkSeaGreen =
-    Color.fromRGB ( 143, 188, 143 )
+    SolidColor.fromRGB ( 143, 188, 143 )
 
 
 {-| -}
-mediumAquamarine : Color
+mediumAquamarine : SolidColor
 mediumAquamarine =
-    Color.fromRGB ( 102, 205, 170 )
+    SolidColor.fromRGB ( 102, 205, 170 )
 
 
 {-| -}
-mediumSeaGreen : Color
+mediumSeaGreen : SolidColor
 mediumSeaGreen =
-    Color.fromRGB ( 60, 179, 113 )
+    SolidColor.fromRGB ( 60, 179, 113 )
 
 
 {-| -}
-seaGreen : Color
+seaGreen : SolidColor
 seaGreen =
-    Color.fromRGB ( 46, 139, 87 )
+    SolidColor.fromRGB ( 46, 139, 87 )
 
 
 {-| -}
-forestGreen : Color
+forestGreen : SolidColor
 forestGreen =
-    Color.fromRGB ( 34, 139, 34 )
+    SolidColor.fromRGB ( 34, 139, 34 )
 
 
 {-| -}
-green : Color
+green : SolidColor
 green =
-    Color.fromRGB ( 0, 128, 0 )
+    SolidColor.fromRGB ( 0, 128, 0 )
 
 
 {-| -}
-darkGreen : Color
+darkGreen : SolidColor
 darkGreen =
-    Color.fromRGB ( 0, 100, 0 )
+    SolidColor.fromRGB ( 0, 100, 0 )
 
 
 
@@ -512,75 +512,75 @@ darkGreen =
 
 
 {-| -}
-aqua : Color
+aqua : SolidColor
 aqua =
-    Color.fromRGB ( 0, 255, 255 )
+    SolidColor.fromRGB ( 0, 255, 255 )
 
 
 {-| -}
-cyan : Color
+cyan : SolidColor
 cyan =
-    Color.fromRGB ( 0, 255, 255 )
+    SolidColor.fromRGB ( 0, 255, 255 )
 
 
 {-| -}
-lightCyan : Color
+lightCyan : SolidColor
 lightCyan =
-    Color.fromRGB ( 224, 255, 255 )
+    SolidColor.fromRGB ( 224, 255, 255 )
 
 
 {-| -}
-paleTurquoise : Color
+paleTurquoise : SolidColor
 paleTurquoise =
-    Color.fromRGB ( 175, 238, 238 )
+    SolidColor.fromRGB ( 175, 238, 238 )
 
 
 {-| -}
-aquamarine : Color
+aquamarine : SolidColor
 aquamarine =
-    Color.fromRGB ( 127, 255, 212 )
+    SolidColor.fromRGB ( 127, 255, 212 )
 
 
 {-| -}
-turquoise : Color
+turquoise : SolidColor
 turquoise =
-    Color.fromRGB ( 64, 224, 208 )
+    SolidColor.fromRGB ( 64, 224, 208 )
 
 
 {-| -}
-mediumTurquoise : Color
+mediumTurquoise : SolidColor
 mediumTurquoise =
-    Color.fromRGB ( 72, 209, 204 )
+    SolidColor.fromRGB ( 72, 209, 204 )
 
 
 {-| -}
-darkTurquoise : Color
+darkTurquoise : SolidColor
 darkTurquoise =
-    Color.fromRGB ( 0, 206, 209 )
+    SolidColor.fromRGB ( 0, 206, 209 )
 
 
 {-| -}
-lightSeaGreen : Color
+lightSeaGreen : SolidColor
 lightSeaGreen =
-    Color.fromRGB ( 32, 178, 170 )
+    SolidColor.fromRGB ( 32, 178, 170 )
 
 
 {-| -}
-cadetBlue : Color
+cadetBlue : SolidColor
 cadetBlue =
-    Color.fromRGB ( 95, 158, 160 )
+    SolidColor.fromRGB ( 95, 158, 160 )
 
 
 {-| -}
-darkCyan : Color
+darkCyan : SolidColor
 darkCyan =
-    Color.fromRGB ( 0, 139, 139 )
+    SolidColor.fromRGB ( 0, 139, 139 )
 
 
 {-| -}
-teal : Color
+teal : SolidColor
 teal =
-    Color.fromRGB ( 0, 128, 128 )
+    SolidColor.fromRGB ( 0, 128, 128 )
 
 
 
@@ -588,93 +588,93 @@ teal =
 
 
 {-| -}
-lightSteelBlue : Color
+lightSteelBlue : SolidColor
 lightSteelBlue =
-    Color.fromRGB ( 176, 196, 222 )
+    SolidColor.fromRGB ( 176, 196, 222 )
 
 
 {-| -}
-powderBlue : Color
+powderBlue : SolidColor
 powderBlue =
-    Color.fromRGB ( 176, 224, 230 )
+    SolidColor.fromRGB ( 176, 224, 230 )
 
 
 {-| -}
-lightBlue : Color
+lightBlue : SolidColor
 lightBlue =
-    Color.fromRGB ( 173, 216, 230 )
+    SolidColor.fromRGB ( 173, 216, 230 )
 
 
 {-| -}
-skyBlue : Color
+skyBlue : SolidColor
 skyBlue =
-    Color.fromRGB ( 135, 206, 235 )
+    SolidColor.fromRGB ( 135, 206, 235 )
 
 
 {-| -}
-lightSkyBlue : Color
+lightSkyBlue : SolidColor
 lightSkyBlue =
-    Color.fromRGB ( 135, 206, 250 )
+    SolidColor.fromRGB ( 135, 206, 250 )
 
 
 {-| -}
-deepSkyBlue : Color
+deepSkyBlue : SolidColor
 deepSkyBlue =
-    Color.fromRGB ( 0, 191, 255 )
+    SolidColor.fromRGB ( 0, 191, 255 )
 
 
 {-| -}
-dodgerBlue : Color
+dodgerBlue : SolidColor
 dodgerBlue =
-    Color.fromRGB ( 30, 144, 255 )
+    SolidColor.fromRGB ( 30, 144, 255 )
 
 
 {-| -}
-cornflowerBlue : Color
+cornflowerBlue : SolidColor
 cornflowerBlue =
-    Color.fromRGB ( 100, 149, 237 )
+    SolidColor.fromRGB ( 100, 149, 237 )
 
 
 {-| -}
-steelBlue : Color
+steelBlue : SolidColor
 steelBlue =
-    Color.fromRGB ( 70, 130, 180 )
+    SolidColor.fromRGB ( 70, 130, 180 )
 
 
 {-| -}
-royalBlue : Color
+royalBlue : SolidColor
 royalBlue =
-    Color.fromRGB ( 65, 105, 225 )
+    SolidColor.fromRGB ( 65, 105, 225 )
 
 
 {-| -}
-blue : Color
+blue : SolidColor
 blue =
-    Color.fromRGB ( 0, 0, 255 )
+    SolidColor.fromRGB ( 0, 0, 255 )
 
 
 {-| -}
-mediumBlue : Color
+mediumBlue : SolidColor
 mediumBlue =
-    Color.fromRGB ( 0, 0, 205 )
+    SolidColor.fromRGB ( 0, 0, 205 )
 
 
 {-| -}
-darkBlue : Color
+darkBlue : SolidColor
 darkBlue =
-    Color.fromRGB ( 0, 0, 139 )
+    SolidColor.fromRGB ( 0, 0, 139 )
 
 
 {-| -}
-navy : Color
+navy : SolidColor
 navy =
-    Color.fromRGB ( 0, 0, 128 )
+    SolidColor.fromRGB ( 0, 0, 128 )
 
 
 {-| -}
-midnightBlue : Color
+midnightBlue : SolidColor
 midnightBlue =
-    Color.fromRGB ( 25, 25, 112 )
+    SolidColor.fromRGB ( 25, 25, 112 )
 
 
 
@@ -682,111 +682,111 @@ midnightBlue =
 
 
 {-| -}
-lavender : Color
+lavender : SolidColor
 lavender =
-    Color.fromRGB ( 230, 230, 250 )
+    SolidColor.fromRGB ( 230, 230, 250 )
 
 
 {-| -}
-thistle : Color
+thistle : SolidColor
 thistle =
-    Color.fromRGB ( 216, 191, 216 )
+    SolidColor.fromRGB ( 216, 191, 216 )
 
 
 {-| -}
-plum : Color
+plum : SolidColor
 plum =
-    Color.fromRGB ( 221, 160, 221 )
+    SolidColor.fromRGB ( 221, 160, 221 )
 
 
 {-| -}
-violet : Color
+violet : SolidColor
 violet =
-    Color.fromRGB ( 238, 130, 238 )
+    SolidColor.fromRGB ( 238, 130, 238 )
 
 
 {-| -}
-orchid : Color
+orchid : SolidColor
 orchid =
-    Color.fromRGB ( 218, 112, 214 )
+    SolidColor.fromRGB ( 218, 112, 214 )
 
 
 {-| -}
-fuchsia : Color
+fuchsia : SolidColor
 fuchsia =
-    Color.fromRGB ( 255, 0, 255 )
+    SolidColor.fromRGB ( 255, 0, 255 )
 
 
 {-| -}
-magenta : Color
+magenta : SolidColor
 magenta =
-    Color.fromRGB ( 255, 0, 255 )
+    SolidColor.fromRGB ( 255, 0, 255 )
 
 
 {-| -}
-mediumOrchid : Color
+mediumOrchid : SolidColor
 mediumOrchid =
-    Color.fromRGB ( 186, 85, 211 )
+    SolidColor.fromRGB ( 186, 85, 211 )
 
 
 {-| -}
-mediumPurple : Color
+mediumPurple : SolidColor
 mediumPurple =
-    Color.fromRGB ( 147, 112, 219 )
+    SolidColor.fromRGB ( 147, 112, 219 )
 
 
 {-| -}
-blueViolet : Color
+blueViolet : SolidColor
 blueViolet =
-    Color.fromRGB ( 138, 43, 226 )
+    SolidColor.fromRGB ( 138, 43, 226 )
 
 
 {-| -}
-darkViolet : Color
+darkViolet : SolidColor
 darkViolet =
-    Color.fromRGB ( 148, 0, 211 )
+    SolidColor.fromRGB ( 148, 0, 211 )
 
 
 {-| -}
-darkOrchid : Color
+darkOrchid : SolidColor
 darkOrchid =
-    Color.fromRGB ( 153, 50, 204 )
+    SolidColor.fromRGB ( 153, 50, 204 )
 
 
 {-| -}
-darkMagenta : Color
+darkMagenta : SolidColor
 darkMagenta =
-    Color.fromRGB ( 139, 0, 139 )
+    SolidColor.fromRGB ( 139, 0, 139 )
 
 
 {-| -}
-purple : Color
+purple : SolidColor
 purple =
-    Color.fromRGB ( 128, 0, 128 )
+    SolidColor.fromRGB ( 128, 0, 128 )
 
 
 {-| -}
-indigo : Color
+indigo : SolidColor
 indigo =
-    Color.fromRGB ( 75, 0, 130 )
+    SolidColor.fromRGB ( 75, 0, 130 )
 
 
 {-| -}
-darkSlateBlue : Color
+darkSlateBlue : SolidColor
 darkSlateBlue =
-    Color.fromRGB ( 72, 61, 139 )
+    SolidColor.fromRGB ( 72, 61, 139 )
 
 
 {-| -}
-slateBlue : Color
+slateBlue : SolidColor
 slateBlue =
-    Color.fromRGB ( 106, 90, 205 )
+    SolidColor.fromRGB ( 106, 90, 205 )
 
 
 {-| -}
-mediumSlateBlue : Color
+mediumSlateBlue : SolidColor
 mediumSlateBlue =
-    Color.fromRGB ( 123, 104, 238 )
+    SolidColor.fromRGB ( 123, 104, 238 )
 
 
 
@@ -794,105 +794,105 @@ mediumSlateBlue =
 
 
 {-| -}
-white : Color
+white : SolidColor
 white =
-    Color.fromRGB ( 255, 255, 255 )
+    SolidColor.fromRGB ( 255, 255, 255 )
 
 
 {-| -}
-snow : Color
+snow : SolidColor
 snow =
-    Color.fromRGB ( 255, 250, 250 )
+    SolidColor.fromRGB ( 255, 250, 250 )
 
 
 {-| -}
-honeydew : Color
+honeydew : SolidColor
 honeydew =
-    Color.fromRGB ( 240, 255, 240 )
+    SolidColor.fromRGB ( 240, 255, 240 )
 
 
 {-| -}
-mintCream : Color
+mintCream : SolidColor
 mintCream =
-    Color.fromRGB ( 245, 255, 250 )
+    SolidColor.fromRGB ( 245, 255, 250 )
 
 
 {-| -}
-azure : Color
+azure : SolidColor
 azure =
-    Color.fromRGB ( 240, 255, 255 )
+    SolidColor.fromRGB ( 240, 255, 255 )
 
 
 {-| -}
-aliceBlue : Color
+aliceBlue : SolidColor
 aliceBlue =
-    Color.fromRGB ( 240, 248, 255 )
+    SolidColor.fromRGB ( 240, 248, 255 )
 
 
 {-| -}
-ghostWhite : Color
+ghostWhite : SolidColor
 ghostWhite =
-    Color.fromRGB ( 248, 248, 255 )
+    SolidColor.fromRGB ( 248, 248, 255 )
 
 
 {-| -}
-whiteSmoke : Color
+whiteSmoke : SolidColor
 whiteSmoke =
-    Color.fromRGB ( 245, 245, 245 )
+    SolidColor.fromRGB ( 245, 245, 245 )
 
 
 {-| -}
-seashell : Color
+seashell : SolidColor
 seashell =
-    Color.fromRGB ( 255, 245, 238 )
+    SolidColor.fromRGB ( 255, 245, 238 )
 
 
 {-| -}
-beige : Color
+beige : SolidColor
 beige =
-    Color.fromRGB ( 245, 245, 220 )
+    SolidColor.fromRGB ( 245, 245, 220 )
 
 
 {-| -}
-oldLace : Color
+oldLace : SolidColor
 oldLace =
-    Color.fromRGB ( 253, 245, 230 )
+    SolidColor.fromRGB ( 253, 245, 230 )
 
 
 {-| -}
-floralWhite : Color
+floralWhite : SolidColor
 floralWhite =
-    Color.fromRGB ( 255, 250, 240 )
+    SolidColor.fromRGB ( 255, 250, 240 )
 
 
 {-| -}
-ivory : Color
+ivory : SolidColor
 ivory =
-    Color.fromRGB ( 255, 255, 240 )
+    SolidColor.fromRGB ( 255, 255, 240 )
 
 
 {-| -}
-antiqueWhite : Color
+antiqueWhite : SolidColor
 antiqueWhite =
-    Color.fromRGB ( 250, 235, 215 )
+    SolidColor.fromRGB ( 250, 235, 215 )
 
 
 {-| -}
-linen : Color
+linen : SolidColor
 linen =
-    Color.fromRGB ( 250, 240, 230 )
+    SolidColor.fromRGB ( 250, 240, 230 )
 
 
 {-| -}
-lavenderBlush : Color
+lavenderBlush : SolidColor
 lavenderBlush =
-    Color.fromRGB ( 255, 240, 245 )
+    SolidColor.fromRGB ( 255, 240, 245 )
 
 
 {-| -}
-mistyRose : Color
+mistyRose : SolidColor
 mistyRose =
-    Color.fromRGB ( 255, 228, 225 )
+    SolidColor.fromRGB ( 255, 228, 225 )
 
 
 
@@ -900,60 +900,60 @@ mistyRose =
 
 
 {-| -}
-gainsboro : Color
+gainsboro : SolidColor
 gainsboro =
-    Color.fromRGB ( 220, 220, 220 )
+    SolidColor.fromRGB ( 220, 220, 220 )
 
 
 {-| -}
-lightGray : Color
+lightGray : SolidColor
 lightGray =
-    Color.fromRGB ( 211, 211, 211 )
+    SolidColor.fromRGB ( 211, 211, 211 )
 
 
 {-| -}
-silver : Color
+silver : SolidColor
 silver =
-    Color.fromRGB ( 192, 192, 192 )
+    SolidColor.fromRGB ( 192, 192, 192 )
 
 
 {-| -}
-darkGray : Color
+darkGray : SolidColor
 darkGray =
-    Color.fromRGB ( 169, 169, 169 )
+    SolidColor.fromRGB ( 169, 169, 169 )
 
 
 {-| -}
-gray : Color
+gray : SolidColor
 gray =
-    Color.fromRGB ( 128, 128, 128 )
+    SolidColor.fromRGB ( 128, 128, 128 )
 
 
 {-| -}
-dimGray : Color
+dimGray : SolidColor
 dimGray =
-    Color.fromRGB ( 105, 105, 105 )
+    SolidColor.fromRGB ( 105, 105, 105 )
 
 
 {-| -}
-lightSlateGray : Color
+lightSlateGray : SolidColor
 lightSlateGray =
-    Color.fromRGB ( 119, 136, 153 )
+    SolidColor.fromRGB ( 119, 136, 153 )
 
 
 {-| -}
-slateGray : Color
+slateGray : SolidColor
 slateGray =
-    Color.fromRGB ( 112, 128, 144 )
+    SolidColor.fromRGB ( 112, 128, 144 )
 
 
 {-| -}
-darkSlateGray : Color
+darkSlateGray : SolidColor
 darkSlateGray =
-    Color.fromRGB ( 47, 79, 79 )
+    SolidColor.fromRGB ( 47, 79, 79 )
 
 
 {-| -}
-black : Color
+black : SolidColor
 black =
-    Color.fromRGB ( 0, 0, 0 )
+    SolidColor.fromRGB ( 0, 0, 0 )

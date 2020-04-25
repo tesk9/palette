@@ -1,27 +1,33 @@
-module Color exposing
-    ( Color
-    , fromRGB, fromHSL, fromHex
-    , toRGBString, toHSLString
+module SolidColor exposing
+    ( SolidColor
+    , fromRGB, toRGB, toRGBString
+    , fromHSL, toHSL, toHSLString
+    , fromHex, toHex
     , grayscale, invert, highContrast
     , blacken, whiten, grayen
     , rotateHue, addSaturation, addLightness
     , add, subtract, multiply, divide
-    , toRGB, toHSL, toHex
     , luminance
     )
 
 {-|
 
-
-## Colors
-
-@docs Color
-@docs fromRGB, fromHSL, fromHex
+@docs SolidColor
 
 
-## Use Colors
+# RGB
 
-@docs toRGBString, toHSLString
+@docs fromRGB, toRGB, toRGBString
+
+
+# HSL
+
+@docs fromHSL, toHSL, toHSLString
+
+
+# Hexadecimal
+
+@docs fromHex, toHex
 
 
 ## Customize Colors
@@ -34,7 +40,6 @@ module Color exposing
 
 ## Helpers
 
-@docs toRGB, toHSL, toHex
 @docs luminance
 
 -}
@@ -48,17 +53,17 @@ import Internal.RGBA
 
 
 {-| -}
-type Color
+type SolidColor
     = Color Internal.Color.Color
 
 
 {-| Build a new color based on HSL (Hue, Saturation, and Lightness) values.
 
-    import Color exposing (Color)
+    import SolidColor exposing (SolidColor, fromHSL)
 
-    red : Color
+    red : SolidColor
     red =
-        Color.fromHSL ( 0, 100, 50 )
+        fromHSL ( 0, 100, 50 )
 
 The hue is specified in degrees on the color wheel. If you pass in a hue of
 `0`, `360`, or `-360`, you'll be specifying a red hue.
@@ -77,7 +82,7 @@ Geometrically, you can think of HSL colors as modeled on a cylinder:
 [Image from the HSL and HSV article on Wikipedia](https://en.wikipedia.org/wiki/HSL_and_HSV)
 
 -}
-fromHSL : ( Float, Float, Float ) -> Color
+fromHSL : ( Float, Float, Float ) -> SolidColor
 fromHSL ( hue, saturation, lightness ) =
     Color
         (Internal.Color.fromHSLA
@@ -91,7 +96,7 @@ fromHSL ( hue, saturation, lightness ) =
 
 {-| Extract the hue, saturation, and lightness values from an existing Color.
 -}
-toHSL : Color -> ( Float, Float, Float )
+toHSL : SolidColor -> ( Float, Float, Float )
 toHSL (Color color) =
     let
         { hue, saturation, lightness } =
@@ -102,17 +107,17 @@ toHSL (Color color) =
 
 {-| Get the HSL representation of a color as a `String`.
 
-    import Color exposing (toHSLString)
     import Html exposing (p, text)
     import Html.Attributes exposing (style)
     import Palette.X11 exposing (red)
+    import SolidColor exposing (toHSLString)
 
     view =
         p [ style "color" (toHSLString red) ]
             [ text "Wow! This sure looks red!" ]
 
 -}
-toHSLString : Color -> String
+toHSLString : SolidColor -> String
 toHSLString (Color color) =
     Internal.HSLA.toStringWithoutOpacity
         (Internal.Color.asHSLA color)
@@ -120,24 +125,24 @@ toHSLString (Color color) =
 
 {-| Build a new color based on RGB (red, green, blue) values.
 
-    import Color exposing (Color)
+    import SolidColor exposing (SolidColor, fromRGB)
 
-    red : Color
+    red : SolidColor
     red =
-        Color.fromRGB ( 255, 0, 0 )
+        fromRGB ( 255, 0, 0 )
 
-    green : Color
+    green : SolidColor
     green =
-        Color.fromRGB ( 0, 255, 0 )
+        fromRGB ( 0, 255, 0 )
 
-    blue : Color
+    blue : SolidColor
     blue =
-        Color.fromRGB ( 0, 0, 255 )
+        fromRGB ( 0, 0, 255 )
 
 This function clamps each RGB value between 0 and 255 (inclusive).
 
 -}
-fromRGB : ( Float, Float, Float ) -> Color
+fromRGB : ( Float, Float, Float ) -> SolidColor
 fromRGB ( red, green, blue ) =
     Color
         (Internal.Color.fromRGBA
@@ -151,7 +156,7 @@ fromRGB ( red, green, blue ) =
 
 {-| Extract the red, green, blue values from an existing Color.
 -}
-toRGB : Color -> ( Float, Float, Float )
+toRGB : SolidColor -> ( Float, Float, Float )
 toRGB (Color color) =
     let
         { red, green, blue } =
@@ -162,17 +167,17 @@ toRGB (Color color) =
 
 {-| Get the RGB representation of a color as a `String`.
 
-    import Color exposing (toRGBString)
     import Html exposing (p, text)
     import Html.Attributes exposing (style)
     import Palette.X11 exposing (red)
+    import SolidColor exposing (toRGBString)
 
     view =
         p [ style "color" (toRGBString red) ]
             [ text "Wow! This sure looks red!" ]
 
 -}
-toRGBString : Color -> String
+toRGBString : SolidColor -> String
 toRGBString (Color color) =
     Internal.RGBA.toStringWithoutOpacity (Internal.Color.asRGBA color)
 
@@ -180,8 +185,8 @@ toRGBString (Color color) =
 {-| Build a new color from a hex string.
 Supports lowercase and uppercase strings.
 
-    (Color.fromHex "#FFDD00" == Color.fromHex "#FD0")
-        && (Color.fromHex "#FFDD00" == Color.fromHex "#ffdd00")
+    (SolidColor.fromHex "#FFDD00" == SolidColor.fromHex "#FD0")
+        && (SolidColor.fromHex "#FFDD00" == SolidColor.fromHex "#ffdd00")
 
 Note: this helper will ignore transparency values.
 
@@ -192,7 +197,7 @@ You will need to use hex colors if you're working with an
 [HTML input of type color](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color).
 
 -}
-fromHex : String -> Result String Color
+fromHex : String -> Result String SolidColor
 fromHex colorString =
     case Internal.Hex.fromString colorString of
         Just { red, green, blue } ->
@@ -220,7 +225,7 @@ Note: this function will always return a string in the form "#RRGGBB".
 It will not return shortened values (i.e., "#RGB").
 
 -}
-toHex : Color -> String
+toHex : SolidColor -> String
 toHex color =
     let
         ( red, green, blue ) =
@@ -244,7 +249,7 @@ This means that if you add red, green, and blue together, you'll end up with whi
 colors you add, the brighter/whiter the result.
 
 -}
-add : Color -> Color -> Color
+add : SolidColor -> SolidColor -> SolidColor
 add a c =
     let
         ( r1, g1, b1 ) =
@@ -266,7 +271,7 @@ the first color's channel values.
 That is, `rgb(10, 20, 30) - rgb(10, 10, 10) = rgb(0, 10, 20)`.
 
 -}
-subtract : Color -> Color -> Color
+subtract : SolidColor -> SolidColor -> SolidColor
 subtract a c =
     let
         ( r1, g1, b1 ) =
@@ -289,7 +294,7 @@ Any color multiplied by white will result in the color.
 `rgb(255, 0, 0)` will keep reds and remove any greens and blues.
 
 -}
-multiply : Color -> Color -> Color
+multiply : SolidColor -> SolidColor -> SolidColor
 multiply a c =
     let
         ( r1, g1, b1 ) =
@@ -307,7 +312,7 @@ multiply a c =
 
 {-| Blend two colors together.
 -}
-divide : Color -> Color -> Color
+divide : SolidColor -> SolidColor -> SolidColor
 divide a c =
     let
         ( r1, g1, b1 ) =
@@ -336,7 +341,7 @@ Luminance describes the perceived brightness of a color. You're unlikely to need
 to use this function directly.
 
 -}
-luminance : Color -> Float
+luminance : SolidColor -> Float
 luminance color =
     let
         ( rRaw, gRaw, bRaw ) =
@@ -375,73 +380,73 @@ luminance color =
 Picture the color wheel. Suppose you want to find 8 evenly-spaced colors from a starting color.
 You might do something like this:
 
-    import Color
+    import SolidColor exposing (SolidColor)
 
-    eightEvenColors : Color -> List Color
+    eightEvenColors : SolidColor -> List SolidColor
     eightEvenColors color =
         List.range 0 7
-            |> List.map (\i -> Color.rotateHue (toFloat i * 360 / 8) color)
+            |> List.map (\i -> SolidColor.rotateHue (toFloat i * 360 / 8) color)
 
 -}
-rotateHue : Float -> Color -> Color
+rotateHue : Float -> SolidColor -> SolidColor
 rotateHue degrees (Color color) =
     Color (Internal.Color.rotateHue degrees color)
 
 
-{-| Use this function to produce a new "shade" of the Color. Pass in the
+{-| Use this function to produce a new "shade" of a SolidColor. Pass in the
 percentage value by which you want to darken the color.
 
 `blacken` decreases the "lightness" of the color in the HSL color space.
 
-    blacken : Float -> Color -> Color
+    blacken : Float -> SolidColor -> SolidColor
     blacken percentage color =
         addLightness (0 - abs percentage) color
 
 -}
-blacken : Float -> Color -> Color
+blacken : Float -> SolidColor -> SolidColor
 blacken percentage color =
     addLightness (0 - abs percentage) color
 
 
-{-| Use this function to produce a new "tint" of the Color. Pass in the
+{-| Use this function to produce a new "tint" of a SolidColor. Pass in the
 percentage value by which you want to lighten the color.
 
 `whiten` increases the "lightness" of the color in the HSL color space.
 
-    whiten : Float -> Color -> Color
+    whiten : Float -> SolidColor -> SolidColor
     whiten percentage color =
         addLightness (abs percentage) color
 
 -}
-whiten : Float -> Color -> Color
+whiten : Float -> SolidColor -> SolidColor
 whiten percentage color =
     addLightness (abs percentage) color
 
 
-{-| Use this function to produce a new "tone" of the Color.
+{-| Use this function to produce a new "tone" of a SolidColor.
 
 `grayen` decreases the "saturation" of the color in the HSL color space.
 
-    grayen : Float -> Color -> Color
+    grayen : Float -> SolidColor -> SolidColor
     grayen percentage color =
         addSaturation (0 - abs percentage) color
 
 -}
-grayen : Float -> Color -> Color
+grayen : Float -> SolidColor -> SolidColor
 grayen percentage color =
     addSaturation (0 - abs percentage) color
 
 
 {-| Modify the saturation of a color in the HSL color space.
 -}
-addSaturation : Float -> Color -> Color
+addSaturation : Float -> SolidColor -> SolidColor
 addSaturation percentage (Color color) =
     Color (Internal.Color.addSaturation percentage color)
 
 
 {-| Modify the lightness of a color in the HSL color space.
 -}
-addLightness : Float -> Color -> Color
+addLightness : Float -> SolidColor -> SolidColor
 addLightness percentage (Color color) =
     Color (Internal.Color.addLightness percentage color)
 
@@ -453,7 +458,7 @@ given the starting color.
 This is often useful when working with styleguide colors.
 
 -}
-highContrast : Color -> Color
+highContrast : SolidColor -> SolidColor
 highContrast starting =
     if luminance starting < 0.1791 then
         addLightness 100 starting
@@ -464,7 +469,7 @@ highContrast starting =
 
 {-| Use this function to invert a color. E.g., black inverted is white, white inverted is black....
 -}
-invert : Color -> Color
+invert : SolidColor -> SolidColor
 invert (Color color) =
     Color (Internal.Color.invert color)
 
@@ -472,7 +477,7 @@ invert (Color color) =
 {-| Convert the color you pass in to a grayscale version. This function uses the
 luminance of the color you pass in to make a corresponding white <-> black value.
 -}
-grayscale : Color -> Color
+grayscale : SolidColor -> SolidColor
 grayscale color =
     let
         fromLuminance =

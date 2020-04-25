@@ -12,7 +12,7 @@ module Color.Accessibility exposing
 
 -}
 
-import Color exposing (Color)
+import SolidColor exposing (SolidColor)
 
 
 {-| Read more about levels of conformance at [WCAG](https://www.w3.org/TR/UNDERSTANDING-WCAG20/conformance.html#uc-levels-head).
@@ -60,8 +60,8 @@ To meet AAA level sufficiently, [follow these standards](https://www.w3.org/WAI/
 -}
 checkContrast :
     { fontSize : Float, fontWeight : Int }
-    -> Color
-    -> Color
+    -> SolidColor
+    -> SolidColor
     -> Rating
 checkContrast font color1 color2 =
     if sufficientContrast AAA_ font color1 color2 then
@@ -80,7 +80,7 @@ type WCAGLevel
 
 
 {-| -}
-sufficientContrast : WCAGLevel -> { fontSize : Float, fontWeight : Int } -> Color -> Color -> Bool
+sufficientContrast : WCAGLevel -> { fontSize : Float, fontWeight : Int } -> SolidColor -> SolidColor -> Bool
 sufficientContrast wcagLevel { fontSize, fontWeight } color1 color2 =
     let
         colorContrast =
@@ -104,14 +104,14 @@ sufficientContrast wcagLevel { fontSize, fontWeight } color1 color2 =
 
 {-| Calculate the contrast between two colors.
 -}
-contrast : Color -> Color -> Float
+contrast : SolidColor -> SolidColor -> Float
 contrast color1 color2 =
     let
         luminance1 =
-            Color.luminance color1
+            SolidColor.luminance color1
 
         luminance2 =
-            Color.luminance color2
+            SolidColor.luminance color2
     in
     if luminance1 > luminance2 then
         (luminance1 + 0.05) / (luminance2 + 0.05)

@@ -17,7 +17,7 @@ module Palette.Generative exposing
 
 -}
 
-import Color exposing (Color)
+import SolidColor exposing (SolidColor)
 
 
 {-| Find the color opposite the color you pass in on the color wheel.
@@ -25,9 +25,9 @@ import Color exposing (Color)
 E.g., if you pass in a reddish color, you should expect to get back a tealish color.
 
 -}
-complementary : Color -> Color
+complementary : SolidColor -> SolidColor
 complementary color =
-    Color.rotateHue 180 color
+    SolidColor.rotateHue 180 color
 
 
 {-| Find the other two colors in the triadic scheme defined by the color passed in.
@@ -39,7 +39,7 @@ The internet says this scheme will be vibrant, and that you should
 mostly use one of the three colors and only use the other two for accents.
 
 -}
-triadic : Color -> ( Color, Color )
+triadic : SolidColor -> ( SolidColor, SolidColor )
 triadic color =
     splitComplementary 120 color
 
@@ -55,18 +55,18 @@ in both directions.
 Initial rotation is clamped between 0 and 180.
 
 -}
-splitComplementary : Float -> Color -> ( Color, Color )
+splitComplementary : Float -> SolidColor -> ( SolidColor, SolidColor )
 splitComplementary r color =
     let
         rotation =
             clamp 0 180 r
     in
-    ( Color.rotateHue rotation color, Color.rotateHue (0 - rotation) color )
+    ( SolidColor.rotateHue rotation color, SolidColor.rotateHue (0 - rotation) color )
 
 
 {-| Find four equally-spaced colors along the color wheel starting from the passed-in color.
 -}
-square : Color -> ( Color, Color, Color )
+square : SolidColor -> ( SolidColor, SolidColor, SolidColor )
 square color =
     tetratic 60 color
 
@@ -87,7 +87,7 @@ to make it all the way around.
 Initial rotation is clamped between 0 and 180.
 
 -}
-tetratic : Float -> Color -> ( Color, Color, Color )
+tetratic : Float -> SolidColor -> ( SolidColor, SolidColor, SolidColor )
 tetratic w color =
     let
         width =
@@ -96,9 +96,9 @@ tetratic w color =
         length =
             (360 - 2 * width) / 2
     in
-    ( Color.rotateHue width color
-    , Color.rotateHue (width + length) color
-    , Color.rotateHue (2 * width + length) color
+    ( SolidColor.rotateHue width color
+    , SolidColor.rotateHue (width + length) color
+    , SolidColor.rotateHue (2 * width + length) color
     )
 
 
@@ -114,20 +114,20 @@ something like this:
 Colors will be arranged from darkest to lightest.
 
 -}
-monochromatic : Float -> Color -> List Color
+monochromatic : Float -> SolidColor -> List SolidColor
 monochromatic stepSize color =
     let
         getNextStep adjustment lastColor colors =
             let
                 nextLightness =
-                    Color.toHSL lastColor
+                    SolidColor.toHSL lastColor
                         |> (\( _, _, lightness ) -> lightness + adjustment)
             in
             if nextLightness <= 0 || nextLightness >= 100 then
                 lastColor :: colors
 
             else
-                getNextStep adjustment (Color.addLightness adjustment lastColor) (lastColor :: colors)
+                getNextStep adjustment (SolidColor.addLightness adjustment lastColor) (lastColor :: colors)
     in
     case List.reverse (getNextStep stepSize color []) of
         start :: tints ->

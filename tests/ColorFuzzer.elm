@@ -6,16 +6,16 @@ module ColorFuzzer exposing
     , rgbValues
     )
 
-import Color exposing (Color)
 import Dict exposing (Dict)
 import Fuzz exposing (Fuzzer)
 import Random exposing (Generator)
 import Shrink
+import SolidColor exposing (SolidColor)
 
 
-rgbColor : Fuzzer Color
+rgbColor : Fuzzer SolidColor
 rgbColor =
-    Fuzz.map Color.fromRGB rgbValues
+    Fuzz.map SolidColor.fromRGB rgbValues
 
 
 rgbValues : Fuzzer ( Float, Float, Float )
@@ -23,9 +23,9 @@ rgbValues =
     triple (Fuzz.intRange 0 255) (Fuzz.intRange 0 255) (Fuzz.intRange 0 255)
 
 
-hslColor : Fuzzer Color
+hslColor : Fuzzer SolidColor
 hslColor =
-    Fuzz.map Color.fromHSL hslValues
+    Fuzz.map SolidColor.fromHSL hslValues
 
 
 hslValues : Fuzzer ( Float, Float, Float )
