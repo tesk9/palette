@@ -470,6 +470,8 @@ given the starting color.
 
 This is often useful when working with styleguide colors.
 
+[Ellie example](https://ellie-app.com/9jNdS7F6wrHa1)
+
 -}
 highContrast : SolidColor -> SolidColor
 highContrast starting =
