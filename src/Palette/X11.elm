@@ -15,6 +15,8 @@ module Palette.X11 exposing
 {-| [X11 colors](https://en.wikipedia.org/wiki/Web_colors#X11_color_names).
 ![](https://user-images.githubusercontent.com/8811312/51518957-62d66200-1dd4-11e9-86c7-ef90e7b06811.png)
 
+[Ellie displaying all X11 colors](https://ellie-app.com/9jPb7ddF3HKa1)
+
 
 ## Pinks
 
