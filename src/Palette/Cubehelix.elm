@@ -30,6 +30,8 @@ helix?!) please read more about it [here](https://www.mrao.cam.ac.uk/~dag/CUBEHE
 
 ![](https://user-images.githubusercontent.com/8811312/52819054-37563880-305d-11e9-9cf3-a553c54f2c11.png)
 
+[See this example code on Ellie](https://ellie-app.com/9jPd6k6kCGxa1)
+
 @docs generate
 
 
@@ -46,6 +48,8 @@ helix?!) please read more about it [here](https://www.mrao.cam.ac.uk/~dag/CUBEHE
             , rotations = 1.2
             , gamma = 0.9
             }
+
+[See this example code on Ellie](https://ellie-app.com/9jPdCCSD9dya1)
 
 @docs generateAdvanced, defaultConfig
 @docs AdvancedConfig, RotationDirection
