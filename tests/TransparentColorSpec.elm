@@ -1,12 +1,9 @@
-module Color.TransparentSpec exposing (colorWithOpacitySuite, opacitySuite)
+module TransparentColorSpec exposing (colorWithOpacitySuite, opacitySuite)
 
-import Color
-import Color.Transparent
-import Color.TransparentFuzzer
 import Expect exposing (Expectation)
-import Fuzz exposing (Fuzzer)
 import Palette.Generative
 import Test exposing (..)
+import TransparentColor
 
 
 colorWithOpacitySuite : Test
@@ -15,27 +12,27 @@ colorWithOpacitySuite =
         [ describe "to a String" <|
             let
                 transparentPink =
-                    Color.Transparent.fromRGBA
+                    TransparentColor.fromRGBA
                         { red = 255
                         , green = 0
                         , blue = 255
-                        , alpha = Color.Transparent.customOpacity 0.5
+                        , alpha = TransparentColor.customOpacity 0.5
                         }
             in
             [ test "toRGBAString" <|
                 \_ ->
                     transparentPink
-                        |> Color.Transparent.toRGBAString
+                        |> TransparentColor.toRGBAString
                         |> Expect.equal "rgba(255,0,255,0.5)"
             , test "toHSLAString" <|
                 \_ ->
                     transparentPink
-                        |> Color.Transparent.toHSLAString
+                        |> TransparentColor.toHSLAString
                         |> Expect.equal "hsla(300,100%,50%,0.5)"
             , test "toHex with transparency" <|
                 \_ ->
                     transparentPink
-                        |> Color.Transparent.toHexA
+                        |> TransparentColor.toHexA
                         |> Expect.equal "#FF00FF80"
             ]
         ]
@@ -47,20 +44,20 @@ opacitySuite =
         [ test "custom bottom bound" <|
             \_ ->
                 Expect.equal
-                    (Color.Transparent.customOpacity -0.2)
-                    Color.Transparent.transparent
+                    (TransparentColor.customOpacity -0.2)
+                    TransparentColor.transparent
         , test "custom upper bound" <|
             \_ ->
                 Expect.equal
-                    (Color.Transparent.customOpacity 1.2)
-                    Color.Transparent.opaque
+                    (TransparentColor.customOpacity 1.2)
+                    TransparentColor.opaque
         , test "toFloat and toString" <|
             \_ ->
                 let
                     opacity =
-                        Color.Transparent.customOpacity 0.392408
+                        TransparentColor.customOpacity 0.392408
                 in
                 Expect.equal
-                    (Color.Transparent.opacityToFloat opacity |> String.fromFloat)
-                    (Color.Transparent.opacityToString opacity)
+                    (TransparentColor.opacityToFloat opacity |> String.fromFloat)
+                    (TransparentColor.opacityToString opacity)
         ]

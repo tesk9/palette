@@ -3,7 +3,6 @@ module Main exposing (main)
 import Browser
 import ColorModes
 import ColorPicker
-import Color exposing (Color)
 import Comparison
 import ExampleHelpers as Example
 import Html exposing (Html)
@@ -14,6 +13,7 @@ import PaletteExamples.Tango
 import PaletteExamples.X11
 import Platform
 import Preview
+import SolidColor exposing (SolidColor)
 import TransparentColorExamples
 import Url exposing (Url)
 import Url.Parser exposing ((</>), Parser, int, map, oneOf, s, string)
@@ -32,7 +32,7 @@ init : Model
 init =
     let
         selectedColor =
-            Color.fromHSL ( 0, 100, 50 )
+            SolidColor.fromHSL ( 0, 100, 50 )
     in
     { colorModesModel = ColorModes.init
     , colorPickerModel = ColorPicker.init selectedColor
@@ -45,7 +45,7 @@ type alias Model =
     { colorModesModel : ColorModes.Model
     , colorPickerModel : ColorPicker.Model
     , previewModel : Preview.Model
-    , selectedColor : Color
+    , selectedColor : SolidColor
     }
 
 
@@ -79,9 +79,9 @@ view : Model -> Html Msg
 view model =
     Html.main_ []
         [ Html.h1 [] [ Html.text "Examples" ]
-        , Example.section "Color"
+        , Example.section "SolidColor"
             (Html.div []
-                [ Example.subsection "API"
+                [ Example.subsection "ColorPicker example"
                     (Html.div []
                         [ ColorPicker.view model.colorPickerModel
                             |> Html.map ColorPickerMsg
@@ -107,16 +107,16 @@ view model =
                     (Html.div []
                         [ Html.h4 [] [ Html.text "Add" ]
                         , Example.list (List.map (\color -> ( color, X11.lightSeaGreen )) rainbow)
-                            (Comparison.viewOverlapping Color.add)
+                            (Comparison.viewOverlapping SolidColor.add)
                         , Html.h4 [] [ Html.text "Subtract" ]
                         , Example.list (List.map (\color -> ( color, X11.lightSeaGreen )) rainbow)
-                            (Comparison.viewOverlapping Color.subtract)
+                            (Comparison.viewOverlapping SolidColor.subtract)
                         , Html.h4 [] [ Html.text "Multiply" ]
                         , Example.list (List.map (\color -> ( color, X11.lightSeaGreen )) rainbow)
-                            (Comparison.viewOverlapping Color.multiply)
+                            (Comparison.viewOverlapping SolidColor.multiply)
                         , Html.h4 [] [ Html.text "Divide" ]
                         , Example.list (List.map (\color -> ( color, X11.lightSeaGreen )) rainbow)
-                            (Comparison.viewOverlapping Color.divide)
+                            (Comparison.viewOverlapping SolidColor.divide)
                         ]
                     )
                 , Example.subsection "Contrast"
@@ -125,7 +125,7 @@ view model =
                     )
                 ]
             )
-        , Example.section "Color.Transparent" TransparentColorExamples.view
+        , Example.section "SolidColor.Transparent" TransparentColorExamples.view
         , Example.section "Palette.Cubehelix" PaletteExamples.Cubehelix.examples
         , Example.section "Palette.Tango" PaletteExamples.Tango.examples
         , Example.section "Palette.X11" PaletteExamples.X11.examples
@@ -155,22 +155,22 @@ view model =
         ]
 
 
-viewGrayscale : Color -> Html msg
+viewGrayscale : SolidColor -> Html msg
 viewGrayscale color =
-    Comparison.viewPalette color [ Color.grayscale color ]
+    Comparison.viewPalette color [ SolidColor.grayscale color ]
 
 
-viewInverse : Color -> Html msg
+viewInverse : SolidColor -> Html msg
 viewInverse color =
-    Comparison.viewPalette color [ Color.invert color ]
+    Comparison.viewPalette color [ SolidColor.invert color ]
 
 
-viewComplementary : Color -> Html msg
+viewComplementary : SolidColor -> Html msg
 viewComplementary color =
     Comparison.viewPalette color [ Palette.Generative.complementary color ]
 
 
-viewTriadic : Color -> Html msg
+viewTriadic : SolidColor -> Html msg
 viewTriadic color =
     let
         ( one, two ) =
@@ -179,7 +179,7 @@ viewTriadic color =
     Comparison.viewPalette color [ one, two ]
 
 
-viewSplitComplementary : ( Float, Color ) -> Html msg
+viewSplitComplementary : ( Float, SolidColor ) -> Html msg
 viewSplitComplementary ( degree, color ) =
     let
         ( one, two ) =
@@ -188,7 +188,7 @@ viewSplitComplementary ( degree, color ) =
     Comparison.viewPalette color [ one, two ]
 
 
-viewSquare : Color -> Html msg
+viewSquare : SolidColor -> Html msg
 viewSquare color =
     let
         ( one, two, three ) =
@@ -197,7 +197,7 @@ viewSquare color =
     Comparison.viewPalette color [ one, two, three ]
 
 
-viewRectangle : ( Float, Color ) -> Html msg
+viewRectangle : ( Float, SolidColor ) -> Html msg
 viewRectangle ( degree, color ) =
     let
         ( one, two, three ) =
@@ -206,39 +206,39 @@ viewRectangle ( degree, color ) =
     Comparison.viewPalette color [ one, two, three ]
 
 
-viewMonochromaticShades : Color -> Html msg
+viewMonochromaticShades : SolidColor -> Html msg
 viewMonochromaticShades color =
     Comparison.viewPalette color
-        [ Color.blacken 10 color
-        , Color.blacken 20 color
-        , Color.blacken 30 color
-        , Color.blacken 40 color
+        [ SolidColor.blacken 10 color
+        , SolidColor.blacken 20 color
+        , SolidColor.blacken 30 color
+        , SolidColor.blacken 40 color
         ]
 
 
-viewMonochromaticTints : Color -> Html msg
+viewMonochromaticTints : SolidColor -> Html msg
 viewMonochromaticTints color =
     Comparison.viewPalette color
-        [ Color.whiten 10 color
-        , Color.whiten 20 color
-        , Color.whiten 30 color
-        , Color.whiten 40 color
-        , Color.whiten 50 color
+        [ SolidColor.whiten 10 color
+        , SolidColor.whiten 20 color
+        , SolidColor.whiten 30 color
+        , SolidColor.whiten 40 color
+        , SolidColor.whiten 50 color
         ]
 
 
-viewMonochromaticTones : Color -> Html msg
+viewMonochromaticTones : SolidColor -> Html msg
 viewMonochromaticTones color =
     Comparison.viewPalette color
-        [ Color.grayen 20 color
-        , Color.grayen 40 color
-        , Color.grayen 60 color
-        , Color.grayen 80 color
-        , Color.grayen 100 color
+        [ SolidColor.grayen 20 color
+        , SolidColor.grayen 40 color
+        , SolidColor.grayen 60 color
+        , SolidColor.grayen 80 color
+        , SolidColor.grayen 100 color
         ]
 
 
-viewMonochromaticGenerator : ( Float, Color ) -> Html msg
+viewMonochromaticGenerator : ( Float, SolidColor ) -> Html msg
 viewMonochromaticGenerator ( stepSize, color ) =
     Comparison.viewPalette color
         (Palette.Generative.monochromatic stepSize color)
@@ -248,7 +248,7 @@ viewMonochromaticGenerator ( stepSize, color ) =
 -- SUPER CONVENIENT COLORS
 
 
-rainbow : List Color
+rainbow : List SolidColor
 rainbow =
     [ X11.coral
     , X11.olive

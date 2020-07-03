@@ -7,22 +7,22 @@ Work with colors safely  and accessibly.
 Create colors from RGB, HSL, and hex values.
 
 ```
-import Color exposing (Color)
+import SolidColor exposing (SolidColor)
 
 
-myOrangeyRed : Color
+myOrangeyRed : SolidColor
 myOrangeyRed =
-    Color.fromRGB ( 255, 80, 0 )
+    SolidColor.fromRGB ( 255, 80, 0 )
 
 
-myTurquoiseIsh : Color
+myTurquoiseIsh : SolidColor
 myTurquoiseIsh =
-    Color.fromHSL (127, 50, 50)
+    SolidColor.fromHSL (127, 50, 50)
 
 
-myHex : Result String Color
+myHex : Result String SolidColor
 myHex =
-    Color.fromHex "#ff9800"
+    SolidColor.fromHex "#ff9800"
 
 ```
 
@@ -31,13 +31,13 @@ myHex =
 Use helpers like `contrast` and `sufficientContrast` to verify that your font size, boldness, and colors meet accessibility standards.
 
 ```
-import Color exposing (Color)
-import Color.Accessibility exposing (Rating, meetsAAA)
+import SolidColor exposing (SolidColor)
+import SolidColor.Accessibility exposing (Rating, meetsAAA)
 
-validFontColor : Color -> Bool
+validFontColor : SolidColor -> Bool
 validFontColor fontColor =
     checkContrast { fontSize = 12, fontWeight = 700 }
-        (Color.fromRGB ( 255, 255, 255 ))
+        (SolidColor.fromRGB ( 255, 255, 255 ))
         fontColor
         |> meetsAAA
 ```
@@ -47,16 +47,16 @@ validFontColor fontColor =
 Use [X11](https://en.wikipedia.org/wiki/X11_color_names) and [Tango](http://tango.freedesktop.org/Tango_Icon_Theme_Guidelines#Color_Palette) colors by name:
 
 ```
-import Color exposing (Color)
+import SolidColor exposing (SolidColor)
 import Palette.X11 as X11 exposing (orangeRed, tomato, coral, darkOrange, orange)
 import Palette.Tango as Tango exposing (butter1, butter2, butter3)
 
-orangyReds : List Color
+orangyReds : List SolidColor
 orangyReds =
     [ orangeRed, tomato, coral, darkOrange, orange ]
 
 
-allTheButter : List Color
+allTheButter : List SolidColor
 allTheButter =
     [ butter1, butter2, butter3 ]
 ```
@@ -88,7 +88,7 @@ you get a feel for what the functions do.
 Work with alpha channel values/transparency/opacity.
 
 ```
-import Color.Transparent
+import TransparentColor
 ```
 
 ## Developing & Contributing

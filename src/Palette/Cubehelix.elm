@@ -21,8 +21,9 @@ helix?!) please read more about it [here](https://www.mrao.cam.ac.uk/~dag/CUBEHE
 ## Generate a palette
 
     import Palette.Cubehelix as Cubehelix
+    import SolidColor exposing (SolidColor)
 
-    myPalette : List Color
+    myPalette : List SolidColor
     myPalette =
         -- This will generate 10 even-intensity colors
         Cubehelix.generate 10
@@ -34,13 +35,13 @@ helix?!) please read more about it [here](https://www.mrao.cam.ac.uk/~dag/CUBEHE
 
 ## Customize your palette
 
-    import Color exposing (Color)
     import Palette.Cubehelix as Cubehelix
+    import SolidColor exposing (SolidColor)
 
-    myPalette : List Color
+    myPalette : List SolidColor
     myPalette =
         Cubehelix.generateAdvanced 27
-            { start = Color.fromHSL ( 20, 100, 0 )
+            { start = SolidColor.fromHSL ( 20, 100, 0 )
             , rotationDirection = Cubehelix.BGR
             , rotations = 1.2
             , gamma = 0.9
@@ -51,7 +52,7 @@ helix?!) please read more about it [here](https://www.mrao.cam.ac.uk/~dag/CUBEHE
 
 -}
 
-import Color exposing (Color)
+import SolidColor exposing (SolidColor)
 
 
 {-| `start` is used to derive what hue you want to start from (see HSL color space)
@@ -63,8 +64,8 @@ blue then green then red. This is easiest to visualize if you think of a cube de
 vectors, one each for red, green, and blue values. If that's not doing the trick,
 take a look at [this image](https://www.mrao.cam.ac.uk/~dag/CUBEHELIX/3d-default.png).
 
-`rotations` describes the number of rotations the helix should make as it moves from black (`Color.fromRGB (0, 0 0)`)
-to white `Color.fromRGB (255, 255, 255)`. `rotations` should be in [0, 1.5]. If it's not, it will be absolute-value-ified & clamped.
+`rotations` describes the number of rotations the helix should make as it moves from black (`SolidColor.fromRGB (0, 0 0)`)
+to white `SolidColor.fromRGB (255, 255, 255)`. `rotations` should be in [0, 1.5]. If it's not, it will be absolute-value-ified & clamped.
 
 The `gamma` value can be used to emphasize low- or high-intensity colors. `gamma` will be clamped with `clamp 0 2`.
 
@@ -73,7 +74,7 @@ The `gamma` value can be used to emphasize low- or high-intensity colors. `gamma
 
 -}
 type alias AdvancedConfig =
-    { start : Color
+    { start : SolidColor
     , rotationDirection : RotationDirection
     , rotations : Float
     , gamma : Float
@@ -92,7 +93,7 @@ type RotationDirection
 This is a great place to start to learn what different settings can get you. Try playing with one
 value at a time to see how it changes the result!
 
-    { start = Color.fromHSL ( -60, 100, 0 )
+    { start = SolidColor.fromHSL ( -60, 100, 0 )
     , rotationDirection = BGR
     , rotations = 1.5
     , gamma = 1.0
@@ -101,7 +102,7 @@ value at a time to see how it changes the result!
 -}
 defaultConfig : AdvancedConfig
 defaultConfig =
-    { start = Color.fromHSL ( -60, 100, 0 )
+    { start = SolidColor.fromHSL ( -60, 100, 0 )
     , rotationDirection = BGR
     , rotations = 1.5
     , gamma = 1.0
@@ -110,14 +111,14 @@ defaultConfig =
 
 {-| The parameter (clamped between 0 and 256) corresponds to the number of colors you want to generate.
 -}
-generate : Int -> List Color
+generate : Int -> List SolidColor
 generate numLevels =
     generateAdvanced numLevels defaultConfig
 
 
 {-| The first parameter (clamped between 0 and 256) corresponds to the number of colors you want to generate.
 -}
-generateAdvanced : Int -> AdvancedConfig -> List Color
+generateAdvanced : Int -> AdvancedConfig -> List SolidColor
 generateAdvanced numLevels config =
     let
         clampedNumLevels =
@@ -126,7 +127,7 @@ generateAdvanced numLevels config =
         internalConfig =
             toInternalConfig config clampedNumLevels
 
-        generate_ : List Color -> List Color
+        generate_ : List SolidColor -> List SolidColor
         generate_ colors =
             if List.length colors >= clampedNumLevels then
                 colors
@@ -141,7 +142,7 @@ toInternalConfig : AdvancedConfig -> Int -> InternalConfig
 toInternalConfig { start, rotationDirection, rotations, gamma } numLevels =
     let
         ( hue, sat, _ ) =
-            Color.toHSL start
+            SolidColor.toHSL start
 
         positiveClampedRotations =
             clamp 0 1.5 (abs rotations)
@@ -185,10 +186,10 @@ Please look at <http://astron-soc.in/bulletin/11June/289392011.pdf> too.
 The major differences between this implementation and that one are:
 
   - On the web, generally we want RGB values in [0,255] rather than [0,1], so the return values are scaled
-  - Color.fromRGB clamps the values between 0 and 255 for us, so we don't need to double check anything
+  - SolidColor.fromRGB clamps the values between 0 and 255 for us, so we don't need to double check anything
 
 -}
-colorAtStep : Int -> InternalConfig -> Color
+colorAtStep : Int -> InternalConfig -> SolidColor
 colorAtStep i { rotations, start, fract, gamma, saturation } =
     let
         angle =
@@ -209,4 +210,4 @@ colorAtStep i { rotations, start, fract, gamma, saturation } =
         blue =
             fract_ + amp * (1.97294 * cos angle)
     in
-    Color.fromRGB ( red * 255, green * 255, blue * 255 )
+    SolidColor.fromRGB ( red * 255, green * 255, blue * 255 )

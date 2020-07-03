@@ -1,20 +1,20 @@
-module Color.AccessibilitySpec exposing
+module SolidColor.AccessibilitySpec exposing
     ( checkContrastSuite
     , contrastSuite
     , ratingSuite
     )
 
-import Color exposing (Color)
-import Color.Accessibility exposing (..)
 import ColorFuzzer exposing (hexStringOfLength)
 import Expect exposing (Expectation)
 import Palette.X11 exposing (black, white)
+import SolidColor exposing (SolidColor)
+import SolidColor.Accessibility exposing (..)
 import Test exposing (..)
 
 
-gray : Color
+gray : SolidColor
 gray =
-    Color.fromRGB ( 118, 118, 118 )
+    SolidColor.fromRGB ( 118, 118, 118 )
 
 
 contrastSuite : Test
