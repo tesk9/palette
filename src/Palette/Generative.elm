@@ -86,6 +86,8 @@ to make it all the way around.
 
 Initial rotation is clamped between 0 and 180.
 
+[Ellie example](https://ellie-app.com/9jNJP4D3Pgqa1)
+
 -}
 tetratic : Float -> SolidColor -> ( SolidColor, SolidColor, SolidColor )
 tetratic w color =
