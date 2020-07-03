@@ -32,6 +32,8 @@ full-featured support for working with alpha channel values.
 These docs assume that you're familiar with the color space you're looking at.
 If not, read more about each color space in `SolidColor`.
 
+[Ellie example](https://ellie-app.com/9jRtM9fKbYza1)
+
 @docs TransparentColor
 
 
