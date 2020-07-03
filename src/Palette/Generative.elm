@@ -113,6 +113,8 @@ something like this:
 
 Colors will be arranged from darkest to lightest.
 
+[Ellie example](https://ellie-app.com/9jNGn2SvnJda1)
+
 -}
 monochromatic : Float -> SolidColor -> List SolidColor
 monochromatic stepSize color =
