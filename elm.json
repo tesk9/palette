@@ -3,7 +3,7 @@
     "name": "tesk9/palette",
     "summary": "Work with colors and generate palettes.",
     "license": "BSD-3-Clause",
-    "version": "2.0.0",
+    "version": "3.0.0",
     "exposed-modules": [
         "SolidColor",
         "SolidColor.Accessibility",
