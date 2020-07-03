@@ -483,6 +483,9 @@ highContrast starting =
 
 
 {-| Use this function to invert a color. E.g., black inverted is white, white inverted is black....
+
+[Ellie color-inversion example](https://ellie-app.com/9jNxKgPPVmga1)
+
 -}
 invert : SolidColor -> SolidColor
 invert (Color color) =
@@ -491,6 +494,9 @@ invert (Color color) =
 
 {-| Convert the color you pass in to a grayscale version. This function uses the
 luminance of the color you pass in to make a corresponding white <-> black value.
+
+[Ellie grayscale example](https://ellie-app.com/9jNx7gYxQTQa1)
+
 -}
 grayscale : SolidColor -> SolidColor
 grayscale color =
