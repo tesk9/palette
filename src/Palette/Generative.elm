@@ -24,6 +24,8 @@ import SolidColor exposing (SolidColor)
 
 E.g., if you pass in a reddish color, you should expect to get back a tealish color.
 
+[Ellie example](https://ellie-app.com/9jNWHMFD6X3a1)
+
 -}
 complementary : SolidColor -> SolidColor
 complementary color =
@@ -37,6 +39,8 @@ from the others.
 
 The internet says this scheme will be vibrant, and that you should
 mostly use one of the three colors and only use the other two for accents.
+
+[Ellie example](https://ellie-app.com/9jNW6cpLkfba1)
 
 -}
 triadic : SolidColor -> ( SolidColor, SolidColor )
@@ -54,6 +58,8 @@ in both directions.
 
 Initial rotation is clamped between 0 and 180.
 
+[Ellie example](https://ellie-app.com/9jNXxc85VR8a1)
+
 -}
 splitComplementary : Float -> SolidColor -> ( SolidColor, SolidColor )
 splitComplementary r color =
@@ -65,6 +71,9 @@ splitComplementary r color =
 
 
 {-| Find four equally-spaced colors along the color wheel starting from the passed-in color.
+
+[Ellie example](https://ellie-app.com/9jNTjGx86wCa1)
+
 -}
 square : SolidColor -> ( SolidColor, SolidColor, SolidColor )
 square color =
