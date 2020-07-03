@@ -196,6 +196,8 @@ between the two systems is in the base: RGB colors are base 10 and hex colors ar
 You will need to use hex colors if you're working with an
 [HTML input of type color](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color).
 
+[Ellie colorpicker example](https://ellie-app.com/9jMtLKZztsma1)
+
 -}
 fromHex : String -> Result String SolidColor
 fromHex colorString =
