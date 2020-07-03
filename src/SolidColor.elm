@@ -406,6 +406,8 @@ percentage value by which you want to darken the color.
     blacken percentage color =
         addLightness (0 - abs percentage) color
 
+[Ellie example](https://ellie-app.com/9jN6SbV5KCqa1)
+
 -}
 blacken : Float -> SolidColor -> SolidColor
 blacken percentage color =
@@ -421,6 +423,8 @@ percentage value by which you want to lighten the color.
     whiten percentage color =
         addLightness (abs percentage) color
 
+[Ellie example](https://ellie-app.com/9jN6SbV5KCqa1)
+
 -}
 whiten : Float -> SolidColor -> SolidColor
 whiten percentage color =
@@ -435,6 +439,8 @@ whiten percentage color =
     grayen percentage color =
         addSaturation (0 - abs percentage) color
 
+[Ellie example](https://ellie-app.com/9jN6SbV5KCqa1)
+
 -}
 grayen : Float -> SolidColor -> SolidColor
 grayen percentage color =
@@ -442,6 +448,9 @@ grayen percentage color =
 
 
 {-| Modify the saturation of a color in the HSL color space.
+
+[Ellie example](https://ellie-app.com/9jN6SbV5KCqa1)
+
 -}
 addSaturation : Float -> SolidColor -> SolidColor
 addSaturation percentage (Color color) =
