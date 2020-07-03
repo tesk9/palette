@@ -389,6 +389,8 @@ You might do something like this:
         List.range 0 7
             |> List.map (\i -> SolidColor.rotateHue (toFloat i * 360 / 8) color)
 
+[Ellie hue rotation example](https://ellie-app.com/9jMXL2Stb7Ra1)
+
 -}
 rotateHue : Float -> SolidColor -> SolidColor
 rotateHue degrees (Color color) =
