@@ -10,6 +10,8 @@ module SolidColor.Accessibility exposing
 @docs checkContrast
 @docs contrast
 
+[Ellie example](https://ellie-app.com/9jPV682wPLYa1)
+
 -}
 
 import SolidColor exposing (SolidColor)

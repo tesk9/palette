@@ -196,6 +196,8 @@ between the two systems is in the base: RGB colors are base 10 and hex colors ar
 You will need to use hex colors if you're working with an
 [HTML input of type color](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color).
 
+[Ellie colorpicker example](https://ellie-app.com/9jMtLKZztsma1)
+
 -}
 fromHex : String -> Result String SolidColor
 fromHex colorString =
@@ -387,6 +389,8 @@ You might do something like this:
         List.range 0 7
             |> List.map (\i -> SolidColor.rotateHue (toFloat i * 360 / 8) color)
 
+[Ellie hue rotation example](https://ellie-app.com/9jMXL2Stb7Ra1)
+
 -}
 rotateHue : Float -> SolidColor -> SolidColor
 rotateHue degrees (Color color) =
@@ -401,6 +405,8 @@ percentage value by which you want to darken the color.
     blacken : Float -> SolidColor -> SolidColor
     blacken percentage color =
         addLightness (0 - abs percentage) color
+
+[Ellie example](https://ellie-app.com/9jN6SbV5KCqa1)
 
 -}
 blacken : Float -> SolidColor -> SolidColor
@@ -417,6 +423,8 @@ percentage value by which you want to lighten the color.
     whiten percentage color =
         addLightness (abs percentage) color
 
+[Ellie example](https://ellie-app.com/9jN6SbV5KCqa1)
+
 -}
 whiten : Float -> SolidColor -> SolidColor
 whiten percentage color =
@@ -431,6 +439,8 @@ whiten percentage color =
     grayen percentage color =
         addSaturation (0 - abs percentage) color
 
+[Ellie example](https://ellie-app.com/9jN6SbV5KCqa1)
+
 -}
 grayen : Float -> SolidColor -> SolidColor
 grayen percentage color =
@@ -438,6 +448,9 @@ grayen percentage color =
 
 
 {-| Modify the saturation of a color in the HSL color space.
+
+[Ellie example](https://ellie-app.com/9jN6SbV5KCqa1)
+
 -}
 addSaturation : Float -> SolidColor -> SolidColor
 addSaturation percentage (Color color) =
@@ -457,6 +470,8 @@ given the starting color.
 
 This is often useful when working with styleguide colors.
 
+[Ellie example](https://ellie-app.com/9jNdS7F6wrHa1)
+
 -}
 highContrast : SolidColor -> SolidColor
 highContrast starting =
@@ -468,6 +483,9 @@ highContrast starting =
 
 
 {-| Use this function to invert a color. E.g., black inverted is white, white inverted is black....
+
+[Ellie color-inversion example](https://ellie-app.com/9jNxKgPPVmga1)
+
 -}
 invert : SolidColor -> SolidColor
 invert (Color color) =
@@ -476,6 +494,9 @@ invert (Color color) =
 
 {-| Convert the color you pass in to a grayscale version. This function uses the
 luminance of the color you pass in to make a corresponding white <-> black value.
+
+[Ellie grayscale example](https://ellie-app.com/9jNx7gYxQTQa1)
+
 -}
 grayscale : SolidColor -> SolidColor
 grayscale color =
